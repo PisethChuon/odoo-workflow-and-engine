@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+
+        <record id="view_dynamic_import_wizard_form_inherit_phone_allowane" model="ir.ui.view">
+            <field name="name">dynamic.import.wizard.form.inherit</field>
+            <field name="model">dynamic.import.wizard</field>
+
+            <!-- inherit the original wizard form -->
+            <field name="inherit_id" ref="workflow_engine.view_dynamic_import_wizard_form"/>
+            <field name="mode">primary</field>
+
+            <field name="arch" type="xml">
+                <!-- insert new fields after x_model_id -->
+                <xpath expr="//field[@name='x_model_id']" position="after">
+                    <field name="x_request_item" />
+                    <field name="x_justification" string="Justification"/>
+                </xpath>
+                <xpath expr="//footer" position="inside">
+                    <a href="/download/template/item_request/import_sample.xlsx" 
+                        target="_blank" 
+                        class="btn btn-secondary"
+                        role="button">
+                        <i class="fa fa-download"/> Download Template
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

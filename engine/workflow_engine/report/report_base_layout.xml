@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_base_layout">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="web.basic_layout">
+          <t t-set="company" t-value="doc.company_id or res_company or env.company"/>
+          <div class="page">
+            <style>
+              .table-bordered td, 
+              .table-bordered td span, 
+              .table-bordered td t {
+                  font-size: 14px;
+                  font-weight: 300 !important;
+              }
+              .table-bordered th {
+                  font-weight: bold !important;
+                  background-color: #f8f9fa;
+                  font-size: 14px;
+              }
+              .table-bordered th, 
+              .table-bordered td {
+                  border: 1px solid #dee2e6 !important;
+                  padding: 8px !important; 
+                  vertical-align: middle;
+              }
+              .table-bordered {
+                  border-collapse: collapse !important;
+                  width: 100%;
+              }
+              .td_font{
+                  font-size: 14px;
+                  font-weight: 300 !important;
+              }
+              span {
+                  font-size: 14px;
+              }
+              section-title {
+                  font-weight: bold;
+                  text-transform: uppercase;
+              }
+              section-title-underline {
+                  border-top: 2px solid #dee2e6;
+                  margin-top: 5px;
+                  margin-bottom: 15px;
+              }
+              .field-label {
+                  font-weight: bold;
+              }
+              .field-value,
+              .field-value span {
+                  color: #6c757d;
+                  word-break: break-word;
+                  font-weight: normal;
+              }
+              .field-value p {
+                  margin-bottom: 0;
+              }
+            </style>
+
+            <div class="row mb-2">
+              <div class="col-8">
+                <h3 class="fw-bold mb-1">
+                  <img t-if="company.logo" 
+                       t-att-src="image_data_uri(company.logo)" 
+                       style="max-height: 50px;" 
+                       alt="Company Logo"/>
+                  <br/>
+                  <t t-esc="report_title" />
+                </h3>
+              </div>
+              <div class="col-4 text-end" style="font-size: 13px;">
+                <div>
+                  <span class="field-label">Request No:</span>
+                  <span class="field-value" t-field="doc.name" />
+                </div>
+                <div>
+                  <span class="field-label">Submitted by:</span>
+                  <span class="field-value" t-field="doc.create_uid.name" />
+                </div>
+                <div>
+                  <span class="field-label">Submitted Date:</span>
+                  <span class="field-value" t-field="doc.submit_date" />
+                </div>
+                <div>
+                  <span class="field-label">Status:</span>
+                  <span class="field-value" t-field="doc.state" />
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 mb-4">
+              <h6 class="section-title">REQUESTOR INFORMATION</h6>
+              <hr class="section-title-underline" />
+
+              <t t-set="request_owner_user"
+                 t-value="doc.request_owner_id.sudo() if 'request_owner_id' in doc._fields and doc.request_owner_id else doc.create_uid.sudo()"/>
+              <t t-set="employee"
+                 t-value="doc.request_owner_emp_id.sudo() if 'request_owner_emp_id' in doc._fields and doc.request_owner_emp_id else request_owner_user.employee_id.sudo()"/>
+
+              <div class="container-fluid" style="font-size: 14px;">
+                <div class="row mb-2">
+                  <div class="col-2 field-label">Employee:</div>
+                  <div class="col-4 field-value">
+                    <span t-out="employee.x_emp_code or ''"/>
+                    <span t-out="employee.name or request_owner_user.name or ''"/>
+                  </div>
+                  <div class="col-2 field-label">Phone (Ext):</div>
+                  <div class="col-4 field-value">
+                    <span t-out="employee.work_phone or ''"/>
+                  </div>
+                </div>
+
+                <div class="row mb-2">
+                  <div class="col-2 field-label">Position:</div>
+                  <div class="col-4 field-value">
+                    <span t-out="employee.job_id.name or ''"/>
+                  </div>
+                  <div class="col-2 field-label">Email:</div>
+                  <div class="col-4 text-primary field-value">
+                    <span t-out="employee.work_email or ''"/>
+                  </div>
+                </div>
+
+                <div class="row mb-2">
+                  <div class="col-2 field-label">Department:</div>
+                  <div class="col-4 field-value">
+                    <span t-out="employee.department_id.name or ''"/>
+                  </div>
+                  <div class="col-2 field-label">Team:</div>
+                  <div class="col-4 field-value">
+                    <span t-out="employee.parent_id.sudo().name or ''"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <t t-out="0" />
+            </div>
+
+            <div class="row mt-4" t-if="doc.activity_history">
+              <div class="col-12">
+                <h6 class="section-title">ACTIVITY HISTORY</h6>
+                <hr class="section-title-underline"/>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <th>Activity</th>
+                      <th>Decision</th>
+                      <th>Comment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <t t-foreach="doc.activity_history" t-as="a">
+                      <tr>
+                        <td>
+                          <span t-field="a.user_id.name" class="field-value"/>
+                        </td>
+                        <td>
+                          <span t-field="a.create_date" class="field-value"/>
+                        </td>
+                        <td>
+                          <span t-field="a.current_meta_id.name" class="field-value"/>
+                        </td>
+                        <td>
+                          <span t-field="a.user_decision" class="field-value"/>
+                        </td>
+                        <td>
+                          <span t-field="a.comment" class="field-value"/>
+                        </td>
+                      </tr>
+                    </t>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer text-center" style="font-size: 12px; border-top: 1px solid #dee2e6;">
+            <div class="row">
+              <div class="col-12">
+                Page <span class="page"/> of <span class="topage"/>
+              </div>
+            </div>
+          </div>
+
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

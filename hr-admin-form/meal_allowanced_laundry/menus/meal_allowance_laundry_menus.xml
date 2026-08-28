@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <menuitem
+            id="menu_meal_allowance_laundry_config"
+            parent="workflow_engine.workflow_approvals_menu_config"
+            name="Meal Allowance and Laundry"
+            groups="base.group_user"
+            sequence="30"/>
+
+        <menuitem
+            id="menu_x_meal_allowance_title"
+            parent="menu_meal_allowance_laundry_config"
+            name="Employee Titles"
+            action="action_x_meal_allowance_title"
+            groups="base.group_system"
+            sequence="10"/>
+
+        <record id="menu_x_meal_allowance_title" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record>
+
+        <menuitem
+            id="menu_x_meal_allowance_staff_group"
+            parent="menu_meal_allowance_laundry_config"
+            name="Staff Groups"
+            action="action_x_meal_allowance_staff_group"
+            groups="base.group_system"
+            sequence="15"/>
+
+        <menuitem
+            id="menu_x_meal_allowance_apparel_type"
+            parent="menu_meal_allowance_laundry_config"
+            name="Apparel Types"
+            action="action_x_meal_allowance_apparel_type"
+            groups="base.group_system"
+            sequence="17"/>
+
+        <menuitem
+            id="menu_x_meal_allowance_level"
+            parent="menu_meal_allowance_laundry_config"
+            name="Employee Levels"
+            action="action_x_meal_allowance_level"
+            groups="base.group_user"
+            sequence="20"/>
+
+        <record id="menu_x_meal_allowance_level" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <menuitem
+            id="menu_x_meal_allowance_outlet"
+            parent="menu_meal_allowance_laundry_config"
+            name="Outlets Applicable"
+            action="action_x_meal_allowance_outlet"
+            groups="base.group_system"
+            sequence="30"/>
+    </data>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="access_x_item_user" model="ir.model.access">
+            <field name="name">x_item.user</field>
+            <field name="model_id" ref="model_x_item"/>
+            <field name="group_id" ref="base.group_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="access_x_item_admin" model="ir.model.access">
+            <field name="name">x_item.admin</field>
+            <field name="model_id" ref="model_x_item"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_x_location_user" model="ir.model.access">
+            <field name="name">x_location.user</field>
+            <field name="model_id" ref="model_x_location"/>
+            <field name="group_id" ref="base.group_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="access_x_location_admin" model="ir.model.access">
+            <field name="name">x_location.admin</field>
+            <field name="model_id" ref="model_x_location"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_x_honestly_award_detail_user" model="ir.model.access">
+            <field name="name">honestly_award_detail.x_honestly_award_detail.user</field>
+            <field name="model_id" ref="model_x_honestly_award_detail"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+    </data>
+</odoo>

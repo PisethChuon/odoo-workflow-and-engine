@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <t t-name="workflow.bpmn_view">
+        <div class="o_action o_bpmn_display h-100 overflow-auto">
+            <Layout display="{ controlPanel: {} }" className="'overflow-auto h-100'">
+
+                <t t-set-slot="control-panel-navigation-additional">
+                    <div class="flex flex-column">
+
+                        <div class="flex mb-1">
+                            <button class="btn btn-light fa fa-refresh" t-on-click="onClickRefresh"/>
+                            <button t-if="!pwaService.isScopedApp" class="o_home_menu btn btn-light text-nowrap"
+                                    t-on-click="close">
+                                <i class="fa fa-lg fa-sign-out me-md-1"/>
+                                <span class="d-none d-md-inline">Close</span>
+                            </button>
+                        </div>
+                    </div>
+                </t>
+                <div class="o_bpmn_display_records flex-grow-1 m-2 position-relative">
+                    <!--                    <BpmnViewer xml="state.approveType.bpmn_xml" readonly="true"/>-->
+                    <BpmnApprovalDesigner xml="state.approveType.bpmn_xml"/>
+                </div>
+            </Layout>
+        </div>
+    </t>
+
+    <t t-name="workflow_engine.BpmnViewerComponent" owl="1">
+        <div class="o_bpmn_display_records flex-grow-1 d-flex flex-column" style="min-height: 400px; height: 100%;">
+            <div t-ref="root" style="width: 100%; height: 100%;"/>
+        </div>
+    </t>
+
+    <t t-name="workflow_engine.BpmnApprovalDesigner" owl="1">
+        <div class="d-flex h-100">
+            <div t-ref="canvas" class="flex-grow-1 border" style="height: 100%; width: 100%;"></div>
+            <div t-ref="panel" class="border-start" style="width: 320px; height: 100%;"></div>
+        </div>
+    </t>
+
+</template>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="workflow_runtime_cron_automation_runner" model="ir.cron">
+            <field name="name">WF: Scheduled Automation Runner</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_automation_node"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_run_scheduled_automations(batch_size=200)</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">1</field>
+        </record>
+        <record id="workflow_runtime_cron_request_automation_runner" model="ir.cron">
+            <field name="name">WF: Request Automation Runner</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_automation_instance"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_run_due_instances(batch_size=200)</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">1</field>
+        </record>
+        <record id="workflow_runtime_cron_expire_challenges" model="ir.cron">
+            <field name="name">WF: Expire 2FA Challenges</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_action_challenge"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_pending()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">1</field>
+        </record>
+    </data>
+</odoo>

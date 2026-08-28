@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="phone_allowance_request_template">
+        <t t-call="workflow_engine.report_base_layout">
+            <t t-set="report_title">Phone Allowance Form</t>
+
+            <div class="page">
+                <t t-foreach="docs" t-as="doc">
+                    <strong>Requested Items</strong>
+                    <table class="table table-bordered mt-2">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 30px;"><strong>Nº</strong></th>
+                                <th><strong>Employee</strong></th>
+                                <th><strong>Item</strong></th>
+                                <th><strong>Justification</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.x_item_line_ids" t-as="line">
+                                <tr>
+                                    <td class="text-center">
+                                        <span t-esc="line_index + 1"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_employee_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_request_item"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_justification"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    
+                    <!-- <p style="page-break-after:always;"/> -->
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <data noupdate="0">
+        <record id="x_phone_allowance_report" model="ir.actions.report">
+            <field name="name">Phone Allowance report</field>
+            <field name="model">x_phone_allowance</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">phone_allowance.phone_allowance_request_template</field>
+            <field name="report_file">phone_allowance.phone_allowance_request_template</field>
+            <field name="print_report_name">'Phone Allowance Form'</field>
+            <field name="binding_model_id" ref="model_x_phone_allowance"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="workflow_engine.paperformat_portrait"/>
+        </record>
+    </data>
+</odoo>

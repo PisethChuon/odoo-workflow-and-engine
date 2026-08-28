@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="view_list_x_item_repair_request" model="ir.ui.view">
+            <field name="name">IR: Item Repair Request List</field>
+            <field name="model">x_item_repair_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+        <record id="view_form_x_item_repair_request" model="ir.ui.view">
+            <field name="name">IR: Item Repair Request Form</field>
+            <field name="model">x_item_repair_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+
+            <!-- Request Information -->
+                <group name="request_main" position="after">
+                    <group string="Item Request" col="2"
+                        invisible="'x_item_request_ids' in (invisible_fields or '')">
+                        <field name="x_item_request_ids" nolabel="1" colspan="2"
+                            readonly="'x_item_request_ids' in (readonly_fields or '') or is_finished"
+                            required="'x_item_request_ids' in (required_fields or '')">
+                            <list editable="bottom">
+                                <field name="x_item_request" placeholder="Item"
+                                    invisible="'x_item_request' in (parent.invisible_fields or '')"
+                                    readonly="'x_item_request' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_item_request' in (parent.required_fields or '')"/>
+                                <field name="x_serial_number" placeholder="Serial number"
+                                    invisible="'x_serial_number' in (parent.invisible_fields or '')"
+                                    readonly="'x_serial_number' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_serial_number' in (parent.required_fields or '')"/>
+                                <field name="x_charge_to_depat"
+                                    invisible="'x_charge_to_depat' in (parent.invisible_fields or '')"
+                                    readonly="'x_charge_to_depat' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_charge_to_depat' in (parent.required_fields or '')"/>
+                                <field name="x_submitter_remark" placeholder="Remark"
+                                    invisible="'x_submitter_remark' in (parent.invisible_fields or '')"
+                                    readonly="'x_submitter_remark' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_submitter_remark' in (parent.required_fields or '')"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <!-- Vendor Information  -->
+                    <group string="Vendor Information" col="2"
+                        invisible="'x_vendor_ids' in (invisible_fields or '')">
+                        <field name="x_vendor_ids" nolabel="1" colspan="2"
+                            readonly="'x_vendor_ids' in (readonly_fields or '') or is_finished"
+                            required="'x_vendor_ids' in (required_fields or '')">
+                            <list editable="bottom">
+                                <field name="x_vendor" placeholder="Vendor name"
+                                    invisible="'x_vendor' in (parent.invisible_fields or '')"
+                                    readonly="'x_vendor' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_vendor' in (parent.required_fields or '')"/>
+                                <field name="x_contact_number" placeholder="Contact number"
+                                    invisible="'x_contact_number' in (parent.invisible_fields or '')"
+                                    readonly="'x_contact_number' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_contact_number' in (parent.required_fields or '')"/>
+                                <field name="x_email" placeholder="Email address"
+                                    invisible="'x_email' in (parent.invisible_fields or '')"
+                                    readonly="'x_email' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_email' in (parent.required_fields or '')"/>
+                                <field name="x_address" placeholder="Address"
+                                    invisible="'x_address' in (parent.invisible_fields or '')"
+                                    readonly="'x_address' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_address' in (parent.required_fields or '')"/>
+                                <field name="x_cost" placeholder="Cost"
+                                    invisible="'x_cost' in (parent.invisible_fields or '')"
+                                    readonly="'x_cost' in (parent.readonly_fields or '') or parent.is_finished"
+                                    required="'x_cost' in (parent.required_fields or '')"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <!-- Admin Repair Details -->
+                    <group string="Admin Repair Details" col="2"
+                        invisible="'x_send_date' in (invisible_fields or '') and 'x_receive_date' in (invisible_fields or '') and 'x_admin_remark' in (invisible_fields or '')">
+                        <field name="x_send_date" placeholder="Date sent"
+                            invisible="'x_send_date' in (invisible_fields or '')"
+                            readonly="'x_send_date' in (readonly_fields or '') or is_finished"
+                            required="'x_send_date' in (required_fields or '')"/>
+                        <field name="x_receive_date" placeholder="Date received"
+                            invisible="'x_receive_date' in (invisible_fields or '')"
+                            readonly="'x_receive_date' in (readonly_fields or '') or is_finished"
+                            required="'x_receive_date' in (required_fields or '')"/>
+                        <field name="x_admin_remark" colspan="2"
+                            invisible="'x_admin_remark' in (invisible_fields or '')"
+                            readonly="'x_admin_remark' in (readonly_fields or '') or is_finished"
+                            required="'x_admin_remark' in (required_fields or '')"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

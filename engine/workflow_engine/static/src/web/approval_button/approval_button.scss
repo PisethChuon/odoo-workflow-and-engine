@@ -1,0 +1,327 @@
+// Odoo-aligned workflow approval actions.
+// Keep behavior untouched; only improve clarity and mobile tap ergonomics.
+
+.o_widget_approval_buttons {
+  .wf-approval-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: var(--btn-border-radius, 0.375rem);
+    font-weight: 600;
+    min-height: 36px;
+    padding-inline: 0.85rem;
+  }
+
+  .wf-approval-trigger__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.2rem;
+    height: 1.2rem;
+    padding: 0 0.34rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bs-body-color, #212529) 12%, transparent);
+    font-size: 0.72rem;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .wf-approval-trigger--single .o_approval_btn_content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+}
+
+.o_web_client:not(.o_touch_device) {
+  .o_dropdown_menu,
+  .o-dropdown--menu {
+    > span.o-dropdown-item.dropdown-item:has(> .wf-approval-action) {
+      padding: 2px 4px;
+      margin: 0;
+      border: 0;
+      background: transparent !important;
+    }
+
+    > span.o-dropdown-item.dropdown-item:has(> .wf-approval-action):hover,
+    > span.o-dropdown-item.dropdown-item:has(> .wf-approval-action):focus-within,
+    > span.o-dropdown-item.dropdown-item:has(> .wf-approval-action).selected,
+    > span.o-dropdown-item.dropdown-item:has(> .wf-approval-action).active {
+      background: transparent !important;
+    }
+
+    button.wf-approval-action {
+      --wf-approval-tone: var(--o-brand-primary, #0d6efd);
+      width: 100%;
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.72rem;
+      border: 0;
+      border-radius: var(--border-radius-sm, 0.375rem);
+      background: transparent !important;
+      text-align: left;
+      font-weight: 500;
+      color: var(--o-main-text-color, var(--bs-body-color, #212529));
+
+      i {
+        width: 1rem;
+        text-align: center;
+        opacity: 0.9;
+      }
+
+      .o_approval_btn_content {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      &:hover {
+        background: color-mix(in srgb, var(--wf-approval-tone) 10%, transparent) !important;
+      }
+
+      &:active {
+        background: color-mix(in srgb, var(--wf-approval-tone) 16%, transparent) !important;
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 0.16rem color-mix(in srgb, var(--o-brand-primary, #0d6efd) 28%, transparent);
+      }
+    }
+
+    button.wf-approval-action.text-danger,
+    button.wf-approval-action.text-primary,
+    button.wf-approval-action.text-success,
+    button.wf-approval-action.text-warning {
+      font-weight: 600;
+      background: transparent !important;
+    }
+
+    button.wf-approval-action.wf-approval-action--danger {
+      --wf-approval-tone: var(--bs-danger, var(--danger, #dc3545));
+      color: var(--wf-approval-tone);
+      font-weight: 600;
+    }
+
+    button.wf-approval-action.wf-approval-action--primary {
+      --wf-approval-tone: var(--bs-primary, var(--o-brand-primary, #0d6efd));
+      color: var(--wf-approval-tone);
+      font-weight: 600;
+    }
+
+    button.wf-approval-action.wf-approval-action--secondary {
+      --wf-approval-tone: var(--bs-secondary, #6c757d);
+      color: var(--wf-approval-tone);
+      font-weight: 600;
+    }
+
+    button.wf-approval-action.wf-approval-action--success {
+      --wf-approval-tone: var(--bs-success, #198754);
+      color: var(--wf-approval-tone);
+      font-weight: 600;
+    }
+
+    button.wf-approval-action.wf-approval-action--info {
+      --wf-approval-tone: var(--bs-info, #0dcaf0);
+      color: var(--wf-approval-tone);
+      font-weight: 600;
+    }
+
+    button.wf-approval-action.wf-approval-action--warning {
+      --wf-approval-tone: var(--bs-warning, #ffc107);
+      color: color-mix(in srgb, var(--wf-approval-tone) 72%, #212529);
+      font-weight: 600;
+    }
+  }
+}
+
+.o_widget_delegate_button > .wf-approval-delegate__button,
+.o_widget_attach_document > button {
+  border-radius: var(--btn-border-radius, 0.375rem);
+  min-height: 36px;
+  font-weight: 600;
+}
+
+.o_touch_device {
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_approval_buttons),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_approval_decision_row),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_bpmn_button),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_delegate_button),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_attach_document) {
+    --wf-sheet-row-min-h: 50px;
+    --wf-sheet-row-px: 1.35rem;
+    --wf-sheet-divider: color-mix(in srgb, var(--border-color, #ced4da) 66%, transparent);
+    padding: 0 !important;
+    margin: 0 !important;
+
+    > .dropdown-divider {
+      display: none !important;
+    }
+
+    > span.o-dropdown-item.dropdown-item:has(.wf-approval-mobile-actions),
+    > span.o-dropdown-item.dropdown-item:has(.o_widget_bpmn_button),
+    > span.o-dropdown-item.dropdown-item:has(.o_widget_attach_document),
+    > span.o-dropdown-item.dropdown-item:has(.o_widget_delegate_button) {
+      --dropdown-item-padding-x: 0;
+      --dropdown-item-padding-y: 0;
+      display: block;
+      min-height: 0;
+      line-height: 1;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+    }
+
+    .wf-approval-mobile-actions {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row {
+      border-radius: 0 !important;
+      border-top: 1px solid var(--wf-sheet-divider) !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row:first-child {
+      border-top: 0 !important;
+    }
+
+    .o_widget_approval_buttons .o_approval_decision_trigger,
+    .o_widget_bpmn_button > button,
+    button.o_approval_decision_row,
+    .o_widget_delegate_button > button,
+    .o_widget_attach_document > button {
+      width: 100% !important;
+      min-height: var(--wf-sheet-row-min-h);
+      display: flex !important;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.6rem;
+      padding: 0.8rem var(--wf-sheet-row-px) !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      text-align: start;
+      font-size: 1rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--o-main-text-color, var(--bs-body-color, #212529)) !important;
+    }
+
+    .o_approval_btn_content {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-width: 0;
+    }
+
+    .o_approval_btn_content i {
+      width: 1.1rem;
+      text-align: center;
+      font-size: 0.95rem;
+      opacity: 0.92;
+      flex: 0 0 auto;
+    }
+
+    // Add fallback icon only for items that do not render an icon node.
+    .wf-approval-mobile-actions > button.o_approval_decision_row:not(:has(i))::before,
+    .o_widget_delegate_button > button:not(:has(i))::before {
+      content: "\f0a4";
+      font-family: FontAwesome;
+      font-size: 0.95rem;
+      width: 1.1rem;
+      text-align: center;
+      opacity: 0.9;
+      flex: 0 0 auto;
+      margin-right: 0.1rem;
+    }
+
+    .o_widget_attach_document > button::before {
+      content: "\f0c6";
+      font-family: FontAwesome;
+      font-size: 0.95rem;
+      width: 1.1rem;
+      text-align: center;
+      opacity: 0.9;
+      flex: 0 0 auto;
+      margin-right: 0.1rem;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.text-danger,
+    .wf-approval-mobile-actions > button.o_approval_decision_row.text-warning {
+      font-weight: 700;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--primary {
+      color: var(--bs-primary, var(--o-brand-primary, #0d6efd)) !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--secondary {
+      color: var(--bs-secondary, #6c757d) !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--success {
+      color: var(--bs-success, #198754) !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--info {
+      color: var(--bs-info, #0dcaf0) !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--warning {
+      color: color-mix(in srgb, var(--bs-warning, #ffc107) 72%, #212529) !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--danger {
+      color: var(--bs-danger, var(--danger, #dc3545)) !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row[class*="wf-approval-action--"] i {
+      color: currentColor !important;
+    }
+
+    .o_widget_attach_document,
+    .o_widget_bpmn_button,
+    .o_widget_delegate_button {
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+
+    .o_widget_bpmn_button > button,
+    .o_widget_attach_document > button,
+    .o_widget_delegate_button > button {
+      border-top: 1px solid var(--wf-sheet-divider) !important;
+    }
+
+    .o_widget_approval_buttons .o_approval_decision_trigger.o-dropdown-caret::after {
+      margin-left: auto !important;
+      opacity: 0.8;
+    }
+
+    .o_widget_approval_buttons .o_approval_decision_trigger.dropend.o-dropdown-caret::after {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o_widget_approval_buttons .wf-approval-trigger,
+  .o_dropdown_menu button.wf-approval-action,
+  .o-dropdown--menu button.wf-approval-action,
+  .o_widget_delegate_button > .wf-approval-delegate__button,
+  .o_widget_attach_document > button {
+    transition: none;
+  }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_config_parameter_request_owner_email_domains" model="ir.config_parameter">
+            <field name="key">workflow_engine.request_owner_email_domains</field>
+            <field name="value">nagaworld.com,nagworld.com</field>
+        </record>
+    </data>
+</odoo>

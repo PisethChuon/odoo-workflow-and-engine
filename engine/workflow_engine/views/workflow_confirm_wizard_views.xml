@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_workflow_confirm_wizard_form" model="ir.ui.view">
+        <field name="name">workflow.confirm.wizard.form</field>
+        <field name="model">workflow.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirmation" create="false" edit="false" class="wf-confirm-modal">
+                <sheet class="wf-confirm-sheet">
+                    <field name="require_2fa" invisible="1"/>
+                    <field name="show_reason_flag" invisible="1"/>
+                    <field name="require_reason_flag" invisible="1"/>
+                    <field name="show_comment_flag" invisible="1"/>
+                    <field name="require_comment_flag" invisible="1"/>
+                    <field name="show_attachment_flag" invisible="1"/>
+                    <field name="require_attachment_flag" invisible="1"/>
+                    <field name="required_attachment_count" invisible="1"/>
+                    <field name="challenge_id" invisible="1"/>
+                    <field name="challenge_method" invisible="1"/>
+                    <field name="challenge_state" invisible="1"/>
+                    <field name="challenge_token" invisible="1"/>
+                    <field name="challenge_expires_at" invisible="1"/>
+
+                    <div class="wf-header" invisible="context.get('confirm_message') or (context.get('workflow_input_required') and not context.get('workflow_show_config_confirm'))">
+                        <h3 class="wf-title">Are you sure to take on this action?</h3>
+                    </div>
+                    <div class="wf-header" invisible="not context.get('workflow_input_required') or context.get('workflow_show_config_confirm')">
+                        <h3 class="wf-title">Complete required information</h3>
+                    </div>
+
+                    <group invisible="not context.get('confirm_message') or not context.get('workflow_show_config_confirm')">
+                        <field name="confirm_message" widget="html" readonly="1" nolabel="1"/>
+                    </group>
+
+                    <group invisible="not show_reason_flag">
+                        <field name="reason" nolabel="0" required="require_reason_flag"/>
+                    </group>
+                    <group invisible="not show_comment_flag">
+                        <field name="comment" nolabel="0" required="require_comment_flag"/>
+                    </group>
+                    <group invisible="not show_attachment_flag">
+                        <div class="text-muted" invisible="required_attachment_count &lt;= 1">
+                            Upload at least <field name="required_attachment_count" readonly="1" class="oe_inline"/> files.
+                        </div>
+                        <field name="attachment_ids" widget="many2many_binary" options="{'no_create': True}" required="require_attachment_flag"/>
+                    </group>
+
+                </sheet>
+                <footer class="wf-footer">
+                    <button string="Confirm" type="object" name="action_confirm" class="btn-primary"/>
+                    <button string="Cancel" type="object" name="action_cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_workflow_validation_dialog_form" model="ir.ui.view">
+        <field name="name">workflow.validation.dialog.form</field>
+        <field name="model">workflow.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Validation Message" create="false" edit="false">
+                <sheet>
+                    <div class="mb-0" role="alert">
+                        <field name="confirm_message" widget="html" readonly="1" nolabel="1"/>
+                    </div>
+                </sheet>
+                <footer>
+                    <button string="Close" special="cancel" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_workflow_confirm_wizard" model="ir.actions.act_window">
+        <field name="name">Workflow Confirm</field>
+        <field name="res_model">workflow.confirm.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_workflow_confirm_wizard_form"/>
+    </record>
+</odoo>

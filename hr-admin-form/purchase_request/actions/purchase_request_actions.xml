@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_x_purchase_request" model="ir.actions.act_window">
+            <field name="name">Purchase Request Form</field>
+            <field name="res_model">x_purchase_request</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

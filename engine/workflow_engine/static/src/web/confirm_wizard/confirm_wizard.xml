@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.TwoFAChallenge">
+        <div class="wf-twofa-root" t-attf-data-stage="{{ state.stage }}">
+            <div class="wf-stage-tabs">
+                <span class="wf-tab" t-att-class="state.stage === 'qr' ? 'is-active' : ''" t-if="props.record.data.challenge_method === 'qr'">QR</span>
+                <span class="wf-tab" t-att-class="state.stage === 'otp' ? 'is-active' : ''">OTP</span>
+            </div>
+            <div class="wf-track" t-att-style="trackStyle">
+                <div class="wf-pane wf-pane-qr">
+                    <div class="wf-card-head">
+                        <span class="wf-chip">Scan QR</span>
+                        <div class="wf-expiry" t-if="props.record.data.challenge_expires_at">
+                            <span class="wf-expiry-label">Expires</span>
+                            <t t-esc="props.record.data.challenge_expires_at"/>
+                        </div>
+                    </div>
+                    <div class="wf-qr-body">
+                        <img t-if="props.record.data.qr_image" class="wf-qr-img" t-att-src="'data:image/png;base64,' + props.record.data.qr_image" alt="Two-factor authentication QR code"/>
+                        <div class="wf-note">Scan with MyPortal HR. Once scanned, we’ll wait for your confirmation.</div>
+                        <button class="btn btn-secondary wf-ghost-btn" t-on-click="onRequestOtp">Request OTP instead</button>
+                    </div>
+                </div>
+                <div class="wf-pane wf-pane-wait">
+                    <div class="wf-status-icon wf-waiting"></div>
+                    <h4>Waiting for mobile confirmation</h4>
+                    <p class="wf-note">Approve the action in your mobile app.</p>
+                    <p class="wf-countdown" t-if="state.countdown !== null">Expires in <t t-esc="state.countdown"/>s</p>
+                </div>
+                <div class="wf-pane wf-pane-success">
+                    <div class="wf-status-icon wf-success"></div>
+                    <h4>Approved</h4>
+                    <p class="wf-note">Mobile confirmation received.</p>
+                </div>
+                <div class="wf-pane wf-pane-error">
+                    <div class="wf-status-icon wf-error"></div>
+                    <h4>Not approved</h4>
+                    <p class="wf-note">The action was rejected or expired. Reopen to try again.</p>
+                </div>
+                <div class="wf-pane wf-pane-otp">
+                    <div class="wf-card-head">
+                        <div class="wf-badge">Email OTP</div>
+                        <div class="wf-expiry" t-if="props.record.data.challenge_expires_at">
+                            <span class="wf-expiry-label">Expires</span>
+                            <t t-esc="props.record.data.challenge_expires_at"/>
+                        </div>
+                    </div>
+                    <div class="wf-otp-alert">
+                        A verification code was sent to your email. Enter it below.
+                    </div>
+                    <input type="text"
+                           class="wf-input"
+                           t-att-value="props.value || ''"
+                           placeholder="Enter code"
+                           t-on-input="onInputOtp"/>
+                    <div class="wf-actions">
+                        <button class="btn btn-link" t-on-click="onBackToQr" t-if="props.record.data.challenge_method === 'qr'">Back to QR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

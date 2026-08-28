@@ -1,0 +1,46 @@
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_open_import_wizard_server_phone_allowance" model="ir.actions.server">
+            <field name="name">ADMPAR: Phone Allowance</field>
+            <field name="model_id" ref="model_x_phone_allowance_item_line" />
+            <field name="binding_model_id" ref="model_x_phone_allowance_item_line" />
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+_logger.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+x_phone_allowance_id = env.context.get('x_phone_allowance_id')
+_logger.info(x_phone_allowance_id)
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Upload Items',
+    'res_model': 'dynamic.import.wizard',
+    'view_mode': 'form',
+    'view_id': env.ref('phone_allowance.view_dynamic_import_wizard_form_inherit_phone_allowane').id,
+    'target': 'new',
+    'context': {
+        'default_x_model_id': env.ref('phone_allowance.model_x_phone_allowance_item_line').id,
+        'save_confirmation': 1,
+        'dynamic_defaults': {
+            'x_phone_allowance_item_line': {
+                'x_phone_allowance_id': x_phone_allowance_id 
+            }
+        },
+        'dynamic_import_wizard_field': {'x_request_item': 'x_request_item', 'x_justification': 'x_justification'},
+        'default_x_column_mapping':{
+            "_options": {
+                "mode": "upsert"
+            },
+            "EmployeeCode": {
+                "field": "x_employee_id",
+                "lookup_model": "hr.employee",
+                "lookup_field": "x_emp_code"
+            }
+            }
+    }
+}
+            
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>

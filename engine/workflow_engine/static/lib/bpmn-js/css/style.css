@@ -1,0 +1,179 @@
+/* =========================================================
+   NG Flow Viewer (Dialog + Dock) — Odoo 19 safe
+   Scoped styles; no global bpmn container overrides
+   ========================================================= */
+
+/* -------------------------
+   Theme variables (light)
+-------------------------- */
+:root {
+    --ngflow-surface: #ffffff;
+    --ngflow-surface-2: #f6f7fb;
+    --ngflow-border: rgba(0, 0, 0, 0.10);
+    --ngflow-text: rgba(0, 0, 0, 0.85);
+    --ngflow-muted: rgba(0, 0, 0, 0.55);
+
+    --ngflow-canvas: #f3f4f6;
+    --ngflow-canvas-border: rgba(0, 0, 0, 0.10);
+
+    --ngflow-dock-bg: rgba(255, 255, 255, 0.78);
+    --ngflow-dock-border: rgba(0, 0, 0, 0.12);
+    --ngflow-dock-btn-bg: rgba(255, 255, 255, 0.72);
+    --ngflow-dock-btn-border: rgba(0, 0, 0, 0.12);
+    --ngflow-dock-btn-text: rgba(0, 0, 0, 0.85);
+
+    --ngflow-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* -------------------------
+   Dark mode variables
+-------------------------- */
+html[data-theme="dark"],
+body.o_dark,
+body.o_web_client.o_dark {
+    --ngflow-surface: #2b2f36;
+    --ngflow-surface-2: rgba(34, 39, 46, 0.92);
+    --ngflow-border: rgba(255, 255, 255, 0.08);
+    --ngflow-text: rgba(255, 255, 255, 0.92);
+    --ngflow-muted: rgba(255, 255, 255, 0.65);
+
+    --ngflow-canvas: #1f232a;
+    --ngflow-canvas-border: rgba(255, 255, 255, 0.10);
+
+    --ngflow-dock-bg: rgba(0, 0, 0, 0.42);
+    --ngflow-dock-border: rgba(255, 255, 255, 0.10);
+    --ngflow-dock-btn-bg: rgba(255, 255, 255, 0.06);
+    --ngflow-dock-btn-border: rgba(255, 255, 255, 0.10);
+    --ngflow-dock-btn-text: rgba(255, 255, 255, 0.90);
+
+    --ngflow-shadow: 0 18px 46px rgba(0, 0, 0, 0.45);
+}
+
+/* Optional OS dark fallback */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+        --ngflow-surface: #2b2f36;
+        --ngflow-surface-2: rgba(34, 39, 46, 0.92);
+        --ngflow-border: rgba(255, 255, 255, 0.08);
+        --ngflow-text: rgba(255, 255, 255, 0.92);
+        --ngflow-muted: rgba(255, 255, 255, 0.65);
+
+        --ngflow-canvas: #1f232a;
+        --ngflow-canvas-border: rgba(255, 255, 255, 0.10);
+
+        --ngflow-dock-bg: rgba(0, 0, 0, 0.42);
+        --ngflow-dock-border: rgba(255, 255, 255, 0.10);
+        --ngflow-dock-btn-bg: rgba(255, 255, 255, 0.06);
+        --ngflow-dock-btn-border: rgba(255, 255, 255, 0.10);
+        --ngflow-dock-btn-text: rgba(255, 255, 255, 0.90);
+
+        --ngflow-shadow: 0 18px 46px rgba(0, 0, 0, 0.45);
+    }
+}
+
+/* -------------------------
+   Canvas
+-------------------------- */
+
+.ngflow-canvas {
+    position: relative;
+    /*border-radius: 14px;*/
+    overflow: hidden;
+    border: 0 solid var(--ngflow-canvas-border);
+    box-shadow: var(--ngflow-shadow);
+}
+
+.ngflow-widget {
+    position: relative;
+}
+
+/* IMPORTANT: scoped sizing only */
+.ngflow-widget .o_bpmn_container {
+    width: 100%;
+    height: min(80vh, 780px);
+    min-height: 340px;
+    overflow: hidden;
+    border: none;
+    touch-action: none;
+    overscroll-behavior: contain;
+}
+
+/* -------------------------
+   Dock controls
+-------------------------- */
+.ngflow-dock {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 30;
+    padding: 10px 8px;
+    border-radius: 999px;
+    background: var(--ngflow-dock-bg);
+    border: 1px solid var(--ngflow-dock-border);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--ngflow-shadow);
+}
+
+.ngflow-dock-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--ngflow-dock-btn-border);
+    background: var(--ngflow-dock-btn-bg);
+    color: var(--ngflow-dock-btn-text);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.ngflow-dock-btn:hover {
+    filter: brightness(1.05);
+}
+
+.ngflow-dock-btn:active {
+    transform: translateY(1px);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .ngflow-body {
+        padding: 10px;
+    }
+
+    .ngflow-dock {
+        right: 10px;
+        bottom: 10px;
+    }
+
+    .ngflow-dock-btn {
+        width: 46px;
+        height: 46px;
+    }
+
+    .ngflow-widget .o_bpmn_container {
+        height: min(80vh, 640px);
+    }
+}
+
+/* Hide bpmn-js watermark */
+.bjs-powered-by {
+    display: none !important;
+}
+
+/* Fullscreen dialog background uses theme surface */
+.o_fullscreen_dialog {
+    background: var(--ngflow-surface) !important;
+}
+
+
+
+
+.ngflow-body svg { outline: none !important; }
+
+.djs-element:hover {
+    cursor: pointer !important;
+}
+

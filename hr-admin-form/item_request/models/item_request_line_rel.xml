@@ -1,0 +1,20 @@
+
+<odoo>
+    <record id="field_x_item_request_item_line_request_id" model="ir.model.fields">
+        <field name="model_id" ref="model_x_item_request_item_line"/>
+        <field name="name">x_item_request_id</field>
+        <field name="ttype">many2one</field>
+        <field name="relation">x_item_request</field>
+        <field name="field_description">Item Request</field>
+        <field name="on_delete">cascade</field>
+        <field name="required" eval="True"/>
+    </record>
+    <record id="field_x_item_request_x_item_line_ids" model="ir.model.fields">
+        <field name="model_id" ref="model_x_item_request"/>
+        <field name="name">x_item_line_ids</field>
+        <field name="ttype">one2many</field>
+        <field name="relation">x_item_request_item_line</field>
+        <field name="relation_field">x_item_request_id</field>
+        <field name="field_description">Item line</field>
+    </record>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.ActionDialogNodePopupFooter"
+       t-inherit="web.ActionDialog"
+       t-inherit-mode="extension">
+        <xpath expr="//footer[hasclass('modal-footer')]" position="inside">
+            <button t-if="props.actionProps and props.actionProps.context and props.actionProps.context.wf_node_popup_close_footer"
+                    type="button"
+                    class="btn btn-secondary"
+                    t-on-click="props.close"
+                    data-hotkey="x">
+                Close
+            </button>
+        </xpath>
+    </t>
+</templates>

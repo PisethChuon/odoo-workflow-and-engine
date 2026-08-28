@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="x_purchase_request_report_template">
+        <t t-call="workflow_engine.report_base_layout">
+            <t t-set="report_title">Purchase Request Form</t>
+
+            <div class="page">
+                <t t-foreach="docs" t-as="doc">
+                    <table class="table table-bordered mt-2">
+                    <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Request Information
+                            </h5>
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 30px;">
+                                    <strong>No.</strong>
+                                </th>
+                                <th>
+                                    <strong>Request Item</strong>
+                                </th>
+                                <th>
+                                    <strong>Quantity</strong>
+                                </th>
+                                <th>
+                                    <strong>Charge to Department</strong>
+                                </th>
+                                <th>
+                                    <strong>Remarks</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.x_purchase_item_ids" t-as="line">
+                                <tr>
+                                    <td class="text-center">
+                                        <span t-esc="line_index + 1"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_item_purchase"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.x_quantity"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_charge_to_depat"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_remark"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered mt-2">
+                        <thead>
+                        <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Vendor Information
+                            </h5>
+                            <tr>
+                                <th class="text-center" style="width: 30px;">
+                                    <strong>No.</strong>
+                                </th>
+                                <th>
+                                    <strong>Vendor</strong>
+                                </th>
+                                <th>
+                                    <strong>Contact Number</strong>
+                                </th>
+                                <th>
+                                    <strong>Email</strong>
+                                </th>
+                                <th>
+                                    <strong>Address</strong>
+                                </th>
+                                <th>
+                                    <strong>Cost</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="doc.x_vendor_ids">
+                                <t t-set="vendor_index" t-value="0"/>
+                                <t t-foreach="doc.x_vendor_ids" t-as="vendor">
+                                    <t t-set="vendor_index" t-value="vendor_index + 1"/>
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-esc="vendor_index"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="vendor.x_vendor or '-'"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="vendor.x_contact_number or '-'"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="vendor.x_email or '-'"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="vendor.x_address or '-'"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="vendor.x_cost if vendor.x_cost not in (False, None) else '-'"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <tr>
+                                    <td colspan="6">No vendor information submitted.</td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered mt-2">
+                        <thead>
+                        <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Purchase Information
+                            </h5>
+                            <tr>
+                                <th class="text-center" style="width: 30px;">
+                                    <strong>No.</strong>
+                                </th>
+                                <th>
+                                    <strong>Request Item</strong>
+                                </th>
+                                <th>
+                                    <strong>Quantity</strong>
+                                </th>
+                                <th>
+                                    <strong>Serail</strong>
+                                </th>
+                                <th>
+                                    <strong>Received Date</strong>
+                                </th>
+                                <th>
+                                    <strong>Issue Date</strong>
+                                </th>
+                                <th>
+                                    <strong>Admin Remark</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="doc.x_purchase_info_ids">
+                                <t t-set="purchase_info_index" t-value="0"/>
+                                <t t-foreach="doc.x_purchase_info_ids" t-as="purchase_info">
+                                    <t t-set="purchase_info_index" t-value="purchase_info_index + 1"/>
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-esc="purchase_info_index"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="purchase_info.x_item_purchase"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="purchase_info.x_quantity"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="purchase_info.x_serail or '-'"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="purchase_info.x_received_date or '-'"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="purchase_info.x_issue_date or '-'"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="purchase_info.x_admin_remark or '-'"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <tr>
+                                    <td colspan="7">No purchase information submitted.</td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

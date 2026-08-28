@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!-- Item List View -->
+        <record id="view_list_x_item" model="ir.ui.view">
+            <field name="name">Item</field>
+            <field name="model">x_item</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="x_name"/>
+                    <field name="x_description"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Item Form View -->
+        <record id="view_form_x_item" model="ir.ui.view">
+            <field name="name">Item</field>
+            <field name="model">x_item</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="x_name"/>
+                            <field name="x_description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

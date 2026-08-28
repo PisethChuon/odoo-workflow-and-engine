@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="message_activity_assigned_hide_workflow_deadline" inherit_id="mail.message_activity_assigned">
+            <xpath expr="//li[span[@t-field='activity.date_deadline']]" position="replace">
+                <li t-if="activity.activity_type_id != activity.env.ref('workflow_engine.mail_activity_data_workflow_approval', raise_if_not_found=False)">
+                    Deadline: <span t-field="activity.date_deadline"/>
+                </li>
+            </xpath>
+        </template>
+    </data>
+</odoo>

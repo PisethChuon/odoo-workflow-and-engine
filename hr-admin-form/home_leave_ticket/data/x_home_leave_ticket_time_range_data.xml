@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="x_home_leave_ticket_time_range_12am_6am" model="x_home_leave_ticket_time_range">
+            <field name="x_name">12AM-6AM</field>
+            <field name="x_sequence">1</field>
+        </record>
+        <record id="x_home_leave_ticket_time_range_6am_12pm" model="x_home_leave_ticket_time_range">
+            <field name="x_name">6AM-12PM</field>
+            <field name="x_sequence">2</field>
+        </record>
+        <record id="x_home_leave_ticket_time_range_12pm_6pm" model="x_home_leave_ticket_time_range">
+            <field name="x_name">12PM-6PM</field>
+            <field name="x_sequence">3</field>
+        </record>
+        <record id="x_home_leave_ticket_time_range_6pm_12am" model="x_home_leave_ticket_time_range">
+            <field name="x_name">6PM-12AM</field>
+            <field name="x_sequence">4</field>
+        </record>
+    </data>
+</odoo>

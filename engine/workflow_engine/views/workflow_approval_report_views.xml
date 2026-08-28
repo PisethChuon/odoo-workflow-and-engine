@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="approval_report_action" model="ir.actions.act_window">
+        <field name="name">approval_report_action</field>
+        <field name="res_model">workflow.approval.report</field>
+        <field name="view_mode">graph</field>
+        <field name="context">{"search_default_group_by_state": 1}</field>
+    </record>
+
+    <record id="view_workflow_approval_report_request_list" model="ir.ui.view">
+        <field name="name">view_workflow_approval_report_request_list</field>
+        <field name="model">workflow.approval.report</field>
+        <field name="arch" type="xml">
+            <list js_class="approval_report_request_list">
+                <field name="name"/>
+                <field name="res_model_name" column_invisible="1"/>
+                <field name="category_id"/>
+                <field name="previous_activity_name" />
+                <field name="current_activity_name"/>
+                <field name="request_owner_id" widget="many2one_avatar"/>
+                <field name="create_uid" widget="many2one_avatar"/>
+                <field name="to_approve_res_user_ids" widget="many2many_avatar_user" string="User(s) To Approve"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="approval_report_view_search" model="ir.ui.view">
+        <field name="name">approval_report_view_search</field>
+        <field name="model">workflow.approval.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="To Submit" name="state_is_open" domain="[('state', '=', 'new')]"/>
+                <filter string="Waiting" name="state_is_inprogress" domain="[('state', '=', 'waiting')]"/>
+                <filter string="Completed" name="state_is_completed" domain="[('state', '=', 'completed')]"/>
+                <filter string="Cancelled" name="state_is_cancel" domain="[('state', '=', 'cancel')]"/>
+                <filter string="Auto cancelled" name="state_is_auto_cancelled" domain="[('state', '=', 'auto_cancelled')]"/>
+                <group>
+                    <filter string="State" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Category" name="group_by_category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

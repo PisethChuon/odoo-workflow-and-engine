@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_additional_time_work" model="ir.ui.view">
+            <field name="name">ATW: Additional Time Work List</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+                <list position="inside">
+                    <field name="x_employee_id" optional="show"/>
+                    <field name="x_date" optional="show"/>
+                    <field name="x_work_on_type_id" optional="show"/>
+                    <field name="x_hour" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_additional_time_work" model="ir.ui.view">
+            <field name="name">ATW: Additional Time Work Form</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+                      <group string="Additional Time Work" col="2"
+                          invisible="'x_additional_time_work_line_ids' in (invisible_fields or '')">
+                       <field name="x_additional_time_work_line_ids" nolabel="1" colspan="2"
+                           readonly="'x_additional_time_work_line_ids' in (readonly_fields or '') or is_finished"
+                           required="'x_additional_time_work_line_ids' in (required_fields or '')">
+                        <list editable="bottom">
+                            <field name="x_employee_id"
+                                placeholder="Select Employee"
+                                invisible="'x_employee_id' in (parent.invisible_fields or '')"
+                                readonly="'x_employee_id' in (parent.readonly_fields or '') or parent.is_finished"
+                                required="'x_employee_id' in (parent.required_fields or '')"/>
+                            <field name="x_date"
+                                placeholder="Select Date"
+                                invisible="'x_date' in (parent.invisible_fields or '')"
+                                readonly="'x_date' in (parent.readonly_fields or '') or parent.is_finished"
+                                required="'x_date' in (parent.required_fields or '')"/>
+                            <field name="x_work_on_type_id"
+                                placeholder="Select category"
+                                invisible="'x_work_on_type_id' in (parent.invisible_fields or '')"
+                                readonly="'x_work_on_type_id' in (parent.readonly_fields or '') or parent.is_finished"
+                                required="'x_work_on_type_id' in (parent.required_fields or '')"/>
+                            <field name="x_hour"
+                                placeholder="0.00"
+                                invisible="'x_hour' in (parent.invisible_fields or '')"
+                                readonly="'x_hour' in (parent.readonly_fields or '') or parent.is_finished"
+                                required="'x_hour' in (parent.required_fields or '')"/>
+                        </list>
+                       </field>
+                    </group>
+
+                    <group>
+                        <field name="x_remark"
+                               placeholder="Add any additional remarks"
+                               invisible="'x_remark' in (invisible_fields or '')"
+                               readonly="'x_remark' in (readonly_fields or '') or is_finished"
+                               required="'x_remark' in (required_fields or '')"/>
+                    </group>
+
+                    <!-- Instruction block -->
+                    <div invisible="state not in ['draft', 'new']" style="margin: 0 16px 16px 16px; padding: 12px 16px; background-color: #fff9e6; border-left: 4px solid #f0ad00; border-radius: 4px;">
+                        <p style="margin: 0 0 8px 0; font-weight: bold; color: #333;">📋 Instructions</p>
+                        <p style="margin: 0 0 6px 0; color: #555;">
+                            <b>Purpose:</b> This form must be completed by staff (executive and above) when working
+                            overtime, off day, and public holiday to claim for a replacement day.
+                        </p>
+                        <p style="margin: 0 0 6px 0; color: #555;">
+                            <b>Instruction:</b> Please enter the code and number of hours for additional time worked
+                            from the items below. <b>8 hrs = 1 day claim.</b>
+                        </p>
+                        <p style="margin: 0 0 8px 0; color: #555;">
+                            <b>Example:</b> Write <code>PH2</code> if you worked 2 hrs overtime on a Public Holiday.
+                        </p>
+                        <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
+                            <thead>
+                                <tr style="background-color: #f0ad00; color: #fff;">
+                                    <th style="padding: 6px 10px; text-align: left;">Code</th>
+                                    <th style="padding: 6px 10px; text-align: left;">Additional Time Worked On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #fff;">
+                                    <td style="padding: 6px 10px; border-bottom: 1px solid #eee;"><code>RD</code></td>
+                                    <td style="padding: 6px 10px; border-bottom: 1px solid #eee;">Regular Day</td>
+                                </tr>
+                                <tr style="background-color: #f9f9f9;">
+                                    <td style="padding: 6px 10px; border-bottom: 1px solid #eee;"><code>OD</code></td>
+                                    <td style="padding: 6px 10px; border-bottom: 1px solid #eee;">Off Day</td>
+                                </tr>
+                                <tr style="background-color: #fff;">
+                                    <td style="padding: 6px 10px;"><code>PH</code></td>
+                                    <td style="padding: 6px 10px;">Public Holiday</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

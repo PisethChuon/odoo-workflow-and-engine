@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_list_x_service_request" model="ir.ui.view">
+            <field name="name">SR: Service Request List</field>
+            <field name="model">x_service_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_service_request" model="ir.ui.view">
+            <field name="name">SR: Service Request Form</field>
+            <field name="model">x_service_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+
+                    <group string="Request Information" col="2"
+                        invisible="'x_request_description' in (invisible_fields or '') and 'x_request_justification' in (invisible_fields or '')">
+
+                        <field name="x_request_description"
+                               placeholder="Describe what is being requested..."
+                               colspan="1"
+                               invisible="'x_request_description' in (invisible_fields or '')"
+                               readonly="'x_request_description' in (readonly_fields or '') or is_finished"
+                               required="'x_request_description' in (required_fields or '')"/>
+
+                        <field name="x_request_justification"
+                               placeholder="Provide justification or detail for this request..."
+                               colspan="1"
+                               invisible="'x_request_justification' in (invisible_fields or '')"
+                               readonly="'x_request_justification' in (readonly_fields or '') or is_finished"
+                               required="'x_request_justification' in (required_fields or '')"/>
+                    </group>
+
+                    <group string="Company / Contractor"
+                           invisible="'x_company_contractor_ids' in (invisible_fields or '')">
+
+                        <field name="x_company_contractor_ids"
+                               nolabel="1"
+                               colspan="2"
+                               readonly="'x_company_contractor_ids' in (readonly_fields or '') or is_finished"
+                               required="'x_company_contractor_ids' in (required_fields or '')">
+
+                            <list editable="bottom"
+                                  decoration-warning="x_valid_days != False and x_valid_days &lt; 7 and x_valid_days &gt;= 0"
+                                  decoration-danger="x_valid_days != False and x_valid_days &lt; 0"
+                                  decoration-muted="x_valid_days == False">
+
+                                <field name="x_company_contractor_name"
+                                       placeholder="Company / Contractor Name"
+                                       invisible="'x_company_contractor_name' in (parent.invisible_fields or '')"
+                                       readonly="'x_company_contractor_name' in (parent.readonly_fields or '') or parent.is_finished"
+                                       required="'x_company_contractor_name' in (parent.required_fields or '')"/>
+
+                                <field name="x_date_issued"
+                                       placeholder="Date Issued"
+                                       invisible="'x_date_issued' in (parent.invisible_fields or '')"
+                                       readonly="'x_date_issued' in (parent.readonly_fields or '') or parent.is_finished"
+                                       required="'x_date_issued' in (parent.required_fields or '')"/>
+
+                                <field name="x_valid_days"
+                                       placeholder="Days"
+                                       optional="show"
+                                       invisible="'x_valid_days' in (parent.invisible_fields or '')"
+                                       readonly="'x_valid_days' in (parent.readonly_fields or '') or parent.is_finished"
+                                       required="'x_valid_days' in (parent.required_fields or '')"/>
+
+                                <field name="x_price_usd"
+                                       placeholder="0.00"
+                                       widget="monetary"
+                                       optional="show"
+                                       invisible="'x_price_usd' in (parent.invisible_fields or '')"
+                                       readonly="'x_price_usd' in (parent.readonly_fields or '') or parent.is_finished"
+                                       required="'x_price_usd' in (parent.required_fields or '')"/>
+
+                            </list>
+                        </field>
+                    </group>
+
+                    <group string="Administration" col="2"
+                           invisible="'x_admin_comment' in (invisible_fields or '')">
+
+                        <field name="x_admin_comment"
+                               placeholder="Enter administrator department comment here..."
+                               colspan="2"
+                               widget="html"
+                               invisible="'x_admin_comment' in (invisible_fields or '')"
+                               readonly="'x_admin_comment' in (readonly_fields or '') or is_finished"
+                               required="'x_admin_comment' in (required_fields or '')"/>
+                    </group>
+
+                    
+                    <group string="Email Notification" col="1">
+
+                        <group col="1" colspan="1">
+                            <field name="x_email_notification_finance"/>
+                        </group>
+
+                        <group col="1" colspan="1">
+                            <field name="x_email_notification_cost_control"/>
+                        </group>
+
+                        <group col="1" colspan="1">
+                            <field name="x_email_notification_purchasing"/>
+                        </group>
+
+                    </group>
+
+                </group>
+            </field>
+        </record>
+
+    </data>
+</odoo>

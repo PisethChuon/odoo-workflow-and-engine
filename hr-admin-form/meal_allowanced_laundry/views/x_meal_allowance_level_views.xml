@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_meal_allowance_level" model="ir.ui.view">
+            <field name="name">Meal Allowance Level List</field>
+            <field name="model">x_meal_allowance_level</field>
+            <field name="arch" type="xml">
+                <list string="Meal Allowance Levels" default_order="x_name">
+                    <field name="x_name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_meal_allowance_level" model="ir.ui.view">
+            <field name="name">Meal Allowance Level Form</field>
+            <field name="model">x_meal_allowance_level</field>
+            <field name="arch" type="xml">
+                <form string="Meal Allowance Level">
+                    <sheet>
+                        <group>
+                            <field name="x_name" placeholder="e.g. 1, 4A, NA"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_x_meal_allowance_level" model="ir.ui.view">
+            <field name="name">Meal Allowance Level Search</field>
+            <field name="model">x_meal_allowance_level</field>
+            <field name="arch" type="xml">
+                <search string="Meal Allowance Levels">
+                    <field name="x_name"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

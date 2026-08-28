@@ -1,0 +1,67 @@
+.o_json_format_field {
+  width: 100%;
+  --wf-json-bg: var(--o-input-background-color, color-mix(in srgb, currentColor 5%, transparent));
+  --wf-json-readonly-bg: color-mix(in srgb, currentColor 6%, transparent);
+  --wf-json-color: currentColor;
+  --wf-json-muted: color-mix(in srgb, currentColor 58%, transparent);
+  --wf-json-border: var(--o-input-border-color, color-mix(in srgb, currentColor 22%, transparent));
+  --wf-json-focus-border: var(--o-action, var(--bs-primary, #017e84));
+}
+
+.o_json_format_field__editor,
+.o_json_format_field__readonly {
+  width: 100%;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  line-height: 1.45;
+  tab-size: 2;
+  color: var(--wf-json-color) !important;
+}
+
+.o_json_format_field__editor {
+  min-height: 7.5rem;
+  resize: vertical;
+  background: var(--wf-json-bg) !important;
+  border-color: var(--wf-json-border) !important;
+  caret-color: var(--o-caret-color, var(--wf-json-focus-border));
+
+  &::placeholder {
+    color: var(--wf-json-muted);
+    opacity: 1;
+  }
+
+  &:focus {
+    background: var(--wf-json-bg) !important;
+    border-color: var(--wf-json-focus-border) !important;
+    color: var(--wf-json-color) !important;
+  }
+}
+
+.o_json_format_field__readonly {
+  margin: 0;
+  padding: 0.625rem 0.75rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid var(--wf-json-border) !important;
+  border-radius: 0.375rem;
+  background: var(--wf-json-readonly-bg) !important;
+  color: var(--wf-json-color) !important;
+}
+
+html[data-theme="dark"] .o_json_format_field,
+html[data-bs-theme="dark"] .o_json_format_field,
+body[data-bs-theme="dark"] .o_json_format_field,
+.o_dark .o_json_format_field,
+body.o_web_client.o_dark .o_json_format_field,
+body.o_web_client.o_web_dark .o_json_format_field {
+  --wf-json-bg: var(--o-input-background-color, #111827);
+  --wf-json-readonly-bg: color-mix(in srgb, var(--o-view-background-color, #111827) 88%, #ffffff 12%);
+  --wf-json-color: var(--bs-body-color, #e5e7eb);
+  --wf-json-muted: var(--bs-secondary-color, #9ca3af);
+  --wf-json-border: var(--o-input-border-color, rgba(148, 163, 184, 0.42));
+}
+
+.o_form_view .wf-request-section .o_json_format_field {
+  --wf-json-bg: color-mix(in srgb, currentColor 5%, transparent);
+  --wf-json-readonly-bg: color-mix(in srgb, currentColor 7%, transparent);
+  --wf-json-border: color-mix(in srgb, currentColor 24%, transparent);
+}

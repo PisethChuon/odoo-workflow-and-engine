@@ -1,0 +1,142 @@
+<templates xml:space="preserve">
+  <t t-name="workflow_engine.BpmnDialog" owl="1">
+    <Dialog
+      t-props="{ title: '', size: 'xl' }"
+      withBodyPadding="false"
+      contentClass="'ngflow-modal' + (state.isSheetReady ? ' ngflow-modal--ready' : '')">
+      <t t-set-slot="header">
+        <div class="ngflow-header">
+          <div class="ngflow-header-main">
+            <div class="ngflow-header-icon" aria-hidden="true">
+              <i class="fa fa-sitemap"/>
+            </div>
+            <div class="ngflow-header-text">
+              <h4 class="ngflow-header-title">
+                <t t-esc="this.titleText"/>
+              </h4>
+            </div>
+          </div>
+          <button class="btn ngflow-close" t-on-click="props.close" aria-label="Close flow preview" title="Close flow preview">
+            <i class="fa fa-times" aria-hidden="true"/>
+          </button>
+        </div>
+      </t>
+
+      <div class="ngflow-body">
+        <t t-if="this.statusLabel || this.requestLabel || this.categoryLabel || this.requestOwnerLabel || this.openApproverCount || this.stageLabel || this.subWorkflowCount">
+          <div class="ngflow-context-strip" aria-label="Workflow request context">
+            <t t-if="this.statusLabel">
+              <span t-att-class="'ngflow-pill ngflow-pill--status ' + this.statusClass"
+                    t-att-title="this.blockedReason || ''">
+                <i class="fa fa-flag" aria-hidden="true"/>
+                <t t-esc="this.statusLabel"/>
+              </span>
+            </t>
+            <t t-if="this.requestLabel">
+              <span class="ngflow-tag">
+                <i class="fa fa-file-text-o" aria-hidden="true"/>
+                <t t-esc="this.requestLabel"/>
+              </span>
+            </t>
+            <t t-if="this.categoryLabel">
+              <span class="ngflow-tag">
+                <i class="fa fa-folder-open-o" aria-hidden="true"/>
+                <t t-esc="this.categoryLabel"/>
+              </span>
+            </t>
+            <t t-if="this.requestOwnerLabel">
+              <span class="ngflow-tag">
+                <i class="fa fa-user-o" aria-hidden="true"/>
+                <t t-esc="this.requestOwnerLabel"/>
+              </span>
+            </t>
+            <t t-if="this.stageLabel">
+              <span class="ngflow-pill ngflow-pill--stage">
+                <i class="fa fa-map-marker" aria-hidden="true"/>
+                <t t-esc="this.stageLabel"/>
+              </span>
+            </t>
+            <t t-if="this.openApproverCount">
+              <span class="ngflow-tag">
+                <i class="fa fa-users" aria-hidden="true"/>
+                <t t-esc="this.openApproverCount + ' Active Approver' + (this.openApproverCount > 1 ? 's' : '')"/>
+              </span>
+            </t>
+            <t t-if="this.subWorkflowCount">
+              <span class="ngflow-pill ngflow-pill--count">
+                <i class="fa fa-clone" aria-hidden="true"/>
+                <t t-esc="this.subWorkflowCount + ' Sub Flow' + (this.subWorkflowCount > 1 ? 's' : '')"/>
+              </span>
+            </t>
+          </div>
+        </t>
+        <div class="ngflow-panel ngflow-panel--main">
+          <div class="ngflow-panel-head">
+            
+            <div class="ngflow-legend" role="list" aria-label="Workflow node legend">
+              <span class="ngflow-legend-item" role="listitem">
+                <span class="ngflow-dot ngflow-dot--active"/>
+                Current
+              </span>
+              <span class="ngflow-legend-item" role="listitem">
+                <span class="ngflow-dot ngflow-dot--done"/>
+                Visited (Past)
+              </span>
+              <span class="ngflow-legend-item" role="listitem">
+                <span class="ngflow-dot ngflow-dot--pending"/>
+                Pending
+              </span>
+              <span class="ngflow-legend-item" role="listitem">
+                <span class="ngflow-dot ngflow-dot--blocked"/>
+                Blocked
+              </span>
+            </div>
+          </div>
+
+          <div class="ngflow-canvas">
+            <BpmnWidget t-if="state.isDiagramReady" t-props="{ data: props.data }"/>
+            <div t-else="" class="ngflow-canvas-loading" role="status" aria-live="polite">
+              <i class="fa fa-sitemap" aria-hidden="true"/>
+              <span>Preparing workflow...</span>
+            </div>
+          </div>
+        </div>
+
+        <t t-if="props.data.sub_workflows and props.data.sub_workflows.length">
+          <div class="ngflow-sub">
+            <div class="ngflow-sub-title">
+              <i class="fa fa-clone" aria-hidden="true"/>
+              Sub Workflows
+            </div>
+
+            <div class="row g-3">
+              <t t-foreach="props.data.sub_workflows" t-as="sub" t-key="sub.id">
+                <div class="col-12 col-md-6 col-lg-4">
+                  <div class="ngflow-card">
+                    <div class="ngflow-card-title text-truncate">
+                      <i class="fa fa-sitemap me-1" aria-hidden="true"/>
+                      <t t-esc="sub.display_name || sub.name"/>
+                    </div>
+                    <div class="ngflow-card-body">
+                      <BpmnWidget t-if="state.isDiagramReady" t-props="{ data: sub }"/>
+                    </div>
+                  </div>
+                </div>
+              </t>
+            </div>
+          </div>
+        </t>
+      </div>
+
+      <t t-set-slot="footer">
+        <div class="ngflow-footer">
+          <div class="ngflow-footer-note">
+            <i class="fa fa-mouse-pointer" aria-hidden="true"/>
+            Ctrl/Command + scroll to zoom, drag to pan, click a user task to view approvers.
+          </div>
+          <button class="btn btn-primary" t-on-click="props.close">Close</button>
+        </div>
+      </t>
+    </Dialog>
+  </t>
+</templates>

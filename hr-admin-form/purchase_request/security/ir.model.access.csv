@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_x_purchase_request_user,x_purchase_request user,model_x_purchase_request,base.group_user,1,1,0,0
+access_x_purchase_request_manager,x_purchase_request manager,model_x_purchase_request,base.group_system,1,1,1,1
+access_x_purchase_request_type_user,x_purchase_request_type user,model_x_purchase_request_type,base.group_user,1,0,0,0
+access_x_purchase_request_type_manager,x_purchase_request_type manager,model_x_purchase_request_type,base.group_system,1,1,1,1
+access_x_purchase_item_user,x_purchase_item user,model_x_purchase_item,base.group_user,1,1,1,0
+access_x_purchase_item_manager,x_purchase_item manager,model_x_purchase_item,base.group_system,1,1,1,1
+access_x_purchase_request_vendor_user,x_purchase_request_vendor user,model_x_purchase_request_vendor,base.group_user,1,1,1,0
+access_x_purchase_request_vendor_manager,x_purchase_request_vendor manager,model_x_purchase_request_vendor,base.group_system,1,1,1,1

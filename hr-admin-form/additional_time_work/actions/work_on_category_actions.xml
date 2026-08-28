@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_x_additional_time_work_type" model="ir.actions.act_window">
+            <field name="name">Work On Categories</field>
+            <field name="res_model">x_additional_time_work_type</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Work On category
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_meal_allowance_title" model="ir.model">
+            <field name="name">Meal Allowance Title</field>
+            <field name="model">x_meal_allowance_title</field>
+        </record>
+
+        <record id="field_x_meal_allowance_title_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_title</field>
+            <field name="model_id" ref="model_x_meal_allowance_title"/>
+            <field name="field_description">Title</field>
+            <field name="required" eval="True"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Level (Many2one to x_meal_allowance_level) -->
+        <record id="field_x_meal_allowance_title_level_id" model="ir.model.fields">
+            <field name="name">x_level_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_meal_allowance_level</field>
+            <field name="model">x_meal_allowance_title</field>
+            <field name="model_id" ref="model_x_meal_allowance_title"/>
+            <field name="field_description">Level</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Entitlement per calendar month (Float) -->
+        <record id="field_x_meal_allowance_title_entitlement" model="ir.model.fields">
+            <field name="name">x_entitlement_monthly</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_title</field>
+            <field name="model_id" ref="model_x_meal_allowance_title"/>
+            <field name="field_description">Entitlement $ per calendar month</field>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="x_meal_allowance_title_svp" model="x_meal_allowance_title">
+            <field name="x_name">SVP</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_1"/>
+            <field name="x_entitlement_monthly">Unlimited</field>
+        </record>
+        <record id="x_meal_allowance_title_md" model="x_meal_allowance_title">
+            <field name="x_name">MD</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_1"/>
+            <field name="x_entitlement_monthly">Unlimited</field>
+        </record>
+        <record id="x_meal_allowance_title_vp" model="x_meal_allowance_title">
+            <field name="x_name">VP</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_2"/>
+            <field name="x_entitlement_monthly">180.00</field>
+        </record>
+        <record id="x_meal_allowance_title_gm" model="x_meal_allowance_title">
+            <field name="x_name">GM</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_2"/>
+            <field name="x_entitlement_monthly">180.00</field>
+        </record>
+        <record id="x_meal_allowance_title_avp" model="x_meal_allowance_title">
+            <field name="x_name">AVP</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_3"/>
+            <field name="x_entitlement_monthly">180.00</field>
+        </record>
+        <record id="x_meal_allowance_title_director" model="x_meal_allowance_title">
+            <field name="x_name">Director</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_3"/>
+            <field name="x_entitlement_monthly">180.00</field>
+        </record>
+        <record id="x_meal_allowance_title_senior_manager" model="x_meal_allowance_title">
+            <field name="x_name">Senior Manager</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_4a"/>
+            <field name="x_entitlement_monthly">180.00</field>
+        </record>
+        <record id="x_meal_allowance_title_manager" model="x_meal_allowance_title">
+            <field name="x_name">Manager</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_4b"/>
+            <field name="x_entitlement_monthly">180.00</field>
+        </record>
+        <record id="x_meal_allowance_title_assistance_manager" model="x_meal_allowance_title">
+            <field name="x_name">Assistance Manager</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_4c"/>
+            <field name="x_entitlement_monthly">Unlimited</field>
+        </record>
+        <record id="x_meal_allowance_title_executive" model="x_meal_allowance_title">
+            <field name="x_name">Executive</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_5a"/>
+            <field name="x_entitlement_monthly">Unlimited</field>
+        </record>
+        <record id="x_meal_allowance_title_other_bodyguard" model="x_meal_allowance_title">
+            <field name="x_name">Other-Bodyguard</field>
+            <field name="x_level_id" ref="x_meal_allowance_level_na"/>
+            <field name="x_entitlement_monthly">450.00</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,513 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_ExitClearance" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_ExitClearance" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Exit" name="Start" />
+    <bpmn:userTask id="Task_Submission" name="Submission" />
+    <bpmn:intermediateCatchEvent id="Event_Submit" name="Submit">
+      <bpmn:messageEventDefinition id="MessageDef_Submit" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_HODDecision" name="HOD Decision" />
+    <bpmn:intermediateCatchEvent id="Event_HODApprove" name="Approve">
+      <bpmn:messageEventDefinition id="MessageDef_HODApprove" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_HODReject" name="Reject" />
+    <bpmn:userTask id="Task_RequestorRework" name="Requestor Rework" />
+    <bpmn:intermediateCatchEvent id="Event_Resubmit" name="Resubmit">
+      <bpmn:messageEventDefinition id="MessageDef_Resubmit" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:parallelGateway id="Gateway_DeptSplit" name="Department Split" />
+    <bpmn:userTask id="Task_ITClearance" name="IT Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_ITDone" name="Done IT">
+      <bpmn:messageEventDefinition id="MessageDef_ITDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_ITReject" name="Reject IT" />
+    <bpmn:userTask id="Task_FinanceClearance" name="Finance Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_FinanceDone" name="Done Finance">
+      <bpmn:messageEventDefinition id="MessageDef_FinanceDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_FinanceReject" name="Reject Finance" />
+    <bpmn:userTask id="Task_AdminClearance" name="Admin Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_AdminDone" name="Done Admin">
+      <bpmn:messageEventDefinition id="MessageDef_AdminDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_SecurityClearance" name="Security Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_SecurityDone" name="Done Security">
+      <bpmn:messageEventDefinition id="MessageDef_SecurityDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_FacilityClearance" name="Facility Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_FacilityDone" name="Done Facility">
+      <bpmn:messageEventDefinition id="MessageDef_FacilityDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_PurchaseClearance" name="Purchase Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_PurchaseDone" name="Done Purchase">
+      <bpmn:messageEventDefinition id="MessageDef_PurchaseDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_OperationsClearance" name="Operations Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_OperationsDone" name="Done Operations">
+      <bpmn:messageEventDefinition id="MessageDef_OperationsDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_HRDeptClearance" name="HR Department Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_HRDeptDone" name="Done HR Dept">
+      <bpmn:messageEventDefinition id="MessageDef_HRDeptDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:parallelGateway id="Gateway_DeptJoin" name="Department Join" />
+    <bpmn:userTask id="Task_HODFinalReview" name="HOD Final Review" />
+    <bpmn:intermediateCatchEvent id="Event_HODFinalApprove" name="Approve Final">
+      <bpmn:messageEventDefinition id="MessageDef_HODFinalApprove" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_PayrollReview" name="Payroll Review" />
+    <bpmn:intermediateCatchEvent id="Event_PayrollApprove" name="Approve Payroll">
+      <bpmn:messageEventDefinition id="MessageDef_PayrollApprove" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:inclusiveGateway id="Gateway_OffboardRoute" name="Offboard Automation Router" />
+    <bpmn:scriptTask id="Task_DisableAccounts" name="Disable Accounts" />
+    <bpmn:sendTask id="Task_NotifyChannels" name="Notify Channels" />
+    <bpmn:intermediateThrowEvent id="Event_ServerDone" name="Server Done" />
+    <bpmn:intermediateThrowEvent id="Event_NotifyDone" name="Notify Done" />
+    <bpmn:inclusiveGateway id="Gateway_OffboardJoin" name="Offboard Join" />
+    <bpmn:userTask id="Task_HRFinalClearance" name="HR Final Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_HRFinalDone" name="Complete HR">
+      <bpmn:messageEventDefinition id="MessageDef_HRFinalDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="EndEvent_ExitDone" name="Completed" />
+    <bpmn:sequenceFlow id="Flow_01" sourceRef="StartEvent_Exit" targetRef="Task_Submission" />
+    <bpmn:sequenceFlow id="Flow_02" sourceRef="Task_Submission" targetRef="Event_Submit" />
+    <bpmn:sequenceFlow id="Flow_03" sourceRef="Event_Submit" targetRef="Task_HODDecision" />
+    <bpmn:sequenceFlow id="Flow_04" sourceRef="Task_HODDecision" targetRef="Event_HODApprove" />
+    <bpmn:sequenceFlow id="Flow_05" sourceRef="Event_HODApprove" targetRef="Gateway_DeptSplit" />
+    <bpmn:sequenceFlow id="Flow_06" sourceRef="Task_HODDecision" targetRef="Event_HODReject" />
+    <bpmn:sequenceFlow id="Flow_07" sourceRef="Event_HODReject" targetRef="Task_RequestorRework" />
+    <bpmn:sequenceFlow id="Flow_08" sourceRef="Task_RequestorRework" targetRef="Event_Resubmit" />
+    <bpmn:sequenceFlow id="Flow_09" sourceRef="Event_Resubmit" targetRef="Task_HODDecision" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Gateway_DeptSplit" targetRef="Task_ITClearance" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Gateway_DeptSplit" targetRef="Task_FinanceClearance" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Gateway_DeptSplit" targetRef="Task_AdminClearance" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Gateway_DeptSplit" targetRef="Task_SecurityClearance" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Gateway_DeptSplit" targetRef="Task_FacilityClearance" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="Gateway_DeptSplit" targetRef="Task_PurchaseClearance" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="Gateway_DeptSplit" targetRef="Task_OperationsClearance" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Gateway_DeptSplit" targetRef="Task_HRDeptClearance" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Task_ITClearance" targetRef="Event_ITDone" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Event_ITDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Task_ITClearance" targetRef="Event_ITReject" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Event_ITReject" targetRef="Task_RequestorRework" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Task_FinanceClearance" targetRef="Event_FinanceDone" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Event_FinanceDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="Task_FinanceClearance" targetRef="Event_FinanceReject" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="Event_FinanceReject" targetRef="Task_RequestorRework" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="Task_AdminClearance" targetRef="Event_AdminDone" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="Event_AdminDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="Task_SecurityClearance" targetRef="Event_SecurityDone" />
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="Event_SecurityDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="Task_FacilityClearance" targetRef="Event_FacilityDone" />
+    <bpmn:sequenceFlow id="Flow_31" sourceRef="Event_FacilityDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_32" sourceRef="Task_PurchaseClearance" targetRef="Event_PurchaseDone" />
+    <bpmn:sequenceFlow id="Flow_33" sourceRef="Event_PurchaseDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_34" sourceRef="Task_OperationsClearance" targetRef="Event_OperationsDone" />
+    <bpmn:sequenceFlow id="Flow_35" sourceRef="Event_OperationsDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_36" sourceRef="Task_HRDeptClearance" targetRef="Event_HRDeptDone" />
+    <bpmn:sequenceFlow id="Flow_37" sourceRef="Event_HRDeptDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_38" sourceRef="Gateway_DeptJoin" targetRef="Task_HODFinalReview" />
+    <bpmn:sequenceFlow id="Flow_39" sourceRef="Task_HODFinalReview" targetRef="Event_HODFinalApprove" />
+    <bpmn:sequenceFlow id="Flow_40" sourceRef="Event_HODFinalApprove" targetRef="Task_PayrollReview" />
+    <bpmn:sequenceFlow id="Flow_41" sourceRef="Task_PayrollReview" targetRef="Event_PayrollApprove" />
+    <bpmn:sequenceFlow id="Flow_42" sourceRef="Event_PayrollApprove" targetRef="Gateway_OffboardRoute" />
+    <bpmn:sequenceFlow id="Flow_43" sourceRef="Gateway_OffboardRoute" targetRef="Task_DisableAccounts">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('request_owner_emp_type', '=', 'employee')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_44" sourceRef="Gateway_OffboardRoute" targetRef="Task_NotifyChannels">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('id', '!=', 0)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_45" sourceRef="Task_DisableAccounts" targetRef="Event_ServerDone" />
+    <bpmn:sequenceFlow id="Flow_46" sourceRef="Event_ServerDone" targetRef="Gateway_OffboardJoin" />
+    <bpmn:sequenceFlow id="Flow_47" sourceRef="Task_NotifyChannels" targetRef="Event_NotifyDone" />
+    <bpmn:sequenceFlow id="Flow_48" sourceRef="Event_NotifyDone" targetRef="Gateway_OffboardJoin" />
+    <bpmn:sequenceFlow id="Flow_49" sourceRef="Gateway_OffboardJoin" targetRef="Task_HRFinalClearance" />
+    <bpmn:sequenceFlow id="Flow_50" sourceRef="Task_HRFinalClearance" targetRef="Event_HRFinalDone" />
+    <bpmn:sequenceFlow id="Flow_51" sourceRef="Event_HRFinalDone" targetRef="EndEvent_ExitDone" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Process_ExitClearance">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_ExitClearance" bpmnElement="Process_ExitClearance">
+      <bpmndi:BPMNShape id="StartEvent_Exit_di" bpmnElement="StartEvent_Exit">
+        <dc:Bounds x="80" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Submission_di" bpmnElement="Task_Submission">
+        <dc:Bounds x="150" y="198" width="180" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Submit_di" bpmnElement="Event_Submit">
+        <dc:Bounds x="370" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HODDecision_di" bpmnElement="Task_HODDecision">
+        <dc:Bounds x="450" y="198" width="180" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODApprove_di" bpmnElement="Event_HODApprove">
+        <dc:Bounds x="670" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODReject_di" bpmnElement="Event_HODReject">
+        <dc:Bounds x="670" y="130" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_RequestorRework_di" bpmnElement="Task_RequestorRework">
+        <dc:Bounds x="450" y="40" width="180" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Resubmit_di" bpmnElement="Event_Resubmit">
+        <dc:Bounds x="670" y="62" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_DeptSplit_di" bpmnElement="Gateway_DeptSplit">
+        <dc:Bounds x="750" y="213" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ITClearance_di" bpmnElement="Task_ITClearance">
+        <dc:Bounds x="860" y="20" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FinanceClearance_di" bpmnElement="Task_FinanceClearance">
+        <dc:Bounds x="860" y="120" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_AdminClearance_di" bpmnElement="Task_AdminClearance">
+        <dc:Bounds x="860" y="220" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SecurityClearance_di" bpmnElement="Task_SecurityClearance">
+        <dc:Bounds x="860" y="320" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FacilityClearance_di" bpmnElement="Task_FacilityClearance">
+        <dc:Bounds x="860" y="420" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_PurchaseClearance_di" bpmnElement="Task_PurchaseClearance">
+        <dc:Bounds x="860" y="520" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_OperationsClearance_di" bpmnElement="Task_OperationsClearance">
+        <dc:Bounds x="860" y="620" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HRDeptClearance_di" bpmnElement="Task_HRDeptClearance">
+        <dc:Bounds x="860" y="720" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ITDone_di" bpmnElement="Event_ITDone">
+        <dc:Bounds x="1085" y="42" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ITReject_di" bpmnElement="Event_ITReject">
+        <dc:Bounds x="1085" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinanceDone_di" bpmnElement="Event_FinanceDone">
+        <dc:Bounds x="1085" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinanceReject_di" bpmnElement="Event_FinanceReject">
+        <dc:Bounds x="1085" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_AdminDone_di" bpmnElement="Event_AdminDone">
+        <dc:Bounds x="1085" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_SecurityDone_di" bpmnElement="Event_SecurityDone">
+        <dc:Bounds x="1085" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FacilityDone_di" bpmnElement="Event_FacilityDone">
+        <dc:Bounds x="1085" y="442" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_PurchaseDone_di" bpmnElement="Event_PurchaseDone">
+        <dc:Bounds x="1085" y="542" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_OperationsDone_di" bpmnElement="Event_OperationsDone">
+        <dc:Bounds x="1085" y="642" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HRDeptDone_di" bpmnElement="Event_HRDeptDone">
+        <dc:Bounds x="1085" y="742" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_DeptJoin_di" bpmnElement="Gateway_DeptJoin">
+        <dc:Bounds x="1210" y="393" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HODFinalReview_di" bpmnElement="Task_HODFinalReview">
+        <dc:Bounds x="1310" y="378" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODFinalApprove_di" bpmnElement="Event_HODFinalApprove">
+        <dc:Bounds x="1520" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_PayrollReview_di" bpmnElement="Task_PayrollReview">
+        <dc:Bounds x="1600" y="378" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_PayrollApprove_di" bpmnElement="Event_PayrollApprove">
+        <dc:Bounds x="1810" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_OffboardRoute_di" bpmnElement="Gateway_OffboardRoute">
+        <dc:Bounds x="1890" y="393" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DisableAccounts_di" bpmnElement="Task_DisableAccounts">
+        <dc:Bounds x="1990" y="320" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_NotifyChannels_di" bpmnElement="Task_NotifyChannels">
+        <dc:Bounds x="1990" y="470" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ServerDone_di" bpmnElement="Event_ServerDone">
+        <dc:Bounds x="2200" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_NotifyDone_di" bpmnElement="Event_NotifyDone">
+        <dc:Bounds x="2200" y="492" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_OffboardJoin_di" bpmnElement="Gateway_OffboardJoin">
+        <dc:Bounds x="2280" y="393" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HRFinalClearance_di" bpmnElement="Task_HRFinalClearance">
+        <dc:Bounds x="2380" y="378" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HRFinalDone_di" bpmnElement="Event_HRFinalDone">
+        <dc:Bounds x="2590" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_ExitDone_di" bpmnElement="EndEvent_ExitDone">
+        <dc:Bounds x="2670" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_01_di" bpmnElement="Flow_01">
+        <di:waypoint x="116" y="238" />
+        <di:waypoint x="150" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02_di" bpmnElement="Flow_02">
+        <di:waypoint x="330" y="238" />
+        <di:waypoint x="370" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03_di" bpmnElement="Flow_03">
+        <di:waypoint x="406" y="238" />
+        <di:waypoint x="450" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04_di" bpmnElement="Flow_04">
+        <di:waypoint x="630" y="238" />
+        <di:waypoint x="670" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05_di" bpmnElement="Flow_05">
+        <di:waypoint x="706" y="238" />
+        <di:waypoint x="750" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06_di" bpmnElement="Flow_06">
+        <di:waypoint x="630" y="238" />
+        <di:waypoint x="654" y="238" />
+        <di:waypoint x="654" y="148" />
+        <di:waypoint x="670" y="148" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07_di" bpmnElement="Flow_07">
+        <di:waypoint x="706" y="148" />
+        <di:waypoint x="420" y="148" />
+        <di:waypoint x="420" y="80" />
+        <di:waypoint x="450" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08_di" bpmnElement="Flow_08">
+        <di:waypoint x="630" y="80" />
+        <di:waypoint x="670" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09_di" bpmnElement="Flow_09">
+        <di:waypoint x="706" y="80" />
+        <di:waypoint x="706" y="238" />
+        <di:waypoint x="450" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="60" />
+        <di:waypoint x="860" y="60" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="160" />
+        <di:waypoint x="860" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="260" />
+        <di:waypoint x="860" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="360" />
+        <di:waypoint x="860" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="460" />
+        <di:waypoint x="860" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="560" />
+        <di:waypoint x="860" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="660" />
+        <di:waypoint x="860" y="660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="760" />
+        <di:waypoint x="860" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18">
+        <di:waypoint x="1050" y="60" />
+        <di:waypoint x="1085" y="60" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19">
+        <di:waypoint x="1121" y="60" />
+        <di:waypoint x="1145" y="60" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20">
+        <di:waypoint x="1050" y="60" />
+        <di:waypoint x="1074" y="60" />
+        <di:waypoint x="1074" y="100" />
+        <di:waypoint x="1085" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21">
+        <di:waypoint x="1085" y="100" />
+        <di:waypoint x="400" y="100" />
+        <di:waypoint x="400" y="80" />
+        <di:waypoint x="450" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_22_di" bpmnElement="Flow_22">
+        <di:waypoint x="1050" y="160" />
+        <di:waypoint x="1085" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_23_di" bpmnElement="Flow_23">
+        <di:waypoint x="1121" y="160" />
+        <di:waypoint x="1145" y="160" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_24_di" bpmnElement="Flow_24">
+        <di:waypoint x="1050" y="160" />
+        <di:waypoint x="1074" y="160" />
+        <di:waypoint x="1074" y="200" />
+        <di:waypoint x="1085" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_25_di" bpmnElement="Flow_25">
+        <di:waypoint x="1085" y="200" />
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="420" y="80" />
+        <di:waypoint x="450" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_26_di" bpmnElement="Flow_26">
+        <di:waypoint x="1050" y="260" />
+        <di:waypoint x="1085" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_27_di" bpmnElement="Flow_27">
+        <di:waypoint x="1121" y="260" />
+        <di:waypoint x="1145" y="260" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_28_di" bpmnElement="Flow_28">
+        <di:waypoint x="1050" y="360" />
+        <di:waypoint x="1085" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_29_di" bpmnElement="Flow_29">
+        <di:waypoint x="1121" y="360" />
+        <di:waypoint x="1145" y="360" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_30_di" bpmnElement="Flow_30">
+        <di:waypoint x="1050" y="460" />
+        <di:waypoint x="1085" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_31_di" bpmnElement="Flow_31">
+        <di:waypoint x="1121" y="460" />
+        <di:waypoint x="1145" y="460" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_32_di" bpmnElement="Flow_32">
+        <di:waypoint x="1050" y="560" />
+        <di:waypoint x="1085" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_33_di" bpmnElement="Flow_33">
+        <di:waypoint x="1121" y="560" />
+        <di:waypoint x="1145" y="560" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_34_di" bpmnElement="Flow_34">
+        <di:waypoint x="1050" y="660" />
+        <di:waypoint x="1085" y="660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_35_di" bpmnElement="Flow_35">
+        <di:waypoint x="1121" y="660" />
+        <di:waypoint x="1145" y="660" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_36_di" bpmnElement="Flow_36">
+        <di:waypoint x="1050" y="760" />
+        <di:waypoint x="1085" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_37_di" bpmnElement="Flow_37">
+        <di:waypoint x="1121" y="760" />
+        <di:waypoint x="1145" y="760" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_38_di" bpmnElement="Flow_38">
+        <di:waypoint x="1260" y="418" />
+        <di:waypoint x="1310" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_39_di" bpmnElement="Flow_39">
+        <di:waypoint x="1500" y="418" />
+        <di:waypoint x="1520" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_di" bpmnElement="Flow_40">
+        <di:waypoint x="1556" y="418" />
+        <di:waypoint x="1600" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_41_di" bpmnElement="Flow_41">
+        <di:waypoint x="1790" y="418" />
+        <di:waypoint x="1810" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_42_di" bpmnElement="Flow_42">
+        <di:waypoint x="1846" y="418" />
+        <di:waypoint x="1890" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_43_di" bpmnElement="Flow_43">
+        <di:waypoint x="1940" y="418" />
+        <di:waypoint x="1964" y="418" />
+        <di:waypoint x="1964" y="360" />
+        <di:waypoint x="1990" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_44_di" bpmnElement="Flow_44">
+        <di:waypoint x="1940" y="418" />
+        <di:waypoint x="1964" y="418" />
+        <di:waypoint x="1964" y="510" />
+        <di:waypoint x="1990" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_45_di" bpmnElement="Flow_45">
+        <di:waypoint x="2180" y="360" />
+        <di:waypoint x="2200" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_46_di" bpmnElement="Flow_46">
+        <di:waypoint x="2236" y="360" />
+        <di:waypoint x="2260" y="360" />
+        <di:waypoint x="2260" y="418" />
+        <di:waypoint x="2280" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_47_di" bpmnElement="Flow_47">
+        <di:waypoint x="2180" y="510" />
+        <di:waypoint x="2200" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_48_di" bpmnElement="Flow_48">
+        <di:waypoint x="2236" y="510" />
+        <di:waypoint x="2260" y="510" />
+        <di:waypoint x="2260" y="418" />
+        <di:waypoint x="2280" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_49_di" bpmnElement="Flow_49">
+        <di:waypoint x="2330" y="418" />
+        <di:waypoint x="2380" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_50_di" bpmnElement="Flow_50">
+        <di:waypoint x="2570" y="418" />
+        <di:waypoint x="2590" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_51_di" bpmnElement="Flow_51">
+        <di:waypoint x="2626" y="418" />
+        <di:waypoint x="2670" y="418" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

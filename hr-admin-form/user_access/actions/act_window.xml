@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<data noupdate="0">
+		<record id="action_x_user_access_request" model="ir.actions.act_window">
+			<field name="name">User Access Form</field>
+			<field name="res_model">x_user_access</field>
+			<field name="view_mode">list,form</field>
+		</record>
+
+		<record id="action_x_user_access_item" model="ir.actions.act_window">
+			<field name="name">Items</field>
+			<field name="res_model">x_user_access_item</field>
+			<field name="view_mode">list,form</field>
+		</record>
+
+		<record id="action_x_user_access_item_type" model="ir.actions.act_window">
+			<field name="name">Types</field>
+			<field name="res_model">x_user_access_item_type</field>
+			<field name="view_mode">list,form</field>
+		</record>
+	</data>
+</odoo>

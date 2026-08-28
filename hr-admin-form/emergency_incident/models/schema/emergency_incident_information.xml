@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="model_x_emergency_incident_information" model="ir.model">
+            <field name="name">Emergency Incident</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <!-- Field: Type of incidents (Linked to information type model) -->
+        <record id="field_x_emergency_incident_information_x_type_of_incidents_id" model="ir.model.fields">
+            <field name="name">x_type_of_incidents_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_emergency_incident_information_type</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Type of incidents</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Color Code (Linked to the new Color model) -->
+        <record id="field_x_emergency_incident_information_x_color_code_id" model="ir.model.fields">
+            <field name="name">x_color_code_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_emergency_incident_color_code</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Color Code</field>
+            <field name="state">manual</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Create Medical Treatment Form?  -->
+        <record id="field_x_emergency_incident_information_x_create_medical_form" model="ir.model.fields">
+            <field name="name">x_create_medical_form</field>
+            <field name="ttype">selection</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Create Medical Treatment Form?</field>
+            <field name="selection">[('yes', 'Yes'),('no', 'No')]</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Incident Date & Time -->
+        <record id="field_x_emergency_incident_information_x_incident_datetime" model="ir.model.fields">
+            <field name="name">x_incident_datetime</field>
+            <field name="ttype">datetime</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Incident Date &amp; Time</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Property (Linked to property model) -->
+        <record id="field_x_emergency_incident_information_x_property_id" model="ir.model.fields">
+            <field name="name">x_property_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_emergency_incident_property</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Property</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Shift of Incident (Linked to shift model) -->
+        <record id="field_x_emergency_incident_information_x_shift_id" model="ir.model.fields">
+            <field name="name">x_shift_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_emergency_incident_shift</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Shift of Incident</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Location (Linked to location model) -->
+        <record id="field_x_emergency_incident_information_x_location_id" model="ir.model.fields">
+            <field name="name">x_location_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_emergency_incident_location</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Location</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Incident Remark -->
+        <record id="field_x_emergency_incident_information_x_incident_remark" model="ir.model.fields">
+            <field name="name">x_incident_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Incident Remark</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Patient Remark -->
+        <record id="field_x_emergency_incident_information_x_patient_remark" model="ir.model.fields">
+            <field name="name">x_patient_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Patient Remark</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Call of Incident  -->
+        <record id="field_x_emergency_incident_information_x_call_id" model="ir.model.fields">
+            <field name="name">x_call_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_emergency_incident_call</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Call of Incident</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Guest Name -->
+        <record id="field_x_emergency_incident_information_x_guest_name" model="ir.model.fields">
+            <field name="name">x_guest_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Guest Name</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Field: Room Number -->
+        <record id="field_x_emergency_incident_information_x_room_number" model="ir.model.fields">
+            <field name="name">x_room_number</field>
+            <field name="ttype">char</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Room Number</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+
+        <!-- Field Depend on Native Employee -->
+        <!-- Responder ID/Name -->
+        <record id="field_x_emergency_incident_information_x_responder_id" model="ir.model.fields">
+            <field name="name">x_responder_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.employee</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Responder ID/Name</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Position (Auto-populated from Employee Job Title) -->
+        <record id="field_x_emergency_incident_information_x_responder_position" model="ir.model.fields">
+            <field name="name">x_responder_position</field>
+            <field name="ttype">char</field>
+            <field name="related">x_responder_id.job_title</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Position</field>
+            <field name="readonly" eval="1"/>
+        </record>
+
+        <!-- Department (Auto-populated from Employee Department Name) -->
+        <record id="field_x_emergency_incident_information_x_responder_department" model="ir.model.fields">
+            <field name="name">x_responder_department</field>
+            <field name="ttype">char</field>
+            <field name="related">x_responder_id.department_id.name</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Department</field>
+            <field name="readonly" eval="1"/>
+        </record>
+
+        <!-- Phone Contact (Auto-populated from Employee Work Phone) -->
+        <record id="field_x_emergency_incident_information_x_responder_phone" model="ir.model.fields">
+            <field name="name">x_responder_phone</field>
+            <field name="ttype">char</field>
+            <field name="related">x_responder_id.work_phone</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Phone Contact</field>
+            <field name="readonly" eval="1"/>
+        </record>
+
+        <!-- Patient Name -->
+        <record id="field_x_emergency_incident_information_x_patient_id" model="ir.model.fields">
+            <field name="name">x_patient_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.employee</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Patient Name</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Position (Auto-populated from Patient Job Title) -->
+        <record id="field_x_emergency_incident_information_x_patient_position" model="ir.model.fields">
+            <field name="name">x_patient_position</field>
+            <field name="ttype">char</field>
+            <field name="related">x_patient_id.job_title</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Position</field>
+            <field name="readonly" eval="1"/>
+        </record>
+
+        <!-- Department (Auto-populated from Patient Department Name) -->
+        <record id="field_x_emergency_incident_information_x_patient_department" model="ir.model.fields">
+            <field name="name">x_patient_department</field>
+            <field name="ttype">char</field>
+            <field name="related">x_patient_id.department_id.name</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Department</field>
+            <field name="readonly" eval="1"/>
+        </record>
+
+        <!-- Phone Contact (Auto-populated from Patient Work Phone) -->
+        <record id="field_x_emergency_incident_information_x_patient_phone" model="ir.model.fields">
+            <field name="name">x_patient_phone</field>
+            <field name="ttype">char</field>
+            <field name="related">x_patient_id.work_phone</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="model_id" ref="model_x_emergency_incident_information"/>
+            <field name="field_description">Phone Contact</field>
+            <field name="readonly" eval="1"/>
+        </record>
+    </data>
+</odoo>

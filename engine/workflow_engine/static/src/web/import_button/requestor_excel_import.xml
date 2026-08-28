@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.RequestorExcelImportField">
+        <div t-att-class="rootClass">
+            <input type="file"
+                   class="d-none"
+                   t-ref="fileInput"
+                   t-att-accept="props.acceptedFileExtensions"
+                   t-on-change="onFileChange"/>
+            <button type="button"
+                    class="btn btn-secondary o_requestor_excel_import_btn"
+                    t-att-disabled="props.readonly or state.loading"
+                    t-on-click.stop.prevent="onChooseFile">
+                <i t-if="state.loading" class="fa fa-cog fa-spin me-1"/>
+                <i t-else="" class="fa fa-file-excel-o me-1"/>
+                <t t-if="state.loading">Loading Excel...</t>
+                <t t-else="">Excel</t>
+            </button>
+            <span t-if="fileName" class="text-muted small text-truncate o_requestor_excel_filename">
+                <i class="fa fa-file-excel-o me-1"/>
+                <t t-esc="fileName"/>
+            </span>
+        </div>
+    </t>
+</templates>

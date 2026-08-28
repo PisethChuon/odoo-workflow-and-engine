@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_user_access_line" model="ir.ui.view">
+            <field name="name">User Access Line List</field>
+            <field name="model">x_user_access_line</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="x_employee_id"/>
+                    <field name="x_item_id"/>
+                    <field name="x_item_type_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_user_access_line" model="ir.ui.view">
+            <field name="name">User Access Line Form</field>
+            <field name="model">x_user_access_line</field>
+            <field name="arch" type="xml">
+                <form string="User Access Line">
+                    <sheet>
+                        <group>
+                            <field name="x_employee_id"/>
+                            <field name="x_item_id"/>
+                            <field name="x_item_type_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,1751 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="approval_base_request_view_list" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.view.list</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="arch" type="xml">
+            <list js_class="workflow_approval_request_list"
+                  create="false"
+                  multi_edit="1"
+                  default_order="updated_date desc, create_date desc, id desc"
+                  decoration-info="state in ['waiting']"
+                  decoration-success="state in ['done', 'completed']"
+                  decoration-danger="wf_is_blocked or state in ['refused', 'cancelled', 'auto_cancelled']">
+                
+                <field name="state" widget="badge" string="Request Status"
+                       decoration-muted="state in ['draft']"
+                       decoration-info="state in ['new', 'waiting']"
+                       decoration-success="state in ['done', 'completed', 'auto_approved']"
+                       decoration-warning="state in ['rework']"
+                       decoration-danger="state in ['refused', 'cancelled', 'auto_cancelled']"/>
+                <field name="current_activity_name" string="Activity Name"/>
+                <field name="name" string="Request"/>
+                <field name="category_id" string="Category"/>
+                <field name="request_owner_emp_code" string="Emp Code" optional="hide"/>
+                <field name="request_owner_ext_phone" string="Extension" optional="hide"/>
+                <field name="request_owner_id" widget="many2one_avatar" string="Request Owner"/>
+                <field name="to_approve_res_user_ids" widget="many2many_avatar_user"
+                       string="Pending Activity"/>
+                <field name="active" optional="hide"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="latest_transition_summary" string="Latest Transition" optional="show"/>
+                <field name="submit_date" widget="datetime" optional="show"/>
+                <field name="create_date" widget="datetime" string="Created" optional="show"/>                
+                <field name="updated_date" widget="datetime" string="Updated" optional="hide"/>
+                <field name="previous_activity_name" string="From Activity" optional="hide"/>
+                <field name="pending_approver_summary" string="Pending Activity" optional="hide"/> 
+                <field name="request_owner_emp_type" string="Emp Type" optional="hide"/>
+                <field name="manager_user_id" widget="many2one_avatar" string="Manager" optional="hide"/>
+                <field name="create_uid" widget="many2one_avatar" optional="hide"/>
+                <field name="wf_is_blocked" optional="hide"/>
+                <!-- <field name="activity_ids" widget="list_activity" optional="show"/> -->
+            </list>
+        </field>
+    </record>
+
+    <record id="approval_base_request_view_kanban_mobile" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.view.kanban.mobile</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="priority" eval="5"/>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" create="false" action="action_open_child" type="object">
+                <field name="latest_transition_summary"/>
+                <field name="pending_approver_summary"/>
+                <field name="state"/>
+                <field name="category_id"/>
+                <field name="request_owner_id"/>
+                <field name="active" groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="create_date"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_body">
+                            <div class="row">
+                                <div class="col-12">
+                                    
+                                    <div class="d-flex">
+                                        <field name="category_id"/> <span class="ms-2">-</span>  
+                                        <field class="fw-bolder ms-2" name="name" />
+                                    </div> 
+                                    <div class="d-flex">
+                                        <field name="request_owner_id" widget="many2one_avatar"/>
+                                        <field name="request_owner_id" class="ms-2 text-truncate"/>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-12 small text-muted text-truncate">
+                                    <i class="fa fa-random me-1" title="Latest transition"/>
+                                    <field name="latest_transition_summary"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 small text-muted text-truncate">
+                                    <i class="fa fa-users me-1" title="Pending activity"/>
+                                    <field name="pending_approver_summary"/>
+                                </div> 
+                            </div> 
+                        </div>
+                        <footer class="pt-1">
+                                <div>
+                                     <i class="fa fa-calendar me-1" title="Created date"/>
+                                    <field title="Created date" name="create_date" style="font-size: 11px; font-style: italic"/>
+                                </div>
+                                <div class="ms-auto d-flex">
+                                    <field name="state" widget="label_selection" options="{'classes': {'draft': 'primary','new': 'primary', 'waiting': 'info', 'done': 'success', 'completed': 'success', 'auto_approved': 'success','refused':'danger','cancelled':'danger','auto_cancelled':'danger'}}" class="ms-auto wf-state-pill"/>
+                                </div>
+                             </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="approval_base_search_view_search" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.search</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="request_owner_id"/>
+                <field name="current_activity_name"/>
+                <field name="state"/>
+                <field name="request_status"/>
+                <field name="manager_user_id"/>
+                <field name="is_my_work_item"/>
+                <field name="is_my_contribution"/>
+                <field name="is_my_owned_request"/>
+                <field name="is_shared_with_me"/>
+                <field name="is_delegated_to_me"/>
+                <field name="is_cc_or_bcc"/>
+                <field name="active" groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <filter string="My Request" name="filter_my_request"
+                        domain="[('owner_user_ids.user_id', '=', uid)]"/>
+                <filter string="My Request List" name="filter_my_request_owner"
+                        domain="[('is_my_owned_request', '=', True)]"/>
+                <filter string="My Approvals to Review" name="filter_approvals_to_review"
+                        domain="[('is_my_work_item', '=', True)]"/>
+                <filter string="My Work List" name="filter_my_work_list"
+                        domain="[('is_my_work_item', '=', True)]"/>
+                <filter string="My Contribute List" name="filter_my_contribute_list"
+                        domain="[('is_my_contribution', '=', True)]"/>
+                <filter string="Shared With Me" name="filter_shared_with_me"
+                        domain="[('is_shared_with_me', '=', True)]"/>
+                <filter string="Delegated To Me" name="filter_delegated_to_me"
+                        domain="[('is_delegated_to_me', '=', True)]"/>
+                <filter string="CC/BCC" name="filter_cc_bcc"
+                        domain="[('is_cc_or_bcc', '=', True)]"/>
+                <filter string="I Acted" name="filter_i_acted"
+                        domain="[('task_event_ids.actor_user_id', '=', uid)]"/>
+                <filter string="My Team" name="filter_my_team"
+                        domain="[('manager_user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Waiting" name="filter_waiting" domain="[('state', '=', 'waiting')]"/>
+                <filter string="Done" name="filter_done" domain="[('state', '=', 'done')]"/>
+                <filter string="To Submit" name="filter_to_submit" domain="[('state', '=', 'new')]"/>
+                <filter string="Completed" name="filter_completed" domain="[('state', '=', 'completed')]"/>
+                <filter string="Rejected" name="filter_rejected" domain="[('request_status', '=', 'refused')]"/>
+                <filter string="Cancelled" name="filter_cancelled"
+                        domain="[('request_status', 'in', ['cancelled', 'auto_cancelled'])]"/>
+                <filter string="Archived" name="filter_archived" domain="[('active', '=', False)]"
+                        groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <filter invisible="1" string="Late Activities" name="activities_overdue"
+                        domain="['&amp;', ('activity_user_id', '=', uid), ('my_activity_date_deadline', '&lt;', 'today')]"/>
+                <filter invisible="1" string="Today Activities" name="activities_today"
+                        domain="['&amp;', ('activity_user_id', '=', uid), ('my_activity_date_deadline', '=', 'today')]"/>
+                <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="['&amp;', ('activity_user_id', '=', uid), ('my_activity_date_deadline', '&gt;', 'today')]"/>
+                <group>
+                    <filter string="Category" name="groupby_category_id"
+                            context="{'group_by': 'category_id'}"/>
+                    <filter string="Request Owner" name="groupby_request_owner"
+                            context="{'group_by': 'request_owner_id'}"/>
+                    <filter string="Workflow Stage" name="groupby_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Request Status" name="groupby_request_status"
+                            context="{'group_by': 'request_status'}"/>
+                    <filter string="Activity Name" name="groupby_current_activity"
+                            context="{'group_by': 'current_activity_name'}"/>
+                    <filter string="Manager" name="groupby_manager"
+                            context="{'group_by': 'manager_user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- <record id="approval_base_request_view_kanban" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.view.kanban</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="arch" type="xml">
+            <kanban create="false" class="o_modules_kanban" default_group_by="request_status"
+                    default_order="create_date desc"
+                    group_create="false" group_edit="false" group_delete="false" sample="1">
+                <field name="request_status"/>
+                <field name="user_status"/>
+                <templates>
+                    <t t-name="menu">
+                        <a t-if="widget.editable" role="menuitem" type="open" class="dropdown-item">Edit Request</a>
+                        <a t-if="widget.deletable" role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                        <a name="action_approve" type="object" invisible="user_status != 'pending'"
+                           role="menuitem" class="dropdown-item">Approve
+                        </a>
+                        <a name="action_refuse" type="object" invisible="user_status != 'pending'"
+                           role="menuitem" class="dropdown-item">Refuse
+                        </a>
+                        <a name="action_withdraw" type="object"
+                           invisible="request_status == 'new' or user_status in ['waiting', 'pending', 'cancel']"
+                           role="menuitem" class="dropdown-item">Withdraw
+                        </a>
+                    </t>
+                    <t t-name="card">
+                        <div class="ribbon ribbon-top-right"
+                             invisible="user_status not in ['pending', 'approved', 'refused', 'cancel']">
+                            <field name="user_status" t-if="record.user_status.raw_value == 'pending'"
+                                   class="text-bg-info"/>
+                            <field name="user_status" t-if="record.user_status.raw_value == 'approved'"
+                                   class="text-bg-success"/>
+                            <field name="user_status" t-if="record.user_status.raw_value == 'refused'"
+                                   class="text-bg-danger"/>
+                            <field name="user_status" t-if="record.user_status.raw_value == 'cancel'"
+                                   class="text-bg-warning"/>
+                        </div>
+                        <field name="name" class="fw-bolder fs-5"/>
+                        <field name="category_id" class="text-muted"/>
+                        <div class="d-flex text-muted">
+                            <field name="date_start" widget="date" class="me-1"/>-
+                            <field name="date_end" widget="date" class="ms-1"/>
+                        </div>
+                        <footer class="pt-0">
+                            <field name="request_owner_id" widget="many2one_avatar_user" class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record> -->
+
+    <record id="approval_base_request_view_form" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.view.form</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <form string="Request" create="false" js_class="wf_form">
+                <header>
+                    <field name="user_status" invisible="1"/>
+                    <field name="active" invisible="1"
+                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                    <!-- <button name="action_draft" string="Back To Draft" type="object"
+                            invisible="state not in ['cancel','refused'] or not user_status and not has_access_to_request"
+                            data-hotkey="w"/> -->
+
+                    <!-- <button name="action_draft" string="Back To Draft" type="object"
+                    data-hotkey="w"/> -->
+
+                    <button string="Print" invisible="state != 'approved'"
+                            type="action" name="%(action_report_approval_request)d"/>
+
+                    <field name="bpmn_xml" invisible="1"/> 
+                    <widget name="approval_buttons"
+                            invisible="state in ['cancelled', 'auto_cancelled', 'refused'] or (not visible_buttons and state not in ['draft', 'new'])"/>
+                    <widget name="bpmn_button"/>
+
+                    <!-- 
+                    1- hide it when state is in draft, new, completed, cancelled, auto_cancelled, and refused
+                    2- hide it if user has no permission
+                    3- hide it if user has permission and he is the request creator
+                    4- hide it if user has permission and he is the request owner
+                    -->
+                    <widget name="delegate_button"
+                        invisible="not is_user_can_delegate"/>
+
+                    <button name="%(action_force_transition_wizard)d"
+                            string="Force Transition"
+                            type="action"
+                            class="btn-danger"
+                            groups="base.group_system"
+                            context="{'default_request_id': id, 'default_model': 'workflow.base.approval.request'}"
+                    />
+                    
+                    <!-- 
+                    1- hide it when state is in draft, new, completed, cancelled, auto_cancelled, and refused
+                    2- hide it user has no permission and he is not the request owner
+                    3- show it if user has permission and he is not the request owner 
+                    4- show it if user has permission and he is the request owner and the hod
+                    5- hide it if user has permission and he is the request owner and not the hod
+                    -->
+                    <widget name="attach_document" string="Attachment" action="message_post"
+                            highlight="0"
+                            invisible="state in ['completed', 'auto_approved', 'cancelled', 'auto_cancelled', 'refused'] or 
+                            not is_user_has_permission"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,new,waiting,done,completed"/>
+                    
+                    <!-- <field name="request_status" widget="statusbar"
+                    statusbar_visible="new,pending,approved,refused"/>-->
+                </header>
+                <sheet class="wf_section">
+                    <field name="id" invisible="1"/>
+                    <field name="category_id" invisible="1"/>
+                    <field name="version_id" invisible="1"/>
+                    <field name="res_model_name" invisible="1"/>
+                    <field name="visible_buttons" invisible="1"/>
+                    <field name="workflow_category_label" invisible="1"/>
+                    <field name="workflow_version_label" invisible="1"/>
+                    <field name="requirer_document" invisible="1"/>
+                    <field name="approval_minimum" invisible="1"/>
+                    <field name="approval_type" invisible="1"/>
+                    <field name="change_request_owner" invisible="1"/>
+                    <field name="request_owner_emp_name" invisible="1"/>
+                    <!-- Keep permission/runtime fields loaded for all users.
+                         Child views depend on these in readonly/required expressions. -->
+                    <field name="is_user_has_permission" invisible="1"/>
+                    <field name="is_user_can_delegate" invisible="1"/>
+                    <field name="is_finished" invisible="1"/>
+                    <field name="required_fields" invisible="1"/>
+                    <field name="readonly_fields" invisible="1"/>
+                    <field name="invisible_fields" invisible="1"/>
+                    <!-- Runtime helper fields used by workflow domain rules on wf_form -->
+                    <field name="wf_actor_uid" invisible="1"/>
+                    <field name="wf_actor_name" invisible="1"/>
+                    <field name="wf_actor_login" invisible="1"/>
+                    <field name="wf_actor_department_name" invisible="1"/>
+                    <field name="wf_actor_position_name" invisible="1"/>
+                    <field name="wf_actor_group_xmlids" invisible="1"/>
+                    <field name="wf_actor_is_manager" invisible="1"/>
+                    <field name="wf_actor_is_hod" invisible="1"/>
+                    <field name="wf_action_key" invisible="1"/>
+                    <field name="wf_current_node_id" invisible="1"/>
+                    <!-- Keep these runtime fields loaded for all viewers (BPMN preview highlights). -->
+                    <field name="current_node_id" invisible="1"/>
+                    <field name="previous_node_id" invisible="1"/>
+                    <field name="previous_node_ids" invisible="1"/>
+                    <field name="wf_is_blocked" invisible="1"/>
+                    <field name="wf_block_reason" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="o_not_full oe_button_box" name="button_box">
+
+                        <!-- <button name="action_get_attachment_view"
+                                class="oe_stat_button"
+                                icon="fa-book"
+                                type="object"
+                                invisible="attachment_number == 0">
+                            <field name="attachment_number" widget="statinfo" string="Documents"
+                                   options="{'reload_on_button': true}"/>
+                        </button> -->
+                    </div>
+                    <div class="oe_avatar" invisible="1">
+                        <field name="category_image" widget="image"
+                            options="{'preview_image': 'category_image', 'size': [80, 80]}"
+                            class="bg-view"/>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="oe_title">
+                            <h2>
+                            <field name="workflow_category_label"
+                                                    string="Category"
+                                                    readonly="1"
+                                                    class="text-muted" />
+                                <field name="automated_sequence" invisible="1" muted="1"
+                                       display="full"
+                                       class="o_text_block"/>
+                                <field name="name" placeholder="E.g: Expenses Paris business trip"
+                                       required="not automated_sequence"
+                                       readonly="automated_sequence" muted="1" display="full"
+                                       class="o_text_block"/>
+                            </h2>
+                        </div>
+                        <div class="m-1"/>
+                        <h3 class="d-flex align-items-center gap-2 flex-wrap">
+                            <field name="current_activity_name" widget="badge" decoration-info="1"/>
+                            <field name="wf_block_badge"
+                                   widget="badge"
+                                   decoration-danger="1"
+                                   invisible="not wf_is_blocked"/>
+                        </h3>
+                    </div>
+                    <div class="wf-request-overview mt-2 mb-2">
+                        <div class="wf-request-overview__row"> 
+                            <group>
+                                 <field name="latest_transition_summary"
+                                        class="wf-request-overview__value"/>
+                            </group>
+
+                            <group>
+                                <field name="pending_approver_summary"
+                                       class="wf-request-overview__value"/>
+                            </group>
+
+                            <!-- <span class="wf-request-overview__label">Current Stage</span>
+                            <span class="wf-request-overview__value">
+                                <field name="state" widget="badge"/>
+                            </span> -->
+
+                            <!-- <span class="wf-request-overview__label">Request Status</span>
+                            <span class="wf-request-overview__value">
+                                <field name="request_status" widget="badge"/>
+                            </span> -->
+                        </div> 
+                    </div>
+                    <group name="request_main" colspan="12" col="12"
+                        class="wf-request-section wf-request-grid col-12">
+                        <div class="o_group col-12 p-0 border-0">
+                            <div class="card wf_req_owner wf-request-owner-card border-1 rounded-lg mb-1 overflow-hidden">
+                                <div class="card-header wf-request-owner-card__header py-2 px-3">
+                                    <h5 class="mb-0 wf-request-owner-card__title">
+                                        <i class="fa fa-user-circle me-2" title="Request Owner"/>Request Owner</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-12 col-md-6">
+                                            <div class="wf-request-owner-card__panel">
+                                            <div class="o_horizontal_separator mb-2 text-uppercase small fw-bold text-muted">
+                                                    Owner Info
+                                                </div>
+                                                <field name="request_owner_id"
+                                                    string="Owner"
+                                                    placeholder="Select Owner..."
+                                                    widget="many2one_request_owner"
+                                                    options="{'no_create': True, 'no_open': True}"
+                                                    class="fw-bold wf-request-owner-card__owner"
+                                                    readonly="state not in ('draft', 'new')" />
+
+                                                <div class="wf-request-owner-card__detail-row">
+                                                    <span class="wf-request-owner-card__detail-label">Employee Code</span>
+                                                    <span class="wf-request-owner-card__detail-value">
+                                                        <field name="request_owner_emp_code"
+                                                            class="text-end" />
+                                                    </span>
+                                                </div>
+                                                <div class="wf-request-owner-card__detail-row">
+                                                    <span class="wf-request-owner-card__detail-label">Employee Type</span>
+                                                    <span class="wf-request-owner-card__detail-value">
+                                                        <field name="request_owner_emp_type"
+                                                            class="text-end" />
+                                                    </span>
+                                                </div>
+                                                <div class="wf-request-owner-card__detail-row">
+                                                    <span class="wf-request-owner-card__detail-label">Extension</span>
+                                                    <span class="wf-request-owner-card__detail-value">
+                                                        <field name="request_owner_ext_phone"
+                                                            class="text-end" />
+                                                    </span>
+                                                </div>
+                                                <div class="wf-request-owner-card__detail-row">
+                                                    <span class="wf-request-owner-card__detail-label">Department</span>
+                                                    <span class="wf-request-owner-card__detail-value">
+                                                        <field name="request_owner_department_name"
+                                                            class="text-end" />
+                                                    </span>
+                                                </div>
+                                                <div class="wf-request-owner-card__detail-row">
+                                                    <span class="wf-request-owner-card__detail-label">Position</span>
+                                                    <span class="wf-request-owner-card__detail-value">
+                                                        <field name="request_owner_position"
+                                                            class="text-end" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 border-start-md">
+                                            <group invisible="not create_uid">
+                                            <div class="wf-request-owner-card__panel wf-request-owner-card__system"> 
+                                                <div class="o_horizontal_separator mb-2 text-uppercase small fw-bold text-muted">
+                                                    System Info
+                                                </div>
+
+                                                <div class="wf-request-owner-card__detail-row">
+                                                    <span class="wf-request-owner-card__detail-label">
+                                                        <i class="fa fa-id-badge me-1" title="Created By"/>
+                                                        Created By
+                                                    </span>
+                                                    <span class="wf-request-owner-card__detail-value">
+                                                        <field name="create_uid"
+                                                        widget="many2one_avatar_user" readonly="1" options="{'no_create': True, 'no_open': True}" />
+                                                    </span>
+                                                </div>
+
+                                                <div>
+                                                    <div class="wf-request-owner-card__detail-row">
+                                                        <span class="wf-request-owner-card__detail-label">Created</span>
+                                                        <span class="wf-request-owner-card__detail-value">
+                                                            <field name="create_date" widget="date" />
+                                                        </span>
+                                                    </div>
+                                                    <div class="wf-request-owner-card__detail-row">
+                                                        <span class="wf-request-owner-card__detail-label">Submitted</span>
+                                                        <span class="wf-request-owner-card__detail-value">
+                                                            <field readonly="1" name="submit_date" widget="date" />
+                                                        </span>
+                                                    </div>
+                                                    <div class="wf-request-owner-card__detail-row" groups="workflow_engine.group_workflow_technical_admin">
+                                                        <span class="wf-request-owner-card__detail-label">Active Version</span>
+                                                        <span class="wf-request-owner-card__detail-value">
+                                                            <field name="workflow_version_label" string="Active Version" readonly="1" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </group>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </group>
+                    <group name="wf_runtime_configurable_fields" colspan="12" col="2"/>
+                    <!-- For Sub workflow -->
+                    <group name="subWorkflow" string="Sub Workflow" invisible="not child_ids">
+                        <group col="4" colspan="6">
+                            <field name="child_ids" widget="one2many" mode="list" readonly="1" nolabel="1">
+                                <list create="0" action="action_open_child"
+                                      decoration-info="state in ['waiting']"
+                                      decoration-success="state in ['done', 'completed']">
+
+                                    <field name="name"/>
+                                    <field name="category_id"/>
+                                    <field name="previous_activity_name"/>
+                                    <field name="current_activity_name"/>
+                                    <field name="request_owner_id" widget="many2one_avatar"/>
+                                    <field name="create_uid" widget="many2one_avatar"/>
+                                    <field name="to_approve_user_ids" widget="many2many_avatar_user"
+                                           string="User(s) To Approve"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </group>
+                    </group>
+                    <!-- <group class="request_main mt-3" string="Comment">
+                        <group class="wf-request-section wf-request-grid col-12 col-lg-12" 
+                        invisible="state in ['draft', 'new', 'completed', 'auto_approved', 'cancelled', 'refused', 'auto_cancelled'] or 
+                                not is_an_approver and not (is_admin or is_workflow_admin)">
+                            <field name="comment"
+                                nolabel="1"
+                                required="state not in ('draft', 'new', 'completed', 'auto_approved', 'cancelled', 'refused', 'auto_cancelled') and (not is_an_approver) and (is_admin or is_workflow_admin)"
+                                readonly="is_finished"
+                            />
+                        </group>
+                    </group> -->
+                    <group class="request_main mt-3" name="request_status" string="Workflow Progress" colspan="12" col="2">
+                        <group>
+                            <field name="previous_activity_name" readonly="1" widget="badge" string="From Activity" invisible="0"/> 
+                            <field name="wf_block_badge"
+                                   readonly="1"
+                                   widget="badge"
+                                   decoration-danger="1"
+                                   string="Runtime State"
+                                   invisible="not wf_is_blocked"/>
+                            <field name="wf_block_reason" readonly="1" string="Blocked Reason" invisible="not wf_is_blocked"/>
+                            <field name="branch_mode" readonly="1" string="Branch Mode" invisible="not active_branch_node_ids"/>
+                        </group>
+                        <group>
+                            <!-- <field name="state" widget="badge" readonly="1" string="Current Stage"/> -->
+                            <!-- <field name="request_status" widget="badge" readonly="1" string="Request Status"/> -->
+                            <!-- <field name="pending_approver_summary" readonly="1" string="Pending Approvers"/>
+                            <field name="latest_transition_summary" readonly="1" string="Latest Transition"/> -->
+                            <field name="current_activity_name" readonly="1" widget="badge" decoration-info="1" string="Activity Name"/>
+                            <field name="branch_progress_summary" readonly="1" string="Parallel Progress" invisible="not active_branch_node_ids"/>
+                            <field name="branch_active_count" readonly="1" string="Active Branches" invisible="not active_branch_node_ids"/>
+                        </group>
+                    </group>
+                    <!-- <group name="request_details">
+                        <field name="company_id" invisible="1" />
+                    </group> -->
+                    <notebook>
+                        <page string="Description" name="description" invisible="1">
+                            <group name="request_information" string="General Info">
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </page>
+                        <page string="Decision(s)" name="approver_decisions">
+                            <field name="approver_decisions_ids" mode="list,kanban" readonly="1" widget="one2many">
+                                <list default_order="activity_event_at desc, event_order desc, id desc"
+                                      decoration-success="activity_kind == 'decision' and user_decision in ['Approve', 'Approved', 'Submit', 'Complete', 'Done']"
+                                      decoration-warning="activity_kind == 'decision' and user_decision in ['Rework']"
+                                      decoration-danger="activity_kind == 'decision' and user_decision in ['Reject', 'Refuse', 'Cancel', 'Cancelled']"
+                                      decoration-muted="status in ['closed', 'waiting'] and not user_decision">
+                                    <field name="activity_event_at" widget="datetime" string="Activity On"/>
+                                    <field name="user_id" widget="many2one_avatar"/>
+                                    <field name="activity_kind" widget="badge" string="Type"/>
+                                    <field name="from_activity_label" readonly="1" string="From Activity"/>
+                                    <field name="to_activity_label" optional="hide" readonly="1" string="Activity Name"/>
+                                    <field name="user_decision" widget="badge"/>
+                                    <field name="stage_age_display" string="Stage Age"/>
+                                    <field name="has_decision"/>
+                                    <field name="status" widget="badge" optional="hide"/>
+                                    <field name="activity_flow" string="Transition" optional="hide"/>
+                                    <field name="decision_history_kind"
+                                           string="History Kind"
+                                           widget="badge"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegation_mode"
+                                           widget="badge"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_from_user_id"
+                                           widget="many2one_avatar_user"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_to_user_id"
+                                           widget="many2one_avatar_user"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_by_user_id"
+                                           widget="many2one_avatar_user"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_at"
+                                           widget="datetime"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="previous_meta_id" readonly="1" optional="hide"
+                                           string="From Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="current_meta_id" readonly="1" optional="hide"
+                                           string="Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="iteration_no" string="Round" optional="hide"/>
+                                    <field name="event_order" string="Step" optional="hide"/>
+                                    <field name="is_owner" readonly="1" optional="hide"/>
+                                    <field name="current_meta_workflow_map_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_create': True, 'no_open': False}"
+                                           context="{'form_view_ref': 'workflow_engine.workflow_approval_category_version_view_form'}"
+                                           optional="hide"/>
+                                    <field name="comment" readonly="1"/>
+                                    <field name="remark" readonly="1"
+                                           groups="workflow_engine.group_workflow_technical_admin"
+                                           optional="hide"/>
+                                    <field name="verified_version"
+                                           groups="workflow_engine.group_workflow_technical_admin" optional="hide"/>
+                                    <field name="current_meta_node_id" readonly="1" optional="hide"/>
+                                    <field name="required"/>
+                                </list>
+                                <kanban class="o_kanban_mobile">
+                                    <field name="avatar_128"/>
+                                    <field name="user_id"/>
+                                    <field name="activity_event_at" widget="datetime"/>
+                                    <field name="event_order"/>
+                                    <field name="activity_kind"/>
+                                    <field name="activity_flow"/>
+                                    <field name="decision_history_kind"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegation_mode"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_from_user_id"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_to_user_id"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_by_user_id"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_at"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="stage_age_display"/>
+                                    <field name="user_decision"/>
+                                    <field name="status" groups="workflow_engine.group_workflow_technical_admin"
+                                           optional="hide"/>
+                                    <field name="previous_meta_id" readonly="1" optional="hide"
+                                           string="From Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="is_owner" readonly="1" optional="hide"/>
+                                    <field name="to_activity_label" readonly="1"/>
+                                    <field name="current_meta_id" readonly="1" string="Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="comment" readonly="1"/>
+                                    <field name="remark" readonly="1"
+                                           groups="workflow_engine.group_workflow_technical_admin"
+                                           optional="hide"/>
+                                    <field name="current_meta_node_id" readonly="1" optional="hide"/>
+                                    <field name="required"/>
+                                    <field name="verified_version"
+                                           groups="workflow_engine.group_workflow_technical_admin" optional="hide"/>
+                                    <field name="iteration_no"/>
+                                    <field name="called_workflow_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_create': True, 'no_open': False}"
+                                           context="{'form_view_ref': 'workflow_engine.workflow_approval_category_version_view_form'}"
+                                           optional="hide"/>
+                                    <templates>
+                                        <t t-name="card" class="row g-0 align-items-center">
+                                            <div t-attf-class="o_kanban_record_body wf-approval-mobile-card wf-approval-mobile-card--{{ record.status and record.status.raw_value or 'new' }}">
+                                                <div class="wf-approval-mobile-card__header">
+                                                    <div class="wf-approval-mobile-card__person">
+                                                        <img t-if="record.user_id and record.user_id.raw_value"
+                                                             t-attf-src="/web/image/res.users/#{record.user_id.raw_value}/avatar_128"
+                                                             class="wf-approval-mobile-card__avatar"
+                                                             alt="User avatar"/>
+                                                        <span t-else="" class="wf-approval-mobile-card__avatar wf-approval-mobile-card__avatar--empty">
+                                                            <i class="fa fa-user" title="User"/>
+                                                        </span>
+                                                        <div class="wf-approval-mobile-card__identity">
+                                                            <div class="wf-approval-mobile-card__name">
+                                                                <field name="user_id"/>
+                                                            </div>
+                                            <t t-if="record.to_activity_label and record.to_activity_label.value">
+                                                <div class="wf-approval-mobile-card__activity text-muted">
+                                                    <field name="to_activity_label"/>
+                                                </div>
+                                            </t>
+                                                        </div>
+                                                    </div>
+                                                    <t t-if="record.status and record.status.raw_value">
+                                                        <t t-set="classname"
+                                                           t-value="{'approved': 'text-bg-success', 'pending': 'text-bg-warning', 'new': 'text-bg-info', 'waiting': 'text-bg-secondary', 'refused': 'text-bg-danger', 'cancelled': 'text-bg-danger', 'closed': 'text-bg-secondary'}[record.status.raw_value] or 'text-bg-secondary'"/>
+                                                        <span t-attf-class="badge {{ classname }} wf-approval-mobile-card__status">
+                                                            <field name="status"/>
+                                                        </span>
+                                                    </t>
+                                                </div>
+
+                                                <div class="wf-approval-mobile-card__meta">
+                                                    <t t-if="record.activity_kind and record.activity_kind.raw_value">
+                                                        <span class="wf-approval-mobile-card__chip">
+                                                            <i class="fa fa-tag" title="Type"/>
+                                                            <field name="activity_kind"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="record.iteration_no and record.iteration_no.value">
+                                                        <span class="wf-approval-mobile-card__chip">
+                                                            <i class="fa fa-repeat" title="Cycle"/>
+                                                            <span>Cycle</span>
+                                                            <field name="iteration_no"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="record.event_order and record.event_order.value">
+                                                        <span class="wf-approval-mobile-card__chip">
+                                                            <i class="fa fa-list-ol" title="Step"/>
+                                                            <span>Step</span>
+                                                            <field name="event_order"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="record.required and record.required.raw_value">
+                                                        <span class="wf-approval-mobile-card__chip wf-approval-mobile-card__chip--required">
+                                                            <i class="fa fa-asterisk" title="Required"/>
+                                                            <span>Required</span>
+                                                        </span>
+                                                    </t>
+                                                </div>
+
+                                                <t t-if="record.activity_flow and record.activity_flow.value">
+                                                    <div class="wf-approval-mobile-card__flow text-muted">
+                                                        <i class="fa fa-random" title="Flow step"/>
+                                                        <field name="activity_flow"/>
+                                                    </div>
+                                                </t>
+
+                                                <div class="wf-approval-mobile-card__footer">
+                                                    <div class="wf-approval-mobile-card__decision">
+                                                        <t t-if="record.user_decision and record.user_decision.value">
+                                                            <i class="fa fa-check-circle" title="Decision"/>
+                                                            <field name="user_decision"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span class="text-muted">Assigned / Waiting</span>
+                                                        </t>
+                                                    </div>
+                                                    <div class="wf-approval-mobile-card__date text-muted">
+                                                        <i class="fa fa-calendar-o" title="Activity on"/>
+                                                        <field name="activity_event_at"/>
+                                                    </div>
+                                                </div>
+
+                                                <t t-if="record.comment and record.comment.value">
+                                                    <div class="wf-approval-mobile-card__comment text-muted">
+                                                        <i class="fa fa-comment-o" title="Comment"/>
+                                                        <field name="comment" nolabel="1"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        <page string="Approver(s)" name="approvers" invisible="0"
+                              groups="workflow_engine.group_workflow_approval_admin">
+                            <field name="approver_ids" mode="list,kanban" readonly="1">
+                                <list default_order="activity_event_at desc, event_order desc, id desc"
+                                      decoration-success="activity_kind == 'decision' and user_decision in ['Approve', 'Approved', 'Submit', 'Complete', 'Done']"
+                                      decoration-warning="activity_kind == 'decision' and user_decision in ['Rework']"
+                                      decoration-danger="activity_kind == 'decision' and user_decision in ['Reject', 'Refuse', 'Cancel', 'Cancelled']"
+                                      decoration-muted="status in ['closed', 'waiting'] and not user_decision">
+                                    <!-- <field name="sequence" widget="handle" /> -->
+                                    <!-- <field name="id" /> -->
+                                    <field name="activity_event_at" widget="datetime" string="Activity On"/>
+                                    <field name="user_id" widget="many2one_avatar"/>
+                                    <field name="activity_kind" widget="badge" string="Type"/>
+                                    <field name="from_activity_label" readonly="1" string="From Activity"/>
+                                     <field name="user_decision"/>
+                                    <field name="to_activity_label" readonly="1" optional="hide" string="Activity Name"/>
+                                    <field name="stage_age_display" string="Stage Age"/>
+                                    <field name="status" widget="badge" optional="show"/>
+                                    <field name="activity_flow" string="Transition" optional="hide"/>
+                                    <field name="decision_history_kind"
+                                           string="History Kind"
+                                           widget="badge"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegation_mode"
+                                           widget="badge"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_from_user_id"
+                                           widget="many2one_avatar_user"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_to_user_id"
+                                           widget="many2one_avatar_user"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_by_user_id"
+                                           widget="many2one_avatar_user"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_at"
+                                           widget="datetime"
+                                           optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="previous_meta_id" readonly="1" optional="hide"
+                                           string="From Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="current_meta_id" readonly="1" optional="hide"
+                                           string="Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="iteration_no" string="Round" optional="hide"/>
+                                    <field name="event_order" string="Step" optional="hide"/>
+                                    <field name="is_owner" readonly="1" optional="hide"/>
+                                    <field name="current_meta_workflow_map_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_create': True, 'no_open': False}"
+                                           context="{'form_view_ref': 'workflow_engine.workflow_approval_category_version_view_form'}"
+                                           optional="hide"/>
+                                    <field name="comment" readonly="1"/>
+                                    <field name="remark" readonly="1"
+                                           groups="workflow_engine.group_workflow_technical_admin"
+                                           optional="hide"/>
+                                    <field name="verified_version"
+                                           groups="workflow_engine.group_workflow_technical_admin" optional="hide"/>
+                                    <field name="current_meta_node_id" readonly="1" optional="hide"/>
+                                    <field name="required"/>
+                                </list>
+                                <kanban class="o_kanban_mobile">
+                                    <!-- <field name="sequence" widget="handle" /> -->
+                                    <field name="avatar_128"/>
+                                    <field name="user_id"/>
+                                    <field name="activity_event_at" widget="datetime"/>
+                                    <field name="event_order"/>
+                                    <field name="activity_kind"/>
+                                    <field name="activity_flow"/>
+                                    <field name="decision_history_kind"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegation_mode"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_from_user_id"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_to_user_id"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_by_user_id"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="delegated_at"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="stage_age_display"/>
+                                    <field name="user_decision"/>
+                                    <field name="status" groups="workflow_engine.group_workflow_technical_admin"
+                                           optional="hide"/>
+                                    <field name="previous_meta_id" readonly="1" optional="hide"
+                                           string="From Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="is_owner" readonly="1" optional="hide"/>
+                                    <field name="to_activity_label" readonly="1"/>
+                                    <field name="current_meta_id" readonly="1" string="Activity (Technical)"
+                                           groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                                    <field name="comment" readonly="1"/>
+                                    <field name="remark" readonly="1"
+                                           groups="workflow_engine.group_workflow_technical_admin"
+                                           optional="hide"/>
+                                    <field name="current_meta_node_id" readonly="1" optional="hide"/>
+                                    <field name="required"/>
+                                    <field name="verified_version"
+                                           groups="workflow_engine.group_workflow_technical_admin" optional="hide"/>
+                                    <field name="iteration_no"/>
+                                    <field name="called_workflow_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_create': True, 'no_open': False}"
+                                           context="{'form_view_ref': 'workflow_engine.workflow_approval_category_version_view_form'}"
+                                           optional="hide"/>
+                                    <templates>
+                                        <t t-name="card" class="row g-0 align-items-center">
+                                            <div t-attf-class="o_kanban_record_body wf-approval-mobile-card wf-approval-mobile-card--{{ record.status and record.status.raw_value or 'new' }}">
+                                                <div class="wf-approval-mobile-card__header">
+                                                    <div class="wf-approval-mobile-card__person">
+                                                        <img t-if="record.user_id and record.user_id.raw_value"
+                                                             t-attf-src="/web/image/res.users/#{record.user_id.raw_value}/avatar_128"
+                                                             class="wf-approval-mobile-card__avatar"
+                                                             alt="User avatar"/>
+                                                        <span t-else="" class="wf-approval-mobile-card__avatar wf-approval-mobile-card__avatar--empty">
+                                                            <i class="fa fa-user" title="User"/>
+                                                        </span>
+                                                        <div class="wf-approval-mobile-card__identity">
+                                                            <div class="wf-approval-mobile-card__name">
+                                                                <field name="user_id"/>
+                                                            </div>
+                                            <t t-if="record.to_activity_label and record.to_activity_label.value">
+                                                <div class="wf-approval-mobile-card__activity text-muted">
+                                                    <field name="to_activity_label"/>
+                                                </div>
+                                            </t>
+                                                        </div>
+                                                    </div>
+                                                    <t t-if="record.status and record.status.raw_value">
+                                                        <t t-set="classname"
+                                                           t-value="{'approved': 'text-bg-success', 'pending': 'text-bg-warning', 'new': 'text-bg-info', 'waiting': 'text-bg-secondary', 'refused': 'text-bg-danger', 'cancelled': 'text-bg-danger', 'closed': 'text-bg-secondary'}[record.status.raw_value] or 'text-bg-secondary'"/>
+                                                        <span t-attf-class="badge {{ classname }} wf-approval-mobile-card__status">
+                                                            <field name="status"/>
+                                                        </span>
+                                                    </t>
+                                                </div>
+
+                                                <div class="wf-approval-mobile-card__meta">
+                                                    <t t-if="record.activity_kind and record.activity_kind.raw_value">
+                                                        <span class="wf-approval-mobile-card__chip">
+                                                            <i class="fa fa-tag" title="Type"/>
+                                                            <field name="activity_kind"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="record.iteration_no and record.iteration_no.value">
+                                                        <span class="wf-approval-mobile-card__chip">
+                                                            <i class="fa fa-repeat" title="Cycle"/>
+                                                            <span>Cycle</span>
+                                                            <field name="iteration_no"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="record.event_order and record.event_order.value">
+                                                        <span class="wf-approval-mobile-card__chip">
+                                                            <i class="fa fa-list-ol" title="Step"/>
+                                                            <span>Step</span>
+                                                            <field name="event_order"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="record.required and record.required.raw_value">
+                                                        <span class="wf-approval-mobile-card__chip wf-approval-mobile-card__chip--required">
+                                                            <i class="fa fa-asterisk" title="Required"/>
+                                                            <span>Required</span>
+                                                        </span>
+                                                    </t>
+                                                </div>
+
+                                                <t t-if="record.activity_flow and record.activity_flow.value">
+                                                    <div class="wf-approval-mobile-card__flow text-muted">
+                                                        <i class="fa fa-random" title="Flow step"/>
+                                                        <field name="activity_flow"/>
+                                                    </div>
+                                                </t>
+
+                                                <div class="wf-approval-mobile-card__footer">
+                                                    <div class="wf-approval-mobile-card__decision">
+                                                        <t t-if="record.user_decision and record.user_decision.value">
+                                                            <i class="fa fa-check-circle" title="Decision"/>
+                                                            <field name="user_decision"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span class="text-muted">Assigned / Waiting</span>
+                                                        </t>
+                                                    </div>
+                                                    <div class="wf-approval-mobile-card__date text-muted">
+                                                        <i class="fa fa-calendar-o" title="Activity on"/>
+                                                        <field name="activity_event_at"/>
+                                                    </div>
+                                                </div>
+
+                                                <t t-if="record.comment and record.comment.value">
+                                                    <div class="wf-approval-mobile-card__comment text-muted">
+                                                        <i class="fa fa-comment-o" title="Comment"/>
+                                                        <field name="comment" nolabel="1"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        <page string="File(s)">
+                            <field name="file_attachment_ids" mode="list,kanban" readonly="1" nolabel="1" options="{'no_open': True}">
+                                <list create="0" edit="0" delete="1" no_open="1">
+                                    <field name="name" string="File Name"/>
+                                    <field name="create_uid" string="Uploaded By" widget="many2one_avatar" optional="show"/>
+                                    <field name="create_date" string="Uploaded On" widget="datetime" optional="show"/>
+                                    <field name="wf_created_by_legacy" string="Legacy Uploaded By" optional="hide"/>
+                                    <field name="wf_created_date_legacy" string="Legacy Uploaded On" widget="datetime" optional="hide"/>
+                                    <field name="wf_uploaded_activity_name" string="Uploaded At Activity" optional="show"/>
+                                    <field name="mimetype" optional="hide"/>
+                                    <field name="file_size" optional="hide"/>
+                                    <field name="wf_uploaded_node_id" string="Uploaded Node ID" optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin"/>
+                                    <field name="res_field" string="Field" optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin"/>
+                                    <field name="res_model" string="Model" optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin"/>
+                                    <field name="res_id" string="Record ID" optional="hide"
+                                           groups="workflow_engine.group_workflow_technical_admin"/>
+                                    <button name="action_wf_preview_file" type="object" string="Preview"/>
+                                    <button name="action_wf_download_file" type="object" string="Download"/>
+                                    <button name="unlink" type="object" string="Delete" icon="fa-trash" 
+                                        confirm="Are you sure you want to delete this attachment?"
+                                        invisible="not (is_admin or is_workflow_admin or is_creator)"
+                                    />
+                                </list>
+                                <kanban class="o_kanban_mobile" create="0" edit="0" delete="1">
+                                    <field name="name"/>
+                                    <field name="create_uid"/>
+                                    <field name="create_date"/>
+                                    <field name="wf_created_by_legacy"/>
+                                    <field name="wf_created_date_legacy"/>
+                                    <field name="wf_uploaded_activity_name"/>
+                                    <field name="mimetype"/>
+                                    <field name="file_size"/>
+                                    <field name="is_admin"/>
+                                    <field name="is_workflow_admin"/>
+                                    <field name="is_creator"/>
+                                    <templates>
+                                        <t t-name="card">
+                                            <div class="o_kanban_record_body">
+                                                <div class="d-flex align-items-start justify-content-between gap-2">
+                                                    <div class="text-truncate">
+                                                        <div class="fw-semibold text-truncate">
+                                                            <field name="name"/>
+                                                        </div>
+                                                        <div class="small text-muted mt-1">
+                                                            <i class="fa fa-user me-1" title="Uploaded by"/>
+                                                            <t t-if="record.wf_created_by_legacy and record.wf_created_by_legacy.value">
+                                                                <field name="wf_created_by_legacy"/>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <field name="create_uid"/>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="small text-muted mt-2">
+                                                    <i class="fa fa-calendar-o me-1" title="Uploaded on"/>
+                                                    <t t-if="record.wf_created_date_legacy and record.wf_created_date_legacy.value">
+                                                        <field name="wf_created_date_legacy"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <field name="create_date"/>
+                                                    </t>
+                                                </div>
+
+                                                <t t-if="record.wf_uploaded_activity_name and record.wf_uploaded_activity_name.value">
+                                                    <div class="small text-muted mt-1">
+                                                        <i class="fa fa-random me-1" title="Uploaded at activity"/>
+                                                        <field name="wf_uploaded_activity_name"/>
+                                                    </div>
+                                                </t>
+
+                                                <div class="d-flex gap-2 mt-3">
+                                                    <button name="action_wf_preview_file"
+                                                            type="object"
+                                                            class="btn btn-secondary btn-sm">
+                                                        Preview
+                                                    </button>
+                                                    <button name="action_wf_download_file"
+                                                            type="object"
+                                                            class="btn btn-secondary btn-sm">
+                                                        Download
+                                                    </button>
+                                                    <button name="unlink"
+                                                            type="object"
+                                                            class="btn btn-link btn-sm text-danger ms-auto"
+                                                            confirm="Are you sure you want to delete this attachment?"
+                                                            invisible="not (is_admin or is_workflow_admin or is_creator)">
+                                                        <i class="fa fa-trash" title="Delete"/>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        <page string="Runtime Tasks" name="runtime_tasks"
+                              groups="workflow_engine.group_workflow_technical_admin">
+                            <field name="task_instance_ids" readonly="1">
+                                <list default_order="id desc"
+                                      create="0"
+                                      edit="0"
+                                      delete="0"
+                                      decoration-success="status in ['approved', 'closed']"
+                                      decoration-warning="status in ['pending', 'in_progress', 'rework', 'blocked']"
+                                      decoration-danger="status in ['rejected', 'cancelled']">
+                                    <field name="create_date" widget="datetime" optional="show"/>
+                                    <field name="node_name"/>
+                                    <field name="node_id"/>
+                                    <field name="node_type" optional="hide"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="required"/>
+                                    <field name="completion_mode"/>
+                                    <field name="iteration_no" string="Round" optional="show"/>
+                                    <field name="assignee_count"/>
+                                    <field name="approved_count" optional="hide"/>
+                                    <field name="open_count" optional="hide"/>
+                                    <field name="join_policy" optional="hide"/>
+                                    <field name="join_min_n" optional="hide"/>
+                                    <field name="reject_policy" optional="hide"/>
+                                    <field name="due_date" widget="datetime" optional="hide"/>
+                                    <field name="started_at" widget="datetime" optional="hide"/>
+                                    <field name="completed_at" widget="datetime" optional="hide"/>
+                                    <field name="blocked_reason" optional="hide"/>
+                                    <field name="source_task_instance_id" optional="hide"/>
+                                </list>
+                                <form string="Task Instance" create="0" edit="0" delete="0">
+                                    <sheet>
+                                        <group>
+                                            <group string="Task">
+                                                <field name="request_id"/>
+                                                <field name="category_id"/>
+                                                <field name="version_id"/>
+                                                <field name="node_name"/>
+                                                <field name="node_id"/>
+                                                <field name="node_type"/>
+                                                <field name="status" widget="badge"/>
+                                                <field name="required"/>
+                                                <field name="iteration_no" string="Round"/>
+                                            </group>
+                                            <group string="Execution">
+                                                <field name="completion_mode"/>
+                                                <field name="assignee_count"/>
+                                                <field name="approved_count"/>
+                                                <field name="rejected_count"/>
+                                                <field name="open_count"/>
+                                                <field name="started_at" widget="datetime"/>
+                                                <field name="completed_at" widget="datetime"/>
+                                                <field name="due_date" widget="datetime"/>
+                                                <field name="sla_deadline" widget="datetime"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <group string="Gateway">
+                                                <field name="gateway_node_id"/>
+                                                <field name="join_key"/>
+                                                <field name="join_policy"/>
+                                                <field name="join_min_n"/>
+                                                <field name="reject_policy"/>
+                                                <field name="source_task_instance_id"/>
+                                            </group>
+                                            <group string="Block">
+                                                <field name="blocked_reason" placeholder="No block reason."/>
+                                                <field name="assignment_snapshot" widget="json_format"
+                                                       options="{'rows': 6, 'indent': 2}"/>
+                                            </group>
+                                        </group>
+                                        <notebook>
+                                            <page string="Assignees">
+                                                <field name="assignee_ids" readonly="1" nolabel="1">
+                                                    <list default_order="assigned_at asc, id asc"
+                                                          create="0"
+                                                          edit="0"
+                                                          delete="0"
+                                                          decoration-success="status in ['approved', 'closed']"
+                                                          decoration-warning="status in ['new', 'pending', 'in_progress', 'rework', 'skipped']"
+                                                          decoration-danger="status in ['rejected', 'cancelled']">
+                                                        <field name="assignee_user_id" string="Assignee" widget="many2one_avatar_user"/>
+                                                        <field name="status" widget="badge"/>
+                                                        <field name="can_act" string="Can Act"/>
+                                                        <field name="assigned_at" widget="datetime"/>
+                                                        <field name="decision_at" widget="datetime"/>
+                                                        <field name="decision"/>
+                                                        <field name="original_user_id" widget="many2one_avatar_user" optional="hide"/>
+                                                        <field name="delegated_from_user_id" widget="many2one_avatar_user" optional="hide"/>
+                                                        <field name="comment" optional="show"/>
+                                                        <field name="visibility_scope_id" optional="hide"/>
+                                                        <field name="node_id" optional="hide"/>
+                                                        <field name="iteration_no" string="Round" optional="hide"/>
+                                                    </list>
+                                                </field>
+                                            </page>
+                                            <page string="Events">
+                                                <field name="event_ids" readonly="1" nolabel="1">
+                                                    <list default_order="create_date asc, id asc"
+                                                          create="0"
+                                                          edit="0"
+                                                          delete="0"
+                                                          decoration-success="event_type in ['decision', 'transition'] and decision in ['approved', 'approve', 'submit', 'complete', 'done']"
+                                                          decoration-warning="event_type in ['assignment', 'fallback', 'security', 'twofactor', 'automation', 'admin_override', 'delegation']"
+                                                          decoration-danger="decision in ['rejected', 'reject', 'denied', 'cancelled']">
+                                                        <field name="create_date" widget="datetime"/>
+                                                        <field name="event_type" widget="badge"/>
+                                                        <field name="actor_user_id" widget="many2one_avatar_user"/>
+                                                        <field name="action_key"/>
+                                                        <field name="decision"/>
+                                                        <field name="from_node_id" string="From Node"/>
+                                                        <field name="to_node_id" string="To Node"/>
+                                                        <field name="task_assignee_id" optional="hide"/>
+                                                        <field name="on_behalf_of_user_id" widget="many2one_avatar_user" optional="hide"/>
+                                                        <field name="target_user_id" widget="many2one_avatar_user" optional="hide"/>
+                                                        <field name="comment" optional="show"/>
+                                                        <field name="challenge_method" optional="hide"/>
+                                                        <field name="challenge_verified" optional="hide"/>
+                                                        <field name="request_ip" optional="hide"/>
+                                                        <field name="request_host" optional="hide"/>
+                                                        <field name="user_agent" optional="hide"/>
+                                                        <field name="idempotency_key" optional="hide"/>
+                                                    </list>
+                                                </field>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                    <footer>
+                                        <button string="Close" special="cancel" class="btn-primary"/>
+                                    </footer>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Runtime Events" name="runtime_events"
+                              groups="workflow_engine.group_workflow_technical_admin">
+                            <field name="task_event_ids" readonly="1">
+                                <list default_order="id desc"
+                                      create="0"
+                                      edit="0"
+                                      delete="0"
+                                      decoration-success="event_type in ['decision', 'transition'] and decision in ['approved', 'approve', 'submit', 'complete', 'done']"
+                                      decoration-warning="event_type in ['fallback', 'security', 'twofactor', 'delegation', 'admin_override']"
+                                      decoration-danger="decision in ['rejected', 'reject', 'denied', 'cancelled']">
+                                    <field name="create_date" widget="datetime"/>
+                                    <field name="event_type" widget="badge"/>
+                                    <field name="action_key"/>
+                                    <field name="decision" optional="show"/>
+                                    <field name="from_node_id" optional="hide"/>
+                                    <field name="to_node_id" optional="hide"/>
+                                    <field name="actor_user_id" widget="many2one_avatar_user"/>
+                                    <field name="on_behalf_of_user_id" widget="many2one_avatar_user" optional="hide"/>
+                                    <field name="target_user_id" widget="many2one_avatar_user" optional="hide"/>
+                                    <field name="comment" optional="show"/>
+                                    <field name="challenge_method" optional="hide"/>
+                                    <field name="challenge_verified" optional="hide"/>
+                                    <field name="request_ip" optional="hide"/>
+                                    <field name="request_host" optional="hide"/>
+                                    <field name="user_agent" optional="hide"/>
+                                    <field name="idempotency_key" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Automation Log" name="runtime_automations"
+                              groups="workflow_engine.group_workflow_technical_admin">
+                            <field name="automation_instance_ids" readonly="1">
+                                <list default_order="id desc"
+                                      create="0"
+                                      edit="0"
+                                      delete="0"
+                                      decoration-success="status in ['success']"
+                                      decoration-warning="status in ['new', 'scheduled', 'running', 'blocked']"
+                                      decoration-danger="status in ['failed', 'cancelled']">
+                                    <field name="create_date" widget="datetime" optional="show"/>
+                                    <field name="node_name"/>
+                                    <field name="node_id"/>
+                                    <field name="branch_node_id" optional="hide"/>
+                                    <field name="trigger_type" widget="badge"/>
+                                    <field name="action_type" widget="badge"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="iteration_no" string="Round" optional="show"/>
+                                    <field name="due_at" widget="datetime" optional="show"/>
+                                    <field name="run_count" optional="show"/>
+                                    <field name="started_at" widget="datetime" optional="show"/>
+                                    <field name="ended_at" widget="datetime" optional="show"/>
+                                    <field name="retry_count" optional="show"/>
+                                    <field name="max_retries" optional="hide"/>
+                                    <field name="failure_policy" optional="hide"/>
+                                    <field name="recurrence_enabled" optional="show"/>
+                                    <field name="recurrence_mode" optional="hide"/>
+                                    <field name="recurrence_count" optional="hide"/>
+                                    <field name="recurrence_until" widget="datetime" optional="hide"/>
+                                    <field name="automation_node_id" optional="hide"/>
+                                    <field name="task_instance_id" optional="hide"/>
+                                    <field name="idempotency_key" optional="hide"/>
+                                    <field name="error_message" optional="show"/>
+                                </list>
+                                <form string="Automation Log" create="0" edit="0" delete="0">
+                                    <sheet>
+                                        <div class="alert alert-info" role="alert">
+                                            This is the request-scoped automation log. Use it to audit timer reminders,
+                                            auto-routing, send tasks, retries, and the exact runtime error when delivery fails.
+                                        </div>
+                                        <group>
+                                            <group string="Execution">
+                                                <field name="request_id"/>
+                                                <field name="node_name"/>
+                                                <field name="node_id"/>
+                                                <field name="node_type"/>
+                                                <field name="branch_node_id"/>
+                                                <field name="trigger_type" widget="badge"/>
+                                                <field name="action_type" widget="badge"/>
+                                                <field name="status" widget="badge"/>
+                                                <field name="iteration_no"/>
+                                            </group>
+                                            <group string="Schedule and Counters">
+                                                <field name="due_at" widget="datetime"/>
+                                                <field name="started_at" widget="datetime"/>
+                                                <field name="ended_at" widget="datetime"/>
+                                                <field name="cancelled_at" widget="datetime"/>
+                                                <field name="run_count"/>
+                                                <field name="retry_count"/>
+                                                <field name="max_retries"/>
+                                                <field name="failure_policy"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <group string="Recurrence">
+                                                <field name="recurrence_enabled"/>
+                                                <field name="recurrence_mode"/>
+                                                <field name="recurrence_count"/>
+                                                <field name="recurrence_until" widget="datetime"/>
+                                            </group>
+                                            <group string="Technical Link">
+                                                <field name="automation_node_id"/>
+                                                <field name="task_instance_id"/>
+                                                <field name="idempotency_key"/>
+                                            </group>
+                                        </group>
+                                        <group string="Last Error">
+                                            <field name="error_message" nolabel="1" placeholder="No error."/>
+                                        </group>
+                                        <notebook>
+                                            <page string="Notification Audit" invisible="not notification_audit_json">
+                                                <group string="Sent Recipients" invisible="not notification_audit_sent_summary">
+                                                    <field name="notification_audit_sent_summary" nolabel="1" widget="text"/>
+                                                </group>
+                                                <group string="Delivery Summary" invisible="not notification_audit_summary">
+                                                    <field name="notification_audit_summary" nolabel="1" widget="text"/>
+                                                </group>
+                                                <separator string="Raw JSON"/>
+                                                <field name="notification_audit_json" nolabel="1" widget="json_format" options="{'rows': 12, 'indent': 2}"/>
+                                            </page>
+                                            <page string="Result">
+                                                <field name="result_json" nolabel="1" widget="json_format" options="{'rows': 10, 'indent': 2}"/>
+                                            </page>
+                                            <page string="Payload">
+                                                <field name="payload_json" nolabel="1" widget="json_format" options="{'rows': 10, 'indent': 2}"/>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Technical" name="technical" groups="workflow_engine.group_workflow_technical_admin">
+                            <group col="2" class="wf-request-section wf-request-grid">
+                                <group name="debug_fields">
+                                    <field name="version_id" readonly="1"/>
+                                    <field name="res_model_name" readonly="1"/>
+                                    <field name="current_node_id" readonly="1"/>
+                                    <field name="previous_node_id" readonly="1"/>
+                                    <field name="next_node_id" readonly="1"/>
+                                    <field name="previous_node_ids" readonly="1" widget="json_format" options="{'rows': 3, 'indent': 2}"/>
+                                    <field name="next_activity_name" readonly="1"/>
+                                    <field name="execution_mode" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="is_finished" readonly="1"/>
+                                    <field name="required_fields" readonly="1" widget="json_format" options="{'rows': 4, 'indent': 2}"/>
+                                    <field name="readonly_fields" readonly="1" widget="json_format" options="{'rows': 4, 'indent': 2}"/>
+                                    <field name="invisible_fields" readonly="1" widget="json_format" options="{'rows': 4, 'indent': 2}"/>
+                                    <field name="visible_buttons" readonly="1" widget="json_format" options="{'rows': 4, 'indent': 2}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <!-- <page string="Sub Workflow">
+                            <field name="child_ids" readonly="1">
+                                <list  create="0" no_open="1"
+                                    decoration-info="state in ['waiting']"
+                                    decoration-success="state in ['done', 'completed']">
+                                    <field name="name" />
+                                    <field name="category_id" />
+                                    <field name="previous_activity_name" />
+                                    <field name="current_activity_name" />
+                                    <field name="request_owner_id" widget="many2one_avatar" />
+                                    <field name="create_uid" widget="many2one_avatar" />
+                                    <field name="to_approve_user_ids" widget="many2many_avatar_user"
+                                        string="User(s) To Approve" />
+                                    <field name="state" />
+                                    <button type="object" name="open_child" string="Open" />
+                                </list>
+
+                            </field>
+                        </page> -->
+                    </notebook>
+                </sheet>
+
+                <!-- <div class="o_attachment_preview"/> -->
+                <!-- <chatter/> -->    
+            </form>
+        </field>
+    </record>
+
+
+    <record id="workflow_approval_approver_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.approver.view.form</field>
+        <field name="model">workflow.approval.approver</field>
+        <field name="arch" type="xml">
+            <form string="Approver Detail">
+                <sheet>
+                    <group>
+                        <group string="Assignment">
+                            <field name="user_id" readonly="1" widget="many2one_avatar_user"/>
+                            <field name="status" readonly="1" widget="badge"/>
+                            <field name="activity_kind" readonly="1" widget="badge"/>
+                            <field name="required" readonly="1" groups="workflow_engine.group_workflow_technical_admin"/>
+                        </group>
+                        <group string="Timing">
+                            <field name="activity_event_at" readonly="1"/>
+                            <field name="stage_age_display" readonly="1"/>
+                            <field name="iteration_no" readonly="1"/>
+                            <field name="event_order" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Flow">
+                        <field name="activity_flow" readonly="1"/>
+                        <field name="from_activity_label" readonly="1"/>
+                        <field name="to_activity_label" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Decision">
+                            <group>
+                                <field name="user_decision" readonly="1"/>
+                                <field name="comment" readonly="1"/>
+                                <field name="remark" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Delegation"
+                              groups="workflow_engine.group_workflow_technical_admin,base.group_system">
+                            <group>
+                                <field name="decision_history_kind" readonly="1" widget="badge"/>
+                                <field name="delegation_mode" readonly="1" widget="badge"/>
+                                <field name="delegated_to_user_id" readonly="1" widget="many2one_avatar_user"/>
+                                <field name="delegated_from_user_id" readonly="1" widget="many2one_avatar_user"/>
+                                <field name="delegated_by_user_id" readonly="1" widget="many2one_avatar_user"/>
+                                <field name="delegated_at" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Technical" groups="workflow_engine.group_workflow_technical_admin">
+                            <group>
+                                <field name="create_date" readonly="1"/>
+                                <field name="write_date" readonly="1"/>
+                                <field name="delegated_from_approver_id" readonly="1"/>
+                                <field name="previous_meta_id" readonly="1" string="From Activity (Technical)"/>
+                                <field name="current_meta_id" readonly="1" string="Activity (Technical)"/>
+                                <field name="current_meta_workflow_map_ids"
+                                       widget="many2many_tags"
+                                       context="{'form_view_ref': 'workflow_engine.workflow_approval_category_version_view_form'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_approval_approver_view_search" model="ir.ui.view">
+        <field name="name">workflow.approval.approver.view.search</field>
+        <field name="model">workflow.approval.approver</field>
+        <field name="arch" type="xml">
+            <search string="User Activity">
+                <field name="user_id"/>
+                <field name="current_meta_id"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="previous_meta_id"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="user_decision"/>
+                <field name="status"/>
+                <field name="iteration_no"/>
+                <field name="activity_kind"/>
+                <filter string="Decided User" name="decided_users_only" domain="[('counts_as_decided_user', '=', True)]"/>
+                <filter string="Open Assignments" name="open_assignments"
+                        domain="[('has_decision', '=', False), ('status', 'in', ['new','pending','waiting'])]"/>
+                <separator/>
+                <filter string="Round (Technical)" name="group_by_iteration" context="{'group_by': 'iteration_no'}"/>
+                <filter string="Section (Type)" name="group_by_kind" context="{'group_by': 'activity_kind'}"/>
+                <filter string="Activity" name="group_by_activity" context="{'group_by': 'current_meta_id'}"
+                        groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <filter string="Status" name="group_by_status" context="{'group_by': 'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_approval_approver_view_compact_list" model="ir.ui.view">
+        <field name="name">workflow.approval.approver.view.compact.list</field>
+        <field name="model">workflow.approval.approver</field>
+        <field name="arch" type="xml">
+            <list string="User Activity"
+                  edit="false"
+                  create="false"
+                  delete="false"
+                  multi_edit="0"
+                  default_order="activity_event_at desc,event_order desc,id desc"
+                  decoration-success="status == 'approved'"
+                  decoration-danger="status in ['refused','cancelled']"
+                  decoration-muted="status in ['closed','waiting']"
+                  decoration-info="status in ['new','pending','view']">
+                <field name="activity_event_at" string="Activity On" widget="datetime" optional="show"/>
+                <field name="user_id" widget="many2one_avatar_user" string="User"/>
+                <field name="emp_code" string="Emp Code"/>
+                <field name="job_name" string="Position"/>
+                <field name="department_name"/>
+                <field name="activity_kind" widget="badge" string="Type"/>
+                <field name="from_activity_label" string="From Activity"/>
+                <field name="to_activity_label" string="Activity Name"/>
+                <field name="stage_age_display" string="Stage Age"/>
+                <field name="user_decision" string="Decision"/>
+                <field name="status" widget="badge"/>
+                <field name="activity_flow" string="Flow Step" optional="hide"/>
+                <field name="delegated_to_user_id"
+                       widget="many2one_avatar_user"
+                       optional="hide"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="delegated_from_user_id"
+                       widget="many2one_avatar_user"
+                       optional="hide"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="delegated_by_user_id"
+                       widget="many2one_avatar_user"
+                       optional="hide"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="previous_meta_id" optional="hide" string="From Activity (Technical)"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="current_meta_id" optional="hide" string="Activity (Technical)"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="comment" optional="show"/>
+                <field name="required"/>
+                <field name="iteration_no" string="Round" optional="hide"/>
+                <field name="event_order" string="Step" optional="hide"/>
+                <field name="sequence" optional="hide"/>
+                <field name="updated_date" string="Updated On" optional="hide"/>
+                <field name="ext_phone" optional="hide"/> 
+                <field name="current_meta_node_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_approval_approver_view_kanban_mobile" model="ir.ui.view">
+        <field name="name">workflow.approval.approver.view.kanban.mobile</field>
+        <field name="model">workflow.approval.approver</field>
+        <field name="priority" eval="50"/>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" create="false" quick_create="false"
+                    default_order="activity_event_at desc,event_order desc,id desc">
+                <field name="user_id"/>
+                <field name="employee_name"/>
+                <field name="user_decision"/>
+                <field name="status"/>
+                <field name="comment"/>
+                <field name="required"/>
+                <field name="current_meta_id"/>
+                <field name="previous_meta_id"/>
+                <field name="activity_flow"/>
+                <field name="stage_age_display"/>
+                <field name="activity_kind"/>
+                <field name="activity_event_at"/>
+                <field name="emp_code"/>
+                <field name="job_name"/>
+                <field name="department_name"/>
+                <field name="work_email"/>
+
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <div class="d-flex align-items-center gap-1 min-w-0">
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                    <span class="fw-semibold text-truncate">
+                                        <field name="user_id"/>
+                                    </span>
+                                </div>
+                                <div class="small text-muted text-nowrap">
+                                    <field name="activity_event_at"/>
+                                </div>
+                            </div>
+
+                            <div class="small text-muted text-truncate mt-1">
+                                <field name="activity_flow"/>
+                            </div>
+
+                            <div class="small mt-2">
+                                <div class="d-flex flex-wrap gap-3">
+                                    <span t-if="record.emp_code and record.emp_code.value" class="text-truncate">
+                                        <i class="fa fa-id-badge text-muted me-1" title="Employee Code"/>
+                                        <field name="emp_code"/>
+                                    </span>
+                                    <span t-if="record.stage_age_display and record.stage_age_display.value" class="text-truncate">
+                                        <i class="fa fa-clock-o text-muted me-1" title="Stage Age"/>
+                                        <span class="text-muted">Stage Age:</span>
+                                        <field name="stage_age_display"/>
+                                    </span>
+                                </div>
+                                <div t-if="record.department_name and record.department_name.value or record.job_name and record.job_name.value" class="text-truncate mt-1">
+                                    <i class="fa fa-briefcase text-muted me-1" title="Department / Position"/>
+                                    <t t-if="record.department_name and record.department_name.value">
+                                        <field name="department_name"/>
+                                    </t>
+                                    <t t-if="record.department_name and record.department_name.value and record.job_name and record.job_name.value">
+                                        <span class="text-muted"> / </span>
+                                    </t>
+                                    <t t-if="record.job_name and record.job_name.value">
+                                        <field name="job_name"/>
+                                    </t>
+                                </div>
+                                <div class="d-flex flex-wrap gap-3 mt-1">
+                                    <span t-if="record.work_email and record.work_email.value" class="text-truncate">
+                                        <i class="fa fa-envelope-o text-muted me-1" title="Work Email"/>
+                                        <field name="work_email"/>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mt-2">
+                                <div class="d-flex align-items-center gap-1 flex-wrap">
+                                    <field name="activity_kind" widget="badge"/>
+                                    <field name="status" widget="badge"/>
+                                    <t t-if="record.required and record.required.raw_value">
+                                        <span class="badge rounded-pill text-bg-primary">Required</span>
+                                    </t>
+                                </div>
+                                <div class="small text-truncate">
+                                    <t t-if="record.user_decision and record.user_decision.value">
+                                        <field name="user_decision"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-muted">Pending</span>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <t t-if="record.comment and record.comment.value">
+                                <div class="small text-muted text-truncate mt-1">
+                                    <i class="fa fa-comment-o me-1" title="Comment"/>
+                                    <field name="comment" nolabel="1"/>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="workflow_approval_approver_view_kanban" model="ir.ui.view">
+        <field name="name">workflow.approval.approver.view.kanban</field>
+        <field name="model">workflow.approval.approver</field>
+        <field name="priority" eval="5"/>
+        <field name="arch" type="xml">
+            <kanban create="false" quick_create="false" default_order="activity_event_at desc,id desc">
+                <field name="user_id"/>
+                <field name="employee_name"/>
+                <field name="current_meta_id"/>
+                <field name="previous_meta_id"/>
+                <field name="status"/>
+                <field name="user_decision"/>
+                <field name="required"/>
+                <field name="comment"/>
+                <field name="activity_event_at"/>
+                <field name="activity_flow"/>
+                <field name="activity_kind"/>
+                <field name="stage_age_display"/>
+                <field name="emp_code"/>
+                <field name="job_name"/>
+                <field name="department_name"/>
+                <field name="work_email"/>
+
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <div class="d-flex align-items-center gap-1 min-w-0">
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                    <span class="fw-semibold text-truncate">
+                                        <field name="user_id"/>
+                                    </span>
+                                </div>
+                                <div class="small text-muted text-nowrap">
+                                    <field name="activity_event_at"/>
+                                </div>
+                            </div>
+
+                            <div class="small text-muted text-truncate mt-1">
+                                <field name="activity_flow"/>
+                            </div>
+
+                            <div class="small mt-2">
+                                <div class="d-flex flex-wrap gap-3">
+                                    <span t-if="record.emp_code and record.emp_code.value" class="text-truncate">
+                                        <i class="fa fa-id-badge text-muted me-1" title="Employee Code"/>
+                                        <field name="emp_code"/>
+                                    </span>
+                                    <span t-if="record.stage_age_display and record.stage_age_display.value" class="text-truncate">
+                                        <i class="fa fa-clock-o text-muted me-1" title="Stage Age"/>
+                                        <span class="text-muted">Stage Age:</span>
+                                        <field name="stage_age_display"/>
+                                    </span>
+                                </div>
+                                <div t-if="record.department_name and record.department_name.value or record.job_name and record.job_name.value" class="text-truncate mt-1">
+                                    <i class="fa fa-briefcase text-muted me-1" title="Department / Position"/>
+                                    <t t-if="record.department_name and record.department_name.value">
+                                        <field name="department_name"/>
+                                    </t>
+                                    <t t-if="record.department_name and record.department_name.value and record.job_name and record.job_name.value">
+                                        <span class="text-muted"> / </span>
+                                    </t>
+                                    <t t-if="record.job_name and record.job_name.value">
+                                        <field name="job_name"/>
+                                    </t>
+                                </div>
+                                <div class="d-flex flex-wrap gap-3 mt-1">
+                                    <span t-if="record.work_email and record.work_email.value" class="text-truncate">
+                                        <i class="fa fa-envelope-o text-muted me-1" title="Work Email"/>
+                                        <field name="work_email"/>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mt-2">
+                                <div class="d-flex align-items-center gap-1 flex-wrap">
+                                    <field name="activity_kind" widget="badge"/>
+                                    <field name="status" widget="badge"/>
+                                    <t t-if="record.required and record.required.raw_value">
+                                        <span class="badge rounded-pill text-bg-primary">Required</span>
+                                    </t>
+                                </div>
+                                <div class="small text-truncate">
+                                    <t t-if="record.user_decision and record.user_decision.value">
+                                        <field name="user_decision"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-muted">Pending</span>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <t t-if="record.comment and record.comment.value">
+                                <div class="small text-muted text-truncate mt-1">
+                                    <i class="fa fa-comment-o me-1" title="Comment"/>
+                                    <field name="comment"/>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+</odoo>

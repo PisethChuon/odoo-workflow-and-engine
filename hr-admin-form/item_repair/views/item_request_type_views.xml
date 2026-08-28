@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- List View -->
+        <record id="view_list_x_item_request_type" model="ir.ui.view">
+            <field name="name">Item Request Type List</field>
+            <field name="model">x_item_request_type</field>
+            <field name="arch" type="xml">
+                <list string="Item Request Types" default_order="x_name">
+                    <field name="x_name"/>
+                    <field name="x_description"/>
+                    <field name="x_active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_form_x_item_request_type" model="ir.ui.view">
+            <field name="name">Item Request Type Form</field>
+            <field name="model">x_item_request_type</field>
+            <field name="arch" type="xml">
+                <form string="Item Request Type">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="x_active"/>
+                        <group>
+                            <group>
+                                <field name="x_name" placeholder="e.g. Walkie Talkie, Phone, Laptop"/>
+                            </group>
+                            <group>
+                                <field name="x_active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="x_description" placeholder="Enter a description of this item type..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_search_x_item_request_type" model="ir.ui.view">
+            <field name="name">Item Request Type Search</field>
+            <field name="model">x_item_request_type</field>
+            <field name="arch" type="xml">
+                <search string="Item Request Types">
+                    <field name="x_name"/>
+                    <field name="x_description"/>
+                    <filter string="Active" name="filter_active" domain="[('x_active', '=', True)]"/>
+                    <filter string="Archived" name="filter_archived" domain="[('x_active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

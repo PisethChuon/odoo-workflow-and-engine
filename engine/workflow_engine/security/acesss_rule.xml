@@ -1,0 +1,150 @@
+<odoo>
+    <data>
+        <function model="ir.model.data" name="write">
+            <function model="ir.model.data" name="search">
+                <value eval="[('module', '=', 'workflow_engine'), ('name', '=', 'access_workflow_approval_action_by_admin')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        <record id="access_workflow_approval_action_by_admin" model="ir.model.access">
+            <field name="name">WF: access workflow approval action by admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_action"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_requestor_import_wizard_user" model="ir.model.access">
+            <field name="name">WF: access requestor import wizard by user</field>
+            <field name="model_id" ref="model_workflow_requestor_import_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_requestor_import_line_user" model="ir.model.access">
+            <field name="name">WF: access requestor import line by user</field>
+            <field name="model_id" ref="model_workflow_requestor_import_line"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="access_rule_workflow_confirm_wizard" model="ir.model.access">
+            <field name="name">WF: access workflow confirm wizard rule by user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_confirm_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_force_transition_wizard_admin" model="ir.model.access">
+            <field name="name">WF: access force transition wizard by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_force_transition_wizard"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_rule_workflow_bpmn_temp_node_by_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow bpmn temp node by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_bpmn_temp_node"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_rule_workflow_bpmn_temp_node_by_workflow_user" model="ir.model.access">
+            <field name="name">WF: access workflow bpmn temp node by workflow user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_bpmn_temp_node"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_rule_hierachy_data" model="ir.model.access">
+            <field name="name">WF: access hierarchy data by user</field>
+            <field name="model_id" ref="workflow_engine.model_hierachy_data"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_util_by_user" model="ir.model.access">
+            <field name="name">WF: access workflow util by user</field>
+            <field name="model_id" ref="model_workflow_util"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_to_own_attachment" model="ir.rule">
+            <field name="name">WF: access attachment by owner</field>
+            <field name="model_id" ref="base.model_ir_attachment"/>
+            <field name="groups" eval="[(4, ref('workflow_engine.group_workflow_approval_user'))]"/>
+            <field name="domain_force">[('create_uid','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_x_medical_request_attachment_by_medical_team" model="ir.rule">
+            <field name="name">WF: access attachment by approver</field>
+            <field name="model_id" ref="base.model_ir_attachment"/>
+            <field name="groups" eval="[(4, ref('workflow_engine.group_workflow_approval_user'))]"/>
+            <field name="domain_force">
+                [('wf_request_id.approver_ids.user_id', '=', user.id)]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_x_medical_request_attachment_by_admin" model="ir.rule">
+            <field name="name">WF: access attachment by admin</field>
+            <field name="model_id" ref="base.model_ir_attachment"/>
+            <field name="groups" eval="[(4, ref('workflow_engine.group_workflow_approval_admin'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_handle_incoming_email_user" model="ir.model.access">
+            <field name="name">WF: access handle incoming email by user</field>
+            <field name="model_id" ref="workflow_engine.model_handle_incoming_email"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <!-- <record id="no_delete_attachment_in_later_activity_by_owner" model="ir.rule">
+            <field name="name">WF: no delete attachment later activity by owner</field>
+            <field name="model_id" ref="base.model_ir_attachment"/>
+            <field name="groups" eval="[(4, ref('workflow_engine.group_workflow_approval_user'))]"/>
+            <field name="domain_force">[
+                ('create_uid', '=', user.id),
+                ('wf_request_id.approver_ids.user_id', '=', user.id),
+                ('wf_request_id.approver_ids.status', '=', 'new')
+            ]
+            </field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record> -->
+
+        workflow.approval.action
+    </data>
+</odoo>

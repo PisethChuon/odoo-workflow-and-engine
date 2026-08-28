@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_meal_allowance_apparel_type" model="ir.ui.view">
+            <field name="name">Meal Allowance Apparel Type List</field>
+            <field name="model">x_meal_allowance_apparel_type</field>
+            <field name="arch" type="xml">
+                <list string="Meal Allowance Apparel Types" default_order="x_name">
+                    <field name="x_name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_meal_allowance_apparel_type" model="ir.ui.view">
+            <field name="name">Meal Allowance Apparel Type Form</field>
+            <field name="model">x_meal_allowance_apparel_type</field>
+            <field name="arch" type="xml">
+                <form string="Meal Allowance Apparel Type">
+                    <sheet>
+                        <group>
+                            <field name="x_name" placeholder="e.g. Uniform only"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_x_meal_allowance_apparel_type" model="ir.ui.view">
+            <field name="name">Meal Allowance Apparel Type Search</field>
+            <field name="model">x_meal_allowance_apparel_type</field>
+            <field name="arch" type="xml">
+                <search string="Meal Allowance Apparel Types">
+                    <field name="x_name"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="job_director" model="hr.job">
+        <field name="name">Director</field>
+    </record>
+    <record id="job_programmer" model="hr.job">
+        <field name="name">Programmer</field>
+    </record>
+</odoo>

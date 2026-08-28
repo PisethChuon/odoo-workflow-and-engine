@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_x_user_access_item_clear_view_web_hrms" model="x_user_access_item">
+            <field name="x_name">Clear View Web HRMS</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_user_access_item_clear_view_window_hrms" model="x_user_access_item">
+            <field name="x_name">Clear View Window HRMS</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_user_access_item_virtual_roster_system" model="x_user_access_item">
+            <field name="x_name">Virtual Roster System</field>
+            <field name="x_active" eval="True"/>
+        </record>
+    </data>
+</odoo>

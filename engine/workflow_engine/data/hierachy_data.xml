@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- application type -->
+        <record id="casino_application_hierachy_data" model="hierachy.data">
+            <field name="name">Casino Application</field>
+            <field name="type">application</field>
+        </record>
+        <record id="hotel_application_hierachy_data" model="hierachy.data">
+            <field name="name">Hotel Application</field>
+            <field name="type">application</field>
+        </record>
+        <record id="back_office_application_hierachy_data" model="hierachy.data">
+            <field name="name">Back Office Application</field>
+            <field name="type">application</field>
+        </record>
+        <record id="in_house_application_hierachy_data" model="hierachy.data">
+            <field name="name">In-House Application</field>
+            <field name="type">application</field>
+        </record>
+        <record id="infrastructure_hierachy_data" model="hierachy.data">
+            <field name="name">Infrastructure</field>
+        </record>
+        <record id="database_hierachy_data" model="hierachy.data">
+            <field name="name">Database</field>
+        </record>
+        <record id="ics_casino_hierachy_data" model="hierachy.data">
+            <field name="name">ICS</field>
+            <field name="type">application</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="crm_casino_hierachy_data" model="hierachy.data">
+            <field name="name">CRM</field>
+            <field name="type">application</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="sds_casino_hierachy_data" model="hierachy.data">
+            <field name="name">SDS</field>
+            <field name="type">application</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="aml_casino_hierachy_data" model="hierachy.data">
+            <field name="name">AML</field>
+            <field name="type">application</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="bps_casino_hierachy_data" model="hierachy.data">
+            <field name="name">BPS</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="cage_casino_hierachy_data" model="hierachy.data">
+            <field name="name">CAGE</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="cmp_casino_hierachy_data" model="hierachy.data">
+            <field name="name">CMP/TABLE VIEW</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="crm_casino_vip_hierachy_data" model="hierachy.data">
+            <field name="name">CRM-VIP</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="crm_vip_casino_hierachy_data" model="hierachy.data">
+            <field name="name">CRM-VIP</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="email_notification_casino_hierachy_data" model="hierachy.data">
+            <field name="name">Email Notification</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="mcts_casino_hierachy_data" model="hierachy.data">
+            <field name="name">MCTS</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="paltronic_casino_hierachy_data" model="hierachy.data">
+            <field name="name">Paltronic</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+        <record id="pokeratlas_casino_hierachy_data" model="hierachy.data">
+            <field name="name">CRM-VIP</field>
+            <field name="parent_id" ref="casino_application_hierachy_data"></field>
+        </record>
+
+        <record id="hotel_app_hotel_hierachy_data" model="hierachy.data">
+            <field name="name">Hotel App</field>
+            <field name="parent_id" ref="hotel_application_hierachy_data"></field>
+        </record>
+        <record id="hotel_application_hardware_hotel_hierachy_data" model="hierachy.data">
+            <field name="name">Hotel Application (Hardware)</field>
+            <field name="parent_id" ref="hotel_application_hierachy_data"></field>
+        </record>
+
+        <record id="kiwire_back_hierachy_data" model="hierachy.data">
+            <field name="name">KIWIRE</field>
+            <field name="parent_id" ref="back_office_application_hierachy_data"></field>
+        </record>
+        <record id="vr_back_hierachy_data" model="hierachy.data">
+            <field name="name">VR</field>
+            <field name="parent_id" ref="back_office_application_hierachy_data"></field>
+        </record>
+        <record id="lms_back_hierachy_data" model="hierachy.data">
+            <field name="name">LMS</field>
+            <field name="parent_id" ref="back_office_application_hierachy_data"></field>
+        </record>
+
+        <record id="email_infrastructure_hierachy_data" model="hierachy.data">
+            <field name="name">LMS</field>
+            <field name="parent_id" ref="infrastructure_hierachy_data"></field>
+        </record>
+        <record id="grant_access_infrastructure_hierachy_data" model="hierachy.data">
+            <field name="name">Grant Access</field>
+            <field name="parent_id" ref="infrastructure_hierachy_data"></field>
+        </record>
+
+        <record id="bcc_database_hierachy_data" model="hierachy.data">
+            <field name="name">BCC</field>
+            <field name="parent_id" ref="database_hierachy_data"></field>
+        </record>
+        <record id="bps_database_hierachy_data" model="hierachy.data">
+            <field name="name">BPS</field>
+            <field name="parent_id" ref="database_hierachy_data"></field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="x_meal_allowance_outlet_the_pangea" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - The Pangea</field>
+        </record>
+        <record id="x_meal_allowance_outlet_the_chopstick" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - The Chopstick</field>
+        </record>
+        <record id="x_meal_allowance_outlet_amret_pool_bar" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Amret Pool Bar</field>
+        </record>
+        <record id="x_meal_allowance_outlet_vimean_city_walk" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - The Vimean City Walk</field>
+        </record>
+        <record id="x_meal_allowance_outlet_indochine" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Indochine</field>
+        </record>
+        <record id="x_meal_allowance_outlet_nagarock" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - NagaRock</field>
+        </record>
+        <record id="x_meal_allowance_outlet_le_gourmet" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Le Gourmet</field>
+        </record>
+        <record id="x_meal_allowance_outlet_bistro_romano" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Bistro Romano</field>
+        </record>
+        <record id="x_meal_allowance_outlet_korean_grill" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Korean Grill</field>
+        </record>
+        <record id="x_meal_allowance_outlet_teppanyaki" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Teppanyaki</field>
+        </record>
+        <record id="x_meal_allowance_outlet_fortune_palace" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Fortune Palace</field>
+        </record>
+        <record id="x_meal_allowance_outlet_lobb_lounge" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Lobb Lounge</field>
+        </record>
+        <record id="x_meal_allowance_outlet_cafe_nagacity_walk" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Café@Nagacity Walk</field>
+        </record>
+        <record id="x_meal_allowance_outlet_room_service" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Room Service</field>
+        </record>
+        <record id="x_meal_allowance_outlet_jinli_palace_arena" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Jinli Palace (Arena)</field>
+        </record>
+        <record id="x_meal_allowance_outlet_rapid" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Rapid</field>
+        </record>
+        <record id="x_meal_allowance_outlet_darlin_darlin" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Darlin Darlin</field>
+        </record>
+        <record id="x_meal_allowance_outlet_f_club" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - F Club</field>
+        </record>
+        <record id="x_meal_allowance_outlet_sky_lounge" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Sky Lounge</field>
+        </record>
+        <record id="x_meal_allowance_outlet_the_terrace" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - The Terrace</field>
+        </record>
+        <record id="x_meal_allowance_outlet_poolside" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Poolside</field>
+        </record>
+        <record id="x_meal_allowance_outlet_seafood_market" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - Seafood Market</field>
+        </record>
+        <record id="x_meal_allowance_outlet_the_deli" model="x_meal_allowance_outlet">
+            <field name="x_name">N1 - The Deli</field>
+        </record>
+        <record id="x_meal_allowance_outlet_n2_food_pavilion" model="x_meal_allowance_outlet">
+            <field name="x_name">N2 - Food Pavilion</field>
+        </record>
+        <record id="x_meal_allowance_outlet_n2_2pangea" model="x_meal_allowance_outlet">
+            <field name="x_name">N2 - 2Pangea</field>
+        </record>
+        <record id="x_meal_allowance_outlet_n2_golden_bowl" model="x_meal_allowance_outlet">
+            <field name="x_name">N2 - Golden Bowl</field>
+        </record>
+        <record id="x_meal_allowance_outlet_n2_golden_horizon" model="x_meal_allowance_outlet">
+            <field name="x_name">N2 - Golden Horizon</field>
+        </record>
+        <record id="x_meal_allowance_outlet_n2_hall_of_golden_chimes" model="x_meal_allowance_outlet">
+            <field name="x_name">N2 - Hall of Golden Chimes</field>
+        </record>
+        <record id="x_meal_allowance_outlet_n2_room_service" model="x_meal_allowance_outlet">
+            <field name="x_name">N2 - Room Service Naga2</field>
+        </record>
+        <record id="x_meal_allowance_outlet_employee_cafeteria" model="x_meal_allowance_outlet">
+            <field name="x_name">Employee Cafeteria</field>
+        </record>
+        <record id="x_meal_allowance_outlet_all_outlets" model="x_meal_allowance_outlet">
+            <field name="x_name">All Outlets in Naga1 &amp; Naga2</field>
+        </record>
+        <record id="x_meal_allowance_outlet_night_shift_6am" model="x_meal_allowance_outlet">
+            <field name="x_name">Outlets for Night Shift 11 PM to 6 AM (N1 - The Chopstick &amp; N2 - Golden Bowl)</field>
+        </record>
+        <record id="x_meal_allowance_outlet_night_shift_2am" model="x_meal_allowance_outlet">
+            <field name="x_name">Outlets for Night Shift 11 PM to 2 AM (N2 - Food Pavilion)</field>
+        </record>
+
+    </data>
+</odoo>

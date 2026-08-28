@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_home_leave_ticket_time_range" model="ir.model">
+            <field name="name">Home Leave Ticket Time Range</field>
+            <field name="model">x_home_leave_ticket_time_range</field>
+        </record>
+
+        <record id="field_x_home_leave_ticket_time_range_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_home_leave_ticket_time_range</field>
+            <field name="model_id" ref="model_x_home_leave_ticket_time_range"/>
+            <field name="field_description">Time Range</field>
+            <field name="required" eval="True"/>
+        </record>
+
+        <record id="field_x_home_leave_ticket_time_range_sequence" model="ir.model.fields">
+            <field name="name">x_sequence</field>
+            <field name="ttype">integer</field>
+            <field name="model">x_home_leave_ticket_time_range</field>
+            <field name="model_id" ref="model_x_home_leave_ticket_time_range"/>
+            <field name="field_description">Sequence</field>
+        </record>
+
+        <record id="field_x_home_leave_ticket_time_range_active" model="ir.model.fields">
+            <field name="name">x_active</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_home_leave_ticket_time_range</field>
+            <field name="model_id" ref="model_x_home_leave_ticket_time_range"/>
+            <field name="field_description">Active</field>
+        </record>
+
+        <record id="default_x_home_leave_ticket_time_range_active" model="ir.default">
+            <field name="field_id" ref="field_x_home_leave_ticket_time_range_active"/>
+            <field name="json_value">true</field>
+        </record>
+    </data>
+</odoo>

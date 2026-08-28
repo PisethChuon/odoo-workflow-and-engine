@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_P3e417330"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_P3e417330" name="Hotel Gift Voucher Request Form" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_P3e417330" name="Start" />
+
+    <bpmn:userTask id="Task_Submission_P3e417330" name="Submitter - Draft and Submit" />
+    <bpmn:intermediateCatchEvent id="Event_Submit_P3e417330" name="Submit">
+      <bpmn:messageEventDefinition id="MessageDef_Submit_P3e417330" />
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_HODApproval_P3e417330" name="HOD Approval" />
+    <bpmn:intermediateCatchEvent id="Event_Approve_P3e417330" name="Approve">
+      <bpmn:messageEventDefinition id="MessageDef_Approve_P3e417330" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="Gateway_Route_P3e417330" name="Conditional Route" default="Flow_09_P3e417330" />
+
+    <bpmn:userTask id="Task_AdditionalApproval_P3e417330" name="Additional Approval" />
+    <bpmn:intermediateCatchEvent id="Event_AdditionalApprove_P3e417330" name="Approve Additional">
+      <bpmn:messageEventDefinition id="MessageDef_AddApprove_P3e417330" />
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateThrowEvent id="Event_Rework_P3e417330" name="Rework" />
+    <bpmn:userTask id="Task_RequestorRework_P3e417330" name="Requestor Rework" />
+    <bpmn:intermediateCatchEvent id="Event_Resubmit_P3e417330" name="Resubmit">
+      <bpmn:messageEventDefinition id="MessageDef_Resubmit_P3e417330" />
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateThrowEvent id="Event_Reject_P3e417330" name="Reject" />
+
+    <bpmn:endEvent id="EndEvent_Completed_P3e417330" name="Completed" />
+    <bpmn:endEvent id="EndEvent_Rejected_P3e417330" name="Rejected" />
+
+    <bpmn:sequenceFlow id="Flow_01_P3e417330" sourceRef="StartEvent_P3e417330" targetRef="Task_Submission_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_02_P3e417330" sourceRef="Task_Submission_P3e417330" targetRef="Event_Submit_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_03_P3e417330" sourceRef="Event_Submit_P3e417330" targetRef="Task_HODApproval_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_04_P3e417330" sourceRef="Task_HODApproval_P3e417330" targetRef="Event_Approve_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_05_P3e417330" sourceRef="Event_Approve_P3e417330" targetRef="Gateway_Route_P3e417330" />
+
+    <bpmn:sequenceFlow id="Flow_06_P3e417330" sourceRef="Gateway_Route_P3e417330" targetRef="Task_AdditionalApproval_P3e417330">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('need_additional_approval', '=', True)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_07_P3e417330" sourceRef="Task_AdditionalApproval_P3e417330" targetRef="Event_AdditionalApprove_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_08_P3e417330" sourceRef="Event_AdditionalApprove_P3e417330" targetRef="EndEvent_Completed_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_09_P3e417330" sourceRef="Gateway_Route_P3e417330" targetRef="EndEvent_Completed_P3e417330" />
+
+    <bpmn:sequenceFlow id="Flow_10_P3e417330" sourceRef="Task_HODApproval_P3e417330" targetRef="Event_Rework_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_11_P3e417330" sourceRef="Event_Rework_P3e417330" targetRef="Task_RequestorRework_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_12_P3e417330" sourceRef="Task_RequestorRework_P3e417330" targetRef="Event_Resubmit_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_13_P3e417330" sourceRef="Event_Resubmit_P3e417330" targetRef="Task_HODApproval_P3e417330" />
+
+    <bpmn:sequenceFlow id="Flow_14_P3e417330" sourceRef="Task_HODApproval_P3e417330" targetRef="Event_Reject_P3e417330" />
+    <bpmn:sequenceFlow id="Flow_15_P3e417330" sourceRef="Event_Reject_P3e417330" targetRef="EndEvent_Rejected_P3e417330" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_P3e417330">
+    <bpmndi:BPMNPlane id="BPMNPlane_P3e417330" bpmnElement="Process_P3e417330">
+      <bpmndi:BPMNShape id="Shape_StartEvent_P3e417330" bpmnElement="StartEvent_P3e417330"><dc:Bounds x="120" y="190" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_Submission_P3e417330" bpmnElement="Task_Submission_P3e417330"><dc:Bounds x="200" y="168" width="190" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Submit_P3e417330" bpmnElement="Event_Submit_P3e417330"><dc:Bounds x="430" y="190" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_HODApproval_P3e417330" bpmnElement="Task_HODApproval_P3e417330"><dc:Bounds x="510" y="168" width="190" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Approve_P3e417330" bpmnElement="Event_Approve_P3e417330"><dc:Bounds x="740" y="190" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_Route_P3e417330" bpmnElement="Gateway_Route_P3e417330" isMarkerVisible="true"><dc:Bounds x="820" y="183" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AdditionalApproval_P3e417330" bpmnElement="Task_AdditionalApproval_P3e417330"><dc:Bounds x="930" y="74" width="180" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_AdditionalApprove_P3e417330" bpmnElement="Event_AdditionalApprove_P3e417330"><dc:Bounds x="1150" y="96" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_Completed_P3e417330" bpmnElement="EndEvent_Completed_P3e417330"><dc:Bounds x="1240" y="96" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Rework_P3e417330" bpmnElement="Event_Rework_P3e417330"><dc:Bounds x="590" y="300" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RequestorRework_P3e417330" bpmnElement="Task_RequestorRework_P3e417330"><dc:Bounds x="670" y="278" width="190" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Resubmit_P3e417330" bpmnElement="Event_Resubmit_P3e417330"><dc:Bounds x="900" y="300" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Reject_P3e417330" bpmnElement="Event_Reject_P3e417330"><dc:Bounds x="590" y="410" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_Rejected_P3e417330" bpmnElement="EndEvent_Rejected_P3e417330"><dc:Bounds x="750" y="410" width="36" height="36" /></bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Edge_Flow_01_P3e417330" bpmnElement="Flow_01_P3e417330"><di:waypoint x="156" y="208" /><di:waypoint x="200" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_02_P3e417330" bpmnElement="Flow_02_P3e417330"><di:waypoint x="390" y="208" /><di:waypoint x="430" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_03_P3e417330" bpmnElement="Flow_03_P3e417330"><di:waypoint x="466" y="208" /><di:waypoint x="510" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_04_P3e417330" bpmnElement="Flow_04_P3e417330"><di:waypoint x="700" y="208" /><di:waypoint x="740" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_05_P3e417330" bpmnElement="Flow_05_P3e417330"><di:waypoint x="776" y="208" /><di:waypoint x="820" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_06_P3e417330" bpmnElement="Flow_06_P3e417330"><di:waypoint x="845" y="183" /><di:waypoint x="845" y="114" /><di:waypoint x="930" y="114" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_07_P3e417330" bpmnElement="Flow_07_P3e417330"><di:waypoint x="1110" y="114" /><di:waypoint x="1150" y="114" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_08_P3e417330" bpmnElement="Flow_08_P3e417330"><di:waypoint x="1186" y="114" /><di:waypoint x="1240" y="114" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_09_P3e417330" bpmnElement="Flow_09_P3e417330"><di:waypoint x="870" y="208" /><di:waypoint x="1258" y="208" /><di:waypoint x="1258" y="132" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_10_P3e417330" bpmnElement="Flow_10_P3e417330"><di:waypoint x="605" y="248" /><di:waypoint x="605" y="300" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_11_P3e417330" bpmnElement="Flow_11_P3e417330"><di:waypoint x="626" y="318" /><di:waypoint x="670" y="318" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_12_P3e417330" bpmnElement="Flow_12_P3e417330"><di:waypoint x="860" y="318" /><di:waypoint x="900" y="318" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_13_P3e417330" bpmnElement="Flow_13_P3e417330"><di:waypoint x="936" y="318" /><di:waypoint x="965" y="318" /><di:waypoint x="965" y="450" /><di:waypoint x="605" y="450" /><di:waypoint x="605" y="248" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_14_P3e417330" bpmnElement="Flow_14_P3e417330"><di:waypoint x="605" y="248" /><di:waypoint x="605" y="410" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_P3e417330" bpmnElement="Flow_15_P3e417330"><di:waypoint x="626" y="428" /><di:waypoint x="750" y="428" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

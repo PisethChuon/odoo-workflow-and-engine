@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_list_x_emergency_incident_color_code" model="ir.ui.view">
+            <field name="name">EI: Incident Color Code List</field>
+            <field name="model">x_emergency_incident_color_code</field>
+            <field name="arch" type="xml">
+                <list editable="bottom" delete="false">
+                    <field name="x_name"/>
+                    <field name="x_incident_type_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="x_active" column_invisible="True"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_search_x_emergency_incident_color_code" model="ir.ui.view">
+            <field name="name">EI: Incident Color Code Search</field>
+            <field name="model">x_emergency_incident_color_code</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="x_name"/>
+                    <field name="x_incident_type_id"/>
+                    <filter string="Archived" name="inactive" domain="[('x_active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

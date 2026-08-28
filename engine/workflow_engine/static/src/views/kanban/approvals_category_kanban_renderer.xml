@@ -1,0 +1,7 @@
+<templates>
+    <t t-name="workflow_engine.ApprovalCategoryKanbanRenderer" t-inherit="web.KanbanRenderer" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('o_kanban_renderer')]" position="attributes">
+            <attribute name="class" add="o_wf_approval_kanban wf-approval-dashboard" separator=" " />
+        </xpath>
+    </t>
+</templates>

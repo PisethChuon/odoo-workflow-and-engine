@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+<t t-name="workflow_studio.StudioHomeMenu">
+    <div class="o_studio_home_menu o_home_menu h-100 overflow-auto" t-ref="root">
+        <div class="container">
+            <div t-if="displayedApps.length" role="listbox" class="o_apps row user-select-none mt-5 mx-0">
+                <div
+                    t-foreach="displayedApps"
+                    t-as="app"
+                    t-key="app.id || app.label"
+                    class="col-3 col-md-2 o_draggable mb-3 px-0"
+                    t-attf-class="col-3 col-md-2 o_draggable mb-3 px-0 {{ app.isNewAppButton ? 'order-first' : '' }}"
+                >
+                    <a
+                        role="option"
+                        class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
+                        t-att-class="{ 'o_web_studio_new_app': app.isNewAppButton }"
+                        t-att-data-menu-xmlid="app.xmlid"
+                        t-att-href="app.href || '#'"
+                        t-on-click.prevent="() => this._openMenu(app)"
+                    >
+                        <img
+                            t-if="app.webIconData"
+                            class="o_app_icon rounded-3"
+                            t-att-src="app.webIconData"
+                            t-att-data-src="app.webIconData"
+                        />
+                        <div
+                            t-else=""
+                            class="o_app_icon position-relative d-flex justify-content-center align-items-center p-2 rounded-3 ratio ratio-1x1"
+                            t-attf-style="background-color: {{ app.webIcon &amp;&amp; app.webIcon.backgroundColor ? app.webIcon.backgroundColor : '#7C7BAD' }};"
+                        >
+                            <i
+                                t-attf-class="{{ app.webIcon &amp;&amp; app.webIcon.iconClass ? app.webIcon.iconClass : 'fa fa-cube' }} position-relative w-auto h-auto"
+                                t-attf-style="color: {{ app.webIcon &amp;&amp; app.webIcon.color ? app.webIcon.color : '#FFFFFF' }};"
+                            />
+                        </div>
+                        <div class="o_caption w-100 text-center text-truncate mt-2" t-esc="app.label || app.name || 'App'"/>
+                    </a>
+                </div>
+            </div>
+            <div t-else="" id="result_menu_0" role="option" aria-selected="true" class="o_no_result">
+                No result
+            </div>
+        </div>
+    </div>
+</t>
+
+</templates>

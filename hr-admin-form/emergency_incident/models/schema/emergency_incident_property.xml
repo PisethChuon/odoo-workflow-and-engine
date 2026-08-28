@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="model_x_emergency_incident_property" model="ir.model">
+            <field name="name">Emergency Incident Property</field>
+            <field name="model">x_emergency_incident_property</field>
+            <field name="state">manual</field>
+        </record>
+
+        <record id="field_x_emergency_incident_property_x_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_emergency_incident_property</field>
+            <field name="model_id" ref="model_x_emergency_incident_property"/>
+            <field name="field_description">Property Name</field>
+            <field name="required" eval="1"/>
+        </record>
+
+        <record id="field_x_emergency_incident_property_x_active" model="ir.model.fields">
+            <field name="name">x_active</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_emergency_incident_property</field>
+            <field name="model_id" ref="model_x_emergency_incident_property"/>
+            <field name="field_description">Active</field>
+        </record>
+
+        <record id="default_x_emergency_incident_property_x_active" model="ir.default">
+            <field name="field_id" ref="field_x_emergency_incident_property_x_active"/>
+            <field name="json_value">true</field>
+        </record>
+
+    </data>
+</odoo>

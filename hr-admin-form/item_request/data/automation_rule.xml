@@ -1,0 +1,74 @@
+<odoo>
+    <data noupdate="0">
+
+        <!-- server actoin -->
+        <record id="auto_clear_type_server_action_admirf" model="ir.actions.server">
+            <field name="name">ADMIRF: Onchange clear type</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard" />
+            <field name="state">code</field>
+            <field name="usage">base_automation</field>
+            <field name="code"><![CDATA[if record:
+                record['x_sub_itemline_id'] = False
+    ]]></field>
+        </record>
+        <!-- automation rule -->
+
+        <record id="auto_clear_type_server_automation_admirf" model="base.automation">
+            <field name="name">ADMIRF: Onchange clear type</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard" />
+            <field name="action_server_ids"
+                eval="[(6, 0, [ref('auto_clear_type_server_action_admirf')])]" />
+            <field name="active" eval="True" />
+            <field name="trigger">on_change</field>
+            <field name="on_change_field_ids"
+                eval="[(6, 0, [ref('item_request.field_x_item_request_x_item_line_id')])]" />
+        </record>
+
+        <!-- upate button -->
+
+        <record id="action_open_import_wizard_server_admirf" model="ir.actions.server">
+            <field name="name">ADMIRF: Open Upload</field>
+            <field name="model_id" ref="model_x_item_request_item_line" />
+            <field name="binding_model_id" ref="model_x_item_request_item_line" />
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+_logger.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+x_item_request_id = env.context.get('x_item_request_id')
+x_item_line_id = env.context.get('x_item_line_id')
+x_sub_itemline_id = env.context.get('x_sub_itemline_id')
+x_comment = env.context.get('x_comment')
+_logger.info(x_comment)
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Upload Items',
+    'res_model': 'dynamic.import.wizard',
+    'view_mode': 'form',
+    'view_id': env.ref('item_request.view_dynamic_import_wizard_form_inherit').id,
+    'target': 'new',
+    'context': {
+        'default_x_model_id': env.ref('item_request.model_x_item_request_item_line').id,
+        'default_x_comment': x_comment,
+        'dynamic_defaults': {
+            'x_item_request_item_line': {
+                'x_item_request_id': x_item_request_id 
+            }
+        },
+        'dynamic_import_wizard_field': {'x_item_line_id': 'x_item_line_id', 'x_sub_itemline_id': 'x_sub_itemline_id', 'x_comment': 'x_comment'},
+        'default_x_column_mapping':{
+            "_options": {
+                "mode": "upsert"
+            },
+            "EmployeeCode": {
+                "field": "x_employee_id",
+                "lookup_model": "hr.employee",
+                "lookup_field": "x_emp_code"
+            }
+            }
+    }
+}
+            
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>

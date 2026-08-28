@@ -1,0 +1,397 @@
+.o_web_studio_sidebar h3.o_web_studio_icon_container {
+    &:after {
+        @include o-position-absolute(0, 0, auto , auto);
+        opacity: .6;
+        filter: invert(1);
+    }
+}
+
+.o_web_studio_property.wf_workflow_policy_title {
+    margin: 10px 0 4px;
+    color: $o-web-studio-text-light;
+    letter-spacing: 0.01em;
+}
+
+.o_web_studio_property.wf_workflow_policy {
+    align-items: center;
+    color: $o-web-studio-text-light;
+
+    .o_checkbox {
+        margin-bottom: 0;
+    }
+
+    .o_checkbox .form-check-label,
+    .o_checkbox label {
+        color: inherit;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .wf_workflow_policy_state {
+        font-size: 0.75rem;
+        color: $o-web-studio-text-inactive;
+        white-space: nowrap;
+    }
+}
+
+.o_web_studio_property.wf_workflow_policy_hint {
+    margin: -2px 0 8px;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: $o-web-studio-text-inactive;
+}
+
+.o_web_studio_property.wf_advanced_odoo_modifiers {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba($o-web-studio-text-light, 0.14);
+    color: $o-web-studio-text-light;
+
+    summary {
+        color: $o-web-studio-text-light;
+        cursor: pointer;
+    }
+
+    summary::marker {
+        color: $o-web-studio-text-inactive;
+    }
+
+    .wf_workflow_policy_hint {
+        color: $o-web-studio-text-inactive;
+        font-size: 0.75rem;
+        line-height: 1.35;
+    }
+}
+
+.o_web_studio_property.wf_workflow_policy_tools {
+    display: grid;
+    gap: 6px;
+    margin: 8px 0 14px;
+    padding: 8px;
+    border: 1px solid color-mix(in srgb, var(--body-color, #212529) 22%, transparent);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--o-view-background-color, #ffffff) 88%, var(--body-color, #212529) 12%);
+
+    .wf_workflow_policy_tools_title {
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        // Removed text-transform: uppercase — non-standard in Odoo 19 interactive elements
+        color: color-mix(in srgb, var(--body-color, #212529) 82%, transparent);
+        font-weight: 700;
+    }
+
+    .wf_workflow_policy_tool_btn {
+        width: 100%;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .wf_workflow_policy_form_row {
+        display: grid;
+        gap: 4px;
+    }
+
+    .wf_workflow_policy_form_label {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: color-mix(in srgb, var(--body-color, #212529) 88%, transparent);
+    }
+
+    .wf_workflow_policy_input {
+        min-height: 30px;
+    }
+
+    .wf_workflow_policy_hint {
+        font-size: 0.75rem;
+        color: color-mix(in srgb, var(--body-color, #212529) 82%, transparent);
+        line-height: 1.35;
+    }
+}
+
+.o_web_studio_property.wf_workflow_policy_scenarios {
+    margin-top: 10px;
+}
+
+.o_wfs_bulk_policy_dialog {
+    --wfs-bulk-surface: var(--o-view-background-color, #ffffff);
+    --wfs-bulk-border: color-mix(in srgb, var(--body-color, #212529) 18%, transparent);
+    --wfs-bulk-text: var(--body-color, #212529);
+    --wfs-bulk-muted: color-mix(in srgb, var(--wfs-bulk-text) 72%, transparent);
+    --wfs-bulk-accent: var(--o-brand-odoo, #017e84);
+    color: var(--wfs-bulk-text);
+
+    .o_wfs_bulk_policy_intro {
+        margin-bottom: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--wfs-bulk-border);
+        border-radius: 10px;
+        background: color-mix(in srgb, var(--wfs-bulk-surface) 94%, var(--wfs-bulk-accent) 6%);
+    }
+
+    .o_wfs_bulk_policy_intro_title,
+    .o_wfs_bulk_policy_section_title {
+        font-size: 0.75rem;
+        // Removed text-transform: uppercase — non-standard in Odoo 19
+        letter-spacing: 0.05em;
+        font-weight: 700;
+        color: color-mix(in srgb, var(--wfs-bulk-text) 84%, transparent);
+    }
+
+    .o_wfs_bulk_policy_intro_value {
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    .o_wfs_bulk_policy_intro_hint {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--wfs-bulk-muted);
+    }
+
+    .o_wfs_bulk_policy_kinds,
+    .o_wfs_bulk_policy_fields {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--wfs-bulk-border);
+        border-radius: 10px;
+        background: color-mix(in srgb, var(--wfs-bulk-surface) 96%, var(--wfs-bulk-accent) 4%);
+    }
+
+    .o_wfs_bulk_policy_kind_rows {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .o_wfs_bulk_policy_kind_chip {
+        padding: 6px 10px;
+        border: 1px solid color-mix(in srgb, var(--wfs-bulk-text) 14%, transparent);
+        border-radius: 8px;
+        background: color-mix(in srgb, var(--wfs-bulk-surface) 90%, var(--wfs-bulk-text) 10%);
+    }
+
+    .o_wfs_bulk_policy_domain_rows {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .o_wfs_bulk_policy_domain_row {
+        align-items: center;
+        display: grid;
+        gap: 8px;
+        grid-template-columns: minmax(120px, 160px) minmax(0, 1fr) auto;
+    }
+
+    .o_wfs_bulk_policy_domain_label {
+        color: color-mix(in srgb, var(--wfs-bulk-text) 92%, transparent);
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .o_wfs_bulk_policy_domain_input {
+        font-family: var(--font-family-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+        min-height: 34px;
+    }
+
+    .o_wfs_bulk_policy_domain_builder_btn {
+        min-height: 34px;
+        white-space: nowrap;
+    }
+
+    .o_wfs_bulk_policy_fields_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .o_wfs_bulk_policy_actions {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .o_wfs_bulk_policy_search {
+        margin-bottom: 8px;
+    }
+
+    .o_wfs_bulk_policy_list {
+        max-height: 320px;
+        overflow: auto;
+        border: 1px solid color-mix(in srgb, var(--wfs-bulk-text) 14%, transparent);
+        border-radius: 8px;
+        padding: 6px;
+        background: color-mix(in srgb, var(--wfs-bulk-surface) 98%, var(--wfs-bulk-text) 2%);
+    }
+
+    .o_wfs_bulk_policy_item {
+        padding: 6px 4px;
+        border-bottom: 1px dashed color-mix(in srgb, var(--wfs-bulk-text) 14%, transparent);
+    }
+
+    .o_wfs_bulk_policy_item:last-child {
+        border-bottom: 0;
+    }
+
+    .o_wfs_bulk_policy_item_label {
+        display: block;
+        font-weight: 600;
+        color: var(--body-color, #212529);
+    }
+
+    .o_wfs_bulk_policy_item_meta {
+        display: block;
+        font-size: 12px;
+        color: color-mix(in srgb, var(--wfs-bulk-text) 70%, transparent);
+    }
+
+    .o_wfs_bulk_policy_summary {
+        margin-top: 8px;
+        font-size: 12px;
+        color: color-mix(in srgb, var(--wfs-bulk-text) 78%, transparent);
+    }
+
+    @media (max-width: 991px) {
+        .o_wfs_bulk_policy_domain_row {
+            grid-template-columns: 1fr;
+        }
+
+        .o_wfs_bulk_policy_domain_builder_btn {
+            justify-self: start;
+        }
+    }
+}
+
+/* Dark-mode overrides for bulk policy dialog —
+   compiled conditionally via $o-web-studio-color-scheme set in variables.dark.scss.
+   contentClass is applied to .modal-content by Odoo Dialog,
+   so header/body/footer are direct children. */
+@if $o-web-studio-color-scheme == dark {
+    .o_wfs_bulk_policy_dialog {
+        --wfs-bulk-surface: #1a1f2e;
+        --wfs-bulk-border: rgba(148, 163, 184, 0.22);
+        --wfs-bulk-text: #e2e8f0;
+        --wfs-bulk-muted: #94a3b8;
+        --wfs-bulk-accent: #2dd4bf;
+        background: #1a1f2e !important;
+        border-color: rgba(148, 163, 184, 0.2) !important;
+        color: #e2e8f0;
+
+        .modal-header {
+            background: #151b28;
+            border-bottom-color: rgba(148, 163, 184, 0.18);
+            color: #f1f5f9;
+
+            .modal-title { color: #f1f5f9; }
+            .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+        }
+
+        .modal-body { background: #1a1f2e; }
+
+        .modal-footer {
+            background: #151b28;
+            border-top-color: rgba(148, 163, 184, 0.18);
+        }
+
+        .o_wfs_bulk_policy_intro {
+            background: #111827;
+            border-color: rgba(148, 163, 184, 0.18);
+        }
+
+        .o_wfs_bulk_policy_intro_title,
+        .o_wfs_bulk_policy_section_title {
+            color: #cbd5e1;
+        }
+
+        .o_wfs_bulk_policy_intro_hint {
+            color: #94a3b8;
+        }
+
+        .o_wfs_bulk_policy_kinds,
+        .o_wfs_bulk_policy_fields {
+            background: #111827;
+            border-color: rgba(148, 163, 184, 0.18);
+        }
+
+        .o_wfs_bulk_policy_kind_chip {
+            background: #1e293b;
+            border-color: rgba(148, 163, 184, 0.22);
+            color: #e2e8f0;
+        }
+
+        .o_wfs_bulk_policy_domain_label {
+            color: #cbd5e1;
+        }
+
+        .o_wfs_bulk_policy_domain_input {
+            background: #0f172a;
+            border-color: rgba(148, 163, 184, 0.25);
+            color: #e2e8f0;
+
+            &::placeholder { color: #64748b; }
+        }
+
+        .o_wfs_bulk_policy_domain_builder_btn {
+            background: #1e293b;
+            border-color: rgba(148, 163, 184, 0.28);
+            color: #cbd5e1;
+
+            &:hover {
+                background: #334155;
+                border-color: rgba(148, 163, 184, 0.4);
+                color: #f1f5f9;
+            }
+        }
+
+        .o_wfs_bulk_policy_search {
+            background: #0f172a;
+            border-color: rgba(148, 163, 184, 0.25);
+            color: #e2e8f0;
+
+            &::placeholder { color: #64748b; }
+        }
+
+        .o_wfs_bulk_policy_list {
+            background: #0f172a;
+            border-color: rgba(148, 163, 184, 0.18);
+        }
+
+        .o_wfs_bulk_policy_item {
+            border-bottom-color: rgba(148, 163, 184, 0.12);
+        }
+
+        .o_wfs_bulk_policy_item_label {
+            color: #f1f5f9;
+        }
+
+        .o_wfs_bulk_policy_item_meta {
+            color: #94a3b8;
+        }
+
+        .o_wfs_bulk_policy_summary {
+            color: #94a3b8;
+        }
+
+        .o_checkbox .form-check-label,
+        .o_checkbox label,
+        .form-check-label {
+            color: #e2e8f0;
+        }
+
+        .btn-outline-secondary {
+            background: #1e293b;
+            border-color: rgba(148, 163, 184, 0.28);
+            color: #cbd5e1;
+
+            &:hover {
+                background: #334155;
+                color: #f1f5f9;
+            }
+        }
+    }
+}

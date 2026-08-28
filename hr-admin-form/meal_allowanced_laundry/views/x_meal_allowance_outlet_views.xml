@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_meal_allowance_outlet" model="ir.ui.view">
+            <field name="name">Meal Allowance Outlet List</field>
+            <field name="model">x_meal_allowance_outlet</field>
+            <field name="arch" type="xml">
+                <list string="Outlets Applicable" default_order="x_name">
+                    <field name="x_name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_meal_allowance_outlet" model="ir.ui.view">
+            <field name="name">Meal Allowance Outlet Form</field>
+            <field name="model">x_meal_allowance_outlet</field>
+            <field name="arch" type="xml">
+                <form string="Outlets Applicable">
+                    <sheet>
+                        <group>
+                            <field name="x_name" placeholder="e.g. N1 - The Pangea"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_x_meal_allowance_outlet" model="ir.ui.view">
+            <field name="name">Meal Allowance Outlet Search</field>
+            <field name="model">x_meal_allowance_outlet</field>
+            <field name="arch" type="xml">
+                <search string="Outlets Applicable">
+                    <field name="x_name"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

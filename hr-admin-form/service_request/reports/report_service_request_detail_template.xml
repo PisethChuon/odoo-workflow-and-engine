@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="x_service_request_report_template">
+        <t t-call="workflow_engine.report_base_layout">
+            <t t-set="report_title">Service Request</t>
+
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <hr class="mt-0 mb-4"/>
+
+                    <!-- Section: Request Description -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Request Description
+                            </h5>
+                            <div class="border rounded p-3" style="min-height: 80px;">
+                                <span t-field="doc.x_request_description"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Justification -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Justification / Details
+                            </h5>
+                            <div class="border rounded p-3" style="min-height: 80px;">
+                                <span t-field="doc.x_request_justification"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Company / Contractor -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Company / Contractor
+                            </h5>
+                            <table class="table table-sm table-bordered">
+                                <colgroup>
+                                    <col style="width: 40%;"/>
+                                    <col style="width: 20%;"/>
+                                    <col style="width: 20%;"/>
+                                    <col style="width: 20%;"/>
+                                </colgroup>
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Company / Contractor Name</th>
+                                        <th>Date Issued</th>
+                                        <th>Valid (days)</th>
+                                        <th>Price (USD)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.x_company_contractor_ids">
+                                        <t t-foreach="doc.x_company_contractor_ids" t-as="line">
+                                            <tr>
+                                                <td><span t-field="line.x_company_contractor_name"/></td>
+                                                <td><span t-field="line.x_date_issued"/></td>
+                                                <td><span t-field="line.x_valid_days"/></td>
+                                                <td><span t-field="line.x_price_usd"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted">No company / contractor lines.</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section: Administrator Comment -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Administrator Comment
+                            </h5>
+                            <div class="border rounded p-3 bg-light" style="min-height: 60px;">
+                                <span t-field="doc.x_admin_comment"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Notifications -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Email Notifications
+                            </h5>
+                            <table class="table table-sm table-bordered">
+                                <colgroup>
+                                    <col style="width: 50%;"/>
+                                    <col style="width: 50%;"/>
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-light fw-bold">Finance</td>
+                                        <td><t t-esc="'Yes' if doc.x_email_notification_finance else 'No'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light fw-bold">Cost Control</td>
+                                        <td><t t-esc="'Yes' if doc.x_email_notification_cost_control else 'No'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light fw-bold">Purchasing</td>
+                                        <td><t t-esc="'Yes' if doc.x_email_notification_purchasing else 'No'"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

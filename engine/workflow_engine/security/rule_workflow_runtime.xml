@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="rule_workflow_task_instance_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Task Instance - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_instance"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">
+                ['|','|','|','|','|',
+                    ('request_id.request_owner_id', '=', user.id),
+                    ('request_id.create_uid', '=', user.id),
+                    ('request_id.approver_ids.user_id', '=', user.id),
+                    ('assignee_ids.assignee_user_id', '=', user.id),
+                    ('request_id.visibility_scope_user_ids', 'in', [user.id]),
+                    ('request_id.visibility_scope_group_ids', 'in', user.all_group_ids.ids)
+                ]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_workflow_task_assignee_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Task Assignee - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_assignee"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">
+                ['|','|','|','|',
+                    ('assignee_user_id', '=', user.id),
+                    ('request_id.request_owner_id', '=', user.id),
+                    ('request_id.create_uid', '=', user.id),
+                    ('request_id.approver_ids.user_id', '=', user.id),
+                    ('task_instance_id.assignee_ids.assignee_user_id', '=', user.id)
+                ]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="rule_workflow_action_assignment_user_scope" model="ir.rule">
+            <field name="name">WF: Business Action Assignment - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_action_assignment"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">
+                ['|','|',
+                    ('actor_user_id', '=', user.id),
+                    ('request_id.request_owner_id', '=', user.id),
+                    ('request_id.create_uid', '=', user.id)
+                ]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_workflow_task_event_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Task Event - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_event"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">
+                ['|','|','|','|',
+                    ('actor_user_id', '=', user.id),
+                    ('request_id.request_owner_id', '=', user.id),
+                    ('request_id.create_uid', '=', user.id),
+                    ('request_id.approver_ids.user_id', '=', user.id),
+                    ('task_instance_id.assignee_ids.assignee_user_id', '=', user.id)
+                ]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_workflow_visibility_scope_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Visibility Scope - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_visibility_scope"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">
+                ['|','|','|',
+                    ('allowed_user_id', '=', user.id),
+                    ('granted_by_user_id', '=', user.id),
+                    ('allowed_group_id', 'in', user.all_group_ids.ids),
+                    ('request_id.approver_ids.user_id', '=', user.id)
+                ]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_workflow_delegation_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Delegation - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_delegation"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">['|', ('delegator_user_id', '=', user.id), ('delegate_user_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_workflow_challenge_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Challenge - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_action_challenge"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_workflow_department_payload_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Department Payload - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_department_payload"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">
+                ['|','|','|',
+                    ('department_id', '=', user.department_id.id or 0),
+                    ('request_id.request_owner_id', '=', user.id),
+                    ('request_id.create_uid', '=', user.id),
+                    ('request_id.approver_ids.user_id', '=', user.id)
+                ]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="rule_workflow_request_automation_instance_user_scope" model="ir.rule">
+            <field name="name">WF: Workflow Request Automation Instance - User Scope</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_automation_instance"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+            <field name="domain_force">
+                ['|','|','|','|','|',
+                    ('request_id.request_owner_id', '=', user.id),
+                    ('request_id.create_uid', '=', user.id),
+                    ('request_id.approver_ids.user_id', '=', user.id),
+                    ('task_instance_id.assignee_ids.assignee_user_id', '=', user.id),
+                    ('request_id.visibility_scope_user_ids', 'in', [user.id]),
+                    ('request_id.visibility_scope_group_ids', 'in', user.all_group_ids.ids)
+                ]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Admin unrestricted runtime records -->
+        <record id="rule_workflow_task_instance_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Task Instance - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_instance"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_task_assignee_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Task Assignee - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_assignee"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_action_assignment_admin_scope" model="ir.rule">
+            <field name="name">WF: Business Action Assignment - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_action_assignment"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_task_event_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Task Event - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_event"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_visibility_scope_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Visibility Scope - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_visibility_scope"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_delegation_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Delegation - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_delegation"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_challenge_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Challenge - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_action_challenge"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_department_payload_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Department Payload - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_department_payload"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        <record id="rule_workflow_request_automation_instance_admin_scope" model="ir.rule">
+            <field name="name">WF: Workflow Request Automation Instance - Admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_automation_instance"/>
+            <field name="groups" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_admin'), ref('base.group_system')])]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>

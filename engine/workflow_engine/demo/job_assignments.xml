@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="employee_vanchhai" model="hr.employee">
+        <field name="job_id" ref="workflow_engine.job_programmer"/>
+        <field name="job_title">Recruiter</field>
+        <field name="department_id" ref="workflow_engine.dep_group_hr"/>
+        <field name="user_id" ref="workflow_engine.user_vanchhai"/>
+        <field name="x_emp_code">019018</field>
+    </record>
+    <record id="employee_malinka" model="hr.employee">
+        <field name="job_id" ref="workflow_engine.job_programmer"/>
+        <field name="job_title">Programmer</field>
+        <field name="department_id" ref="workflow_engine.dep_group_it"/>
+        <field name="user_id" ref="workflow_engine.user_malinka"/>
+        <field name="x_emp_code">019018</field>
+    </record>
+    <record id="employee_hod1" model="hr.employee">
+        <field name="job_id" ref="workflow_engine.job_director"/>
+        <field name="job_title">Director</field>
+        <field name="department_id" ref="workflow_engine.dep_group_it"/>
+        <field name="user_id" ref="workflow_engine.user_hod1"/>
+        <field name="x_emp_code">019018</field>
+    </record>
+    <record id="employee_hod2" model="hr.employee">
+        <field name="job_id" ref="workflow_engine.job_director"/>
+        <field name="job_title">Director</field>
+        <field name="department_id" ref="workflow_engine.dep_group_hr"/>
+        <field name="user_id" ref="workflow_engine.user_hod2"/>
+        <field name="x_emp_code">019018</field>
+    </record>
+    <record id="workflow_engine.dep_group_it" model="hr.department">
+        <field name="manager_id" ref="workflow_engine.employee_hod1"/>
+    </record>
+    <record id="workflow_engine.dep_group_hr" model="hr.department">
+        <field name="manager_id" ref="workflow_engine.employee_hod2"/>
+    </record>
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_honestly_award" model="ir.ui.view">
+            <field name="name">HRHA: Honestly Award</field>
+            <field name="model">x_honestly_award</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_honestly_award" model="ir.ui.view">
+            <field name="name">HRHA: Honestly Award Form</field>
+            <field name="model">x_honestly_award</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+                    <separator string="Honestly Award Details"/>
+                    <field name="x_honestly_award_detail_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="x_employee_id" string="Founder Name" 
+                                options="{'no_create': True, 'no_open': True}"/>
+                            <field name="x_item_id" placeholder="Item found"/>
+                            <field name="x_location_id" placeholder="Location where item was found"/>
+                            <field name="x_date" placeholder="Found Date"/>
+                            <field name="x_estimate_value" placeholder="Estimated Value"/>
+                            <field name="x_remark" placeholder="Remark"/>
+                        </list>
+                    </field>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

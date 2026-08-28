@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="workflow_studio.WorkflowCategoryUploadButton" t-inherit="web.ListView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-set-slot='control-panel-create-button']/button[contains(@class, 'o_list_button_add')]" position="after">
+            <button
+                t-if="props.showButtons and !env.inDialog"
+                type="button"
+                class="btn btn-secondary ms-1"
+                t-on-click="() => this.env.services.action.doAction('workflow_studio.action_workflow_studio_import_package_zip_wizard')"
+            >
+                Upload
+            </button>
+        </xpath>
+    </t>
+</templates>

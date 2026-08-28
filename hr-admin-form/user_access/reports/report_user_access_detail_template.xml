@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="x_user_access_report_template">
+		<t t-call="workflow_engine.report_base_layout">
+			<t t-set="report_title">User Access Request Form</t>
+
+			<t t-foreach="docs" t-as="doc">
+				<div class="page">
+					<hr class="mt-0 mb-4"/>
+
+					<!-- Section: Request Information -->
+					<div class="row mb-3">
+						<div class="col-12">
+							<h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+								Request Information
+							</h5>
+							<table class="table table-sm table-bordered">
+								<colgroup>
+									<col style="width: 30%;"/>
+									<col style="width: 70%;"/>
+								</colgroup>
+								<tbody>
+									<tr>
+										<td class="bg-light fw-bold">Request Number</td>
+										<td><span t-field="doc.name"/></td>
+									</tr>
+									<tr>
+										<td class="bg-light fw-bold">Request Date</td>
+										<td><span t-field="doc.create_date"/></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Section: User Access Details -->
+					<div class="row mb-3">
+						<div class="col-12">
+							<h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+								User Access Details
+							</h5>
+							<table class="table table-sm table-bordered">
+								<thead>
+									<tr>
+										<th class="bg-light">No.</th>
+										<th class="bg-light">Employee</th>
+										<th class="bg-light">Item</th>
+										<th class="bg-light">Type</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr t-foreach="doc.x_item_line_ids" t-as="line">
+										<td><span t-esc="line_index + 1"/></td>
+										<td><span t-field="line.x_employee_id"/></td>
+										<td><span t-field="line.x_item_id"/></td>
+										<td><span t-field="line.x_item_type_id"/></td>
+									</tr>
+									<tr t-if="not doc.x_item_line_ids">
+										<td colspan="4" class="text-center text-muted">No user access lines provided.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Section: Comment -->
+					<div class="row mb-3">
+						<div class="col-12">
+							<h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+								Comment
+							</h5>
+							<div class="border rounded p-3 bg-light" style="min-height: 60px;">
+								<span t-field="doc.x_comment"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

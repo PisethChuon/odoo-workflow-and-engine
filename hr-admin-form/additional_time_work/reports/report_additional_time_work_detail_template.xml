@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="x_additional_time_work_report_template">
+        <t t-call="workflow_engine.report_base_layout">
+            <t t-set="report_title">Additional Time Work Form</t>
+
+            <div class="page">
+                <t t-foreach="docs" t-as="doc">
+                    <strong>Additional Time Work</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <th style="width: 25%;">Employee</th>
+                                <td style="width: 25%;"><span t-field="doc.x_employee_id"/></td>
+                                <th style="width: 25%;">Date</th>
+                                <td><span t-field="doc.x_date"/></td>
+                            </tr>
+                            <tr>
+                                <th>Work On</th>
+                                <td><span t-field="doc.x_work_on_type_id"/></td>
+                                <th>Hour</th>
+                                <td><span t-field="doc.x_hour"/></td>
+                            </tr>
+                            <tr>
+                                <th>Remark</th>
+                                <td colspan="3"><span t-field="doc.x_remark"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

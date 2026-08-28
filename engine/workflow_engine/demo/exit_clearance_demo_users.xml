@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="partner_exit_requestor" model="res.partner">
+            <field name="name">Exit Demo Requestor</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.requestor@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_requestor" model="res.users">
+            <field name="partner_id" ref="partner_exit_requestor"/>
+            <field name="login">demo.exit.requestor@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_hod" model="res.partner">
+            <field name="name">Exit Demo HOD Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.hod@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_hod" model="res.users">
+            <field name="partner_id" ref="partner_exit_hod"/>
+            <field name="login">demo.exit.hod@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_it" model="res.partner">
+            <field name="name">Exit Demo IT Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.it@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_it" model="res.users">
+            <field name="partner_id" ref="partner_exit_it"/>
+            <field name="login">demo.exit.it@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_finance" model="res.partner">
+            <field name="name">Exit Demo Finance Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.finance@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_finance" model="res.users">
+            <field name="partner_id" ref="partner_exit_finance"/>
+            <field name="login">demo.exit.finance@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_admin" model="res.partner">
+            <field name="name">Exit Demo Admin Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.admin@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_admin" model="res.users">
+            <field name="partner_id" ref="partner_exit_admin"/>
+            <field name="login">demo.exit.admin@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_security" model="res.partner">
+            <field name="name">Exit Demo Security Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.security@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_security" model="res.users">
+            <field name="partner_id" ref="partner_exit_security"/>
+            <field name="login">demo.exit.security@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_facility" model="res.partner">
+            <field name="name">Exit Demo Facility Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.facility@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_facility" model="res.users">
+            <field name="partner_id" ref="partner_exit_facility"/>
+            <field name="login">demo.exit.facility@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_purchase" model="res.partner">
+            <field name="name">Exit Demo Purchase Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.purchase@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_purchase" model="res.users">
+            <field name="partner_id" ref="partner_exit_purchase"/>
+            <field name="login">demo.exit.purchase@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_operations" model="res.partner">
+            <field name="name">Exit Demo Operations Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.operations@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_operations" model="res.users">
+            <field name="partner_id" ref="partner_exit_operations"/>
+            <field name="login">demo.exit.operations@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_hr" model="res.partner">
+            <field name="name">Exit Demo HR Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.hr@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_hr" model="res.users">
+            <field name="partner_id" ref="partner_exit_hr"/>
+            <field name="login">demo.exit.hr@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+
+        <record id="partner_exit_payroll" model="res.partner">
+            <field name="name">Exit Demo Payroll Approver</field>
+            <field name="company_name">Nagaworld</field>
+            <field name="email">demo.exit.payroll@nagaworld.com</field>
+            <field name="tz">Asia/Phnom_Penh</field>
+        </record>
+        <record id="user_exit_payroll" model="res.users">
+            <field name="partner_id" ref="partner_exit_payroll"/>
+            <field name="login">demo.exit.payroll@nagaworld.com</field>
+            <field name="password">12345</field>
+            <field name="notification_type">inbox</field>
+            <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+        </record>
+    </data>
+</odoo>

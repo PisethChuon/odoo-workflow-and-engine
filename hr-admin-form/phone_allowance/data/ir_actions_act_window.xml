@@ -1,0 +1,7 @@
+<odoo>
+  <record id="action_x_phone_allowance" model="ir.actions.act_window">
+    <field name="name">Phone Allowance</field>
+    <field name="res_model">x_phone_allowance</field>
+    <field name="view_mode">list,form</field>
+  </record>
+</odoo>

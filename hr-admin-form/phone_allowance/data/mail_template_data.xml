@@ -1,0 +1,272 @@
+<odoo>
+    <data noupdate="0">
+
+        <!-- Submit -->
+        <record id="email_template_phone_allowance_notify_hod" model="mail.template">
+            <field name="name">Workflow Approval: Notify HOD</field>
+            <field name="model_id" ref="model_x_phone_allowance" />
+            <field name="subject">Approval Request: {{ object.name or 'No Subject' }}</field>
+            <field name="email_to">{{ object.approver_ids.filtered(lambda a: a.user_id and a.status
+                ==
+                'pending')[0].user_id.partner_id.email if object.approver_ids else '' }}
+            </field>
+            <field name="lang">{{ object.request_owner_id.lang or 'en_US' }}</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <table width="590"
+                    style="background-color: white; border-collapse:separate; padding: 0 8px;">
+                    <tr>
+                        <td valign="top">
+                            <div style="font-size: 14px;"> Hello <strong>
+                                    <t t-out="ctx.get('user_name') or 'Approver'" />
+                                </strong>
+                                , <br />
+                                <br /> You have been assigned to approve the following
+                                request: <br />
+                                <strong>Request:</strong>
+                                <t
+                                    t-out="object.name or 'Untitled'" />
+                                <br />
+                                <strong>Requester:</strong>
+                                <t
+                                    t-out="object.request_owner_id.name or 'N/A'" />
+                                <br />
+                                <strong>
+                                Category:</strong>
+                                <t t-out="object.category_id.name or 'N/A'" />
+                                <br />
+                                <strong>Due
+                                Date:</strong>
+                                <t t-if="object.date_end">
+                                    <t t-out="format_datetime(object.date_end)" />
+                                </t>
+                                <t
+                                    t-else="">N/A</t>
+                                <br />
+                                <br /> Please review and take action at
+                                your earliest convenience. <br />
+                                <br />
+
+                                <a
+                                    t-att-href="object.get_access_action_url() if object.get_access_action_url() else '#'"
+                                    style="background-color: #875A7B; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+                                View Request
+                                </a>
+                                <br />
+                                <br />
+                                Best regards, <br />
+                                <strong>
+                                    <t
+                                        t-out="object.company_id.name if object.company_id else 'Workflow System'" />
+                                </strong>
+                                <br />
+                                <span
+                                    style="font-size: 11px; color: grey;">This is an automated
+                                message.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+        </record>
+        <!-- Rejected -->
+        <record id="email_template_phone_allowance_rejected" model="mail.template">
+            <field name="name">Workflow Approval: Rejected</field>
+            <field name="model_id" ref="model_x_phone_allowance" />
+            <field name="subject">Your Request {{ object.name or 'Untitled' }} Has Been Rejected</field>
+            <field name="email_to">{{ object.request_owner_id.partner_id.email or '' }}</field>
+            <field name="lang">{{ object.request_owner_id.lang or 'en_US' }}</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <table width="590"
+                    style="background-color: white; border-collapse:separate; padding: 0 8px;">
+                    <tr>
+                        <td valign="top">
+                            <div style="font-size: 14px;"> Dear <strong>
+                                    <t t-out="object.request_owner_id.name or 'Employee'" />
+                                </strong>
+                                , <br />
+                                <br /> We regret to inform you that your request titled <strong>
+                                    <t t-out="object.name or 'Untitled'" />
+                                </strong>
+                                has been <strong style="color: red;">rejected</strong>. <br />
+                                <br />
+
+                                <strong>
+                                Category:</strong>
+                                <t t-out="object.category_id.name or 'N/A'" />
+                                <br />
+                                <strong>Rejected
+                                By:</strong>
+                                <t t-if="object.approver_ids">
+                                    <t
+                                        t-out="object.approver_ids.filtered(lambda a: a.status == 'refused')[-1].user_id.name if object.approver_ids.filtered(lambda a: a.status == 'refused') else 'N/A'" />
+                                </t>
+                                <br />
+                                <strong>
+                                Decision:</strong>
+                                <t
+                                    t-out="object.approver_ids.filtered(lambda a: a.status == 'refused')[-1].user_decision if object.approver_ids.filtered(lambda a: a.status == 'refused') else 'No reason provided'" />
+                                <br />
+                                <br />
+                                If you believe this is a mistake, please reach out to your approver
+                                or resubmit the request if applicable. <br />
+                                <br />
+
+                                <a
+                                    t-att-href="object.get_access_action_url() if object.get_access_action_url() else '#'"
+                                    style="background-color: #C62828; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+                                View Request
+                                </a>
+                                <br />
+                                <br />
+                                Best regards, <br />
+                                <strong>
+                                    <t
+                                        t-out="object.company_id.name if object.company_id else 'Workflow System'" />
+                                </strong>
+                                <br />
+                                <span
+                                    style="font-size: 11px; color: grey;">This is an automated
+                                message.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+        </record>
+
+        <!-- Cancelled-->
+        <record id="email_template_phone_allowance_cancelled" model="mail.template">
+            <field name="name">Workflow Approval: Cancelled</field>
+            <field name="model_id" ref="model_x_phone_allowance" />
+            <field name="subject">Your Request {{ object.name or 'Untitled' }} Has Been Cancelled</field>
+            <field name="email_to">{{ object.request_owner_id.partner_id.email or '' }}</field>
+            <field name="lang">{{ object.request_owner_id.lang or 'en_US' }}</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <table width="590"
+                    style="background-color: white; border-collapse:separate; padding: 0 8px;">
+                    <tr>
+                        <td valign="top">
+                            <div style="font-size: 14px;"> Dear <strong>
+                                    <t t-out="object.request_owner_id.name or 'Employee'" />
+                                </strong>
+                                , <br />
+                                <br /> We would like to inform you that your request titled <strong>
+                                    <t t-out="object.name or 'Untitled'" />
+                                </strong>
+                                has been <strong style="color: red;">cancelled</strong>. <br />
+                                <br />
+
+                                <strong>
+                                Category:</strong>
+                                <t t-out="object.category_id.name or 'N/A'" />
+                                <br />
+                                <strong>Cancelled
+                                By:</strong>
+                                <t
+                                    t-out="object.write_uid.name if object.write_uid else 'System'" />
+                                <br />
+                                <strong>Cancellation
+                                Date:</strong>
+                                <t
+                                    t-out="format_datetime(object.write_date) if object.write_date else 'N/A'" />
+                                <br />
+                                <br />
+                                If this was a mistake or you wish to resubmit, please initiate a new
+                                request or contact your supervisor. <br />
+                                <br />
+
+                                <a
+                                    t-att-href="object.get_access_action_url() if object.get_access_action_url() else '#'"
+                                    style="background-color: #B71C1C; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+                                View Request
+                                </a>
+                                <br />
+                                <br />
+                                Best regards, <br />
+                                <strong>
+                                    <t
+                                        t-out="object.company_id.name if object.company_id else 'Workflow System'" />
+                                </strong>
+                                <br />
+                                <span
+                                    style="font-size: 11px; color: grey;">This is an automated
+                                message.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+        </record>
+
+        <!-- Approved -->
+        <record id="email_template_phone_allowance_approved" model="mail.template">
+            <field name="name">Workflow Approval: Approved</field>
+            <field name="model_id" ref="model_x_phone_allowance" />
+            <field name="subject">Your Request {{ object.name or 'Untitled' }} Has Been Approved</field>
+            <field name="email_to">{{ object.request_owner_id.partner_id.email or '' }}</field>
+            <field name="lang">{{ object.request_owner_id.lang or 'en_US' }}</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <table width="590"
+                    style="background-color: white; border-collapse:separate; padding: 0 8px;">
+                    <tr>
+                        <td valign="top">
+                            <div style="font-size: 14px;"> Dear <strong>
+                                    <t t-out="object.request_owner_id.name or 'Employee'" />
+                                </strong>
+                                , <br />
+                                <br /> Congratulations! Your request titled <strong>
+                                    <t t-out="object.name or 'Untitled'" />
+                                </strong>
+                                has been fully <strong style="color: green;">approved</strong> and
+                                completed. <br />
+                                <br />
+
+                                <strong>Category:</strong>
+                                <t
+                                    t-out="object.category_id.name or 'N/A'" />
+                                <br />
+                                <strong>Final
+                                Approver:</strong>
+                                <t t-if="object.approver_ids">
+                                    <t
+                                        t-out="object.approver_ids.filtered(lambda a: a.status == 'approved')[-1].user_id.name if object.approver_ids.filtered(lambda a: a.status == 'approved') else 'N/A'" />
+                                </t>
+                                <br />
+                                <strong>Final
+                                Decision:</strong>
+                                <t
+                                    t-out="object.approver_ids.filtered(lambda a: a.status == 'approved')[-1].user_decision if object.approver_ids.filtered(lambda a: a.status == 'approved') else 'Approved'" />
+                                <br />
+                                <br />
+                                You may now proceed with the next steps based on this approval. <br />
+                                <br />
+
+                                <a
+                                    t-att-href="object.get_access_action_url() if object.get_access_action_url() else '#'"
+                                    style="background-color: #2E7D32; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+                                View Completed Request
+                                </a>
+                                <br />
+                                <br />
+                                Best regards, <br />
+                                <strong>
+                                    <t
+                                        t-out="object.company_id.name if object.company_id else 'Workflow System'" />
+                                </strong>
+                                <br />
+                                <span
+                                    style="font-size: 11px; color: grey;">This is an automated
+                                message.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+        </record>
+
+    </data>
+</odoo>

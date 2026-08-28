@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workflow_approval_directory_report_view_list" model="ir.ui.view">
+        <field name="name">workflow.approval.directory.report.view.list</field>
+        <field name="model">workflow.approval.directory.report</field>
+        <field name="arch" type="xml">
+            <list string="Approval Directory"
+                  create="false"
+                  edit="false"
+                  delete="false"
+                  decoration-danger="inactive_member_count &gt; 0"
+                  decoration-warning="not is_dynamic and active_approver_count == 0">
+                <field name="category_id" optional="show"/>
+                <field name="version_id" optional="show"/>
+                <field name="meta_task_id" optional="show"/>
+                <field name="routing_reference" widget="badge" optional="show"/>
+                <field name="group_department_id" optional="show"/>
+                <field name="team_id" optional="show"/>
+                <field name="line_id" optional="show"/>
+                <field name="approval_group_id" optional="show"/>
+                <field name="system_group_id" optional="hide"/>
+                <field name="source_type" optional="show"/>
+                <field name="source_usage" optional="hide"/>
+                <field name="resolution_type" widget="badge" optional="show"/>
+                <field name="approver_employee_code_display" optional="show"/>
+                <field name="configured_user_ids"
+                       widget="many2many_tags_avatar"
+                       readonly="1"
+                       options="{'no_create': True, 'no_open': True}"
+                       optional="show"/>
+                <field name="approver_display" optional="show"/>
+                <field name="active_approver_count" optional="show"/>
+                <field name="inactive_member_count" optional="show"/>
+                <field name="completion_mode" optional="show"/>
+                <field name="note" optional="show"/>
+                <field name="assignment_mode" optional="hide"/>
+                <field name="configured_member_count" optional="hide"/>
+                <field name="portal_member_count" optional="hide"/>
+                <field name="approver_employee_codes" optional="hide"/>
+                <field name="approver_names" optional="hide"/>
+                <field name="source_node_ref" optional="hide"/>
+                <field name="node_id" optional="hide"/>
+                <field name="version_active" optional="hide"/>
+                <field name="is_dynamic" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_approval_directory_report_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.directory.report.view.form</field>
+        <field name="model">workflow.approval.directory.report</field>
+        <field name="arch" type="xml">
+            <form string="Approval Directory Entry" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group string="Workflow">
+                            <field name="category_id"/>
+                            <field name="version_id"/>
+                            <field name="version_active"/>
+                            <field name="meta_task_id"/>
+                            <field name="completion_mode"/>
+                        </group>
+                        <group string="Routing">
+                            <field name="routing_reference"/>
+                            <field name="source_type"/>
+                            <field name="source_usage"/>
+                            <field name="resolution_type"/>
+                            <field name="assignment_mode"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Approval Organization">
+                            <field name="approval_group_id"/>
+                            <field name="system_group_id"/>
+                            <field name="group_department_id"/>
+                            <field name="team_id"/>
+                            <field name="line_id"/>
+                        </group>
+                        <group string="Current Configuration">
+                            <field name="configured_member_count"/>
+                            <field name="active_approver_count"/>
+                            <field name="inactive_member_count"/>
+                            <field name="portal_member_count"/>
+                            <field name="approver_employee_codes"/>
+                            <field name="approver_names"/>
+                            <field name="approver_display"/>
+                        </group>
+                    </group>
+                    <group string="Business Explanation">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                    <group string="Technical Evidence">
+                        <group>
+                            <field name="node_id"/>
+                            <field name="node_type"/>
+                            <field name="source_node_ref"/>
+                            <field name="fallback_policy"/>
+                            <field name="fallback_user_id"/>
+                        </group>
+                        <group>
+                            <field name="record_domain"/>
+                            <field name="user_filter_domain"/>
+                            <field name="request_model_id"/>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_approval_directory_report_view_search" model="ir.ui.view">
+        <field name="name">workflow.approval.directory.report.view.search</field>
+        <field name="model">workflow.approval.directory.report</field>
+        <field name="arch" type="xml">
+            <search string="Approval Directory">
+                <field name="category_id"/>
+                <field name="version_id"/>
+                <field name="meta_task_id"/>
+                <field name="group_department_id"/>
+                <field name="team_id"/>
+                <field name="line_id"/>
+                <field name="approval_group_id"/>
+                <field name="system_group_id"/>
+                <field name="routing_reference"/>
+                <field name="source_type"/>
+                <field name="approver_employee_codes"/>
+                <field name="note"/>
+                <filter string="Active Versions"
+                        name="active_versions"
+                        domain="[('version_active', '=', True)]"/>
+                <filter string="Dynamic Sources"
+                        name="dynamic_sources"
+                        domain="[('is_dynamic', '=', True)]"/>
+                <filter string="Has Inactive Members"
+                        name="inactive_members"
+                        domain="[('inactive_member_count', '&gt;', 0)]"/>
+                <filter string="Empty Static Pools"
+                        name="empty_static_pools"
+                        domain="[('is_dynamic', '=', False), ('active_approver_count', '=', 0)]"/>
+                <separator/>
+                <group>
+                    <filter string="Workflow Category"
+                            name="group_by_category"
+                            context="{'group_by': 'category_id'}"/>
+                    <filter string="Workflow Activity"
+                            name="group_by_stage"
+                            context="{'group_by': 'meta_task_id'}"/>
+                    <filter string="Routing Based On"
+                            name="group_by_routing_reference"
+                            context="{'group_by': 'routing_reference'}"/>
+                    <filter string="Workflow Approval Department"
+                            name="group_by_department"
+                            context="{'group_by': 'group_department_id'}"/>
+                    <filter string="Workflow Approval Team"
+                            name="group_by_team"
+                            context="{'group_by': 'team_id'}"/>
+                    <filter string="Workflow Approval Line"
+                            name="group_by_line"
+                            context="{'group_by': 'line_id'}"/>
+                    <filter string="Approver Source"
+                            name="group_by_source"
+                            context="{'group_by': 'source_type'}"/>
+                    <filter string="Note"
+                            name="group_by_note"
+                            context="{'group_by': 'note'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_approval_directory_report_action" model="ir.actions.act_window">
+        <field name="name">Approval Directory</field>
+        <field name="res_model">workflow.approval.directory.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="workflow_approval_directory_report_view_list"/>
+        <field name="search_view_id" ref="workflow_approval_directory_report_view_search"/>
+        <field name="context">{'search_default_active_versions': 1}</field>
+        <field name="group_ids" eval="[(4, ref('workflow_engine.group_workflow_approval_user_matrix_report'))]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No approval directory entries found.
+            </p>
+            <p>
+                Use this directory to identify configured approval pools by workflow category,
+                workflow activity, routing reference, department, team, and line. Dynamic sources
+                are resolved for each request and are never presented as a fixed user list.
+            </p>
+        </field>
+    </record>
+</odoo>

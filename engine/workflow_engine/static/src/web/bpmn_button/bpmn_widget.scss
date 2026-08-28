@@ -1,0 +1,679 @@
+.o_field_widget .ngflow-widget,
+.ngflow-widget {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+
+    --wf-canvas-bg: #ffffff;
+    --wf-grid-color: rgba(15, 23, 42, 0.07);
+    --wf-dock-bg: rgba(255, 255, 255, 0.92);
+    --wf-dock-border: rgba(71, 85, 105, 0.24);
+    --wf-dock-btn-bg: #ffffff;
+    --wf-dock-btn-fg: #0f172a;
+
+    --wf-shape-fill: #ffffff;
+    --wf-shape-stroke: #94a3b8;
+    --wf-label: #111827;
+    --wf-label-stroke: rgba(255, 255, 255, 0.85);
+
+    --wf-event-fill: #f8fafc;
+    --wf-event-stroke: #64748b;
+
+    --wf-node-task-fill: #ffffff;
+    --wf-node-task-stroke: #64748b;
+    --wf-node-user-fill: #eef2ff;
+    --wf-node-user-stroke: #6366f1;
+    --wf-node-service-fill: #ecfeff;
+    --wf-node-service-stroke: #0d9488;
+    --wf-node-send-fill: #ecfdf5;
+    --wf-node-send-stroke: #059669;
+    --wf-node-script-fill: #e0f2fe;
+    --wf-node-script-stroke: #0284c7;
+    --wf-node-call-fill: #fff7ed;
+    --wf-node-call-stroke: #ea580c;
+    --wf-node-sub-fill: #fffbeb;
+    --wf-node-sub-stroke: #d97706;
+    --wf-node-start-fill: #ecfeff;
+    --wf-node-start-stroke: #0891b2;
+    --wf-node-end-fill: #fff1f2;
+    --wf-node-end-stroke: #e11d48;
+    --wf-node-catch-fill: #eff6ff;
+    --wf-node-catch-stroke: #2563eb;
+    --wf-node-throw-fill: #f0fdfa;
+    --wf-node-throw-stroke: #0d9488;
+    --wf-node-gateway-fill: #fff7ed;
+    --wf-node-gateway-stroke: #c2410c;
+
+    --wf-flow-stroke: #64748b;
+    --wf-flow-done: #2563eb;
+    --wf-flow-pending: #0284c7;
+
+    --wf-current-fill: #34d399;
+    --wf-current-stroke: #10b981;
+    --wf-current-label: #052e2b;
+    --wf-blocked-fill: #fca5a5;
+    --wf-blocked-stroke: #dc2626;
+    --wf-blocked-label: #7f1d1d;
+
+    --wf-history-fill: #dbeafe;
+    --wf-history-stroke: #2563eb;
+    --wf-history-label: #1e3a8a;
+    --wf-history-label-stroke: rgba(239, 246, 255, 0.96);
+}
+
+html[data-theme="dark"] .ngflow-widget,
+body.o_dark .ngflow-widget,
+body.o_web_client.o_dark .ngflow-widget,
+body.o_web_client.o_web_dark .ngflow-widget ,
+html[data-bs-theme="dark"] .ngflow-widget ,
+body[data-bs-theme="dark"] .ngflow-widget ,
+[data-bs-theme="dark"] .ngflow-widget,
+.ngflow-widget.wf-theme-dark  {
+    --wf-canvas-bg: #000000;
+    --wf-grid-color: rgba(248, 250, 252, 0.08);
+    --wf-dock-bg: rgba(2, 6, 23, 0.88);
+    --wf-dock-border: rgba(148, 163, 184, 0.34);
+    --wf-dock-btn-bg: rgba(15, 23, 42, 0.92);
+    --wf-dock-btn-fg: #e2e8f0;
+
+    --wf-shape-fill: #0f172a;
+    --wf-shape-stroke: #4b5f80;
+    --wf-label: #f8fafc;
+    --wf-label-stroke: rgba(0, 0, 0, 0.88);
+
+    --wf-event-fill: #020617;
+    --wf-event-stroke: #64748b;
+
+    --wf-node-task-fill: #0f172a;
+    --wf-node-task-stroke: #64748b;
+    --wf-node-user-fill: #1f2448;
+    --wf-node-user-stroke: #818cf8;
+    --wf-node-service-fill: #11323f;
+    --wf-node-service-stroke: #2dd4bf;
+    --wf-node-send-fill: #133729;
+    --wf-node-send-stroke: #4ade80;
+    --wf-node-script-fill: #0c3148;
+    --wf-node-script-stroke: #38bdf8;
+    --wf-node-call-fill: #3a2a16;
+    --wf-node-call-stroke: #fb923c;
+    --wf-node-sub-fill: #3b2f16;
+    --wf-node-sub-stroke: #f59e0b;
+    --wf-node-start-fill: #102338;
+    --wf-node-start-stroke: #38bdf8;
+    --wf-node-end-fill: #3f1d2e;
+    --wf-node-end-stroke: #fb7185;
+    --wf-node-catch-fill: #1e293b;
+    --wf-node-catch-stroke: #7dd3fc;
+    --wf-node-throw-fill: #11323f;
+    --wf-node-throw-stroke: #5eead4;
+    --wf-node-gateway-fill: #3a2a16;
+    --wf-node-gateway-stroke: #fdba74;
+
+    --wf-flow-stroke: #6b7d98;
+    --wf-flow-done: #93c5fd;
+    --wf-flow-pending: #38bdf8;
+
+    --wf-current-fill: #0ea371;
+    --wf-current-stroke: #34d399;
+    --wf-current-label: #ecfeff;
+    --wf-blocked-fill: #7f1d1d;
+    --wf-blocked-stroke: #f87171;
+    --wf-blocked-label: #fee2e2;
+
+    --wf-history-fill: #1e40af;
+    --wf-history-stroke: #93c5fd;
+    --wf-history-label: #eff6ff;
+    --wf-history-label-stroke: rgba(2, 6, 23, 0.96);
+}
+
+.o_field_widget .ngflow-widget .o_bpmn_container,
+.ngflow-widget .o_bpmn_container {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+}
+
+.o_field_widget .ngflow-widget .djs-container,
+.ngflow-widget .djs-container {
+    width: 100%;
+    height: 100% !important;
+    background: var(--wf-canvas-bg) !important;
+    background-image:
+        linear-gradient(to right, var(--wf-grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--wf-grid-color) 1px, transparent 1px) !important;
+    background-size: 28px 28px !important;
+    transition: background-color 220ms ease;
+}
+
+.o_field_widget .ngflow-widget .djs-svg,
+.ngflow-widget .djs-svg {
+    background: var(--wf-canvas-bg) !important;
+    background-image:
+        linear-gradient(to right, var(--wf-grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--wf-grid-color) 1px, transparent 1px) !important;
+    background-size: 28px 28px !important;
+    transition: background-color 220ms ease;
+}
+
+.ngflow-widget.is-rendering .djs-shape .djs-visual > rect,
+.ngflow-widget.is-rendering .djs-shape .djs-visual > circle,
+.ngflow-widget.is-rendering .djs-shape .djs-visual > polygon,
+.ngflow-widget.is-rendering .djs-shape .djs-visual > path,
+.ngflow-widget.is-rendering .djs-connection .djs-visual > path,
+.ngflow-widget.is-rendering .ngflow-current-node-dot,
+.ngflow-widget.is-rendering .ngflow-current-node-pill,
+.ngflow-widget.is-rendering .wf-node-badge {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+}
+
+.ngflow-widget .ngflow-dock {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    background: var(--wf-dock-bg);
+    border: 1px solid var(--wf-dock-border);
+    backdrop-filter: blur(12px);
+}
+
+.ngflow-widget .ngflow-dock-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--wf-dock-border);
+    background: var(--wf-dock-btn-bg);
+    color: var(--wf-dock-btn-fg);
+    transition: transform 140ms ease, filter 140ms ease;
+}
+
+.ngflow-widget .ngflow-dock-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
+
+.ngflow-widget .ngflow-dock-btn:active {
+    transform: translateY(0);
+}
+
+.ngflow-widget .ngflow-dock-toggle {
+    display: inline-flex;
+}
+
+.ngflow-widget .ngflow-dock:not(.is-expanded) .ngflow-dock-action {
+    display: none;
+}
+
+.ngflow-widget .bjs-powered-by,
+.ngflow-widget .bjs-breadcrumbs,
+.ngflow-widget .bjs-drilldown,
+.ngflow-widget .bjs-breadcrumbs-container,
+.ngflow-widget .djs-palette,
+.ngflow-widget .djs-context-pad,
+.ngflow-widget .djs-popup,
+.ngflow-widget .djs-direct-editing-parent,
+.ngflow-widget .bio-properties-panel-parent,
+.ngflow-widget .properties-panel-parent {
+    display: none !important;
+}
+
+.ngflow-widget .djs-element.djs-label[data-element-id^="Process_"],
+.ngflow-widget .djs-element.djs-label[data-element-id^="Collaboration_"] {
+    display: none !important;
+}
+
+/* Base BPMN visuals */
+.ngflow-widget .djs-shape .djs-visual > rect,
+.ngflow-widget .djs-shape .djs-visual > polygon,
+.ngflow-widget .djs-shape .djs-visual > circle,
+.ngflow-widget .djs-shape .djs-visual > path {
+    fill: var(--wf-shape-fill) !important;
+    stroke: var(--wf-shape-stroke) !important;
+    stroke-width: 1.9px;
+    transition: fill 240ms ease, stroke 240ms ease, opacity 240ms ease, filter 240ms ease;
+}
+
+.ngflow-widget .djs-shape .djs-visual text,
+.ngflow-widget .djs-shape .djs-visual tspan {
+    fill: var(--wf-label) !important;
+}
+
+.ngflow-widget .djs-connection .djs-visual > path {
+    stroke: var(--wf-flow-stroke);
+    color: var(--wf-flow-stroke);
+    stroke-width: 1.6px;
+    opacity: 0.72;
+    vector-effect: non-scaling-stroke;
+    transition: stroke 240ms ease, opacity 240ms ease, color 240ms ease;
+}
+
+/* Arrow (marker) head — use currentColor so arrowhead tracks the connection stroke */
+.ngflow-widget marker path,
+.ngflow-widget .djs-marker path {
+    fill: currentColor !important;
+    stroke: none !important;
+}
+
+.ngflow-widget .djs-label .djs-visual > text {
+    fill: var(--wf-label) !important;
+    font-weight: 600;
+    paint-order: stroke;
+    stroke: var(--wf-label-stroke);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+}
+
+.ngflow-widget .djs-label .djs-visual text,
+.ngflow-widget .djs-label .djs-visual > text tspan,
+.ngflow-widget .djs-label .djs-visual tspan {
+    fill: var(--wf-label) !important;
+    opacity: 1 !important;
+    fill-opacity: 1 !important;
+    paint-order: stroke;
+    stroke: var(--wf-label-stroke);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+}
+
+.ngflow-widget .djs-connection .djs-visual text,
+.ngflow-widget .djs-connection .djs-visual tspan {
+    fill: var(--wf-label) !important;
+    opacity: 1 !important;
+    fill-opacity: 1 !important;
+    paint-order: stroke;
+    stroke: var(--wf-label-stroke);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    font-weight: 700;
+}
+
+.ngflow-widget .djs-element .djs-visual foreignObject * {
+    color: var(--wf-label) !important;
+    -webkit-text-fill-color: var(--wf-label) !important;
+    text-shadow:
+        0 0 1px var(--wf-label-stroke),
+        0 0 2px var(--wf-label-stroke),
+        0 0 3px var(--wf-label-stroke);
+}
+
+.ngflow-widget .djs-shape[data-element-id^="StartEvent"] .djs-visual > circle,
+.ngflow-widget .djs-shape[data-element-id^="EndEvent"] .djs-visual > circle {
+    fill: var(--wf-event-fill);
+    stroke: var(--wf-event-stroke);
+}
+
+/* Type-aware node styling provided by custom BPMN renderer markers */
+.ngflow-widget .djs-element.wf-node--task:not(.is-current):not(.is-history) .djs-visual > rect {
+    fill: var(--wf-node-task-fill) !important;
+    stroke: var(--wf-node-task-stroke) !important;
+}
+
+.ngflow-widget .djs-element.wf-node--user-task:not(.is-current):not(.is-history) .djs-visual > rect {
+    fill: var(--wf-node-user-fill) !important;
+    stroke: var(--wf-node-user-stroke) !important;
+}
+
+.ngflow-widget .djs-element.wf-node--service-task:not(.is-current):not(.is-history) .djs-visual > rect {
+    fill: var(--wf-node-service-fill) !important;
+    stroke: var(--wf-node-service-stroke) !important;
+}
+
+.ngflow-widget .djs-element.wf-node--send-task:not(.is-current):not(.is-history) .djs-visual > rect {
+    fill: var(--wf-node-send-fill) !important;
+    stroke: var(--wf-node-send-stroke) !important;
+}
+
+.ngflow-widget .djs-element.wf-node--script-task:not(.is-current):not(.is-history) .djs-visual > rect {
+    fill: var(--wf-node-script-fill) !important;
+    stroke: var(--wf-node-script-stroke) !important;
+}
+
+.ngflow-widget .djs-element.wf-node--call-activity:not(.is-current):not(.is-history) .djs-visual > rect {
+    fill: var(--wf-node-call-fill) !important;
+    stroke: var(--wf-node-call-stroke) !important;
+}
+
+.ngflow-widget .djs-element.wf-node--sub-process:not(.is-current):not(.is-history) .djs-visual > rect {
+    fill: var(--wf-node-sub-fill) !important;
+    stroke: var(--wf-node-sub-stroke) !important;
+}
+
+.ngflow-widget .djs-element[class*="wf-node--start"]:not(.is-current):not(.is-history) .djs-visual > circle {
+    fill: var(--wf-node-start-fill) !important;
+    stroke: var(--wf-node-start-stroke) !important;
+}
+
+.ngflow-widget .djs-element[class*="wf-node--end"]:not(.is-current):not(.is-history) .djs-visual > circle {
+    fill: var(--wf-node-end-fill) !important;
+    stroke: var(--wf-node-end-stroke) !important;
+}
+
+.ngflow-widget .djs-element[class*="wf-node--intermediate-catch"]:not(.is-current):not(.is-history) .djs-visual > circle {
+    fill: var(--wf-node-catch-fill) !important;
+    stroke: var(--wf-node-catch-stroke) !important;
+}
+
+.ngflow-widget .djs-element[class*="wf-node--intermediate-throw"]:not(.is-current):not(.is-history) .djs-visual > circle {
+    fill: var(--wf-node-throw-fill) !important;
+    stroke: var(--wf-node-throw-stroke) !important;
+}
+
+.ngflow-widget .djs-element[class*="wf-node--gateway"]:not(.is-current):not(.is-history) .djs-visual > polygon {
+    fill: var(--wf-node-gateway-fill) !important;
+    stroke: var(--wf-node-gateway-stroke) !important;
+}
+
+.ngflow-widget .djs-element.wf-node-shape .djs-visual path:not([fill='none']) {
+    transition: fill 220ms ease, stroke 220ms ease, opacity 220ms ease;
+}
+
+/* Current node */
+.ngflow-widget .djs-element.is-current .djs-visual > rect,
+.ngflow-widget .djs-element.is-current .djs-visual > circle,
+.ngflow-widget .djs-element.is-current .djs-visual > polygon,
+.ngflow-widget .djs-element.is-current .djs-visual > path {
+    fill: var(--wf-current-fill) !important;
+    stroke: var(--wf-current-stroke) !important;
+    stroke-width: 2.6px !important;
+}
+
+.ngflow-widget .djs-element.is-current .djs-label .djs-visual > text,
+.ngflow-widget .djs-element.is-current .djs-visual > text {
+    fill: var(--wf-current-label) !important;
+    font-weight: 700;
+}
+
+.ngflow-widget .djs-element.is-current .djs-visual {
+    animation: wfCurrentGlow 2s ease-in-out infinite !important;
+}
+
+.ngflow-widget .djs-element.is-current.is-blocked .djs-visual > rect,
+.ngflow-widget .djs-element.is-current.is-blocked .djs-visual > circle,
+.ngflow-widget .djs-element.is-current.is-blocked .djs-visual > polygon,
+.ngflow-widget .djs-element.is-current.is-blocked .djs-visual > path {
+    fill: var(--wf-blocked-fill) !important;
+    stroke: var(--wf-blocked-stroke) !important;
+    stroke-width: 2.6px !important;
+}
+
+.ngflow-widget .djs-element.is-current.is-blocked .djs-label .djs-visual > text,
+.ngflow-widget .djs-element.is-current.is-blocked .djs-visual > text {
+    fill: var(--wf-blocked-label) !important;
+}
+
+.ngflow-widget .djs-element.is-current.is-blocked .djs-visual {
+    animation: wfBlockedGlow 2s ease-in-out infinite !important;
+}
+
+/* History / completed tasks (disabled look) */
+.ngflow-widget .djs-element.is-history .djs-visual > rect,
+.ngflow-widget .djs-element.is-history .djs-visual > circle,
+.ngflow-widget .djs-element.is-history .djs-visual > polygon,
+.ngflow-widget .djs-element.is-history .djs-visual > path {
+    fill: var(--wf-history-fill) !important;
+    stroke: var(--wf-history-stroke) !important;
+    stroke-width: 2.4px !important;
+    opacity: 1;
+}
+
+.ngflow-widget .djs-element.is-history .djs-label .djs-visual > text,
+.ngflow-widget .djs-element.is-history .djs-visual > text {
+    fill: var(--wf-history-label) !important;
+    opacity: 1 !important;
+    fill-opacity: 1 !important;
+    paint-order: stroke;
+    stroke: var(--wf-history-label-stroke);
+    stroke-width: 2.6px;
+    stroke-linejoin: round;
+    font-weight: 700;
+}
+
+.ngflow-widget .djs-element.is-history .djs-label .djs-visual text,
+.ngflow-widget .djs-element.is-history .djs-label .djs-visual > text tspan,
+.ngflow-widget .djs-element.is-history .djs-label .djs-visual tspan,
+.ngflow-widget .djs-element.is-history .djs-visual tspan {
+    fill: var(--wf-history-label) !important;
+    opacity: 1 !important;
+    fill-opacity: 1 !important;
+    paint-order: stroke;
+    stroke: var(--wf-history-label-stroke);
+    stroke-width: 2.6px;
+    stroke-linejoin: round;
+    font-weight: 700;
+}
+
+/* Light mode: shadow on visited nodes for emphasis */
+.ngflow-widget .djs-element.is-history .djs-visual {
+    filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.18)) drop-shadow(0 0 10px rgba(37, 99, 235, 0.08));
+}
+
+/* Light mode: dim unvisited nodes for contrast */
+.ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual {
+    opacity: 0.5;
+    filter: drop-shadow(0 1px 3px rgba(15, 23, 42, 0.06));
+}
+
+/* Light mode: dim unvisited connections for contrast */
+.ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path {
+    opacity: 0.32;
+}
+
+/* Dark mode: glow on visited nodes for better visibility */
+html[data-theme="dark"] .ngflow-widget .djs-element.is-history .djs-visual,
+body.o_dark .ngflow-widget .djs-element.is-history .djs-visual,
+body.o_web_client.o_dark .ngflow-widget .djs-element.is-history .djs-visual,
+body.o_web_client.o_web_dark .ngflow-widget .djs-element.is-history .djs-visual,
+html[data-bs-theme="dark"] .ngflow-widget .djs-element.is-history .djs-visual,
+body[data-bs-theme="dark"] .ngflow-widget .djs-element.is-history .djs-visual,
+[data-bs-theme="dark"] .ngflow-widget .djs-element.is-history .djs-visual,
+.ngflow-widget.wf-theme-dark .djs-element.is-history .djs-visual {
+    filter: drop-shadow(0 0 6px rgba(96, 165, 250, 0.35)) drop-shadow(0 0 12px rgba(147, 197, 253, 0.15));
+}
+
+/* Dark mode: dim unvisited nodes for contrast */
+html[data-theme="dark"] .ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual,
+body.o_dark .ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual,
+body.o_web_client.o_dark .ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual,
+body.o_web_client.o_web_dark .ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual,
+html[data-bs-theme="dark"] .ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual,
+body[data-bs-theme="dark"] .ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual,
+[data-bs-theme="dark"] .ngflow-widget .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual,
+.ngflow-widget.wf-theme-dark .djs-element.wf-node-shape:not(.is-current):not(.is-history):not(.is-blocked) .djs-visual {
+    opacity: 0.55;
+    filter: none;
+}
+
+/* Dark mode: dim unvisited connections for contrast */
+html[data-theme="dark"] .ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path,
+body.o_dark .ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path,
+body.o_web_client.o_dark .ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path,
+body.o_web_client.o_web_dark .ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path,
+html[data-bs-theme="dark"] .ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path,
+body[data-bs-theme="dark"] .ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path,
+[data-bs-theme="dark"] .ngflow-widget .djs-connection:not(.is-done-path):not(.is-pending-path) .djs-visual > path {
+    opacity: 0.35;
+}
+
+/* Flow progression */
+.ngflow-widget .djs-connection.is-done-path .djs-visual > path {
+    stroke: var(--wf-flow-done) !important;
+    color: var(--wf-flow-done) !important;
+    stroke-width: 2.8px !important;
+    opacity: 1;
+}
+
+.ngflow-widget .djs-connection.wf-connection .djs-visual > path {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ngflow-widget .djs-connection.is-pending-path .djs-visual > path {
+    stroke: var(--wf-flow-pending) !important;
+    color: var(--wf-flow-pending) !important;
+    stroke-width: 2.2px !important;
+    stroke-dasharray: 11 7;
+    will-change: stroke-dashoffset;
+    animation: wfFlowMove 1.2s linear infinite;
+    opacity: 0.95;
+}
+
+.ngflow-widget .ngflow-current-node-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    display: inline-block;
+    background: #22c55e;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+    animation: none;
+    pointer-events: none;
+}
+
+.ngflow-widget .ngflow-current-node-dot.is-blocked {
+    background: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.34);
+}
+
+.ngflow-widget .ngflow-current-node-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 20px;
+    padding: 0 10px 0 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #052e2b;
+    background: #34d399;
+    border: 1px solid #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.26), 0 6px 14px rgba(16, 185, 129, 0.35);
+    animation: none;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.ngflow-widget .ngflow-current-node-pill::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #052e2b;
+    opacity: 0.92;
+}
+
+.ngflow-widget .wf-node-badge {
+    transition: transform 180ms ease, filter 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
+}
+
+.ngflow-widget .wf-node-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.24);
+}
+
+html[data-theme="dark"] .ngflow-widget .ngflow-current-node-dot,
+body.o_dark .ngflow-widget .ngflow-current-node-dot,
+body.o_web_client.o_dark .ngflow-widget .ngflow-current-node-dot,
+body.o_web_client.o_web_dark .ngflow-widget .ngflow-current-node-dot ,
+html[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-dot ,
+body[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-dot ,
+[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-dot  {
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.45);
+}
+
+html[data-theme="dark"] .ngflow-widget .ngflow-current-node-dot.is-blocked,
+body.o_dark .ngflow-widget .ngflow-current-node-dot.is-blocked,
+body.o_web_client.o_dark .ngflow-widget .ngflow-current-node-dot.is-blocked,
+body.o_web_client.o_web_dark .ngflow-widget .ngflow-current-node-dot.is-blocked ,
+html[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-dot.is-blocked ,
+body[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-dot.is-blocked ,
+[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-dot.is-blocked {
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.42);
+}
+
+html[data-theme="dark"] .ngflow-widget .ngflow-current-node-pill,
+body.o_dark .ngflow-widget .ngflow-current-node-pill,
+body.o_web_client.o_dark .ngflow-widget .ngflow-current-node-pill,
+body.o_web_client.o_web_dark .ngflow-widget .ngflow-current-node-pill,
+html[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-pill,
+body[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-pill,
+[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-pill,
+.ngflow-widget.wf-theme-dark .ngflow-current-node-pill {
+    color: #ecfeff;
+    background: #0ea371;
+    border-color: #34d399;
+    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.28), 0 6px 16px rgba(2, 6, 23, 0.65);
+}
+
+html[data-theme="dark"] .ngflow-widget .ngflow-current-node-pill::before,
+body.o_dark .ngflow-widget .ngflow-current-node-pill::before,
+body.o_web_client.o_dark .ngflow-widget .ngflow-current-node-pill::before,
+body.o_web_client.o_web_dark .ngflow-widget .ngflow-current-node-pill::before,
+html[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-pill::before,
+body[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-pill::before,
+[data-bs-theme="dark"] .ngflow-widget .ngflow-current-node-pill::before,
+.ngflow-widget.wf-theme-dark .ngflow-current-node-pill::before {
+    background: #ecfeff;
+}
+
+@keyframes wfCurrentGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.3)) drop-shadow(0 0 8px rgba(52, 211, 153, 0.15));
+    }
+    50% {
+        filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 20px rgba(52, 211, 153, 0.3));
+    }
+}
+
+@keyframes wfBlockedGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 4px rgba(220, 38, 38, 0.3)) drop-shadow(0 0 8px rgba(248, 113, 113, 0.15));
+    }
+    50% {
+        filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.55)) drop-shadow(0 0 20px rgba(248, 113, 113, 0.3));
+    }
+}
+
+@keyframes wfFlowMove {
+    to {
+        stroke-dashoffset: -84;
+    }
+}
+
+@media (max-width: 767px) {
+    .ngflow-widget .ngflow-dock {
+        right: 10px;
+        bottom: 10px;
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .ngflow-widget .ngflow-dock-btn {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ngflow-widget .djs-element.is-current .djs-visual,
+    .ngflow-widget .djs-element.is-current.is-blocked .djs-visual,
+    .ngflow-widget .djs-connection.is-pending-path .djs-visual > path {
+        animation: none !important;
+        transition: none !important;
+    }
+}

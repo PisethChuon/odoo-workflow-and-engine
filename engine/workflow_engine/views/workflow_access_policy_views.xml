@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workflow_access_policy_template_rule_view_list" model="ir.ui.view">
+        <field name="name">workflow.access.policy.template.rule.list</field>
+        <field name="model">workflow.access.policy.template.rule</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="active"/>
+                <field name="name"/>
+                <field name="audience_group_id"/>
+                <field name="access_level"/>
+                <field name="mode"/>
+                <field name="preset_scope" invisible="mode != 'preset'"/>
+                <field name="scope_summary" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_template_rule_view_form" model="ir.ui.view">
+        <field name="name">workflow.access.policy.template.rule.form</field>
+        <field name="model">workflow.access.policy.template.rule</field>
+        <field name="arch" type="xml">
+            <form string="Template Rule">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="audience_group_id"/>
+                            <field name="access_level"/>
+                            <field name="mode"/>
+                            <field name="preset_scope" invisible="mode != 'preset'"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                            <field name="scope_summary" readonly="1"/>
+                            <field name="department_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_department' or mode != 'preset'"/>
+                            <field name="request_owner_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_user' or mode != 'preset'"/>
+                            <field name="manager_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_manager' or mode != 'preset'"/>
+                            <field name="line_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_line' or mode != 'preset'"/>
+                            <field name="team_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_team' or mode != 'preset'"/>
+                        </group>
+                    </group>
+                    <group string="Safe Builder" invisible="mode != 'domain_builder'">
+                        <field name="domain_builder" placeholder="[('request_status', '=', 'pending')]"/>
+                    </group>
+                    <group string="Technical Raw Domains" invisible="mode != 'raw_domain'" groups="workflow_engine.group_workflow_technical_admin,base.group_system">
+                        <field name="base_request_domain" placeholder="[('request_owner_department', '=', user.department_id.id)]"/>
+                        <field name="child_request_domain" placeholder="[('x_approval_base_id.request_owner_department', '=', user.department_id.id)]"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_category_access_policy_rule_view_list" model="ir.ui.view">
+        <field name="name">workflow.category.access.policy.rule.list</field>
+        <field name="model">workflow.category.access.policy.rule</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="active"/>
+                <field name="name"/>
+                <field name="audience_group_id"/>
+                <field name="access_level"/>
+                <field name="mode"/>
+                <field name="preset_scope" invisible="mode != 'preset'"/>
+                <field name="scope_summary" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_category_access_policy_rule_view_form" model="ir.ui.view">
+        <field name="name">workflow.category.access.policy.rule.form</field>
+        <field name="model">workflow.category.access.policy.rule</field>
+        <field name="arch" type="xml">
+            <form string="Draft Security Rule">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="audience_group_id"/>
+                            <field name="access_level"/>
+                            <field name="mode"/>
+                            <field name="preset_scope" invisible="mode != 'preset'"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                            <field name="scope_summary" readonly="1"/>
+                            <field name="department_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_department' or mode != 'preset'"/>
+                            <field name="request_owner_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_user' or mode != 'preset'"/>
+                            <field name="manager_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_manager' or mode != 'preset'"/>
+                            <field name="line_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_line' or mode != 'preset'"/>
+                            <field name="team_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_team' or mode != 'preset'"/>
+                        </group>
+                    </group>
+                    <group string="Safe Builder" invisible="mode != 'domain_builder'">
+                        <field name="domain_builder" placeholder="[('request_status', '=', 'pending')]"/>
+                    </group>
+                    <group string="Technical Raw Domains" invisible="mode != 'raw_domain'" groups="workflow_engine.group_workflow_technical_admin,base.group_system">
+                        <field name="base_request_domain" placeholder="[('request_owner_department', '=', user.department_id.id)]"/>
+                        <field name="child_request_domain" placeholder="[('x_approval_base_id.request_owner_department', '=', user.department_id.id)]"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_template_view_list" model="ir.ui.view">
+        <field name="name">workflow.access.policy.template.list</field>
+        <field name="model">workflow.access.policy.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="zero_trust_enforced"/>
+                <field name="create_access_mode"/>
+                <field name="default_fallback_policy"/>
+                <field name="category_count" string="Linked Categories"/>
+                <field name="rule_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_template_view_search" model="ir.ui.view">
+        <field name="name">workflow.access.policy.template.search</field>
+        <field name="model">workflow.access.policy.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="admin_queue_user_id"/>
+                <field name="allowed_group_ids"/>
+                <filter name="active_templates" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived_templates" string="Archived" domain="[('active', '=', False)]"/>
+                <filter name="zero_trust" string="Zero Trust" domain="[('zero_trust_enforced', '=', True)]"/>
+                <filter name="restricted_create" string="Restricted Create" domain="[('create_access_mode', '=', 'restricted')]"/>
+                <filter name="auto_grant" string="Auto Grant Workflow User" domain="[('auto_grant_workflow_user_group', '=', True)]"/>
+                <separator/>
+                <filter name="groupby_fallback_policy" string="Fallback Policy" domain="[]" context="{'group_by': 'default_fallback_policy'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_template_view_form" model="ir.ui.view">
+        <field name="name">workflow.access.policy.template.form</field>
+        <field name="model">workflow.access.policy.template</field>
+        <field name="arch" type="xml">
+            <form string="Security Policy Template">
+                <header>
+                    <button name="action_open_security_policy_apply_wizard"
+                            type="object"
+                            string="Apply To Categories"
+                            class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_linked_categories"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-sitemap">
+                            <field name="category_count" string="Linked Categories" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <group>
+                        <div class="alert alert-info" colspan="2" role="alert">
+                            <strong>Templates are draft presets.</strong>
+                            Apply copies runtime defaults and reusable static read rules into category draft policy data.
+                            Live access changes only after the category is published.
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="default_fallback_policy"/>
+                            <field name="admin_queue_user_id"/>
+                            <field name="group_can_share_id"/>
+                            <field name="auto_grant_workflow_user_group"/>
+                        </group>
+                        <group>
+                            <field name="zero_trust_enforced"/>
+                            <field name="allow_requester_read"/>
+                            <field name="allow_manager_access"/>
+                            <field name="allow_assignee_without_category_access"/>
+                            <field name="category_count" readonly="1"/>
+                            <field name="rule_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Purpose, rollout notes, exceptions, rollback considerations..."/>
+                    </group>
+                    <notebook>
+                        <page string="Template Default Access">
+                            <group string="Allowed Principals">
+                                <field name="allowed_user_ids" widget="many2many_tags"/>
+                                <field name="allowed_group_ids" widget="many2many_tags"/>
+                                <field name="allowed_department_ids" widget="many2many_tags"/>
+                            </group>
+                            <group string="Request Creation">
+                                <div class="alert alert-info" colspan="2" role="alert">
+                                    Request creation is part of this template and publish flow.
+                                    Use <strong>Restricted</strong> when only selected users, groups, or departments may submit new requests.
+                                </div>
+                                <field name="create_access_mode"/>
+                                <field name="create_allowed_user_ids" widget="many2many_tags" invisible="create_access_mode != 'restricted'"/>
+                                <field name="create_allowed_group_ids" widget="many2many_tags" invisible="create_access_mode != 'restricted'"/>
+                                <field name="create_allowed_department_ids" widget="many2many_tags" invisible="create_access_mode != 'restricted'"/>
+                            </group>
+                        </page>
+                        <page string="Template Rules">
+                            <field name="rule_ids" mode="list,form" nolabel="1">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="active"/>
+                                    <field name="name"/>
+                                    <field name="audience_group_id"/>
+                                    <field name="access_level"/>
+                                    <field name="mode"/>
+                                    <field name="preset_scope" invisible="mode != 'preset'"/>
+                                    <field name="scope_summary" readonly="1"/>
+                                </list>
+                                <form string="Template Rule">
+                                    <group>
+                                        <group>
+                                            <field name="active"/>
+                                            <field name="sequence"/>
+                                            <field name="name"/>
+                                            <field name="audience_group_id"/>
+                                            <field name="access_level"/>
+                                            <field name="mode"/>
+                                            <field name="preset_scope" invisible="mode != 'preset'"/>
+                                        </group>
+                                        <group>
+                                            <field name="description" placeholder="Why this rule exists, exceptions, rollout note..."/>
+                                            <field name="scope_summary" readonly="1"/>
+                                            <field name="department_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_department' or mode != 'preset'"/>
+                                            <field name="request_owner_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_user' or mode != 'preset'"/>
+                                            <field name="manager_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_manager' or mode != 'preset'"/>
+                                            <field name="line_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_line' or mode != 'preset'"/>
+                                            <field name="team_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_team' or mode != 'preset'"/>
+                                        </group>
+                                    </group>
+                                    <group string="Safe Builder" invisible="mode != 'domain_builder'">
+                                        <field name="domain_builder" placeholder="[('request_status', '=', 'pending')]"/>
+                                    </group>
+                                    <group string="Technical Raw Domains" invisible="mode != 'raw_domain'" groups="workflow_engine.group_workflow_technical_admin,base.group_system">
+                                        <field name="base_request_domain" placeholder="[]"/>
+                                        <field name="child_request_domain" placeholder="[]"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_snapshot_view_list" model="ir.ui.view">
+        <field name="name">workflow.category.access.policy.snapshot.list</field>
+        <field name="model">workflow.category.access.policy.snapshot</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" default_order="published_at desc" decoration-success="is_current_snapshot">
+                <field name="is_current_snapshot" readonly="1" widget="boolean" string="Current"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="template_id"/>
+                <field name="published_at"/>
+                <field name="published_by"/>
+                <field name="generated_rule_count"/>
+                <field name="note"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_snapshot_view_search" model="ir.ui.view">
+        <field name="name">workflow.category.access.policy.snapshot.search</field>
+        <field name="model">workflow.category.access.policy.snapshot</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="template_id"/>
+                <field name="published_by"/>
+                <filter name="published_today" string="Published Today" domain="[('published_at', '&gt;=', context_today().strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                <separator/>
+                <filter name="groupby_category" string="Category" domain="[]" context="{'group_by': 'category_id'}"/>
+                <filter name="groupby_template" string="Template" domain="[]" context="{'group_by': 'template_id'}"/>
+                <filter name="groupby_published_by" string="Published By" domain="[]" context="{'group_by': 'published_by'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_snapshot_view_form" model="ir.ui.view">
+        <field name="name">workflow.category.access.policy.snapshot.form</field>
+        <field name="model">workflow.category.access.policy.snapshot</field>
+        <field name="arch" type="xml">
+            <form string="Published Security Policy" create="0" edit="0" delete="0">
+                <header>
+                    <button name="action_open_security_policy_rollback_wizard"
+                            type="object"
+                            string="Rollback To This Snapshot"
+                            class="btn-primary"
+                            groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="is_current_snapshot" readonly="1"/>
+                            <field name="category_id" readonly="1"/>
+                            <field name="template_id" readonly="1"/>
+                            <field name="generated_rule_count" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="published_at" readonly="1"/>
+                            <field name="published_by" readonly="1"/>
+                            <field name="note" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Runtime Payload">
+                            <field name="runtime_payload" readonly="1" nolabel="1"/>
+                        </page>
+                        <page string="Rule Payload">
+                            <field name="rule_payload" readonly="1" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_template_action" model="ir.actions.act_window">
+        <field name="name">Security Policy Templates</field>
+        <field name="res_model">workflow.access.policy.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="workflow_engine.workflow_access_policy_template_view_search"/>
+    </record>
+
+    <record id="workflow_access_policy_snapshot_action" model="ir.actions.act_window">
+        <field name="name">Published Security Policies</field>
+        <field name="res_model">workflow.category.access.policy.snapshot</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="workflow_engine.workflow_access_policy_snapshot_view_search"/>
+    </record>
+
+    <record id="workflow_access_policy_apply_wizard_view_form" model="ir.ui.view">
+        <field name="name">workflow.access.policy.apply.wizard.form</field>
+        <field name="model">workflow.access.policy.apply.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Apply Security Template">
+                <group>
+                    <field name="template_id"/>
+                    <field name="category_ids" widget="many2many_tags"/>
+                </group>
+                <group string="Preview" col="12">
+                    <field name="changed_category_count" readonly="1" colspan="6"/>
+                    <field name="changed_rule_count" readonly="1" colspan="6"/>
+                    <field name="preview_html" readonly="1" nolabel="1" colspan="12"/>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply To Draft" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_publish_wizard_view_form" model="ir.ui.view">
+        <field name="name">workflow.access.policy.publish.wizard.form</field>
+        <field name="model">workflow.access.policy.publish.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Publish Security Policy">
+                <group>
+                    <field name="category_ids" widget="many2many_tags"/>
+                    <field name="compiled_rule_count" readonly="1"/>
+                    <field name="note"/>
+                </group>
+                <group string="Preview" col="12">
+                    <field name="preview_html" readonly="1" nolabel="1" colspan="12"/>
+                    <field name="validation_error" readonly="1" invisible="not validation_error" colspan="12"/>
+                </group>
+                <footer>
+                    <button name="action_publish" type="object" string="Publish Policy" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_access_policy_rollback_wizard_view_form" model="ir.ui.view">
+        <field name="name">workflow.access.policy.rollback.wizard.form</field>
+        <field name="model">workflow.access.policy.rollback.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Rollback Security Policy">
+                <group>
+                    <field name="category_id" readonly="1"/>
+                    <field name="snapshot_id"/>
+                </group>
+                <group string="Preview" col="12">
+                    <field name="preview_html" readonly="1" nolabel="1" colspan="12"/>
+                </group>
+                <footer>
+                    <button name="action_rollback" type="object" string="Rollback And Publish" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_security_access_diagnostic_wizard_view_form" model="ir.ui.view">
+        <field name="name">workflow.security.access.diagnostic.wizard.form</field>
+        <field name="model">workflow.security.access.diagnostic.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Security Access Diagnostic">
+                <group>
+                    <field name="user_id"/>
+                    <field name="category_id"/>
+                    <field name="request_id"/>
+                    <field name="access_granted" string="Overall Ready" readonly="1"/>
+                </group>
+                <group string="Analysis" col="12">
+                    <field name="analysis_html" readonly="1" nolabel="1" colspan="12"/>
+                </group>
+                <footer>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_workflow_access_policy_apply_wizard" model="ir.actions.act_window">
+        <field name="name">Apply Security Template</field>
+        <field name="res_model">workflow.access.policy.apply.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="workflow_engine.model_workflow_approval_category"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <record id="action_workflow_category_access_policy_wizard" model="ir.actions.act_window">
+        <field name="name">Apply Security Template</field>
+        <field name="res_model">workflow.access.policy.apply.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_workflow_access_policy_publish_wizard" model="ir.actions.act_window">
+        <field name="name">Publish Security Policy</field>
+        <field name="res_model">workflow.access.policy.publish.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="workflow_engine.model_workflow_approval_category"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <record id="action_workflow_access_policy_rollback_wizard" model="ir.actions.act_window">
+        <field name="name">Rollback Security Policy</field>
+        <field name="res_model">workflow.access.policy.rollback.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_workflow_security_access_diagnostic_wizard" model="ir.actions.act_window">
+        <field name="name">Security Access Diagnostic</field>
+        <field name="res_model">workflow.security.access.diagnostic.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="workflow_approval_category_security_policy_workspace_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.category.security.policy.workspace.form</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="arch" type="xml">
+            <form string="Security Policy Workspace">
+                <sheet>
+                    <group>
+                        <div class="alert alert-primary" colspan="2" role="alert">
+                            <strong>Policy workspace and publish flow.</strong>
+                            This modal edits the working copy for the selected category.
+                            Use <strong>Load Template to Draft</strong> to prepare draft values, then <strong>Publish Changes</strong> to make them active.
+                        </div>
+                    </group>
+                    <group>
+                        <group string="Template and Publish Status">
+                            <field name="name" readonly="1"/>
+                            <field name="access_policy_template_id" string="Security Policy Template" readonly="1"/>
+                            <field name="access_policy_last_applied_at" readonly="1"/>
+                            <field name="access_policy_last_applied_by" readonly="1"/>
+                            <field name="security_policy_last_published_at" readonly="1"/>
+                            <field name="security_policy_last_published_by" readonly="1"/>
+                            <field name="security_policy_last_published_snapshot_id" readonly="1"/>
+                            <field name="security_policy_publish_count" readonly="1"/>
+                        </group>
+                        <group string="Safety Defaults">
+                            <field name="security_policy_draft_zero_trust_enforced" string="Zero Trust Enforced"/>
+                            <field name="security_policy_draft_allow_requester_read" string="Allow Requester Read"/>
+                            <field name="security_policy_draft_allow_manager_access" string="Allow Manager Access"/>
+                            <field name="security_policy_draft_allow_assignee_without_category_access" string="Allow Assignee Without Category Access"/>
+                            <field name="security_policy_draft_default_fallback_policy" string="Fallback Policy"/>
+                            <field name="security_policy_draft_admin_queue_user_id" string="Admin Queue Owner"/>
+                            <field name="security_policy_draft_group_can_share_id" string="Share Permission Group"/>
+                            <field name="security_policy_draft_rule_count" string="Read Rule Count" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Who Can Find This Category?">
+                        <div class="alert alert-info" colspan="2" role="alert">
+                            These people can see the category and find related requests by category access.
+                            Leave empty if visibility should come only from request ownership, assignments,
+                            followers, visibility scopes, or read rules below.
+                        </div>
+                        <field name="security_policy_draft_allowed_user_ids" string="Allowed Users" widget="many2many_tags"/>
+                        <field name="security_policy_draft_allowed_group_ids" string="Allowed Groups" widget="many2many_tags"/>
+                        <field name="security_policy_draft_allowed_department_ids" string="Allowed Departments" widget="many2many_tags"/>
+                    </group>
+                    <group string="Who Can Start New Requests?">
+                        <div class="alert alert-info" colspan="2" role="alert">
+                            <strong>Recommended default:</strong> use <strong>All Workflow Users</strong> for normal employee request forms.
+                            Use <strong>Restricted</strong> only when only selected users, groups, or departments may start this category.
+                            Starting a request does not mean the user can read every existing request.
+                        </div>
+                        <group>
+                            <field name="security_policy_draft_create_access_mode" string="Request Creation Access"/>
+                        </group>
+                        <group invisible="security_policy_draft_create_access_mode != 'restricted'">
+                            <field name="security_policy_draft_create_allowed_user_ids" string="Create Allowed Users" widget="many2many_tags"/>
+                            <field name="security_policy_draft_create_allowed_group_ids" string="Create Allowed Groups" widget="many2many_tags"/>
+                            <field name="security_policy_draft_create_allowed_department_ids" string="Create Allowed Departments" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group string="Who Can Read Existing Requests?" col="12">
+                        <div class="alert alert-info" colspan="12" role="alert">
+                            Add read rules for groups that need to see existing requests beyond their own requests,
+                            approvals, assignments, followers, or explicit visibility scopes.
+                        </div>
+                        <field name="security_policy_rule_ids" mode="list,form" nolabel="1" colspan="12">
+                            <list open_form_view="True">
+                                <field name="sequence" widget="handle"/>
+                                <field name="active" widget="boolean_toggle"/>
+                                <field name="name"/>
+                                <field name="audience_group_id"/>
+                                <field name="access_level"/>
+                                <field name="mode"/>
+                                <field name="preset_scope" invisible="mode != 'preset'"/>
+                                <field name="scope_summary" readonly="1"/>
+                            </list>
+                            <form string="Read Visibility Rule">
+                                <group>
+                                    <group>
+                                        <field name="active" widget="boolean_toggle"/>
+                                        <field name="sequence"/>
+                                        <field name="name"/>
+                                        <field name="audience_group_id"/>
+                                        <field name="access_level"/>
+                                        <field name="mode"/>
+                                        <field name="preset_scope" invisible="mode != 'preset'"/>
+                                    </group>
+                                    <group>
+                                        <field name="description" placeholder="Why this rule exists, exceptions, rollout note..."/>
+                                        <field name="scope_summary" readonly="1"/>
+                                        <field name="department_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_department' or mode != 'preset'"/>
+                                        <field name="request_owner_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_user' or mode != 'preset'"/>
+                                        <field name="manager_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_manager' or mode != 'preset'"/>
+                                        <field name="line_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_line' or mode != 'preset'"/>
+                                        <field name="team_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_team' or mode != 'preset'"/>
+                                    </group>
+                                </group>
+                                <group string="Safe Builder" invisible="mode != 'domain_builder'">
+                                    <field name="domain_builder" placeholder="[('request_status', '=', 'pending')]"/>
+                                </group>
+                                <group string="Technical Raw Domains" invisible="mode != 'raw_domain'" groups="workflow_engine.group_workflow_technical_admin,base.group_system">
+                                    <field name="base_request_domain" placeholder="[]"/>
+                                    <field name="child_request_domain" placeholder="[]"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_open_security_policy_apply_wizard"
+                            type="object"
+                            string="Load Template to Draft"
+                            class="btn-secondary"/>
+                    <button name="action_open_security_policy_publish_wizard"
+                            type="object"
+                            string="Publish Changes"
+                            class="btn-primary"/>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_workflow_security_policy_workspace" model="ir.actions.act_window">
+        <field name="name">Security Policy Workspace</field>
+        <field name="res_model">workflow.approval.category</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="workflow_engine.workflow_approval_category_security_policy_workspace_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="workflow_approval_category_view_form_policy_buttons" model="ir.ui.view">
+        <field name="name">workflow.approval.category.view.form.policy.buttons</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_security_policy_apply_wizard"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-clone"
+                        groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                        string="Load Template"/>
+                <button name="action_open_security_policy_publish_wizard"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-upload"
+                        groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                        string="Publish Changes"/>
+                <button name="action_open_security_policy_rollback_wizard"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-history"
+                        groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                        invisible="not security_policy_last_published_snapshot_id"
+                        string="Rollback"/>
+                <button name="action_open_security_policy_diagnostic"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-stethoscope"
+                        groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                        string="Access Diagnostic"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_approval_category_view_form_access_policy" model="ir.ui.view">
+        <field name="name">workflow.approval.category.view.form.security.policy</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_category_view_form"/>
+        <field name="active" eval="False"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Policy Workspace" groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system">
+                    <group>
+                        <div class="alert alert-primary" colspan="2" role="alert">
+                            <strong>Policy workspace and publish flow.</strong>
+                            Reusable templates are managed globally in <strong>Configuration &gt; Security Policy Templates</strong>.
+                            This page is the working copy for the selected category, along with publish status and category-specific overrides after a template is applied.
+                            Use <strong>Load Template to Draft</strong> to prepare working-copy values, then <strong>Publish Changes</strong> to make them active.
+                        </div>
+                    </group>
+                    <group>
+                        <group string="Template and Publish Status">
+                            <field name="access_policy_template_id" string="Security Policy Template" readonly="1"/>
+                            <field name="access_policy_last_applied_at" readonly="1"/>
+                            <field name="access_policy_last_applied_by" readonly="1"/>
+                            <field name="security_policy_last_published_at" readonly="1"/>
+                            <field name="security_policy_last_published_by" readonly="1"/>
+                            <field name="security_policy_last_published_snapshot_id" readonly="1"/>
+                            <field name="security_policy_publish_count" readonly="1"/>
+                        </group>
+                        <group string="Safety Defaults">
+                            <field name="security_policy_draft_zero_trust_enforced" string="Zero Trust Enforced"/>
+                            <field name="security_policy_draft_allow_requester_read" string="Allow Requester Read"/>
+                            <field name="security_policy_draft_allow_manager_access" string="Allow Manager Access"/>
+                            <field name="security_policy_draft_allow_assignee_without_category_access" string="Allow Assignee Without Category Access"/>
+                            <field name="security_policy_draft_default_fallback_policy" string="Fallback Policy"/>
+                            <field name="security_policy_draft_admin_queue_user_id" string="Admin Queue Owner"/>
+                            <field name="security_policy_draft_group_can_share_id" string="Share Permission Group"/>
+                            <field name="security_policy_draft_rule_count" string="Read Rule Count" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Who Can Find This Category?">
+                        <div class="alert alert-info" colspan="2" role="alert">
+                            These people can see the category and find related requests by category access.
+                            Leave empty if visibility should come only from request ownership, assignments,
+                            followers, visibility scopes, or read rules below.
+                        </div>
+                        <field name="security_policy_draft_allowed_user_ids" string="Allowed Users" widget="many2many_tags"/>
+                        <field name="security_policy_draft_allowed_group_ids" string="Allowed Groups" widget="many2many_tags"/>
+                        <field name="security_policy_draft_allowed_department_ids" string="Allowed Departments" widget="many2many_tags"/>
+                    </group>
+                    <group string="Who Can Start New Requests?">
+                        <div class="alert alert-info" colspan="2" role="alert">
+                            <strong>Recommended default:</strong> use <strong>All Workflow Users</strong> for normal employee request forms.
+                            Use <strong>Restricted</strong> only when only selected users, groups, or departments may start this category.
+                            Starting a request does not mean the user can read every existing request.
+                        </div>
+                        <group>
+                            <field name="security_policy_draft_create_access_mode" string="Request Creation Access"/>
+                        </group>
+                        <group invisible="security_policy_draft_create_access_mode != 'restricted'">
+                            <field name="security_policy_draft_create_allowed_user_ids" string="Create Allowed Users" widget="many2many_tags"/>
+                            <field name="security_policy_draft_create_allowed_group_ids" string="Create Allowed Groups" widget="many2many_tags"/>
+                            <field name="security_policy_draft_create_allowed_department_ids" string="Create Allowed Departments" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group string="Who Can Read Existing Requests?" col="12">
+                        <div class="alert alert-info" colspan="12" role="alert">
+                            Add read rules for groups that need to see existing requests beyond their own requests,
+                            approvals, assignments, followers, or explicit visibility scopes.
+                        </div>
+                        <field name="security_policy_rule_ids" mode="list,form" nolabel="1" colspan="12">
+                            <list  open_form_view="True">
+                                <field name="sequence" widget="handle"/>
+                                <field name="active" widget="boolean_toggle"/>
+                                <field name="name"/>
+                                <field name="audience_group_id"/>
+                                <field name="access_level"/>
+                                <field name="mode"/>
+                                <field name="preset_scope" invisible="mode != 'preset'"/>
+                                <field name="scope_summary" readonly="1"/>
+                            </list>
+                            <form string="Read Visibility Rule">
+                                <group>
+                                    <group>
+                                        <field name="active" widget="boolean_toggle"/>
+                                        <field name="sequence"/>
+                                        <field name="name"/>
+                                        <field name="audience_group_id"/>
+                                        <field name="access_level"/>
+                                        <field name="mode"/>
+                                        <field name="preset_scope" invisible="mode != 'preset'"/>
+                                    </group>
+                                    <group>
+                                        <field name="description" placeholder="Why this rule exists, exceptions, rollout note..."/>
+                                        <field name="scope_summary" readonly="1"/>
+                                        <field name="department_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_department' or mode != 'preset'"/>
+                                        <field name="request_owner_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_user' or mode != 'preset'"/>
+                                        <field name="manager_user_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_manager' or mode != 'preset'"/>
+                                        <field name="line_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_line' or mode != 'preset'"/>
+                                        <field name="team_ids" widget="many2many_tags" invisible="preset_scope != 'request_owner_team' or mode != 'preset'"/>
+                                    </group>
+                                </group>
+                                <group string="Safe Builder" invisible="mode != 'domain_builder'">
+                                    <field name="domain_builder" placeholder="[('request_status', '=', 'pending')]"/>
+                                </group>
+                                <group string="Technical Raw Domains" invisible="mode != 'raw_domain'" groups="workflow_engine.group_workflow_technical_admin,base.group_system">
+                                    <field name="base_request_domain" placeholder="[]"/>
+                                    <field name="child_request_domain" placeholder="[]"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <group string="Published Versions" col="12">
+                        <field name="security_policy_snapshot_ids" nolabel="1" readonly="1" colspan="12">
+                            <list create="0" delete="0" decoration-success="is_current_snapshot">
+                                <field name="is_current_snapshot" readonly="1" widget="boolean" string="Current"/>
+                                <field name="name"/>
+                                <field name="published_at"/>
+                                <field name="published_by"/>
+                                <field name="generated_rule_count"/>
+                                <field name="note"/>
+                            </list>
+                        </field>
+                    </group>
+                </page> 
+            </xpath>
+        </field>
+    </record>
+</odoo>

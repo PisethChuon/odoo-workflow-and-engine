@@ -1,0 +1,144 @@
+.o_web_client:not(.o_touch_device) {
+  .o_dropdown_menu,
+  .o-dropdown--menu {
+    > span.o-dropdown-item.dropdown-item:has(> .wf-approval-action) {
+      background: transparent !important;
+    }
+
+    button.wf-approval-action {
+      --wf-approval-text: #dde6f8;
+      --wf-approval-icon: #cdd9f1;
+      color: var(--wf-approval-text) !important;
+
+      i {
+        color: var(--wf-approval-icon) !important;
+        opacity: 1;
+      }
+
+      &:hover {
+        background: color-mix(in srgb, #6ea8fe 18%, transparent) !important;
+      }
+
+      &:active {
+        background: color-mix(in srgb, #6ea8fe 26%, transparent) !important;
+      }
+
+      &.wf-approval-action--primary {
+        color: #7db2ff !important;
+
+        i {
+          color: #7db2ff !important;
+        }
+      }
+
+      &.wf-approval-action--danger {
+        color: #ff8b94 !important;
+
+        i {
+          color: #ff8b94 !important;
+        }
+      }
+
+      &.wf-approval-action--secondary {
+        color: #c0cadb !important;
+
+        i {
+          color: #c0cadb !important;
+        }
+      }
+
+      &.wf-approval-action--success {
+        color: #76d7a0 !important;
+
+        i {
+          color: #76d7a0 !important;
+        }
+      }
+
+      &.wf-approval-action--info {
+        color: #72d9ee !important;
+
+        i {
+          color: #72d9ee !important;
+        }
+      }
+
+      &.wf-approval-action--warning {
+        color: #ffd56a !important;
+
+        i {
+          color: #ffd56a !important;
+        }
+      }
+
+      &:disabled {
+        color: color-mix(in srgb, var(--wf-approval-text) 62%, transparent) !important;
+        opacity: 0.95;
+
+        i {
+          color: color-mix(in srgb, var(--wf-approval-icon) 60%, transparent) !important;
+        }
+      }
+    }
+  }
+}
+
+.o_touch_device {
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_approval_buttons),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_approval_decision_row),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_bpmn_button),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_delegate_button),
+  .o_bottom_sheet_body.o-dropdown--menu:has(.o_widget_attach_document) {
+    --wf-sheet-text: #e8eefb;
+    --wf-sheet-icon: #d7e1f4;
+    // Stronger separators for dark mode.
+    --wf-sheet-divider: color-mix(in srgb, var(--wf-sheet-text) 42%, transparent);
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row,
+    .o_widget_bpmn_button > button,
+    .o_widget_attach_document > button,
+    .o_widget_delegate_button > button {
+      color: var(--wf-sheet-text) !important;
+      border-top-color: var(--wf-sheet-divider) !important;
+    }
+
+    .o_approval_btn_content i,
+    .wf-approval-mobile-actions > button.o_approval_decision_row::before,
+    .o_widget_bpmn_button > button::before,
+    .o_widget_attach_document > button::before,
+    .o_widget_delegate_button > button::before {
+      color: var(--wf-sheet-icon) !important;
+      opacity: 1;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--primary,
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--primary i {
+      color: #7db2ff !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--secondary,
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--secondary i {
+      color: #c0cadb !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--success,
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--success i {
+      color: #76d7a0 !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--info,
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--info i {
+      color: #72d9ee !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--warning,
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--warning i {
+      color: #ffd56a !important;
+    }
+
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--danger,
+    .wf-approval-mobile-actions > button.o_approval_decision_row.wf-approval-action--danger i {
+      color: #ff8b94 !important;
+    }
+  }
+}

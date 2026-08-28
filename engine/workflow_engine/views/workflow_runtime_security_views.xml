@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workflow_approval_category_view_form_runtime_security" model="ir.ui.view">
+        <field name="name">workflow.approval.category.form.runtime.security</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Active Security">
+                    <group>
+                        <div class="alert alert-info" colspan="2" role="alert">
+                            <strong>Active Security = live runtime state.</strong>
+                            These values are currently active in production.
+                            Use the <strong>Security Policy</strong> button to update the working copy, then publish it
+                            so admins can validate and preview changes before they become effective.
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="zero_trust_enforced" readonly="1"/>
+                            <field name="allow_requester_read" readonly="1"/>
+                            <field name="allow_manager_access" readonly="1"/>
+                            <field name="allow_assignee_without_category_access" readonly="1"/>
+                            <field name="default_fallback_policy" readonly="1"/>
+                            <field name="admin_queue_user_id" readonly="1"/>
+                            <field name="enable_force_transition"/>
+                            <field name="enable_mini_bus_updates"/>
+                        </group>
+                        <group>
+                            <field name="allowed_user_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="allowed_group_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="allowed_department_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="group_can_share_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Active Request Creation">
+                        <group>
+                            <field name="create_access_mode" readonly="1"/>
+                        </group>
+                        <group invisible="create_access_mode != 'restricted'">
+                            <field name="create_allowed_user_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="create_allowed_group_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="create_allowed_department_ids" widget="many2many_tags" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Current Published Read Visibility Rules" col="12">
+                        <field name="security_policy_current_rule_summary_html"
+                               widget="html"
+                               nolabel="1"
+                               readonly="1"
+                               colspan="12"/>
+                    </group>
+                    <group string="Published Versions" col="12">
+                        <field name="security_policy_snapshot_ids" nolabel="1" readonly="1" colspan="12">
+                            <list create="0" delete="0" decoration-success="is_current_snapshot">
+                                <field name="is_current_snapshot" readonly="1" widget="boolean" string="Current"/>
+                                <field name="name"/>
+                                <field name="published_at"/>
+                                <field name="published_by"/>
+                                <field name="generated_rule_count"/>
+                                <field name="note"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_meta_task_form_runtime_settings" model="ir.ui.view">
+        <field name="name">workflow.meta.task.form.runtime.settings</field>
+        <field name="model">workflow.category.version.meta.task</field>
+        <field name="inherit_id" ref="workflow_engine.view_workflow_meta_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Runtime">
+                    <group>
+                        <group string="Assignment">
+                            <field name="assignment_mode"/>
+                            <field name="explicit_user_ids" widget="many2many_tags"/>
+                            <field name="explicit_group_ids" widget="many2many_tags"/>
+                            <field name="assignment_user_domain"/>
+                            <field name="completion_mode"/>
+                            <field name="fallback_policy"/>
+                            <field name="fallback_user_id"/>
+                            <field name="enable_share_override"/>
+                        </group>
+                        <group string="Automation">
+                            <field name="service_behavior" invisible="node_type != 'serviceTask'"/>
+                            <div class="text-muted" colspan="2" invisible="node_type != 'serviceTask'">
+                                Router keeps current service-task routing semantics. Executor reserves the node for runtime_v2 automation execution.
+                            </div>
+                            <field name="automation_run_mode"
+                                   invisible="node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor')"/>
+                            <field name="automation_condition_domain"
+                                   widget="domain"
+                                   options="{'model': 'res_model_name', 'in_dialog': true}"
+                                   invisible="node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor')"/>
+                            <field name="automation_schedule_mode"
+                                   invisible="automation_run_mode != 'scheduled' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_interval_number"
+                                   invisible="automation_run_mode != 'scheduled' or automation_schedule_mode != 'interval' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_interval_type"
+                                   invisible="automation_run_mode != 'scheduled' or automation_schedule_mode != 'interval' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_fixed_time"
+                                   invisible="automation_run_mode != 'scheduled' or automation_schedule_mode != 'fixed_time' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_cron_expr"
+                                   invisible="automation_run_mode != 'scheduled' or automation_schedule_mode != 'cron' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_is_recurring"
+                                   invisible="automation_run_mode != 'scheduled' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_recurrence_end_mode"
+                                   invisible="automation_run_mode != 'scheduled' or not automation_is_recurring or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_recurrence_count"
+                                   invisible="automation_run_mode != 'scheduled' or not automation_is_recurring or automation_recurrence_end_mode != 'count' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <field name="automation_recurrence_until"
+                                   invisible="automation_run_mode != 'scheduled' or not automation_is_recurring or automation_recurrence_end_mode != 'until' or (node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor'))"/>
+                            <div class="text-muted" colspan="2"
+                                 invisible="node_type not in ['sendTask', 'scriptTask'] and not (node_type == 'serviceTask' and service_behavior == 'executor')">
+                                Scheduled automation is managed by the workflow engine runtime. Configure the run condition here and let workflow runtime create/cancel request-scoped jobs. Do not create separate ir.cron jobs for BPMN task execution.
+                            </div>
+                        </group>
+                        <group string="Parallel and Join">
+                            <field name="join_key"/>
+                            <field name="gateway_node_id"/>
+                            <field name="join_policy"/>
+                            <field name="join_min_n" invisible="join_policy != 'min_n'"/>
+                            <field name="parallel_reject_policy"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Rework Routing">
+                            <field name="assign_to_previous_actor"/>
+                            <field name="previous_actor_node_ref" invisible="not assign_to_previous_actor"/>
+                            <field name="assign_to_request_owner"/>
+                        </group>
+                        <group string="Confidentiality">
+                            <field name="confidentiality_level"/>
+                            <field name="department_id"/>
+                            <field name="requires_department_payload"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_meta_task_action_form_runtime_settings" model="ir.ui.view">
+        <field name="name">workflow.meta.task.action.form.runtime.settings</field>
+        <field name="model">workflow.category.version.meta.task.action</field>
+        <field name="inherit_id" ref="workflow_engine.view_workflow_meta_task_action_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="inside">
+                <group string="Action Security">
+                    <field name="authorization_mode"/>
+                    <field name="authorization_scope" invisible="authorization_mode != 'business_actor'"/>
+                    <field name="business_actor_include_owner" invisible="authorization_mode != 'business_actor'"/>
+                    <field name="business_actor_include_creator" invisible="authorization_mode != 'business_actor'"/>
+                    <field name="business_actor_include_node_assignees" invisible="authorization_mode != 'business_actor'"/>
+                    <field name="business_actor_user_ids" widget="many2many_tags" invisible="authorization_mode != 'business_actor'"/>
+                    <field name="business_actor_group_ids" widget="many2many_tags" invisible="authorization_mode != 'business_actor'"/>
+                    <field name="business_actor_approval_group_ids" widget="many2many_tags" invisible="authorization_mode != 'business_actor'"/>
+                    <field name="business_actor_user_domain" widget="domain"
+                           options="{'model': 'res.users', 'in_dialog': true}"
+                           invisible="authorization_mode != 'business_actor'"/>
+                    <field name="comment_required"/>
+                    <field name="require_reason_domain" widget="domain"
+                           options="{'model': 'res_model_name', 'in_dialog': true}"
+                           invisible="not require_reason"/>
+                    <field name="comment_required_domain" widget="domain"
+                           options="{'model': 'res_model_name', 'in_dialog': true}"
+                           invisible="not comment_required"/>
+                    <field name="idempotency_required"/>
+                    <field name="require_2fa"/>
+                    <field name="twofa_method" invisible="not require_2fa"/>
+                    <field name="twofa_condition_domain" widget="domain"
+                           options="{'model': 'res_model_name', 'in_dialog': true}"
+                           invisible="not require_2fa"/>
+                    <field name="required_rule_set_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_approval_request_form_runtime_insights" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.form.runtime.insights</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+        <!-- Deprecated: runtime sections are now rendered in notebook tabs on the base form. -->
+        <field name="active" eval="False"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group[@name='request_status']" position="after">
+                <group string="Runtime Tasks" colspan="12" groups="workflow_engine.group_workflow_approval_admin">
+                    <field name="task_instance_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0">
+                            <field name="node_name"/>
+                            <field name="node_id"/>
+                            <field name="iteration_no"/>
+                            <field name="status" widget="badge"/>
+                            <field name="completion_mode"/>
+                            <field name="join_policy"/>
+                            <field name="approved_count"/>
+                            <field name="assignee_count"/>
+                        </list>
+                    </field>
+                </group>
+                <group string="Runtime Events" colspan="12" groups="workflow_engine.group_workflow_approval_admin">
+                    <field name="task_event_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0" default_order="id desc">
+                            <field name="create_date"/>
+                            <field name="event_type"/>
+                            <field name="action_key"/>
+                            <field name="from_node_id"/>
+                            <field name="to_node_id"/>
+                            <field name="actor_user_id"/>
+                            <field name="on_behalf_of_user_id"/>
+                            <field name="comment"/>
+                        </list>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_request_action_assignment_view_list" model="ir.ui.view">
+        <field name="name">workflow.request.action.assignment.list</field>
+        <field name="model">workflow.request.action.assignment</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" default_order="id desc"
+                  decoration-success="status == 'open'" decoration-muted="status in ['closed', 'cancelled', 'redirected']">
+                <field name="request_id"/>
+                <field name="node_id"/>
+                <field name="iteration_no"/>
+                <field name="meta_action_id"/>
+                <field name="actor_user_id" widget="many2one_avatar_user"/>
+                <field name="original_actor_user_id" widget="many2one_avatar_user"/>
+                <field name="delegated_from_user_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="delegation_mode" optional="show"/>
+                <field name="status" widget="badge"/>
+                <field name="can_act"/>
+                <field name="assigned_at" optional="hide"/>
+                <field name="acted_at" optional="hide"/>
+                <field name="closed_at" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_request_action_assignment_view_form" model="ir.ui.view">
+        <field name="name">workflow.request.action.assignment.form</field>
+        <field name="model">workflow.request.action.assignment</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="request_id"/>
+                            <field name="task_instance_id"/>
+                            <field name="meta_action_id"/>
+                            <field name="scope"/>
+                            <field name="node_id"/>
+                            <field name="iteration_no"/>
+                        </group>
+                        <group>
+                            <field name="actor_user_id"/>
+                            <field name="original_actor_user_id"/>
+                            <field name="delegated_from_user_id"/>
+                            <field name="delegated_by_user_id"/>
+                            <field name="delegation_mode"/>
+                            <field name="visibility_scope_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="status"/>
+                        <field name="can_act"/>
+                        <field name="assigned_at"/>
+                        <field name="acted_at"/>
+                        <field name="closed_at"/>
+                        <field name="close_reason"/>
+                    </group>
+                    <group string="Resolution Snapshot">
+                        <field name="source_snapshot" widget="json" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_request_action_assignment_view_search" model="ir.ui.view">
+        <field name="name">workflow.request.action.assignment.search</field>
+        <field name="model">workflow.request.action.assignment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="request_id"/>
+                <field name="meta_action_id"/>
+                <field name="actor_user_id"/>
+                <field name="original_actor_user_id"/>
+                <field name="node_id"/>
+                <filter name="open" string="Open" domain="[('status', '=', 'open'), ('can_act', '=', True)]"/>
+                <filter name="delegated" string="Delegated" domain="[('delegated_from_user_id', '!=', False)]"/>
+                <separator/>
+                <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                <filter name="group_action" string="Action" context="{'group_by': 'meta_action_id'}"/>
+                <filter name="group_actor" string="Actor" context="{'group_by': 'actor_user_id'}"/>
+                <filter name="group_node" string="Node" context="{'group_by': 'node_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_workflow_request_action_assignment" model="ir.actions.act_window">
+        <field name="name">Business Action Assignments</field>
+        <field name="res_model">workflow.request.action.assignment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="workflow_request_action_assignment_view_search"/>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+</odoo>

@@ -1,0 +1,152 @@
+.o_bpmn_display_records {
+  flex-grow: 1;
+  height: 100%;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background: #000000;
+}
+
+.o_bpmn_display_records > div {
+  width: 100%;
+  height: 100%;
+}
+
+.o_bpmn_display_records .djs-container,
+.o_bpmn_display_records .djs-svg {
+  background: #000000 !important;
+  background-image:
+    linear-gradient(to right, rgba(248, 250, 252, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(248, 250, 252, 0.08) 1px, transparent 1px) !important;
+  background-size: 28px 28px !important;
+  height: 100% !important;
+  transition: background-color 220ms ease;
+}
+
+.o_bpmn_display_records .djs-shape .djs-visual > rect,
+.o_bpmn_display_records .djs-shape .djs-visual > polygon,
+.o_bpmn_display_records .djs-shape .djs-visual > circle,
+.o_bpmn_display_records .djs-shape .djs-visual > path {
+  fill: #0f172a;
+  stroke: #64748b;
+  stroke-width: 1.9px;
+  transition: fill 220ms ease, stroke 220ms ease;
+}
+
+.o_bpmn_display_records .djs-label .djs-visual > text,
+.o_bpmn_display_records .djs-shape .djs-visual text,
+.o_bpmn_display_records .djs-shape .djs-visual tspan {
+  fill: #f8fafc;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: #000000;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.o_bpmn_display_records .djs-outline {
+  stroke: #38bdf8 !important;
+  stroke-width: 2px;
+}
+
+.o_bpmn_display_records .djs-hover-outline {
+  stroke: #22d3ee !important;
+}
+
+.o_bpmn_display_records .djs-connection .djs-visual > path {
+  stroke: #94a3b8;
+  color: #94a3b8;
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.84;
+}
+
+/* Arrow heads — inherit color from connection path via currentColor */
+.o_bpmn_display_records marker path,
+.o_bpmn_display_records .djs-marker path {
+  fill: currentColor !important;
+  stroke: none !important;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--task .djs-visual > rect {
+  fill: #0f172a;
+  stroke: #64748b;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--user-task .djs-visual > rect {
+  fill: #1f2448;
+  stroke: #818cf8;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--service-task .djs-visual > rect {
+  fill: #11323f;
+  stroke: #2dd4bf;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--send-task .djs-visual > rect {
+  fill: #133729;
+  stroke: #4ade80;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--script-task .djs-visual > rect {
+  fill: #0c3148;
+  stroke: #38bdf8;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--call-activity .djs-visual > rect {
+  fill: #3a2a16;
+  stroke: #fb923c;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--sub-process .djs-visual > rect {
+  fill: #3b2f16;
+  stroke: #f59e0b;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--start"] .djs-visual > circle {
+  fill: #102338;
+  stroke: #38bdf8;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--end"] .djs-visual > circle {
+  fill: #3f1d2e;
+  stroke: #fb7185;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--intermediate-catch"] .djs-visual > circle {
+  fill: #1e293b;
+  stroke: #7dd3fc;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--intermediate-throw"] .djs-visual > circle {
+  fill: #11323f;
+  stroke: #5eead4;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--gateway"] .djs-visual > polygon {
+  fill: #3a2a16;
+  stroke: #fdba74;
+}
+
+.o_bpmn_display_records .wf-node-badge {
+  animation: none;
+}
+
+.o_bpmn_display_records .djs-element.wf-node-shape .djs-visual {
+  filter: drop-shadow(0 2px 7px rgba(2, 6, 23, 0.55));
+}
+
+@media (max-width: 767px) {
+  .o_bpmn_display_records {
+    border-radius: 8px;
+    min-height: 320px;
+  }
+
+  .o_bpmn_display_records .wf-node-badge {
+    width: 12px;
+    height: 12px;
+  }
+}

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="workflow_studio.RuntimeReferenceDialog">
+        <Dialog
+            title.translate="Runtime Values"
+            size="'lg'"
+            contentClass="'o_workflow_studio_domain_dialog o_wfs_runtime_reference_dialog'"
+        >
+            <div class="o_wfs_runtime_reference">
+                <div class="o_wfs_runtime_reference_header">
+                    <div>
+                        <div class="o_wfs_dd_ref_section_label">Available Symbols</div>
+                        <p class="o_wfs_dd_ref_hint mb-0">Use a verified symbol on the right side of a domain condition. Start with Recommended, then search when you need an advanced value.</p>
+                    </div>
+                </div>
+                <div class="o_wfs_runtime_reference_toolbar">
+                    <SelectMenu t-props="runtimeReferenceCategorySelectProps"/>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"/></span>
+                        <input
+                            type="search"
+                            class="o_input form-control"
+                            placeholder="Search symbol, meaning, or example..."
+                            t-att-value="props.referenceState.runtimeReferenceQuery"
+                            t-on-input="onRuntimeReferenceSearchInput"
+                        />
+                    </div>
+                    <span class="small text-muted text-nowrap" t-esc="runtimeReferenceCountLabel"/>
+                </div>
+                <div class="o_wfs_domain_dialog_runtime_rows">
+                    <t t-foreach="runtimeReferenceRows" t-as="runtimeRow" t-key="runtimeRow.key || runtimeRow.symbol">
+                        <div class="o_wfs_domain_dialog_runtime_row">
+                            <code t-esc="runtimeRow.symbol"/>
+                            <span t-esc="runtimeRow.meaning"/>
+                            <code t-if="runtimeRow.sample" t-esc="runtimeRow.sample"/>
+                        </div>
+                    </t>
+                    <div class="o_wfs_runtime_reference_empty text-muted" t-if="!runtimeReferenceRows.length">
+                        No symbols match this search. Try All Symbols or a broader term.
+                    </div>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    t-if="props.showRuntimePathBuilder"
+                    t-on-click="onOpenRuntimeBuilder"
+                >
+                    <i class="fa fa-magic me-1"/>Build Dynamic Value
+                </button>
+                <button type="button" class="btn btn-secondary" t-on-click="() => props.close()">Close</button>
+            </t>
+        </Dialog>
+    </t>
+
+    <t t-name="workflow_studio.WorkflowStudioDomainDialog">
+        <Dialog title="dialogTitle" size="'xl'" contentClass="'o_workflow_studio_domain_dialog'">
+
+            <!-- ① Context bar: target model + description -->
+            <div class="o_wfs_dd_context_bar">
+                <div class="o_wfs_dd_context_model">
+                    <span class="o_wfs_dd_context_label">Target Model</span>
+                    <code class="o_wfs_dd_context_code" t-esc="modelLabel"/>
+                </div>
+                <p class="o_wfs_dd_context_help mb-0" t-if="helperText" t-esc="helperText"/>
+            </div>
+
+            <!-- ② Quick presets — always visible, immediately actionable -->
+            <div class="o_wfs_dd_kind_summary" t-if="showWorkflowKindSummary">
+                <div class="o_wfs_dd_kind_summary_title" t-esc="workflowKindSummaryTitle"/>
+                <div class="o_wfs_dd_kind_summary_body" t-esc="workflowKindSummaryBody"/>
+            </div>
+
+            <div class="o_wfs_dd_presets" t-if="availablePresets.length">
+                <div class="o_wfs_dd_presets_header">
+                    <div>
+                        <span class="o_wfs_dd_section_label">Quick Presets</span>
+                        <div class="o_wfs_dd_preset_hint" t-esc="presetApplyModeLabel"/>
+                    </div>
+                    <div class="o_wfs_dd_preset_mode btn-group" role="group" aria-label="Preset apply mode">
+                        <button
+                            type="button"
+                            class="btn btn-sm"
+                            t-att-class="state.presetApplyMode === 'and' ? 'btn-primary' : 'btn-outline-secondary'"
+                            t-on-click="() => this.setPresetApplyMode('and')"
+                            t-att-title="'Combine selected preset with the current expression using AND'"
+                        >
+                            Add AND
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-sm"
+                            t-att-class="state.presetApplyMode === 'or' ? 'btn-primary' : 'btn-outline-secondary'"
+                            t-on-click="() => this.setPresetApplyMode('or')"
+                            t-att-title="'Combine selected preset with the current expression using OR'"
+                        >
+                            Add OR
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-sm"
+                            t-att-class="state.presetApplyMode === 'replace' ? 'btn-primary' : 'btn-outline-secondary'"
+                            t-on-click="() => this.setPresetApplyMode('replace')"
+                            t-att-title="'Replace the current expression with the selected preset'"
+                        >
+                            Replace
+                        </button>
+                    </div>
+                </div>
+                <div class="o_wfs_dd_presets_chips">
+                    <t t-foreach="availablePresets" t-as="preset" t-key="preset.key || preset.domain">
+                        <button
+                            type="button"
+                            class="btn btn-sm o_wfs_dd_preset_chip"
+                            t-on-click="() => this.applyPreset(preset)"
+                            t-att-title="preset.help || ''"
+                        >
+                            <t t-esc="preset.label"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+
+            <!-- ③ Domain builder — mode toggle + builder area -->
+            <div class="o_wfs_dd_builder_card">
+                <div class="o_wfs_dd_builder_card_header">
+                    <span class="o_wfs_dd_section_label mb-0">Domain Builder</span>
+                    <div class="o_wfs_dd_mode_toggle btn-group" role="group">
+                        <button
+                            type="button"
+                            class="btn btn-sm"
+                            t-att-class="state.mode === 'builder' ? 'btn-primary' : 'btn-outline-secondary'"
+                            t-on-click="() => this.setMode('builder')"
+                        >
+                            Simple
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-sm"
+                            t-att-class="state.mode === 'advanced' ? 'btn-primary' : 'btn-outline-secondary'"
+                            t-on-click="() => this.setMode('advanced')"
+                        >
+                            Advanced
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simple builder -->
+                <div class="o_wfs_dd_builder_body" t-if="state.mode === 'builder'">
+                    <DomainSelector t-props="domainSelectorProps"/>
+                </div>
+
+                <!-- Advanced (code) editor -->
+                <div class="o_wfs_dd_builder_body" t-if="state.mode === 'advanced'">
+                    <div class="o_wfs_dd_advanced">
+                        <div class="o_wfs_dd_expression_header">
+                            <label class="o_wfs_dd_preview_label mb-0">Domain expression</label>
+                            <button type="button" class="btn btn-link btn-sm o_wfs_dynamic_builder_link" t-if="showRuntimePathBuilder" t-on-click="openRuntimeBuilderModal">
+                                <i class="fa fa-magic me-1"/>Dynamic Value Builder
+                            </button>
+                        </div>
+                        <textarea class="o_input o_wfs_domain_dialog_code" spellcheck="false" t-att-value="state.domain" t-on-input="onAdvancedInput" placeholder="[('x_amount_total', '&gt;', 100)]"/>
+                        <div class="form-text mt-1">
+                            Example: <code>[('id', '=', request_owner_line_manager_user_id)]</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ④ Actor condition builder (collapsible, advanced) -->
+            <div class="o_wfs_runtime_reference_callout" t-if="showRuntimeVariableGuide or showRuntimePathBuilder">
+                <div class="o_wfs_runtime_reference_callout_icon" aria-hidden="true">
+                    <i class="fa fa-bolt"/>
+                </div>
+                <div class="o_wfs_runtime_reference_callout_copy">
+                    <div class="fw-semibold">Need a value from the request or workflow?</div>
+                    <div class="small text-muted">Choose a verified runtime value instead of typing technical paths from memory.</div>
+                </div>
+                <div class="o_wfs_runtime_reference_callout_actions">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" t-on-click="onBrowseRuntimeReference">Browse Symbols</button>
+                    <button type="button" class="btn btn-sm btn-primary" t-if="showRuntimePathBuilder" t-on-click="openRuntimeBuilderModal">
+                        <i class="fa fa-magic me-1"/>Build Dynamic Value
+                    </button>
+                </div>
+            </div>
+
+            <details class="o_wfs_dd_collapsible" t-if="showWorkflowRuntimeClauseBuilder" t-att-open="effectiveDomainKind === 'required'">
+                <summary class="o_wfs_dd_collapsible_summary">
+                    <i class="fa fa-random me-2 o_wfs_dd_collapsible_icon"/>
+                    Workflow Values
+                    <span class="o_wfs_dd_collapsible_hint">Select activity and action instead of typing node/action keys</span>
+                </summary>
+                <div class="o_wfs_dd_collapsible_body">
+                    <div class="o_wfs_runtime_clause_grid">
+                        <div>
+                            <label class="form-label mb-1">Activity Name</label>
+                            <SelectMenu t-props="workflowNodeSelectProps"/>
+                            <div class="form-text">Creates <code>wf_current_node_id</code> clauses from meta tasks.</div>
+                        </div>
+                        <div>
+                            <label class="form-label mb-1">Workflow Action</label>
+                            <SelectMenu t-props="workflowActionSelectProps"/>
+                            <div class="form-text" t-if="canUseWorkflowActionClause">Creates <code>wf_action_key</code> clauses from meta actions.</div>
+                            <div class="form-text text-muted" t-else="">Action clauses are available only for <strong>Required when</strong>.</div>
+                        </div>
+                    </div>
+                    <div class="o_wfs_runtime_clause_actions">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" t-on-click="applyWorkflowNodeClause" t-att-disabled="!state.workflowNodeId">
+                            Use Activity
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" t-on-click="applyWorkflowActionClause" t-att-disabled="!canUseWorkflowActionClause || !state.workflowActionKey">
+                            Use Action
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" t-on-click="applyWorkflowNodeAndActionClause" t-att-disabled="!state.workflowNodeId &amp;&amp; (!canUseWorkflowActionClause || !state.workflowActionKey)">
+                            Use Activity + Action
+                        </button>
+                    </div>
+                </div>
+            </details>
+
+            <details class="o_wfs_dd_collapsible" t-if="showLineItemsMatchBuilder">
+                <summary class="o_wfs_dd_collapsible_summary">
+                    <i class="fa fa-list-ul me-2 o_wfs_dd_collapsible_icon"/>
+                    Line Item Conditions
+                    <span class="o_wfs_dd_collapsible_hint">Check request line items without writing a domain</span>
+                </summary>
+                <div class="o_wfs_dd_collapsible_body">
+                    <div class="d-flex align-items-start gap-2 text-muted small mb-3">
+                        <i class="fa fa-info-circle mt-1" aria-hidden="true"/>
+                        <span>Choose the line list first, then choose whether to check the list itself or a field on its lines.</span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-12 col-lg-6 o_wfs_domain_dialog_runtime_builder_field">
+                            <label class="form-label mb-1">Line Items</label>
+                            <SelectMenu t-props="lineMatchRelationSelectProps"/>
+                            <div class="form-text">Select the request field that contains the line items.</div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_wfs_domain_dialog_runtime_builder_field">
+                            <label class="form-label mb-1">Check</label>
+                            <SelectMenu t-props="lineMatchModeSelectProps"/>
+                            <div class="form-text" t-if="state.lineMatchMode === 'all'">Every existing line must match. A request with no lines does not match.</div>
+                            <div class="form-text" t-elif="state.lineMatchMode === 'any'">At least one line must match the condition.</div>
+                            <div class="form-text" t-else="">Check only whether the line list contains any records.</div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_wfs_domain_dialog_runtime_builder_field o_wfs_runtime_path_field" t-if="lineMatchUsesFieldCondition">
+                            <label class="form-label mb-1">Field on Each Line</label>
+                            <div class="form-control o_wfs_line_field_selector">
+                                <ModelFieldSelector t-props="lineMatchFieldSelectorProps"/>
+                            </div>
+                            <div class="form-text">Click the field box and select the field to check.</div>
+                        </div>
+                        <div class="col-12 o_wfs_domain_dialog_runtime_builder_field" t-att-class="lineMatchNeedsValue ? 'col-lg-3' : 'col-lg-6'" t-if="lineMatchUsesFieldCondition">
+                            <label class="form-label mb-1">Condition</label>
+                            <SelectMenu t-props="lineMatchOperatorSelectProps"/>
+                            <div class="form-text">Choose how the field is compared.</div>
+                        </div>
+                        <div class="col-12 col-lg-3 o_wfs_domain_dialog_runtime_builder_field" t-if="lineMatchNeedsValue">
+                            <label class="form-label mb-1">Comparison Value</label>
+                            <input type="text" class="form-control" t-att-value="state.lineMatchValue || ''" placeholder="ADMIN" t-on-input="onLineMatchValueChange"/>
+                            <div class="form-text">For list operators, separate values with commas.</div>
+                        </div>
+                    </div>
+                    <div class="alert d-flex align-items-start gap-2 py-2 mt-3 mb-0" t-att-class="lineMatchExpression ? 'alert-success' : 'alert-warning'" role="status">
+                        <i class="fa mt-1" t-att-class="lineMatchExpression ? 'fa-check-circle' : 'fa-info-circle'" aria-hidden="true"/>
+                        <div>
+                            <div class="fw-semibold" t-if="lineMatchExpression">Condition ready</div>
+                            <div class="fw-semibold" t-else="">Finish this condition</div>
+                            <div class="small" t-if="lineMatchExpression and state.lineMatchMode === 'has_lines'">
+                                <strong t-esc="lineMatchRelationMeta.displayLabel"/> must contain at least one line.
+                            </div>
+                            <div class="small" t-elif="lineMatchExpression and state.lineMatchMode === 'no_lines'">
+                                <strong t-esc="lineMatchRelationMeta.displayLabel"/> must be empty.
+                            </div>
+                            <div class="small" t-elif="lineMatchExpression and state.lineMatchMode === 'all'">
+                                Every existing line in <strong t-esc="lineMatchRelationMeta.displayLabel"/> must satisfy the selected field condition.
+                            </div>
+                            <div class="small" t-elif="lineMatchExpression">
+                                At least one line in <strong t-esc="lineMatchRelationMeta.displayLabel"/> must satisfy the selected field condition.
+                            </div>
+                            <div class="small" t-elif="lineMatchUsesFieldCondition and !state.lineMatchPath">
+                                Select <strong>Field on Each Line</strong> to continue.
+                            </div>
+                            <div class="small" t-elif="lineMatchNeedsValue">
+                                Enter a <strong>Comparison Value</strong> to continue.
+                            </div>
+                            <div class="small" t-else="">
+                                Complete the selections above to continue.
+                            </div>
+                        </div>
+                    </div>
+                    <details class="o_wfs_dd_nested_collapsible mt-3">
+                        <summary class="o_wfs_dd_nested_summary">
+                            <i class="fa fa-cog me-2" aria-hidden="true"/>Technical details
+                        </summary>
+                        <div class="o_wfs_dd_nested_body">
+                            <div class="o_wfs_domain_dialog_runtime_builder_field" t-if="lineMatchUsesFieldCondition">
+                                <label class="form-label mb-1">Technical Field Path</label>
+                                <input type="text" class="o_input form-control o_wfs_runtime_path_manual" t-att-value="state.lineMatchPath || ''" placeholder="x_category_type_id.x_type" autocomplete="off" spellcheck="false" t-on-input="onLineMatchPathChange"/>
+                                <div class="form-text">
+                                    Use manual entry only when needed. For a many2one record ID, use the field itself
+                                    (for example <code>x_clinic_id</code>), not <code>x_clinic_id.id</code>.
+                                </div>
+                            </div>
+                            <div class="o_wfs_domain_dialog_runtime_preview mt-3" t-if="lineMatchExpression">
+                                <div class="o_wfs_runtime_preview_label">Generated Expression</div>
+                                <code t-esc="lineMatchExpression"/>
+                            </div>
+                            <div class="form-text mt-3">
+                                Existing dotted domains such as <code>[('line_ids.field', 'ilike', 'ADMIN')]</code> mean that at least one line must match.
+                            </div>
+                        </div>
+                    </details>
+                    <div class="o_wfs_domain_dialog_runtime_builder_actions">
+                        <button type="button" class="btn btn-sm btn-primary" t-att-disabled="!canApplyLineMatchExpression" t-on-click="() => this.applyLineMatchExpression('and')">Add with AND</button>
+                        <button type="button" class="btn btn-sm btn-secondary" t-att-disabled="!canApplyLineMatchExpression" t-on-click="() => this.applyLineMatchExpression('or')">Add with OR</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" t-att-disabled="!canApplyLineMatchExpression" t-on-click="() => this.applyLineMatchExpression('replace')">Replace Domain</button>
+                    </div>
+                </div>
+            </details>
+
+            <details class="o_wfs_dd_collapsible" t-if="showActorBuilder">
+                <summary class="o_wfs_dd_collapsible_summary">
+                    <i class="fa fa-user-circle me-2 o_wfs_dd_collapsible_icon"/>
+                    Actor Condition Builder
+                    <span class="o_wfs_dd_collapsible_hint">Generate role-based conditions</span>
+                </summary>
+                <div class="o_wfs_dd_collapsible_body">
+                    <div class="o_wfs_domain_dialog_actor_row">
+                        <SelectMenu t-props="actorFieldSelectProps"/>
+                        <input t-if="actorFieldNeedsValue" type="text" class="o_input" t-att-value="state.actorValue" t-att-placeholder="actorValuePlaceholder" t-on-input="onActorValueChange"/>
+                        <button type="button" class="btn btn-sm btn-primary" t-on-click="applyActorCondition">Apply</button>
+                    </div>
+                    <div class="form-text mt-1" t-if="props.contextType === 'twofa'">
+                        Generates: <code>[('id','!=',0)] if actor_condition else [('id','=',0)]</code>
+                    </div>
+                    <div class="form-text mt-1" t-elif="props.contextType === 'field_modifiers'">
+                        Generates actor runtime fields (e.g. <code>[('wf_actor_department_name','ilike','financial')]</code>).
+                    </div>
+                </div>
+            </details>
+
+            <!-- ⑤ Business scenario builder (collapsible, advanced) -->
+            <details class="o_wfs_dd_collapsible" t-if="showWorkflowScenarioBuilder">
+                <summary class="o_wfs_dd_collapsible_summary">
+                    <i class="fa fa-sitemap me-2 o_wfs_dd_collapsible_icon"/>
+                    Business Scenario Builder
+                    <span class="o_wfs_dd_collapsible_hint">Configure once, apply to all conditions</span>
+                </summary>
+                <div class="o_wfs_dd_collapsible_body">
+                    <div class="o_wfs_domain_dialog_scenario_grid">
+                        <div class="o_wfs_domain_dialog_scenario_item">
+                            <label class="form-label mb-1">Who can fill this field?</label>
+                            <SelectMenu t-props="scenarioActorTypeSelectProps"/>
+                        </div>
+                        <div class="o_wfs_domain_dialog_scenario_item" t-if="state.scenarioActorType === 'login'">
+                            <label class="form-label mb-1">Actor Login</label>
+                            <input type="text" class="o_input" placeholder="e.g. hod" t-att-value="state.scenarioActorLogin" t-on-input="(ev) => this.onScenarioInputChange('scenarioActorLogin', ev)"/>
+                        </div>
+                        <div class="o_wfs_domain_dialog_scenario_item" t-if="state.scenarioActorType === 'group'">
+                            <label class="form-label mb-1">Group XMLID</label>
+                            <input type="text" class="o_input" placeholder="e.g. workflow_engine.group_workflow_approval_user" t-att-value="state.scenarioActorGroupXmlid" t-on-input="(ev) => this.onScenarioInputChange('scenarioActorGroupXmlid', ev)"/>
+                        </div>
+                        <div class="o_wfs_domain_dialog_scenario_item">
+                            <label class="form-label mb-1">Stage Node ID <span class="text-muted">(optional)</span></label>
+                            <input type="text" class="o_input" placeholder="e.g. Task_HOD" t-att-value="state.scenarioNodeId" t-on-input="(ev) => this.onScenarioInputChange('scenarioNodeId', ev)"/>
+                        </div>
+                        <div class="o_wfs_domain_dialog_scenario_item">
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="o_wfs_require_on_action" t-att-checked="state.scenarioRequireOnAction ? true : undefined" t-on-change="(ev) => this.onScenarioRequireToggle(ev.target.checked)"/>
+                                <label class="form-check-label" for="o_wfs_require_on_action">Require only on action key</label>
+                            </div>
+                        </div>
+                        <div class="o_wfs_domain_dialog_scenario_item" t-if="state.scenarioRequireOnAction">
+                            <label class="form-label mb-1">Action Key</label>
+                            <input type="text" class="o_input" placeholder="e.g. approve" t-att-value="state.scenarioActionKey" t-on-input="(ev) => this.onScenarioInputChange('scenarioActionKey', ev)"/>
+                        </div>
+                    </div>
+                    <div class="o_wfs_dd_scenario_actions">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" t-on-click="applyScenarioToCurrentCondition">Fill Current Condition</button>
+                        <button type="button" class="btn btn-sm btn-primary" t-on-click="applyScenarioToAllConditions">Apply To Visible + Readonly + Required</button>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Dynamic value builder -->
+            <div class="o_wfs_runtime_builder_modal_backdrop" t-if="state.showRuntimeBuilderModal">
+                <div class="o_wfs_runtime_builder_modal">
+                    <div class="o_wfs_runtime_builder_modal_header">
+                        <div>
+                            <div class="o_wfs_runtime_builder_modal_title">
+                                <i class="fa fa-magic me-2"/>Dynamic Value Builder
+                            </div>
+                            <div class="o_wfs_runtime_builder_modal_subtitle">Build dynamic comparisons or presence checks for the domain expression.</div>
+                        </div>
+                        <button type="button" class="btn btn-link o_wfs_runtime_builder_close" t-on-click="closeRuntimeBuilderModal" aria-label="Close">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </div>
+                    <div class="o_wfs_runtime_builder_modal_body">
+                        <div class="o_wfs_domain_dialog_runtime_builder_grid">
+                            <div class="o_wfs_domain_dialog_runtime_builder_field" t-if="runtimeOperatorUsesValue">
+                                <label class="form-label mb-1">Object</label>
+                                <SelectMenu t-props="runtimeObjectSelectProps"/>
+                                <div class="form-text">Choose where the value comes from.</div>
+                            </div>
+                            <div class="o_wfs_domain_dialog_runtime_builder_field o_wfs_runtime_path_field" t-if="runtimeOperatorUsesValue">
+                                <label class="form-label mb-1">Field Path</label>
+                                <ModelFieldSelector t-if="showRuntimeModelFieldSelector" t-props="runtimeFieldSelectorProps"/>
+                                <SelectMenu t-elif="showRuntimeFieldSelector" t-props="runtimePathSelectProps"/>
+                                <div class="o_wfs_runtime_uid_hint" t-else="">The <code>uid</code> symbol does not need a field path.</div>
+                                <input t-if="showRuntimeModelFieldSelector" type="text" class="o_input o_wfs_runtime_path_manual mt-2" t-att-value="state.runtimePath || ''" placeholder="Custom path, e.g. request_owner_id.employee_id.parent_id.user_id.id" t-on-input="onRuntimePathChange"/>
+                                <div class="form-text" t-if="showRuntimeModelFieldSelector">Use the Odoo field picker, or enter a custom request field path.</div>
+                                <div class="form-text" t-elif="showRuntimeFieldSelector">Only fields provided by the workflow runtime are listed.</div>
+                            </div>
+                            <div class="o_wfs_domain_dialog_runtime_builder_field">
+                                <label class="form-label mb-1" t-esc="runtimeTargetFieldLabel"/>
+                                <ModelFieldSelector t-props="runtimeTargetFieldSelectorProps"/>
+                                <input type="text" class="o_input o_wfs_runtime_path_manual mt-2" t-att-value="state.runtimeTargetField || ''" t-att-placeholder="runtimeTargetFieldPlaceholder" t-on-input="onRuntimeTargetFieldChange"/>
+                                <div class="form-text" t-esc="runtimeTargetFieldHelp"/>
+                            </div>
+                            <div class="o_wfs_domain_dialog_runtime_builder_field">
+                                <label class="form-label mb-1">Operator</label>
+                                <SelectMenu t-props="runtimeOperatorSelectProps"/>
+                                <div class="form-text" t-if="runtimeOperatorUsesValue">Choose how the target field compares.</div>
+                                <div class="form-text" t-else="">Presence checks do not require a runtime value.</div>
+                            </div>
+                        </div>
+                        <div class="o_wfs_domain_dialog_runtime_preview mt-3" t-if="runtimeOperatorUsesValue">
+                            <div class="o_wfs_runtime_preview_label">Generated Value</div>
+                            <code t-esc="runtimeValueExpression"/>
+                        </div>
+                        <div class="o_wfs_domain_dialog_runtime_preview mt-2">
+                            <div class="o_wfs_runtime_preview_label">Generated Clause</div>
+                            <code t-esc="runtimeClauseTemplate"/>
+                        </div>
+                    </div>
+                    <div class="o_wfs_runtime_builder_modal_footer">
+                        <button t-if="runtimeOperatorUsesValue" type="button" class="btn btn-sm btn-outline-secondary" t-on-click="insertRuntimeValueToken">Insert Value Token</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" t-att-disabled="!canApplyRuntimeClause" t-on-click="() => this.applyRuntimeClauseTemplate('and')">Add Clause AND</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" t-att-disabled="!canApplyRuntimeClause" t-on-click="() => this.applyRuntimeClauseTemplate('or')">Add Clause OR</button>
+                        <button type="button" class="btn btn-sm btn-primary" t-att-disabled="!canApplyRuntimeClause" t-on-click="() => this.applyRuntimeClauseTemplate('replace')">Replace With Clause</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger mt-3 mb-0" t-if="state.validationError">
+                <i class="fa fa-exclamation-triangle me-2"/><t t-esc="state.validationError"/>
+            </div>
+
+            <t t-set-slot="footer">
+                <t t-if="props.readonly">
+                    <button class="btn btn-secondary" t-on-click="() => props.close()">Close</button>
+                </t>
+                <t t-else="">
+                    <button class="btn btn-primary" t-ref="confirm" t-att-disabled="state.validating" t-on-click="onConfirm">
+                        <t t-esc="state.validating ? 'Validating...' : 'Confirm'"/>
+                    </button>
+                    <button class="btn btn-secondary" t-on-click="() => props.close()">Cancel</button>
+                </t>
+            </t>
+
+        </Dialog>
+    </t>
+
+</templates>

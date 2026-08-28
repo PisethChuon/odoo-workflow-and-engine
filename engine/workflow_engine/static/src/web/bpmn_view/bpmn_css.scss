@@ -1,0 +1,143 @@
+.o_bpmn_display_records {
+  flex-grow: 1;
+  height: 100%;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.o_bpmn_display_records > div {
+  width: 100%;
+  height: 100%;
+}
+
+.o_bpmn_display_records .djs-container,
+.o_bpmn_display_records .djs-svg {
+  background: #ffffff !important;
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.07) 1px, transparent 1px) !important;
+  background-size: 28px 28px !important;
+  height: 100% !important;
+  transition: background-color 220ms ease;
+}
+
+.o_bpmn_display_records .djs-shape .djs-visual > rect,
+.o_bpmn_display_records .djs-shape .djs-visual > polygon,
+.o_bpmn_display_records .djs-shape .djs-visual > circle,
+.o_bpmn_display_records .djs-shape .djs-visual > path {
+  fill: #ffffff;
+  stroke: #94a3b8;
+  stroke-width: 1.9px;
+  transition: fill 220ms ease, stroke 220ms ease;
+}
+
+.o_bpmn_display_records .djs-label .djs-visual > text,
+.o_bpmn_display_records .djs-shape .djs-visual text,
+.o_bpmn_display_records .djs-shape .djs-visual tspan {
+  fill: #111827;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.o_bpmn_display_records .djs-connection .djs-visual > path {
+  stroke: #64748b;
+  color: #64748b;
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
+
+/* Arrow heads — inherit color from connection path via currentColor */
+.o_bpmn_display_records marker path,
+.o_bpmn_display_records .djs-marker path {
+  fill: currentColor !important;
+  stroke: none !important;
+}
+
+.o_bpmn_display_records .djs-element.wf-node-shape .djs-visual {
+  filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.12));
+}
+
+.o_bpmn_display_records .djs-element.wf-node--task .djs-visual > rect {
+  fill: #ffffff;
+  stroke: #64748b;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--user-task .djs-visual > rect {
+  fill: #eef2ff;
+  stroke: #6366f1;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--service-task .djs-visual > rect {
+  fill: #ecfeff;
+  stroke: #0d9488;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--send-task .djs-visual > rect {
+  fill: #ecfdf5;
+  stroke: #059669;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--script-task .djs-visual > rect {
+  fill: #e0f2fe;
+  stroke: #0284c7;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--call-activity .djs-visual > rect {
+  fill: #fff7ed;
+  stroke: #ea580c;
+}
+
+.o_bpmn_display_records .djs-element.wf-node--sub-process .djs-visual > rect {
+  fill: #fffbeb;
+  stroke: #d97706;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--start"] .djs-visual > circle {
+  fill: #ecfeff;
+  stroke: #0891b2;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--end"] .djs-visual > circle {
+  fill: #fff1f2;
+  stroke: #e11d48;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--intermediate-catch"] .djs-visual > circle {
+  fill: #eff6ff;
+  stroke: #2563eb;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--intermediate-throw"] .djs-visual > circle {
+  fill: #f0fdfa;
+  stroke: #0d9488;
+}
+
+.o_bpmn_display_records .djs-element[class*="wf-node--gateway"] .djs-visual > polygon {
+  fill: #fff7ed;
+  stroke: #c2410c;
+}
+
+.o_bpmn_display_records .wf-node-badge {
+  animation: none;
+}
+
+@media (max-width: 767px) {
+  .o_bpmn_display_records {
+    border-radius: 8px;
+    min-height: 320px;
+  }
+
+  .o_bpmn_display_records .wf-node-badge {
+    width: 12px;
+    height: 12px;
+  }
+}

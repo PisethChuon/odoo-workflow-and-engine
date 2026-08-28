@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_item_repair_template">
+        <t t-call="workflow_engine.report_base_layout">
+            <t t-set="report_title">Item Repair Request Form</t>
+
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <hr class="mt-0 mb-4"/>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Repair Details
+                            </h5>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 6%;">No.</th>
+                                        <th>Item</th>
+                                        <th style="width: 18%;">Serial Number</th>
+                                        <th style="width: 22%;">Charge to Department</th>
+                                        <th style="width: 26%;">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.x_item_request_ids">
+                                        <t t-set="item_index" t-value="0"/>
+                                        <t t-foreach="doc.x_item_request_ids" t-as="item">
+                                            <t t-set="item_index" t-value="item_index + 1"/>
+                                            <tr>
+                                                <td><span t-esc="item_index"/></td>
+                                                <td><span t-esc="item.x_item_request.x_name if item.x_item_request else '-'"/></td>
+                                                <td><span t-esc="item.x_serial_number or '-'"/></td>
+                                                <td><span t-esc="item.x_charge_to_depat.name if item.x_charge_to_depat else '-'"/></td>
+                                                <td><span t-esc="item.x_submitter_remark or '-'"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5">No items submitted.</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Vendor Information
+                            </h5>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 6%;">No.</th>
+                                        <th style="width: 22%;">Vendor</th>
+                                        <th style="width: 18%;">Contact Number</th>
+                                        <th style="width: 22%;">Email</th>
+                                        <th style="width: 20%;">Address</th>
+                                        <th style="width: 12%;">Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.x_vendor_ids">
+                                        <t t-set="vendor_index" t-value="0"/>
+                                        <t t-foreach="doc.x_vendor_ids" t-as="vendor">
+                                            <t t-set="vendor_index" t-value="vendor_index + 1"/>
+                                            <tr>
+                                                <td><span t-esc="vendor_index"/></td>
+                                                <td><span t-esc="vendor.x_vendor or '-'"/></td>
+                                                <td><span t-esc="vendor.x_contact_number or '-'"/></td>
+                                                <td><span t-esc="vendor.x_email or '-'"/></td>
+                                                <td><span t-esc="vendor.x_address or '-'"/></td>
+                                                <td><span t-esc="vendor.x_cost if vendor.x_cost not in (False, None) else '-'"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="6">No vendor information submitted.</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                Admin Repair Details
+                            </h5>
+                            <table class="table table-sm table-bordered mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 18%;">Send Date</th>
+                                        <td style="width: 32%;"><span t-esc="doc.x_send_date or '-'"/></td>
+                                        <th style="width: 18%;">Receive Date</th>
+                                        <td style="width: 32%;"><span t-esc="doc.x_receive_date or '-'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Admin Remark</th>
+                                        <td colspan="3"><span t-esc="doc.x_admin_remark or '-'"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

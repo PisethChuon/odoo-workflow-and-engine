@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_car_park_request" model="ir.model">
+            <field name="name">Car Park Permit Request</field>
+            <field name="model">x_car_park_request</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <!-- Stored helper state (delegated parent state lives on workflow.base.approval.request) -->
+        <record id="field_x_car_park_request_state_helper" model="ir.model.fields">
+            <field name="name">x_state</field>
+            <field name="ttype">char</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">State (Stored)</field>
+            <field name="readonly" eval="True"/>
+            <field name="store" eval="True"/>
+            <field name="depends">x_approval_base_id.state</field>
+            <field name="compute"><![CDATA[
+for rec in self:
+    rec['x_state'] = rec.x_approval_base_id.state if rec.x_approval_base_id else False
+]]>
+            </field>
+        </record>
+
+        <!-- Vehicle Information -->
+        <record id="field_x_car_park_request_car_model" model="ir.model.fields">
+            <field name="name">x_car_model</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_car_model</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Car Model</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_car_park_request_plate_number" model="ir.model.fields">
+            <field name="name">x_plate_number</field>
+            <field name="ttype">char</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Plate Number</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_car_park_request_car_color" model="ir.model.fields">
+            <field name="name">x_car_color</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_car_color</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Car Color</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_car_park_request_year_of_production" model="ir.model.fields">
+            <field name="name">x_car_year_of_production</field>
+            <field name="ttype">char</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Year of Production</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Submitter Remark -->
+        <record id="field_x_car_park_request_remark" model="ir.model.fields">
+            <field name="name">x_car_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Remark</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Requirement Document -->
+        <record id="field_x_car_park_request_has_company_id" model="ir.model.fields">
+            <field name="name">x_has_company_id</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Company ID Card</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_car_park_request_has_driving_license" model="ir.model.fields">
+            <field name="name">x_has_driving_license</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Driving License</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_car_park_request_has_car_registration" model="ir.model.fields">
+            <field name="name">x_has_car_registration</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Car Registration</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Car Park Permit Information -->
+        <record id="field_x_car_park_request_permit_area" model="ir.model.fields">
+            <field name="name">x_car_park_permit_area</field>
+            <field name="ttype">char</field>
+            <field name="model">x_car_park_request</field>
+            <field name="model_id" ref="model_x_car_park_request"/>
+            <field name="field_description">Car Park S/N</field>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+</odoo>

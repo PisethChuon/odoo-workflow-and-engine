@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="action_delegate_wizard" model="ir.actions.act_window">
+        <field name="name">Delegation</field>
+        <field name="res_model">delegate_wizard</field>
+        <field name="view_mode">form</field>
+            <field name="target">new</field> 
+    </record>
+    <record id="action_force_transition_wizard" model="ir.actions.act_window">
+        <field name="name">Force Transition</field>
+        <field name="res_model">workflow.force.transition.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <!-- <field name="binding_model_id" ref="model_workflow_base_approval_request"/>
+        <field name="binding_type">action</field> -->
+    </record>
+    <record id="action_workflow_ooo_preference_wizard" model="ir.actions.act_window">
+        <field name="name">Out of Office</field>
+        <field name="res_model">workflow.ooo.preference.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

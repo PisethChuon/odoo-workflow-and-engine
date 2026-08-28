@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <record id="workflow_approval_category_action_new_request" model="ir.actions.act_window">
+        <field name="name">Reports</field>
+        <field name="path">reports</field>
+        <field name="res_model">workflow.approval.category</field>
+        <field name="view_mode">kanban,graph</field>
+        <field name="domain">[('res_model', '!=', False),('version_ids','!=', False)]</field>
+    </record> -->
+
+    <!-- <record id="workflow_approval_category_action" model="ir.actions.act_window">
+        <field name="name">Approvals Types</field>
+        <field name="res_model">workflow.approval.category</field>
+        <field name="view_mode">list,form</field>
+    </record> -->
+
+    <record id="workflow_approval_request_action_to_review_category" model="ir.actions.act_window">
+        <field name="name">Approvals to review</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[
+            ('category_id', '=', active_id),
+            ('is_my_work_item', '=', True)
+        ]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No new approvals to review
+            </p>
+        </field>
+    </record>
+
+    <record id="workflow_approval_category_view_search" model="ir.ui.view">
+        <field name="name">workflow.approval.category.search</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="department_id" />
+                <field name="company_id" />
+                <separator />
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]" />
+                <searchpanel class="w-auto">
+                    <field name="department_id" icon="fa-users" enable_counters="1" />
+                </searchpanel>
+
+                <filter name="non_child" string="Workflow"
+                    domain="[('is_child', '=', False)]" />
+                <filter name="child" string="Sub Worklfow"
+                    domain="[('is_child', '=', True)]" />
+                <separator/>
+                <filter name="groupby_department" string="Group by Department" domain="[]"
+                    context="{'group_by': 'department_id'}"/>
+                <filter name="groupby_model" string="Group by Model" domain="[]"
+                    context="{'group_by': 'res_model'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_approval_category_view_list_dashboard" model="ir.ui.view">
+        <field name="name">workflow.approval.category.view.list.dashboard</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <list create="false" default_order="sequence, create_date, id">
+                <field name="image" widget="image" options="{'size': [32, 32]}" string=""/>
+                <field name="name" string="Workflow Category"/>
+                <field name="department_id" optional="show"/>
+                <field name="res_model_name" string="Model" optional="show"/>
+                <field name="request_all_count" string="Total"/>
+                <field name="request_tosubmit_count" string="New" optional="show"/>
+                <field name="request_waiting_count" string="In Progress"/>
+                <field name="request_reviewed_count" string="Reviewed" optional="show"/>
+                <field name="request_completed_count" string="Done" optional="show"/>
+                <field name="active_version_id" string="Active Version" optional="hide"/>
+                <field name="can_create_request" column_invisible="1"/>
+                <button type="object" name="action_approval_category" string="Open Requests" class="btn btn-primary"/>
+                <button type="object" name="action_new_request" string="New Request" class="btn btn-secondary"
+                        invisible="not can_create_request"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_approval_category_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.category.view.form</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                        invisible="active" />
+                    <field name="image" widget="image" class="oe_avatar"
+                        options='{"preview_image": "image", "size": [80, 80]}' />
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_open_dryrun_wizard"
+                                class="oe_stat_button" icon="fa-flask"
+                                groups="workflow_engine.group_workflow_technical_admin"
+                                string="Dry Run"
+                                help="Simulate assignment resolution for each workflow node without affecting real data."/>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Approval Type" />
+                        <h1>
+                            <field name="name" placeholder="e.g. Procurement" />
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="res_model" />
+                        <field name="res_model_name" invisible="1"/>
+                        <field name="active_version_id"
+                            groups="workflow_engine.group_workflow_approval_admin" readonly="1" />
+                        <field name="department_id" />
+                        <field name="description" />
+                        <field name="approval_type" invisible="1" />
+                        <field name="automated_sequence" />
+                        <field name="sequence_code" invisible="not automated_sequence"
+                            required="automated_sequence" />
+                        <field name="company_id" options="{'no_create': True}"
+                            groups="base.group_multi_company" />
+                        <field name="allowed_duplicate"/>
+                        <field name="allow_duplicate_domain"
+                               string="Duplicate Block Domain"
+                               widget="domain"
+                               options="{'model': 'res_model_name', 'in_dialog': true}"
+                               invisible="allowed_duplicate"/>
+                        <field name="enable_request_history"/>
+                        <field name="request_history_domain"
+                               string="History Domain"
+                               widget="domain"
+                               options="{'model': 'res_model_name', 'in_dialog': true}"
+                               invisible="not enable_request_history"/>
+                        <field name="auto_cancel_timeout" />
+                        <field name="admin_group_ids"
+                               widget="many2many_tags"
+                               groups="workflow_engine.group_workflow_technical_admin,workflow_engine.group_workflow_approval_admin,base.group_system"/>
+                    </group>
+                    <notebook>
+                        <page string="Guide">
+                            <group>
+                                <field name="guide_html"
+                                       widget="html"
+                                       placeholder="Add workflow introduction, user instructions, flow notes, and references..."/>
+                            </group>
+                        </page>
+                        <page string="Versions">
+                            <field name="version_ids" widget="one2many" mode="list,kanban">
+                                <list>
+                                    <field name="name" readonly="1" />
+                                    <field name="is_locked" />
+                                    <field name="is_active" />
+                                    <button name="action_set_active" string="Deploy" type="object"
+                                        invisible="is_active"
+                                        class="btn-primary" />
+                                </list>
+                            </field>
+                        </page>
+                        <!-- <page string="Options" name="options">
+                            <group>
+                                <group string="Approvers" name="approvers">
+                                    <field name="manager_approval"/>
+                                    <separator colspan="2"/>
+                                    <field name="approver_ids"/>
+                                    <field name="approver_sequence" invisible="approval_minimum == 0"/>
+                                    <field name="approval_minimum"/>
+                                    <field name="invalid_minimum" invisible="1"/>
+                                    <div class="text-warning" colspan="2" invisible="not invalid_minimum">
+                                        <span class="fa fa-warning" title="Invalid minimum approvals"/>
+                                        <field name="invalid_minimum_warning" nolabel="1"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page> -->
+
+                        <page string="Diagram">
+                            <group>
+                                <field nolabel="1" name="bpmn_xml" readonly="1" widget="bpmn_widget" />
+                            </group>
+                        </page>
+                        <page string="Raw Diagram">
+                            <group>
+                                <field nolabel="1" readonly="1" name="bpmn_xml" widget="code"
+                                    options="{'mode': 'xml'}" />
+                            </group>
+                        </page>
+                        <page string="Automation">
+                            <field name="automation_action_ids" widget="one2many">
+                                <list action="action_open_automation_actions">
+                                    <field name="name" />
+                                    <field name="model_id" />
+                                    <field name="active" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_approval_category_guide_modal_view" model="ir.ui.view">
+        <field name="name">workflow.approval.category.guide.modal.view</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="arch" type="xml">
+            <form string="Workflow Guide" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+                    <div class="text-muted" invisible="guide_html">
+                        No guide is configured for this workflow yet.
+                    </div>
+                    <field name="guide_html" widget="html" readonly="1" nolabel="1" invisible="not guide_html"/>
+                </sheet>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_open_approval_category" model="ir.actions.server">
+        <field name="name">Open Approval Category</field>
+        <field name="model_id" ref="model_workflow_approval_category" />
+        <field name="state">code</field>
+        <field name="code">
+            action = {
+            "type": "ir.actions.act_window",
+            "res_model": "workflow.approval.category",
+            "views": [[False, "form"]],
+            "target": "new",
+            "res_id": records.id,
+            }
+        </field>
+    </record>
+
+    <!-- <record id="bpmn_view_open" model="ir.actions.client">
+        <field name="name">BPMN View</field>
+        <field name="path">bpmn_view</field>
+        <field name="tag">workflow_bpmn_view</field>
+        <field name="target">fullscreen</field>
+    </record> -->
+
+    <record id="workflow_approval_category_view_kanban" model="ir.ui.view">
+        <field name="name">workflow.approval.category.views.kanban</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="arch" type="xml">
+            <kanban create="false" can_open="0"
+                    default_order="sequence, create_date, id"
+                    class="o_modules_kanban"
+                    js_class="approvals_category_kanban">
+                <field name="active"/>
+                <field name="color"/>
+                <field name="department_id"/>
+                <field name="res_model_name"/>
+                <field name="create_uid"/>
+                <field name="request_all_count"/>
+                <field name="request_tosubmit_count"/>
+                <field name="request_tosubmit_count_display"/>
+                <field name="request_waiting_count"/>
+                <field name="request_waiting_count_display"/>
+                <field name="request_reviewed_count"/>
+                <field name="request_reviewed_count_display"/>
+                <field name="request_completed_count"/>
+                <field name="request_completed_count_display"/>
+                <field name="request_to_validate_count"/>
+                <field name="request_to_validate_count_display"/>
+                <field name="can_create_request"/>
+                <field name="guide_html"/>
+                <templates>
+                    <div t-name="card" class="o_kanban_color_0 w-100 wf-rec-card">
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+
+                        <div class="wf-rec-card__row">
+
+                            <!-- ── Col 1: Identity (image + name) ── -->
+                            <div class="wf-rec-card__identity">
+                                <field name="image" widget="image"
+                                       class="wf-rec-card__avatar"
+                                       options="{'size': [36, 36]}"/>
+                                <div class="wf-rec-card__info">
+                                    <div class="wf-rec-card__name-line">
+                                        <span class="wf-rec-card__name">
+                                            <field name="display_name"/>
+                                        </span>
+                                        <button type="object"
+                                                name="action_open_guide_modal"
+                                                class="btn btn-link p-0 wf-rec-card__info-btn"
+                                                title="View workflow guide"
+                                                aria-label="View workflow guide">
+                                            <i class="fa fa-info-circle" title="View workflow guide"/>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ── Col 2: Tag pills ── -->
+                            <div class="wf-rec-card__tags-col">
+                                <span t-if="record.department_id and record.department_id.value"
+                                      class="wf-rec-card__tag wf-rec-card__tag--dept">
+                                    <field name="department_id"/>
+                                </span>
+                            </div>
+
+                            <!-- ── Col 3: Stats (4-cell inner flex) ── -->
+                            <div class="wf-rec-card__stats">
+                                <a type="object" name="action_approval_category"
+                                   context="{'state': ['new']}"
+                                   class="wf-rec-card__stat"
+                                   title="New requests">
+                                    <strong class="wf-rec-card__stat-count">
+                                        <field name="request_tosubmit_count_display"/>
+                                    </strong>
+                                    <span class="wf-rec-card__stat-label">new<br/>requests</span>
+                                </a>
+                                <a type="object" name="action_approval_category"
+                                   context="{'state': ['waiting']}"
+                                   class="wf-rec-card__stat"
+                                   title="In-progress requests">
+                                    <strong class="wf-rec-card__stat-count">
+                                        <field name="request_waiting_count_display" class="text-primary"/>
+                                    </strong>
+                                    <span class="wf-rec-card__stat-label text-primary">in<br/>progress</span>
+                                </a>
+                                <a type="object" name="action_approval_category"
+                                   context="{'state': 'reviewed'}"
+                                   class="wf-rec-card__stat"
+                                   title="Requests waiting for my review">
+                                    <strong class="wf-rec-card__stat-count">
+                                        <field name="request_reviewed_count_display" class="text-info"/>
+                                    </strong>
+                                    <span class="wf-rec-card__stat-label text-info" >to<br/>review</span>
+                                </a>
+                                <a type="object" name="action_approval_category"
+                                   context="{'state': ['completed']}"
+                                   class="wf-rec-card__stat"
+                                   title="Completed requests">
+                                    <strong class="wf-rec-card__stat-count">
+                                        <field name="request_completed_count_display" class="text-success"/>
+                                    </strong>
+                                    <span class="wf-rec-card__stat-label text-success">done</span>
+                                </a>
+                            </div>
+
+                            <!-- ── Col 7: Actions ── -->
+                            <div t-if="!selection_mode" class="wf-rec-card__actions">
+                                <!-- Pending clock badge -->
+                                <div class="wf-rec-card__clock-wrap"
+                                     t-att-title="(record.request_to_validate_count.raw_value or 0) + ' pending validation'">
+                                    <i class="fa fa-clock-o wf-rec-card__clock-icon" title="Pending validation"/>
+                                    <span t-if="record.request_to_validate_count.raw_value > 0"
+                                          class="wf-rec-card__clock-badge">
+                                        <field name="request_to_validate_count_display"/>
+                                    </span>
+                                </div>
+                                <button type="object"
+                                        class="btn btn-defult wf-rec-card__btn"
+                                        name="action_approval_category">
+                                    Open Requests
+                                </button>
+                                <button t-if="record.can_create_request.raw_value"
+                                        type="object"
+                                        class="btn btn-info wf-rec-card__btn"
+                                        name="action_new_request">
+                                    New Request
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!--    Approval -->
+    <record id="action_workflow_approval_category_version" model="ir.actions.act_window">
+        <field name="name">Approvals Types Version</field>
+        <field name="res_model">workflow.approval.category.version</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">fullscreen</field>
+    </record>
+    <record id="view_workflow_version_list" model="ir.ui.view">
+        <field name="name">workflow.approval.category.version.list</field>
+        <field name="model">workflow.approval.category.version</field>
+        <field name="arch" type="xml">
+            <list string="Workflow Versions">
+                <field name="name" />
+                <field name="title" />
+                <field name="category_id" />
+                <field name="execution_profile" optional="show" />
+                <field name="sequence" />
+                <field name="is_active" />
+                <field name="is_locked" />
+            </list>
+        </field>
+    </record>
+    <record id="workflow_approval_category_version_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.category.version.view.form</field>
+        <field name="model">workflow.approval.category.version</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="title" />
+                        <field name="name" readonly="1" />
+                        <field name="res_model_id" invisible="1" />
+                        <field name="execution_profile" />
+                        <field name="sequence" />
+                        <field name="request_owner_notification_template_id"
+                               domain="[('model_id', '=', res_model_id)]"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <notebook>
+                        <page string="Diagram">
+                            <field nolabel="1" readonly="0" name="bpmn_xml" widget="bpmn_widget"
+                                style="min-height: 600px; height: calc(100vh - 310px); width: 100%;" />
+                        </page>
+                        <page string="Raw">
+                            <field nolabel="1" name="bpmn_xml" required="1" widget="code"
+                                options="{'mode': 'xml'}" />
+                        </page>
+                        <page string="Meta Data">
+                            <field name="meta_task_ids">
+                                <list default_order="sequence" create="false" delete="false"
+                                    duplicate="false">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                    <field name="attr_label" />
+                                    <field name="node_id" />
+                                    <field name="node_type" />
+                                    <field name="workflow_map_ids" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_workflow_meta_form" model="ir.ui.view">
+        <field name="name">workflow.category.version.meta.form</field>
+        <field name="model">workflow.category.version.meta.task</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1" />
+                        <field name="node_type" readonly="1" />
+                        <div class="text-muted" colspan="2">
+                            Use picker fields and domain builders where possible. Avoid free-text expressions unless needed for advanced logic.
+                        </div>
+                        <!-- <field name="activity_type" invisible="node_type not in
+                        ['scriptTask']"/> -->
+                        <field name="activity_type_ids"
+                            string="Automation Actions"
+                            invisible="node_type != 'scriptTask'"
+                            domain="[('id', 'in', allowed_action_ids)]"
+                            context="{'default_version_id': version_id, 'default_action_type': 'server_action'}" />
+                        <field name="activity_type_ids"
+                            string="Notification Actions"
+                            invisible="node_type != 'sendTask'"
+                            domain="[('id', 'in', allowed_action_ids)]"
+                            context="{'default_version_id': version_id, 'default_action_type': 'email'}" />
+                        <field name="activity_type_ids"
+                            string="Server Actions"
+                            invisible="node_type != 'serviceTask' or service_behavior != 'executor'"
+                            domain="[('id', 'in', allowed_action_ids)]"
+                            context="{'default_version_id': version_id, 'default_action_type': 'server_action'}" />
+                        <div class="text-muted" colspan="2"
+                             invisible="node_type != 'serviceTask' or service_behavior != 'executor'">
+                            Service Task executor only accepts workflow actions of type Run Server Action scoped to this workflow model.
+                        </div>
+                        <div class="text-muted" colspan="2" invisible="node_type != 'sendTask'">
+                            Send Task can target specific users, a recipient domain, or both. Use the Notifications tab to configure delivery.
+                        </div>
+
+                        <field name="attr_class"
+                            invisible="node_type in ['userTask', 'intermediateEventMessage', 'scriptTask']" />
+                        <field name="attr_label" invisible="node_type in ['userTask']" />
+                        <field name="element" readonly="1" />
+                        <field name="node_id" readonly="1" />
+
+                        <field name="res_model_id" options="{'no_quick_create':True}"
+                            widget="many2one" />
+                        <field name="res_model_name" invisible="1" />
+                        <field name="action_id" domain="[('res_model', '=', res_model_name)]"
+                            options="{'no_quick_create':True}" widget="many2one"
+                            invisible="node_type not in  ['userTask']" />
+                        <field name="email_template_external_id"
+                            invisible="node_type not in ['userTask']"
+                            domain="[('model_id','=',res_model_id)]" />
+                        <field name="push_notification_to_actor"
+                            invisible="node_type not in ['userTask', 'manualTask', 'task']" />
+                        <field name="notify_request_owner_email" />
+                        <field name="notify_request_creator_email" />
+
+                        <field name="activity_message_template"
+                            invisible="node_type not in ['scriptTask', 'sendTask']" />
+                        <!--                         
+                        <field name="called_workflow_ids" invisible="node_type not in ['callActivity']"/>
+                        <field name="execution_mode" invisible="node_type not in ['callActivity']"/> -->
+                        <field name="workflow_map_ids" invisible="node_type not in ['callActivity']"
+                            context="{'default_workflow_id': version_id}">
+                            <list editable="bottom">
+                                <field name="workflow_id" readonly="1" />
+                                <field name="called_workflow_id" />
+                                <field name="execution_mode" />
+                                <field name="field_mapping" widget="code"
+                                    options="{'language': 'json'}" />
+                                <field name="res_model_name" optional="hide" />
+                                <field name="domain" widget="domain"
+                                    options="{'model': 'res_model_name', 'in_dialog': true}" />
+                            </list>
+                        </field>
+                    </group>
+
+                    <notebook>
+                        <page string="Actions">
+                            <field name="meta_action_ids" nolabel="1">
+                                <list default_order="sequence" create="false" delete="false"
+                                    duplicate="false">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                    <field name="node_id" />
+                                    <field name="flow_type" />
+                                    <field name="source_name" />
+                                    <field name="target_name" />
+                                </list>
+
+                            </field>
+                        </page>
+                        <page string="Fields">
+                            <field name="field_ids">
+                                <list default_order="field_group" editable="bottom">
+                                    <field name="field_id" />
+                                    <field name="field_group" />
+                                    <field name="field_type" />
+                                    <field name="activity_action_ids" widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                        domain="[('meta_task_id', '=', id), ('flow_type', 'in', ['emailAction', 'noEmailAction'])]" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="User Groups">
+                            <field name="approval_group_link_ids" nolabel="1" />
+                            <field name="approval_group_domain" widget="domain"
+                                    options="{'model': 'res.users', 'in_dialog': true}"
+                                    invisible="1" nolabel="1" />
+                        </page>
+                        <page string="Notifications"
+                            invisible="node_type not in ['endEventMessage','startEventMessage','intermediateEventMessage','sendTask']">
+                            <group string="Delivery">
+                                <field name="notification_recipient_mode"/>
+                                <field name="notification_email_template_id"
+                                    domain="[('model_id','=',res_model_id)]"/>
+                            </group>
+                            <group string="Guidance">
+                                <div class="text-muted" colspan="2">
+                                    Recipient scheduling and automation timing are managed by the workflow engine runtime. Do not link BPMN delivery to standalone ir.cron jobs.
+                                </div>
+                            </group>
+                            <group string="Recipients">
+                                <field name="notification_recipient_ids"
+                                    invisible="notification_recipient_mode not in ['specific_users', 'both']"
+                                    nolabel="1" />
+                            </group>
+                            <group string="Domain" invisible="notification_recipient_mode not in ['domain', 'both']">
+                                <field name="notification_recipient_domain" widget="domain"
+                                    options="{'model': 'res.users', 'in_dialog': true}"
+                                    invisible="0" nolabel="1" />
+                            </group>
+                        </page>
+                        <page string="Note">
+                            <field name="description" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_workflow_meta_task_action_form" model="ir.ui.view">
+        <field name="name">workflow.category.version.meta.task.action.view.form</field>
+        <field name="model">workflow.category.version.meta.task.action</field>
+        <field name="arch" type="xml">
+            <form>
+                <label for="name" />
+                <field name="name" class="oe-title" />
+                <field name="description" />
+                <field name="meta_task_id" readonly="True" />
+                <sheet>
+                    <group>
+                        <div class="text-muted" colspan="2">
+                            Prefer domain builder for button visibility and execution rules. Keep labels and icon class clear for business users.
+                        </div>
+                        <field name="source_id" />
+                        <field name="source_name" />
+                        <field name="target_id" />
+                        <field name="target_name" />
+                        <field name="flow_type" />
+                    </group>
+                    <group>
+                        <field name="attr_label" />
+                        <field name="attr_class" />
+                         <field name="icon_class" />
+                        <field name="action_button_label" />
+                        <field name="approval_require_number" />
+                    </group>
+                    <group>
+                        <field name="res_model_name" invisible="True" />
+                        <field name="invisible_domain" widget="domain"
+                            options="{'model': 'res_model_name', 'in_dialog': true}" />
+                        <field name="res_model_name" invisible="True" />
+                        <field name="domain" widget="domain"
+                            options="{'model': 'res_model_name', 'in_dialog': true}" />
+                        <field name="show_validation_dialog" />
+                        <field name="validation_message" widget="html"
+                            invisible="not show_validation_dialog" />
+                        <field name="show_confirm_dialog" />
+                        <field name="comment_required" invisible="1" />
+                        <field name="require_reason" />
+                        <field name="require_reason_domain" widget="domain"
+                            options="{'model': 'res_model_name', 'in_dialog': true}"
+                            invisible="not require_reason" />
+                        <field name="comment_required_domain" widget="domain"
+                            options="{'model': 'res_model_name', 'in_dialog': true}"
+                            invisible="not comment_required" />
+                        <field name="require_attachment" />
+                        <field name="require_attachment_domain" widget="domain"
+                            options="{'model': 'res_model_name', 'in_dialog': true}"
+                            invisible="not require_attachment" />
+                        <field name="required_attachment_count" invisible="not require_attachment"/>
+                        <field name="confirm_message" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Approval Category Workflow Meta Fields-->
+    <record id="view_workflow_meta_field_list" model="ir.ui.view">
+        <field name="name">workflow.category.version.meta.field.view.list</field>
+        <field name="model">workflow.category.version.meta.field</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" multi_edit="1" default_group_by="field_type"
+                decoration-muted="field_type == 'readonly'"
+                decoration-info="field_type == 'invisible'"
+                decoration-danger="field_type == 'required'">
+                <field name="field_id" options="{'no_create': True}" />
+                <field name="field_type" />
+                <field name="activity_action_ids" widget="many2many_tags"
+                    options="{'no_create': True}"
+                    domain="[('meta_task_id', '=', meta_id), ('flow_type', 'in', ['emailAction', 'noEmailAction'])]" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Approval Category Workflow Meta Group-->
+    <record id="view_workflow_meta_group_list" model="ir.ui.view">
+        <field name="name">workflow.category.version.meta.group.view.list</field>
+        <field name="model">workflow.category.task.approval.group</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="approval_group_id" />
+                <field name="res_model_name" optional="hide" />
+                <field name="user_ids" widget="many2many_avatar_user" />
+                <field name="user_domain" />
+                <field name="domain" widget="domain" options="{'model': 'res_model_name', 'in_dialog': true}" />
+                <field name="note" />
+            </list>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_workflow_studio_import_zip_wizard" model="ir.actions.act_window">
+        <field name="name">Import Workflow ZIP</field>
+        <field name="res_model">workflow.studio.import.zip.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_workflow_studio_import_package_zip_wizard" model="ir.actions.act_window">
+        <field name="name">Import Workflow Studio ZIP</field>
+        <field name="res_model">workflow.studio.import.zip.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_deploy_after_import': True}</field>
+    </record>
+
+    <record id="view_workflow_studio_import_zip_wizard_form" model="ir.ui.view">
+        <field name="name">workflow.studio.import.zip.wizard.form</field>
+        <field name="model">workflow.studio.import.zip.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Workflow ZIP" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <field name="bundle_file" filename="bundle_filename" required="1"/>
+                        <field name="bundle_filename" invisible="1"/>
+                    </group>
+
+                    <group string="Detected Package">
+                        <field name="detected_category_name" readonly="1"/>
+                        <field name="detected_version_name" readonly="1"/>
+                        <field name="detected_model_name" readonly="1"/>
+                    </group>
+
+                    <group string="Import Target">
+                        <field name="target_category_id" options="{'no_create': True}"/>
+                        <field name="existing_model_mode"/>
+                        <field name="create_category_if_missing"/>
+                        <field name="deploy_after_import"/>
+                        <field name="run_dry_run_before_import"/>
+                        <field name="force_init_customizations"/>
+                    </group>
+
+                    <group invisible="not import_warnings">
+                        <field name="import_warnings" readonly="1" widget="text"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_validate_bundle" string="Validate Package" type="object" class="btn-secondary"/>
+                    <button name="action_import_bundle" string="Import Package" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

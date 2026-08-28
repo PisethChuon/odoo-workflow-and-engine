@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_x_meal_allowance_outlet" model="ir.actions.act_window">
+            <field name="name">Outlets Applicable</field>
+            <field name="res_model">x_meal_allowance_outlet</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

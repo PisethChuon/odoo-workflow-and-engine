@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Approval Category Approver -->
+    <record id="workflow_approval_category_approver_view_tree" model="ir.ui.view">
+        <field name="name">workflow.approval.approver.view.list</field>
+        <field name="model">workflow.approval.category.approver</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="existing_user_ids" column_invisible="True"/>
+                <field name="company_id" column_invisible="True"/>
+                <field name="sequence" widget="handle"/>
+                <field name="user_id" options="{'no_create': True}"/>
+                <field name="required"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!--    Category Approver View-->
+    <record id="workflow_approval_category_approver_group_view_list" model="ir.ui.view">
+        <field name="name">workflow.approval.group.view.list</field>
+        <field name="model">workflow.approval.group</field>
+        <field name="arch" type="xml">
+            <list multi_edit="1">
+                <field name="name"/>
+                <field name="category_id" optional="show"/>
+                <field name="parent_id" column_invisible="1"/>
+                <field name="parent_path" column_invisible="1"/>
+                <field name="department_id" optional="show"/>
+                <field name="line_id" optional="show"/>
+                <field name="team_id" optional="show"/>
+                <field name="user_ids" widget="many2many_avatar_user"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_view_search" model="ir.ui.view">
+        <field name="name">workflow.approval.group.view.search</field>
+        <field name="model">workflow.approval.group</field>
+        <field name="arch" type="xml">
+            <search string="Approval Groups">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="department_id"/>
+                <field name="line_id"/>
+                <field name="team_id"/>
+                <field name="user_ids"/>
+                <separator/>
+                <filter name="with_category" string="With Approval Category" domain="[('category_id', '!=', False)]"/>
+                <filter name="with_department" string="With Department" domain="[('department_id', '!=', False)]"/>
+                <filter name="with_line" string="With Line" domain="[('line_id', '!=', False)]"/>
+                <filter name="with_team" string="With Team" domain="[('team_id', '!=', False)]"/>
+                <group>
+                    <filter name="group_by_category" string="Approval Category" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_by_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_by_line" string="Line" context="{'group_by': 'line_id'}"/>
+                    <filter name="group_by_team" string="Team" context="{'group_by': 'team_id'}"/>
+                    <filter name="group_by_parent" string="Parent Group" context="{'group_by': 'parent_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record id="workflow_approval_group_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.group.view.form</field>
+        <field name="model">workflow.approval.group</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <label for="parent_id" />
+                        <field name="parent_id"/>
+                    </div>
+
+                    <group>
+                        <field name="category_id"/>
+                        <field name="department_id"/>
+                        <field name="line_id"/>
+                        <field name="team_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Users">
+                            <field name="user_ids" widget="one2many"/>
+                        </page>
+                        <page string="Metadata Tasks">
+                            <field name="meta_task_ids">
+                                <list>
+                                    <field name="category_id"/>
+                                    <field name="version_id"/>
+                                    <field name="name"/>
+                                    <field name="node_type"/>
+                                    <field name="res_model_id"/>
+                                    <field name="description"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="approval_category_approver_group_action" model="ir.actions.act_window">
+        <field name="name">Approver Group</field>
+        <field name="path">approval_groups</field>
+        <field name="res_model">workflow.approval.group</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="workflow_approval_group_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Approvals Group
+            </p>
+            <p>
+                Let's go and create one!
+            </p>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_line_view_list" model="ir.ui.view">
+        <field name="name">workflow.approval.group.line.view.list</field>
+        <field name="model">workflow.approval.group.line</field>
+        <field name="arch" type="xml">
+            <list multi_edit="1">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_line_view_search" model="ir.ui.view">
+        <field name="name">workflow.approval.group.line.view.search</field>
+        <field name="model">workflow.approval.group.line</field>
+        <field name="arch" type="xml">
+            <search string="Approval Group Lines">
+                <field name="name"/>
+                <field name="department_id"/>
+                <filter name="active_lines" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived_lines" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_by_line_department" string="Department" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_line_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.group.line.view.form</field>
+        <field name="model">workflow.approval.group.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="department_id"/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Teams">
+                            <field name="team_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Approval Groups">
+                            <field name="approval_group_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="category_id"/>
+                                    <field name="department_id"/>
+                                    <field name="team_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_line_action" model="ir.actions.act_window">
+        <field name="name">Approval Group Lines</field>
+        <field name="path">approval_group_lines</field>
+        <field name="res_model">workflow.approval.group.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="workflow_approval_group_line_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Approval Group Lines
+            </p>
+            <p>
+                Create lines to organize approval groups for easier search and grouping.
+            </p>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_team_view_list" model="ir.ui.view">
+        <field name="name">workflow.approval.group.team.view.list</field>
+        <field name="model">workflow.approval.group.team</field>
+        <field name="arch" type="xml">
+            <list multi_edit="1">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="line_id"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_team_view_search" model="ir.ui.view">
+        <field name="name">workflow.approval.group.team.view.search</field>
+        <field name="model">workflow.approval.group.team</field>
+        <field name="arch" type="xml">
+            <search string="Approval Group Teams">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="line_id"/>
+                <filter name="active_teams" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived_teams" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_by_team_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_by_team_line" string="Line" context="{'group_by': 'line_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_team_view_form" model="ir.ui.view">
+        <field name="name">workflow.approval.group.team.view.form</field>
+        <field name="model">workflow.approval.group.team</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="line_id"/>
+                        <field name="department_id" readonly="1"/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Approval Groups">
+                            <field name="approval_group_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="category_id"/>
+                                    <field name="department_id"/>
+                                    <field name="line_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_team_action" model="ir.actions.act_window">
+        <field name="name">Approval Group Teams</field>
+        <field name="path">approval_group_teams</field>
+        <field name="res_model">workflow.approval.group.team</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="workflow_approval_group_team_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Approval Group Teams
+            </p>
+            <p>
+                Create teams to organize approval groups for easier search and grouping.
+            </p>
+        </field>
+    </record>
+
+
+</odoo>

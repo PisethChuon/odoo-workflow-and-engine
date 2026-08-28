@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ===================================================== -->
+        <!-- Approval groups dedicated for Exit Clearance demo flow -->
+        <!-- ===================================================== -->
+        <record id="approval_group_exit_clearance_hod" model="workflow.approval.group">
+            <field name="name">Exit Clearance - HOD</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_hod_group_it'), ref('workflow_engine.user_hod_hr'), ref('workflow_engine.user_exit_hod')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_it" model="workflow.approval.group">
+            <field name="name">Exit Clearance - IT</field>
+            <field name="department_id" ref="workflow_engine.dep_group_it"/>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_malinka'), ref('workflow_engine.user_hod_group_it'), ref('workflow_engine.user_exit_it')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_finance" model="workflow.approval.group">
+            <field name="name">Exit Clearance - Finance</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_vanchhai'), ref('workflow_engine.user_manager_of_hod_hr'), ref('workflow_engine.user_exit_finance')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_admin" model="workflow.approval.group">
+            <field name="name">Exit Clearance - Admin</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_manager_of_hod_hr'), ref('workflow_engine.user_exit_admin')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_security" model="workflow.approval.group">
+            <field name="name">Exit Clearance - Security</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_manager_of_hod_group_it'), ref('workflow_engine.user_exit_security')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_facility" model="workflow.approval.group">
+            <field name="name">Exit Clearance - Facility</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_hod_hr'), ref('workflow_engine.user_exit_facility')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_purchase" model="workflow.approval.group">
+            <field name="name">Exit Clearance - Purchase</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_vanchhai'), ref('workflow_engine.user_exit_purchase')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_operations" model="workflow.approval.group">
+            <field name="name">Exit Clearance - Operations</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_malinka'), ref('workflow_engine.user_exit_operations')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_hr" model="workflow.approval.group">
+            <field name="name">Exit Clearance - HR</field>
+            <field name="department_id" ref="workflow_engine.dep_group_hr"/>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_hod_hr'), ref('workflow_engine.user_manager_of_hod_hr'), ref('workflow_engine.user_exit_hr')])]"/>
+        </record>
+
+        <record id="approval_group_exit_clearance_payroll" model="workflow.approval.group">
+            <field name="name">Exit Clearance - Payroll</field>
+            <field name="user_ids" eval="[(6, 0, [ref('workflow_engine.user_manager_of_hod_hr'), ref('workflow_engine.user_exit_payroll')])]"/>
+        </record>
+
+        <!-- ======================================= -->
+        <!-- Workflow category + version (BPMN flow) -->
+        <!-- ======================================= -->
+        <record id="workflow_category_exit_clearance_demo" model="workflow.approval.category">
+            <field name="name">Demo - Exit Clearance Enterprise</field>
+            <field name="description">Parallel multi-department employee exit clearance with rework and post-approval automations.</field>
+            <field name="res_model" ref="workflow_engine.model_workflow_base_approval_request"/>
+            <field name="sequence" eval="910"/>
+            <field name="approval_minimum" eval="1"/>
+            <field name="allow_manager_access" eval="True"/>
+            <field name="allow_requester_read" eval="True"/>
+            <field name="default_fallback_policy">route_admin_queue</field>
+            <field name="admin_queue_user_id" ref="workflow_engine.user_manager_of_hod_hr"/>
+            <field name="allowed_group_ids" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user'), ref('workflow_engine.group_workflow_approval_admin')])]"/>
+            <field name="guide_html">
+                <![CDATA[
+                <div>
+                    <h3>Exit Clearance Demo</h3>
+                    <p>This demo flow covers:</p>
+                    <ul>
+                        <li>Request owner submit and rework</li>
+                        <li>HOD decision and final review</li>
+                        <li>8 department approvals in parallel</li>
+                        <li>Payroll + HR final steps</li>
+                        <li>Notification and server-action automation tasks</li>
+                    </ul>
+                </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="workflow_category_exit_clearance_demo_version_v1" model="workflow.approval.category.version">
+            <field name="name">v1</field>
+            <field name="title">Exit Clearance - Enterprise Parallel Flow</field>
+            <field name="category_id" ref="workflow_category_exit_clearance_demo"/>
+            <field name="sequence" eval="10"/>
+            <field name="is_active" eval="True"/>
+            <field name="change_log">Initial enterprise exit clearance scenario with parallel departments and automation tasks.</field>
+            <field name="bpmn_xml"><![CDATA[
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_ExitClearance" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_ExitClearance" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Exit" name="Start" />
+    <bpmn:userTask id="Task_Submission" name="Submission" />
+    <bpmn:intermediateCatchEvent id="Event_Submit" name="Submit">
+      <bpmn:messageEventDefinition id="MessageDef_Submit" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_HODDecision" name="HOD Decision" />
+    <bpmn:intermediateCatchEvent id="Event_HODApprove" name="Approve">
+      <bpmn:messageEventDefinition id="MessageDef_HODApprove" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_HODReject" name="Reject" />
+    <bpmn:userTask id="Task_RequestorRework" name="Requestor Rework" />
+    <bpmn:intermediateCatchEvent id="Event_Resubmit" name="Resubmit">
+      <bpmn:messageEventDefinition id="MessageDef_Resubmit" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:parallelGateway id="Gateway_DeptSplit" name="Department Split" />
+    <bpmn:userTask id="Task_ITClearance" name="IT Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_ITDone" name="Done IT">
+      <bpmn:messageEventDefinition id="MessageDef_ITDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_ITReject" name="Reject IT" />
+    <bpmn:userTask id="Task_FinanceClearance" name="Finance Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_FinanceDone" name="Done Finance">
+      <bpmn:messageEventDefinition id="MessageDef_FinanceDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_FinanceReject" name="Reject Finance" />
+    <bpmn:userTask id="Task_AdminClearance" name="Admin Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_AdminDone" name="Done Admin">
+      <bpmn:messageEventDefinition id="MessageDef_AdminDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_SecurityClearance" name="Security Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_SecurityDone" name="Done Security">
+      <bpmn:messageEventDefinition id="MessageDef_SecurityDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_FacilityClearance" name="Facility Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_FacilityDone" name="Done Facility">
+      <bpmn:messageEventDefinition id="MessageDef_FacilityDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_PurchaseClearance" name="Purchase Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_PurchaseDone" name="Done Purchase">
+      <bpmn:messageEventDefinition id="MessageDef_PurchaseDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_OperationsClearance" name="Operations Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_OperationsDone" name="Done Operations">
+      <bpmn:messageEventDefinition id="MessageDef_OperationsDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_HRDeptClearance" name="HR Department Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_HRDeptDone" name="Done HR Dept">
+      <bpmn:messageEventDefinition id="MessageDef_HRDeptDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:parallelGateway id="Gateway_DeptJoin" name="Department Join" />
+    <bpmn:userTask id="Task_HODFinalReview" name="HOD Final Review" />
+    <bpmn:intermediateCatchEvent id="Event_HODFinalApprove" name="Approve Final">
+      <bpmn:messageEventDefinition id="MessageDef_HODFinalApprove" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_PayrollReview" name="Payroll Review" />
+    <bpmn:intermediateCatchEvent id="Event_PayrollApprove" name="Approve Payroll">
+      <bpmn:messageEventDefinition id="MessageDef_PayrollApprove" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:inclusiveGateway id="Gateway_OffboardRoute" name="Offboard Automation Router" />
+    <bpmn:scriptTask id="Task_DisableAccounts" name="Disable Accounts" />
+    <bpmn:sendTask id="Task_NotifyChannels" name="Notify Channels" />
+    <bpmn:intermediateThrowEvent id="Event_ServerDone" name="Server Done" />
+    <bpmn:intermediateThrowEvent id="Event_NotifyDone" name="Notify Done" />
+    <bpmn:inclusiveGateway id="Gateway_OffboardJoin" name="Offboard Join" />
+    <bpmn:userTask id="Task_HRFinalClearance" name="HR Final Clearance" />
+    <bpmn:intermediateCatchEvent id="Event_HRFinalDone" name="Complete HR">
+      <bpmn:messageEventDefinition id="MessageDef_HRFinalDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="EndEvent_ExitDone" name="Completed" />
+    <bpmn:sequenceFlow id="Flow_01" sourceRef="StartEvent_Exit" targetRef="Task_Submission" />
+    <bpmn:sequenceFlow id="Flow_02" sourceRef="Task_Submission" targetRef="Event_Submit" />
+    <bpmn:sequenceFlow id="Flow_03" sourceRef="Event_Submit" targetRef="Task_HODDecision" />
+    <bpmn:sequenceFlow id="Flow_04" sourceRef="Task_HODDecision" targetRef="Event_HODApprove" />
+    <bpmn:sequenceFlow id="Flow_05" sourceRef="Event_HODApprove" targetRef="Gateway_DeptSplit" />
+    <bpmn:sequenceFlow id="Flow_06" sourceRef="Task_HODDecision" targetRef="Event_HODReject" />
+    <bpmn:sequenceFlow id="Flow_07" sourceRef="Event_HODReject" targetRef="Task_RequestorRework" />
+    <bpmn:sequenceFlow id="Flow_08" sourceRef="Task_RequestorRework" targetRef="Event_Resubmit" />
+    <bpmn:sequenceFlow id="Flow_09" sourceRef="Event_Resubmit" targetRef="Task_HODDecision" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Gateway_DeptSplit" targetRef="Task_ITClearance" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Gateway_DeptSplit" targetRef="Task_FinanceClearance" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Gateway_DeptSplit" targetRef="Task_AdminClearance" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Gateway_DeptSplit" targetRef="Task_SecurityClearance" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Gateway_DeptSplit" targetRef="Task_FacilityClearance" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="Gateway_DeptSplit" targetRef="Task_PurchaseClearance" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="Gateway_DeptSplit" targetRef="Task_OperationsClearance" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Gateway_DeptSplit" targetRef="Task_HRDeptClearance" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Task_ITClearance" targetRef="Event_ITDone" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Event_ITDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Task_ITClearance" targetRef="Event_ITReject" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Event_ITReject" targetRef="Task_RequestorRework" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Task_FinanceClearance" targetRef="Event_FinanceDone" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Event_FinanceDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="Task_FinanceClearance" targetRef="Event_FinanceReject" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="Event_FinanceReject" targetRef="Task_RequestorRework" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="Task_AdminClearance" targetRef="Event_AdminDone" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="Event_AdminDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="Task_SecurityClearance" targetRef="Event_SecurityDone" />
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="Event_SecurityDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="Task_FacilityClearance" targetRef="Event_FacilityDone" />
+    <bpmn:sequenceFlow id="Flow_31" sourceRef="Event_FacilityDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_32" sourceRef="Task_PurchaseClearance" targetRef="Event_PurchaseDone" />
+    <bpmn:sequenceFlow id="Flow_33" sourceRef="Event_PurchaseDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_34" sourceRef="Task_OperationsClearance" targetRef="Event_OperationsDone" />
+    <bpmn:sequenceFlow id="Flow_35" sourceRef="Event_OperationsDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_36" sourceRef="Task_HRDeptClearance" targetRef="Event_HRDeptDone" />
+    <bpmn:sequenceFlow id="Flow_37" sourceRef="Event_HRDeptDone" targetRef="Gateway_DeptJoin" />
+    <bpmn:sequenceFlow id="Flow_38" sourceRef="Gateway_DeptJoin" targetRef="Task_HODFinalReview" />
+    <bpmn:sequenceFlow id="Flow_39" sourceRef="Task_HODFinalReview" targetRef="Event_HODFinalApprove" />
+    <bpmn:sequenceFlow id="Flow_40" sourceRef="Event_HODFinalApprove" targetRef="Task_PayrollReview" />
+    <bpmn:sequenceFlow id="Flow_41" sourceRef="Task_PayrollReview" targetRef="Event_PayrollApprove" />
+    <bpmn:sequenceFlow id="Flow_42" sourceRef="Event_PayrollApprove" targetRef="Gateway_OffboardRoute" />
+    <bpmn:sequenceFlow id="Flow_43" sourceRef="Gateway_OffboardRoute" targetRef="Task_DisableAccounts">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('request_owner_emp_type', '=', 'employee')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_44" sourceRef="Gateway_OffboardRoute" targetRef="Task_NotifyChannels">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('id', '!=', 0)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_45" sourceRef="Task_DisableAccounts" targetRef="Event_ServerDone" />
+    <bpmn:sequenceFlow id="Flow_46" sourceRef="Event_ServerDone" targetRef="Gateway_OffboardJoin" />
+    <bpmn:sequenceFlow id="Flow_47" sourceRef="Task_NotifyChannels" targetRef="Event_NotifyDone" />
+    <bpmn:sequenceFlow id="Flow_48" sourceRef="Event_NotifyDone" targetRef="Gateway_OffboardJoin" />
+    <bpmn:sequenceFlow id="Flow_49" sourceRef="Gateway_OffboardJoin" targetRef="Task_HRFinalClearance" />
+    <bpmn:sequenceFlow id="Flow_50" sourceRef="Task_HRFinalClearance" targetRef="Event_HRFinalDone" />
+    <bpmn:sequenceFlow id="Flow_51" sourceRef="Event_HRFinalDone" targetRef="EndEvent_ExitDone" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Process_ExitClearance">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_ExitClearance" bpmnElement="Process_ExitClearance">
+      <bpmndi:BPMNShape id="StartEvent_Exit_di" bpmnElement="StartEvent_Exit">
+        <dc:Bounds x="80" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Submission_di" bpmnElement="Task_Submission">
+        <dc:Bounds x="150" y="198" width="180" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Submit_di" bpmnElement="Event_Submit">
+        <dc:Bounds x="370" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HODDecision_di" bpmnElement="Task_HODDecision">
+        <dc:Bounds x="450" y="198" width="180" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODApprove_di" bpmnElement="Event_HODApprove">
+        <dc:Bounds x="670" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODReject_di" bpmnElement="Event_HODReject">
+        <dc:Bounds x="670" y="130" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_RequestorRework_di" bpmnElement="Task_RequestorRework">
+        <dc:Bounds x="450" y="40" width="180" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Resubmit_di" bpmnElement="Event_Resubmit">
+        <dc:Bounds x="670" y="62" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_DeptSplit_di" bpmnElement="Gateway_DeptSplit">
+        <dc:Bounds x="750" y="213" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ITClearance_di" bpmnElement="Task_ITClearance">
+        <dc:Bounds x="860" y="20" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FinanceClearance_di" bpmnElement="Task_FinanceClearance">
+        <dc:Bounds x="860" y="120" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_AdminClearance_di" bpmnElement="Task_AdminClearance">
+        <dc:Bounds x="860" y="220" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SecurityClearance_di" bpmnElement="Task_SecurityClearance">
+        <dc:Bounds x="860" y="320" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FacilityClearance_di" bpmnElement="Task_FacilityClearance">
+        <dc:Bounds x="860" y="420" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_PurchaseClearance_di" bpmnElement="Task_PurchaseClearance">
+        <dc:Bounds x="860" y="520" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_OperationsClearance_di" bpmnElement="Task_OperationsClearance">
+        <dc:Bounds x="860" y="620" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HRDeptClearance_di" bpmnElement="Task_HRDeptClearance">
+        <dc:Bounds x="860" y="720" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ITDone_di" bpmnElement="Event_ITDone">
+        <dc:Bounds x="1085" y="42" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ITReject_di" bpmnElement="Event_ITReject">
+        <dc:Bounds x="1085" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinanceDone_di" bpmnElement="Event_FinanceDone">
+        <dc:Bounds x="1085" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinanceReject_di" bpmnElement="Event_FinanceReject">
+        <dc:Bounds x="1085" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_AdminDone_di" bpmnElement="Event_AdminDone">
+        <dc:Bounds x="1085" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_SecurityDone_di" bpmnElement="Event_SecurityDone">
+        <dc:Bounds x="1085" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FacilityDone_di" bpmnElement="Event_FacilityDone">
+        <dc:Bounds x="1085" y="442" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_PurchaseDone_di" bpmnElement="Event_PurchaseDone">
+        <dc:Bounds x="1085" y="542" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_OperationsDone_di" bpmnElement="Event_OperationsDone">
+        <dc:Bounds x="1085" y="642" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HRDeptDone_di" bpmnElement="Event_HRDeptDone">
+        <dc:Bounds x="1085" y="742" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_DeptJoin_di" bpmnElement="Gateway_DeptJoin">
+        <dc:Bounds x="1210" y="393" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HODFinalReview_di" bpmnElement="Task_HODFinalReview">
+        <dc:Bounds x="1310" y="378" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODFinalApprove_di" bpmnElement="Event_HODFinalApprove">
+        <dc:Bounds x="1520" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_PayrollReview_di" bpmnElement="Task_PayrollReview">
+        <dc:Bounds x="1600" y="378" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_PayrollApprove_di" bpmnElement="Event_PayrollApprove">
+        <dc:Bounds x="1810" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_OffboardRoute_di" bpmnElement="Gateway_OffboardRoute">
+        <dc:Bounds x="1890" y="393" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DisableAccounts_di" bpmnElement="Task_DisableAccounts">
+        <dc:Bounds x="1990" y="320" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_NotifyChannels_di" bpmnElement="Task_NotifyChannels">
+        <dc:Bounds x="1990" y="470" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ServerDone_di" bpmnElement="Event_ServerDone">
+        <dc:Bounds x="2200" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_NotifyDone_di" bpmnElement="Event_NotifyDone">
+        <dc:Bounds x="2200" y="492" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_OffboardJoin_di" bpmnElement="Gateway_OffboardJoin">
+        <dc:Bounds x="2280" y="393" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HRFinalClearance_di" bpmnElement="Task_HRFinalClearance">
+        <dc:Bounds x="2380" y="378" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HRFinalDone_di" bpmnElement="Event_HRFinalDone">
+        <dc:Bounds x="2590" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_ExitDone_di" bpmnElement="EndEvent_ExitDone">
+        <dc:Bounds x="2670" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_01_di" bpmnElement="Flow_01">
+        <di:waypoint x="116" y="238" />
+        <di:waypoint x="150" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02_di" bpmnElement="Flow_02">
+        <di:waypoint x="330" y="238" />
+        <di:waypoint x="370" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03_di" bpmnElement="Flow_03">
+        <di:waypoint x="406" y="238" />
+        <di:waypoint x="450" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04_di" bpmnElement="Flow_04">
+        <di:waypoint x="630" y="238" />
+        <di:waypoint x="670" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05_di" bpmnElement="Flow_05">
+        <di:waypoint x="706" y="238" />
+        <di:waypoint x="750" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06_di" bpmnElement="Flow_06">
+        <di:waypoint x="630" y="238" />
+        <di:waypoint x="654" y="238" />
+        <di:waypoint x="654" y="148" />
+        <di:waypoint x="670" y="148" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07_di" bpmnElement="Flow_07">
+        <di:waypoint x="706" y="148" />
+        <di:waypoint x="420" y="148" />
+        <di:waypoint x="420" y="80" />
+        <di:waypoint x="450" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08_di" bpmnElement="Flow_08">
+        <di:waypoint x="630" y="80" />
+        <di:waypoint x="670" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09_di" bpmnElement="Flow_09">
+        <di:waypoint x="706" y="80" />
+        <di:waypoint x="706" y="238" />
+        <di:waypoint x="450" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="60" />
+        <di:waypoint x="860" y="60" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="160" />
+        <di:waypoint x="860" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="260" />
+        <di:waypoint x="860" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="360" />
+        <di:waypoint x="860" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="460" />
+        <di:waypoint x="860" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="560" />
+        <di:waypoint x="860" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="660" />
+        <di:waypoint x="860" y="660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17">
+        <di:waypoint x="800" y="238" />
+        <di:waypoint x="824" y="238" />
+        <di:waypoint x="824" y="760" />
+        <di:waypoint x="860" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18">
+        <di:waypoint x="1050" y="60" />
+        <di:waypoint x="1085" y="60" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19">
+        <di:waypoint x="1121" y="60" />
+        <di:waypoint x="1145" y="60" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20">
+        <di:waypoint x="1050" y="60" />
+        <di:waypoint x="1074" y="60" />
+        <di:waypoint x="1074" y="100" />
+        <di:waypoint x="1085" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21">
+        <di:waypoint x="1085" y="100" />
+        <di:waypoint x="400" y="100" />
+        <di:waypoint x="400" y="80" />
+        <di:waypoint x="450" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_22_di" bpmnElement="Flow_22">
+        <di:waypoint x="1050" y="160" />
+        <di:waypoint x="1085" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_23_di" bpmnElement="Flow_23">
+        <di:waypoint x="1121" y="160" />
+        <di:waypoint x="1145" y="160" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_24_di" bpmnElement="Flow_24">
+        <di:waypoint x="1050" y="160" />
+        <di:waypoint x="1074" y="160" />
+        <di:waypoint x="1074" y="200" />
+        <di:waypoint x="1085" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_25_di" bpmnElement="Flow_25">
+        <di:waypoint x="1085" y="200" />
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="420" y="80" />
+        <di:waypoint x="450" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_26_di" bpmnElement="Flow_26">
+        <di:waypoint x="1050" y="260" />
+        <di:waypoint x="1085" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_27_di" bpmnElement="Flow_27">
+        <di:waypoint x="1121" y="260" />
+        <di:waypoint x="1145" y="260" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_28_di" bpmnElement="Flow_28">
+        <di:waypoint x="1050" y="360" />
+        <di:waypoint x="1085" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_29_di" bpmnElement="Flow_29">
+        <di:waypoint x="1121" y="360" />
+        <di:waypoint x="1145" y="360" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_30_di" bpmnElement="Flow_30">
+        <di:waypoint x="1050" y="460" />
+        <di:waypoint x="1085" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_31_di" bpmnElement="Flow_31">
+        <di:waypoint x="1121" y="460" />
+        <di:waypoint x="1145" y="460" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_32_di" bpmnElement="Flow_32">
+        <di:waypoint x="1050" y="560" />
+        <di:waypoint x="1085" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_33_di" bpmnElement="Flow_33">
+        <di:waypoint x="1121" y="560" />
+        <di:waypoint x="1145" y="560" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_34_di" bpmnElement="Flow_34">
+        <di:waypoint x="1050" y="660" />
+        <di:waypoint x="1085" y="660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_35_di" bpmnElement="Flow_35">
+        <di:waypoint x="1121" y="660" />
+        <di:waypoint x="1145" y="660" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_36_di" bpmnElement="Flow_36">
+        <di:waypoint x="1050" y="760" />
+        <di:waypoint x="1085" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_37_di" bpmnElement="Flow_37">
+        <di:waypoint x="1121" y="760" />
+        <di:waypoint x="1145" y="760" />
+        <di:waypoint x="1145" y="418" />
+        <di:waypoint x="1210" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_38_di" bpmnElement="Flow_38">
+        <di:waypoint x="1260" y="418" />
+        <di:waypoint x="1310" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_39_di" bpmnElement="Flow_39">
+        <di:waypoint x="1500" y="418" />
+        <di:waypoint x="1520" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_di" bpmnElement="Flow_40">
+        <di:waypoint x="1556" y="418" />
+        <di:waypoint x="1600" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_41_di" bpmnElement="Flow_41">
+        <di:waypoint x="1790" y="418" />
+        <di:waypoint x="1810" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_42_di" bpmnElement="Flow_42">
+        <di:waypoint x="1846" y="418" />
+        <di:waypoint x="1890" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_43_di" bpmnElement="Flow_43">
+        <di:waypoint x="1940" y="418" />
+        <di:waypoint x="1964" y="418" />
+        <di:waypoint x="1964" y="360" />
+        <di:waypoint x="1990" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_44_di" bpmnElement="Flow_44">
+        <di:waypoint x="1940" y="418" />
+        <di:waypoint x="1964" y="418" />
+        <di:waypoint x="1964" y="510" />
+        <di:waypoint x="1990" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_45_di" bpmnElement="Flow_45">
+        <di:waypoint x="2180" y="360" />
+        <di:waypoint x="2200" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_46_di" bpmnElement="Flow_46">
+        <di:waypoint x="2236" y="360" />
+        <di:waypoint x="2260" y="360" />
+        <di:waypoint x="2260" y="418" />
+        <di:waypoint x="2280" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_47_di" bpmnElement="Flow_47">
+        <di:waypoint x="2180" y="510" />
+        <di:waypoint x="2200" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_48_di" bpmnElement="Flow_48">
+        <di:waypoint x="2236" y="510" />
+        <di:waypoint x="2260" y="510" />
+        <di:waypoint x="2260" y="418" />
+        <di:waypoint x="2280" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_49_di" bpmnElement="Flow_49">
+        <di:waypoint x="2330" y="418" />
+        <di:waypoint x="2380" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_50_di" bpmnElement="Flow_50">
+        <di:waypoint x="2570" y="418" />
+        <di:waypoint x="2590" y="418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_51_di" bpmnElement="Flow_51">
+        <di:waypoint x="2626" y="418" />
+        <di:waypoint x="2670" y="418" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
+            ]]></field>
+        </record>
+
+        <record id="exit_clearance_new_request_action_window" model="ir.actions.act_window">
+            <field name="name">Exit Clearance - New Request</field>
+            <field name="path">exit-clearance-new-request</field>
+            <field name="res_model">workflow.base.approval.request</field>
+            <field name="view_mode">form</field>
+            <field name="views" eval="[(ref('workflow_engine.approval_base_request_view_form'), 'form')]"/>
+            <field name="target">current</field>
+        </record>
+
+        <function model="workflow.approval.category" name="write"
+            eval="[[ref('workflow_category_exit_clearance_demo')], {'active_version_id': ref('workflow_category_exit_clearance_demo_version_v1')}]"/>
+
+        <!-- ============================================ -->
+        <!-- Stage-level runtime assignment configuration -->
+        <!-- ============================================ -->
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_Submission')
+                ]).ids,
+                {
+                    'action_id': ref('workflow_engine.exit_clearance_new_request_action_window'),
+                    'assignment_mode': 'request_owner',
+                    'completion_mode': 'any',
+                    'fallback_policy': 'block',
+                    'confidentiality_level': 'public'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_RequestorRework')
+                ]).ids,
+                {
+                    'assignment_mode': 'request_owner',
+                    'completion_mode': 'any',
+                    'fallback_policy': 'block',
+                    'confidentiality_level': 'public'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_HODDecision')
+                ]).ids,
+                {
+                    'assignment_mode': 'groups',
+                    'completion_mode': 'all',
+                    'fallback_policy': 'route_admin_queue',
+                    'confidentiality_level': 'department',
+                    'requires_department_payload': True
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', 'in', [
+                        'Task_ITClearance',
+                        'Task_FinanceClearance',
+                        'Task_AdminClearance',
+                        'Task_SecurityClearance',
+                        'Task_FacilityClearance',
+                        'Task_PurchaseClearance',
+                        'Task_OperationsClearance',
+                        'Task_HRDeptClearance'
+                    ])
+                ]).ids,
+                {
+                    'assignment_mode': 'groups',
+                    'completion_mode': 'all',
+                    'fallback_policy': 'route_admin_queue',
+                    'confidentiality_level': 'department',
+                    'requires_department_payload': True,
+                    'join_key': 'exit_clearance_departments',
+                    'gateway_node_id': 'Gateway_DeptJoin',
+                    'join_policy': 'all_of',
+                    'parallel_reject_policy': 'strict'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_HODFinalReview')
+                ]).ids,
+                {
+                    'assignment_mode': 'groups',
+                    'completion_mode': 'all',
+                    'fallback_policy': 'route_admin_queue',
+                    'confidentiality_level': 'restricted'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_PayrollReview')
+                ]).ids,
+                {
+                    'assignment_mode': 'groups',
+                    'completion_mode': 'all',
+                    'fallback_policy': 'route_admin_queue',
+                    'confidentiality_level': 'restricted'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_HRFinalClearance')
+                ]).ids,
+                {
+                    'assignment_mode': 'groups',
+                    'completion_mode': 'all',
+                    'fallback_policy': 'route_admin_queue',
+                    'confidentiality_level': 'restricted',
+                    'requires_department_payload': True
+                }
+            ]"/>
+
+        <!-- =============================================== -->
+        <!-- Group links per task (group-domain + user-domain) -->
+        <!-- =============================================== -->
+        <record id="exit_link_hod_decision" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_HODDecision')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_hod"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Primary HOD decision stage.</field>
+        </record>
+
+        <record id="exit_link_it" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_ITClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_it"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[('request_owner_emp_type', '=', 'employee')]</field>
+            <field name="note">IT branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_finance" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_FinanceClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_finance"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Finance branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_admin" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_AdminClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_admin"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Admin branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_security" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_SecurityClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_security"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Security branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_facility" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_FacilityClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_facility"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Facility branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_purchase" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_PurchaseClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_purchase"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Purchase branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_operations" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_OperationsClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_operations"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Operations branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_hr_dept" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_HRDeptClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_hr"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">HR department branch in department parallel approvals.</field>
+        </record>
+
+        <record id="exit_link_hod_final" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_HODFinalReview')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_hod"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Final owner/HOD verification after all departments.</field>
+        </record>
+
+        <record id="exit_link_payroll" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_PayrollReview')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_payroll"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">Payroll final financial clearance.</field>
+        </record>
+
+        <record id="exit_link_hr_final" model="workflow.category.task.approval.group">
+            <field name="sequence" eval="10"/>
+            <field name="meta_id" model="workflow.category.version.meta.task" search="[('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')), ('node_id', '=', 'Task_HRFinalClearance')]"/>
+            <field name="approval_group_id" ref="workflow_engine.approval_group_exit_clearance_hr"/>
+            <field name="user_domain">[('active', '=', True)]</field>
+            <field name="domain">[]</field>
+            <field name="note">HR final handoff and closure.</field>
+        </record>
+
+        <!-- ========================================= -->
+        <!-- Notification/server-action workflow tasks -->
+        <!-- ========================================= -->
+        <record id="exit_clearance_server_action_disable_accounts" model="ir.actions.server">
+            <field name="name">Exit Clearance: Disable Accounts (Demo)</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_base_approval_request"/>
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+for rec in records:
+    rec.message_post(body="[Demo] Disable account automation executed.", subtype_xmlid='mail.mt_note')
+            ]]></field>
+        </record>
+
+        <record id="exit_clearance_action_send_email" model="workflow.approval.action">
+            <field name="name">Exit Notify: Email</field>
+            <field name="action_type">email</field>
+            <field name="version_id" ref="workflow_category_exit_clearance_demo_version_v1"/>
+            <field name="email_template_id" ref="workflow_engine.email_template_workflow_email_notify"/>
+        </record>
+
+        <record id="exit_clearance_action_send_sms" model="workflow.approval.action">
+            <field name="name">Exit Notify: SMS</field>
+            <field name="action_type">sms</field>
+            <field name="version_id" ref="workflow_category_exit_clearance_demo_version_v1"/>
+            <field name="message_body">[Demo] Exit clearance update notification.</field>
+        </record>
+
+        <record id="exit_clearance_action_send_telegram" model="workflow.approval.action">
+            <field name="name">Exit Notify: Telegram</field>
+            <field name="action_type">telegram</field>
+            <field name="version_id" ref="workflow_category_exit_clearance_demo_version_v1"/>
+            <field name="telegram_webhook_url">https://example.invalid/workflow/telegram</field>
+            <field name="message_body">[Demo] Exit clearance Telegram notification.</field>
+        </record>
+
+        <record id="exit_clearance_action_server_disable_accounts" model="workflow.approval.action">
+            <field name="name">Exit Automation: Disable Accounts</field>
+            <field name="action_type">server_action</field>
+            <field name="version_id" ref="workflow_category_exit_clearance_demo_version_v1"/>
+            <field name="server_action_id" ref="workflow_engine.exit_clearance_server_action_disable_accounts"/>
+        </record>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_NotifyChannels')
+                ]).ids,
+                {
+                    'notification_recipient_ids': [(6, 0, [
+                        ref('workflow_engine.user_hod_group_it'),
+                        ref('workflow_engine.user_hod_hr'),
+                        ref('workflow_engine.user_manager_of_hod_hr')
+                    ])],
+                    'notification_recipient_domain': '[(\'active\', \'=\', True)]',
+                    'activity_type_ids': [(6, 0, [
+                        ref('workflow_engine.exit_clearance_action_send_email'),
+                        ref('workflow_engine.exit_clearance_action_send_sms'),
+                        ref('workflow_engine.exit_clearance_action_send_telegram')
+                    ])]
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('node_id', '=', 'Task_DisableAccounts')
+                ]).ids,
+                {
+                    'activity_type_ids': [(6, 0, [ref('workflow_engine.exit_clearance_action_server_disable_accounts')])],
+                    'confidentiality_level': 'restricted',
+                    'fallback_policy': 'route_admin_queue'
+                }
+            ]"/>
+
+        <!-- ======================================= -->
+        <!-- Action/button metadata tuning (UX demo) -->
+        <!-- ======================================= -->
+        <function model="workflow.category.version.meta.task.action" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('source_id', '=', 'Task_Submission'),
+                    ('target_id', '=', 'Event_Submit')
+                ]).ids,
+                {
+                    'name': 'submit',
+                    'attr_label': 'Submit',
+                    'action_button_label': 'Submit Exit Clearance',
+                    'attr_class': 'btn btn-primary',
+                    'icon_class': 'fa-paper-plane',
+                    'show_confirm_dialog': True,
+                    'dialog_type': 'confirm',
+                    'invisible_domain': '[(\'wf_actor_uid\', \'=\', request_owner_id)]'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task.action" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('source_id', '=', 'Task_RequestorRework'),
+                    ('target_id', '=', 'Event_Resubmit')
+                ]).ids,
+                {
+                    'name': 'resubmit',
+                    'attr_label': 'Resubmit',
+                    'action_button_label': 'Resubmit for HOD Decision',
+                    'attr_class': 'btn btn-warning',
+                    'icon_class': 'fa-refresh',
+                    'show_confirm_dialog': True,
+                    'dialog_type': 'confirm',
+                    'require_reason': False,
+                    'invisible_domain': '[(\'wf_actor_uid\', \'=\', request_owner_id)]'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task.action" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('source_id', '=', 'Task_HODDecision'),
+                    ('target_id', '=', 'Event_HODApprove')
+                ]).ids,
+                {
+                    'name': 'hod_approve',
+                    'attr_label': 'Approve',
+                    'action_button_label': 'Approve and Send to Departments',
+                    'attr_class': 'btn btn-success',
+                    'icon_class': 'fa-check',
+                    'show_confirm_dialog': True,
+                    'dialog_type': 'confirm',
+                    'comment_required': True,
+                    'invisible_domain': '[(\'wf_actor_is_hod\', \'=\', True)]'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task.action" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('source_id', '=', 'Task_HODDecision'),
+                    ('target_id', '=', 'Event_HODReject')
+                ]).ids,
+                {
+                    'name': 'hod_reject',
+                    'attr_label': 'Reject',
+                    'action_button_label': 'Reject to Requestor Rework',
+                    'attr_class': 'btn btn-danger',
+                    'icon_class': 'fa-times',
+                    'show_confirm_dialog': True,
+                    'dialog_type': 'reject',
+                    'require_reason': True,
+                    'comment_required': True,
+                    'invisible_domain': '[(\'wf_actor_is_hod\', \'=\', True)]'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task.action" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('source_id', '=', 'Task_PayrollReview'),
+                    ('target_id', '=', 'Event_PayrollApprove')
+                ]).ids,
+                {
+                    'name': 'payroll_approve',
+                    'attr_label': 'Approve Payroll',
+                    'action_button_label': 'Approve and Run Offboard Automations',
+                    'attr_class': 'btn btn-info',
+                    'icon_class': 'fa-calculator',
+                    'show_confirm_dialog': True,
+                    'dialog_type': 'confirm',
+                    'comment_required': True,
+                    'require_2fa': True,
+                    'twofa_method': 'email_otp',
+                    'twofa_condition_domain': '[(\'request_owner_emp_type\', \'=\', \'employee\')]'
+                }
+            ]"/>
+
+        <function model="workflow.category.version.meta.task.action" name="write"
+            eval="[
+                obj().search([
+                    ('version_id', '=', ref('workflow_category_exit_clearance_demo_version_v1')),
+                    ('source_id', '=', 'Task_HRFinalClearance'),
+                    ('target_id', '=', 'Event_HRFinalDone')
+                ]).ids,
+                {
+                    'name': 'hr_complete',
+                    'attr_label': 'Complete',
+                    'action_button_label': 'Complete Exit Clearance',
+                    'attr_class': 'btn btn-success',
+                    'icon_class': 'fa-flag-checkered',
+                    'show_confirm_dialog': True,
+                    'dialog_type': 'proceed',
+                    'comment_required': True
+                }
+            ]"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.JsonFormatField">
+        <div class="o_json_format_field">
+            <t t-if="props.readonly">
+                <t t-if="formattedValue">
+                    <pre class="o_json_format_field__readonly"><t t-esc="formattedValue"/></pre>
+                </t>
+                <span t-else="" class="text-muted fst-italic">-</span>
+            </t>
+            <t t-else="">
+                <textarea
+                    t-ref="jsonInput"
+                    t-att-id="props.id"
+                    t-att-placeholder="props.placeholder || '{ }'"
+                    t-att-rows="props.rows"
+                    class="o_input o_json_format_field__editor"
+                    t-att-class="{'is-invalid': props.record.isFieldInvalid(props.name)}"
+                />
+                <div t-if="errorMessage" class="o_json_format_field__error text-danger small mt-1" t-esc="errorMessage"/>
+            </t>
+        </div>
+    </t>
+</templates>

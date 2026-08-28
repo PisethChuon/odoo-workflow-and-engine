@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.DelegateButton" owl="1">
+        <button type="button" class="btn btn-secondary wf-approval-delegate__button" t-on-click.stop.prevent="onClick">
+            <i t-if="env.isSmall" class="fa fa-share me-1"/>
+            <span>Delegate</span>
+        </button>
+    </t>
+</templates>

@@ -1,0 +1,7 @@
+<odoo>
+  <record id="action_x_item_request" model="ir.actions.act_window">
+    <field name="name">Item Request</field>
+    <field name="res_model">x_item_request</field>
+    <field name="view_mode">list,form</field>
+  </record>
+</odoo>

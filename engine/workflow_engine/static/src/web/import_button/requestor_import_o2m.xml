@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.RequestorImportX2ManyField">
+        <div t-att-class="`${className} o_requestor_import_x2many`">
+            <div class="o_x2m_control_panel d-empty-none mt-1 mb-4">
+                <div class="o_cp_buttons gap-1" role="toolbar" aria-label="Control panel buttons" t-ref="buttons">
+                    <button t-if="!importButtonInvisible"
+                            type="button"
+                            class="btn btn-secondary o_requestor_import_add_btn"
+                            t-on-click.stop.prevent="onOpenRequestorImport">
+                        <i class="fa fa-fw fa-plus me-1"/>
+                        <t t-esc="importButtonString"/>
+                    </button>
+                    <t t-if="displayControlPanelButtons">
+                        <t t-foreach="controls" t-as="control" t-key="control_index">
+                            <button
+                                t-if="control.type === 'create' and !evalInvisible(control.invisible)"
+                                type="button"
+                                class="btn btn-secondary"
+                                t-att-class="control.class"
+                                t-on-click.stop.prevent="() => this.onAdd({ context: control.context })"
+                            >
+                                <t t-esc="control.string"/>
+                            </button>
+                            <ViewButton
+                                t-if="control.type === 'button' and !evalInvisible(control.invisible)"
+                                className="`${control.className}`"
+                                clickParams="control.clickParams"
+                                icon="control.icon"
+                                record="props.record.data[props.name]"
+                                string="control.string"
+                                title="control.title"
+                            />
+                        </t>
+                    </t>
+                </div>
+                <div t-if="props.record.data[props.name].count > props.record.data[props.name].limit" class="o_cp_pager" role="search">
+                    <Pager t-props="pagerProps"/>
+                </div>
+            </div>
+            <ListRenderer t-if="props.viewMode === 'list'" t-props="this.rendererProps" />
+            <KanbanRenderer t-elif="props.viewMode" t-props="this.rendererProps" />
+        </div>
+    </t>
+</templates>

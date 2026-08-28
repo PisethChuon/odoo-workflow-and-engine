@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="workflow_engine.approval_group_everyone" model="workflow.approval.group">
+            <field name="name">Everyone</field>
+        </record>
+        <!-- <record id="workflow_engine.approval_group_hod_group" model="workflow.approval.group">
+            <field name="name">HOD Group</field>
+        </record>
+        <record id="workflow_engine.approval_group_manager_of_hod_group" model="workflow.approval.group">
+            <field name="name">Manager of HOD Group</field>
+        </record> -->
+    </data>
+</odoo>

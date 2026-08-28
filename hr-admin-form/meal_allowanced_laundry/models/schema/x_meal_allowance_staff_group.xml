@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_meal_allowance_staff_group" model="ir.model">
+            <field name="name">Meal Allowance Staff Group</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+        </record>
+
+        <record id="field_x_meal_allowance_staff_group_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+            <field name="model_id" ref="model_x_meal_allowance_staff_group"/>
+            <field name="field_description">Staff Group</field>
+            <field name="required" eval="True"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_meal_allowance_staff_group_entitlement_information" model="ir.model.fields">
+            <field name="name">x_entitlement_information_monthly</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+            <field name="model_id" ref="model_x_meal_allowance_staff_group"/>
+            <field name="field_description">Entitlement $ per calendar month</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_meal_allowance_staff_group_apparel_applicable" model="ir.model.fields">
+            <field name="name">x_apparel_applicable</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+            <field name="model_id" ref="model_x_meal_allowance_staff_group"/>
+            <field name="field_description">Apparel Applicable</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_meal_allowance_staff_group_apparel_type_id" model="ir.model.fields">
+            <field name="name">x_apparel_type_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_meal_allowance_apparel_type</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+            <field name="model_id" ref="model_x_meal_allowance_staff_group"/>
+            <field name="field_description">Apparel Type</field>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+</odoo>

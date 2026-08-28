@@ -1,0 +1,1086 @@
+.ngflow-modal {
+    // Odoo's Sass compiler errors on min()/max() with mixed units (e.g. vw + px).
+    // Use width/height with max-width/max-height pairs instead of CSS min()/max().
+    --ngflow-surface: #f8fafc;
+    --ngflow-panel: #ffffff;
+    --ngflow-line: #dbe3ef;
+    --ngflow-muted: #667085;
+    --ngflow-text: #1d2939;
+    --ngflow-accent: #0f766e;
+    --ngflow-accent-soft: #e6fffa;
+    --ngflow-active: #059669;
+    --ngflow-done: #2563eb;
+    --ngflow-pending: #94a3b8;
+    --ngflow-shadow: 0 22px 50px rgba(13, 24, 43, 0.26);
+    // Override Bootstrap's modal-bg variable so Bootstrap paints the correct
+    // background immediately — prevents the white flash on open.
+    --bs-modal-bg: var(--ngflow-surface);
+    --bs-modal-border-color: var(--ngflow-line);
+}
+
+html[data-theme="dark"] .ngflow-modal,
+body.o_dark .ngflow-modal,
+body.o_web_client.o_dark .ngflow-modal,
+body.o_web_client.o_web_dark .ngflow-modal,
+.o_dark .ngflow-modal,
+.o_web_dark .ngflow-modal,
+html[data-bs-theme="dark"] .ngflow-modal,
+body[data-bs-theme="dark"] .ngflow-modal,
+[data-bs-theme="dark"] .ngflow-modal {
+    --ngflow-surface: #0f172a;
+    --ngflow-panel: #111b2d;
+    --ngflow-line: #334155;
+    --ngflow-muted: #b6c3d8;
+    --ngflow-text: #f1f5f9;
+    --ngflow-accent: #14b8a6;
+    --ngflow-accent-soft: rgba(20, 184, 166, 0.12);
+    --ngflow-active: #34d399;
+    --ngflow-done: #60a5fa;
+    --ngflow-pending: #64748b;
+    --ngflow-shadow: 0 22px 50px rgba(2, 6, 23, 0.65);
+    // Keep Bootstrap's own modal variable in sync so no white bg flash
+    --bs-modal-bg: var(--ngflow-surface);
+    --bs-modal-border-color: var(--ngflow-line);
+}
+
+.ngflow-modal .modal-dialog {
+    width: 98vw;
+    max-width: 1680px;
+    margin: 8px auto;
+}
+
+.ngflow-modal.modal-content,
+.ngflow-modal .modal-content {
+    height: 94vh;
+    // max-height: 96vh;
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    border: 1px solid var(--ngflow-line) !important;
+    // Use !important so Bootstrap's --bs-modal-bg (#fff) never shows through,
+    // regardless of selector specificity or cascade order.
+    background: var(--ngflow-surface) !important;
+    box-shadow: var(--ngflow-shadow);
+    overflow: hidden;
+    // Smooth entrance: fade + tiny scale so no white flash is perceptible
+    animation: ngflowModalIn 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ngflowModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.975) translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.ngflow-modal:fullscreen,
+.ngflow-modal:-webkit-full-screen {
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100vh !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+}
+
+.ngflow-modal:fullscreen::backdrop,
+.ngflow-modal:-webkit-full-screen::backdrop {
+    background: rgba(2, 6, 23, 0.72);
+}
+
+.ngflow-modal:fullscreen .modal-dialog,
+.ngflow-modal:-webkit-full-screen .modal-dialog {
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100vh !important;
+    margin: 0 !important;
+}
+
+.ngflow-modal:fullscreen .modal-content,
+.ngflow-modal:-webkit-full-screen .modal-content {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+}
+
+.ngflow-modal:fullscreen .ngflow-body,
+.ngflow-modal:-webkit-full-screen .ngflow-body {
+    height: auto !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: auto !important;
+}
+
+.ngflow-modal:fullscreen .ngflow-canvas,
+.ngflow-modal:-webkit-full-screen .ngflow-canvas {
+    height: 100% !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+}
+
+.ngflow-modal .modal-header {
+    padding: 0;
+    border-bottom: none;
+    flex: 0 0 auto;
+}
+
+.ngflow-modal .modal-body {
+    padding: 0;
+    background: var(--ngflow-surface);
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.ngflow-modal .modal-footer {
+    border-top: 1px solid var(--ngflow-line);
+    background: var(--ngflow-panel);
+    padding: 10px 16px;
+    box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.08);
+    flex: 0 0 auto;
+}
+
+.ngflow-modal .ngflow-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--ngflow-line);
+    // background:
+    //     radial-gradient(circle at 20% -10%, rgba(20, 184, 166, 0.14), transparent 38%),
+    //     radial-gradient(circle at 85% -30%, rgba(14, 165, 233, 0.12), transparent 42%),
+    //     var(--ngflow-panel);
+}
+
+.ngflow-modal .ngflow-header-main {
+    min-width: 0;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.ngflow-modal .ngflow-header-icon {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ngflow-accent);
+    background: var(--ngflow-accent-soft);
+    border: 1px solid rgba(15, 118, 110, 0.16);
+}
+
+.ngflow-modal .ngflow-header-text {
+    min-width: 0;
+}
+
+.ngflow-modal .ngflow-header-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ngflow-text);
+}
+
+.ngflow-modal .ngflow-header-subtitle {
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ngflow-modal .ngflow-tag,
+.ngflow-modal .ngflow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    border: 1px solid var(--ngflow-line);
+    border-radius: 999px;
+    background: var(--ngflow-panel);
+    color: var(--ngflow-muted);
+    font-size: 12px;
+    line-height: 1;
+    padding: 6px 10px;
+}
+
+.ngflow-modal .ngflow-header-meta {
+    flex: 0 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 1px;
+}
+
+.ngflow-modal .ngflow-pill--stage {
+    border-color: rgba(2, 132, 199, 0.25);
+    background: rgba(2, 132, 199, 0.08);
+    color: #0369a1;
+}
+
+.ngflow-modal .ngflow-pill--count {
+    border-color: rgba(15, 118, 110, 0.24);
+    background: rgba(15, 118, 110, 0.1);
+    color: #0f766e;
+}
+
+.ngflow-modal .ngflow-pill--status.is-approved {
+    border-color: rgba(5, 150, 105, 0.24);
+    background: rgba(5, 150, 105, 0.1);
+    color: #047857;
+}
+
+.ngflow-modal .ngflow-pill--status.is-rejected {
+    border-color: rgba(220, 38, 38, 0.24);
+    background: rgba(220, 38, 38, 0.1);
+    color: #b91c1c;
+}
+
+.ngflow-modal .ngflow-pill--status.is-blocked {
+    border-color: rgba(220, 38, 38, 0.34);
+    background: rgba(220, 38, 38, 0.14);
+    color: #b91c1c;
+}
+
+.ngflow-modal .ngflow-pill--status.is-waiting {
+    border-color: rgba(217, 119, 6, 0.24);
+    background: rgba(217, 119, 6, 0.1);
+    color: #b45309;
+}
+
+.ngflow-modal .ngflow-pill--status.is-draft,
+.ngflow-modal .ngflow-pill--status.is-neutral {
+    border-color: rgba(100, 116, 139, 0.24);
+    background: rgba(100, 116, 139, 0.1);
+    color: #475569;
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--stage,
+body.o_dark .ngflow-modal .ngflow-pill--stage,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--stage,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--stage ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--stage ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--stage ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--stage  {
+    border-color: rgba(56, 189, 248, 0.34);
+    background: rgba(56, 189, 248, 0.14);
+    color: #bae6fd;
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--count,
+body.o_dark .ngflow-modal .ngflow-pill--count,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--count,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--count ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--count ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--count ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--count  {
+    border-color: rgba(45, 212, 191, 0.34);
+    background: rgba(45, 212, 191, 0.14);
+    color: #99f6e4;
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--status.is-approved,
+body.o_dark .ngflow-modal .ngflow-pill--status.is-approved,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--status.is-approved,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--status.is-approved ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-approved ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-approved ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-approved  {
+    border-color: rgba(52, 211, 153, 0.34);
+    background: rgba(52, 211, 153, 0.14);
+    color: #a7f3d0;
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--status.is-rejected,
+body.o_dark .ngflow-modal .ngflow-pill--status.is-rejected,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--status.is-rejected,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--status.is-rejected ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-rejected ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-rejected ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-rejected  {
+    border-color: rgba(248, 113, 113, 0.34);
+    background: rgba(248, 113, 113, 0.14);
+    color: #fecaca;
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--status.is-blocked,
+body.o_dark .ngflow-modal .ngflow-pill--status.is-blocked,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--status.is-blocked,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--status.is-blocked ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-blocked ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-blocked ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-blocked  {
+    border-color: rgba(248, 113, 113, 0.42);
+    background: rgba(220, 38, 38, 0.24);
+    color: #fecaca;
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--status.is-waiting,
+body.o_dark .ngflow-modal .ngflow-pill--status.is-waiting,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--status.is-waiting,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--status.is-waiting ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-waiting ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-waiting ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-waiting  {
+    border-color: rgba(251, 191, 36, 0.34);
+    background: rgba(251, 191, 36, 0.14);
+    color: #fef3c7;
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--status.is-draft,
+html[data-theme="dark"] .ngflow-modal .ngflow-pill--status.is-neutral,
+body.o_dark .ngflow-modal .ngflow-pill--status.is-draft,
+body.o_dark .ngflow-modal .ngflow-pill--status.is-neutral,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--status.is-draft,
+body.o_web_client.o_dark .ngflow-modal .ngflow-pill--status.is-neutral,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--status.is-draft,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-pill--status.is-neutral ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-neutral ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-neutral ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-pill--status.is-neutral  {
+    border-color: rgba(148, 163, 184, 0.34);
+    background: rgba(148, 163, 184, 0.16);
+    color: #cbd5e1;
+}
+
+.ngflow-modal .ngflow-close {
+    margin-inline-start: auto;
+    flex: 0 0 auto;
+}
+
+.ngflow-modal .ngflow-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    gap: 12px;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    padding: 12px;
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+
+.ngflow-modal .ngflow-context-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    border: 1px solid var(--ngflow-line);
+    border-radius: 12px;
+    background:
+        linear-gradient(180deg, rgba(14, 165, 233, 0.06), rgba(15, 118, 110, 0.02)),
+        var(--ngflow-panel);
+}
+
+.ngflow-modal .ngflow-panel {
+    border: 1px solid var(--ngflow-line);
+    border-radius: 12px;
+    background: var(--ngflow-panel);
+    overflow: hidden;
+}
+
+.ngflow-modal .ngflow-panel--main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.ngflow-modal .ngflow-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--ngflow-line);
+    background: linear-gradient(180deg, rgba(14, 165, 233, 0.08), rgba(15, 118, 110, 0.03));
+}
+
+.ngflow-modal .ngflow-panel-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ngflow-text);
+}
+
+.ngflow-modal .ngflow-legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ngflow-modal .ngflow-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ngflow-muted);
+}
+
+.ngflow-modal .ngflow-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+}
+
+.ngflow-modal .ngflow-dot--active {
+    background: var(--ngflow-active);
+}
+
+.ngflow-modal .ngflow-dot--done {
+    background: var(--ngflow-done);
+}
+
+.ngflow-modal .ngflow-dot--pending {
+    background: var(--ngflow-pending);
+}
+
+.ngflow-modal .ngflow-dot--blocked {
+    background: #ef4444;
+}
+
+.ngflow-modal .ngflow-canvas {
+    position: relative;
+    min-height: 0;
+    height: 100%;
+    max-height: none;
+    flex: 1 1 auto;
+    overflow: hidden;
+    background:
+        linear-gradient(to right, rgba(100, 116, 139, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(100, 116, 139, 0.08) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(148, 163, 184, 0.05), rgba(148, 163, 184, 0));
+    background-size: 20px 20px, 20px 20px, 100% 100%;
+}
+
+.ngflow-modal .ngflow-canvas-loading {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--ngflow-muted);
+    font-size: 12px;
+}
+
+.ngflow-modal .ngflow-canvas-loading i {
+    color: var(--ngflow-accent);
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-canvas,
+body.o_dark .ngflow-modal .ngflow-canvas,
+body.o_web_client.o_dark .ngflow-modal .ngflow-canvas,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-canvas ,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-canvas ,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-canvas ,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-canvas  {
+    background:
+        linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 50% -10%, rgba(34, 211, 238, 0.08), transparent 45%),
+        linear-gradient(180deg, #111827, #0b1220);
+    background-size: 22px 22px, 22px 22px, 100% 100%, 100% 100%;
+}
+
+.ngflow-modal .ngflow-canvas .ngflow-widget,
+.ngflow-modal .ngflow-canvas .o_bpmn_container {
+    height: 100%;
+    min-height: 0;
+}
+
+.ngflow-modal .ngflow-sub {
+    border: 1px solid var(--ngflow-line);
+    border-radius: 12px;
+    background: var(--ngflow-panel);
+    padding: 12px;
+}
+
+.ngflow-modal .ngflow-sub-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ngflow-text);
+    margin-bottom: 10px;
+}
+
+.ngflow-modal .ngflow-card {
+    height: 100%;
+    border: 1px solid var(--ngflow-line);
+    border-radius: 10px;
+    background: var(--ngflow-panel);
+    overflow: hidden;
+}
+
+.ngflow-modal .ngflow-card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ngflow-text);
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--ngflow-line);
+    background: rgba(148, 163, 184, 0.09);
+}
+
+.ngflow-modal .ngflow-sub .ngflow-card-body {
+    min-height: 260px;
+}
+
+.ngflow-modal .ngflow-sub .ngflow-card-body .ngflow-widget,
+.ngflow-modal .ngflow-sub .ngflow-card-body .o_bpmn_container {
+    height: 100%;
+    min-height: 260px;
+}
+
+.ngflow-modal .ngflow-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 52px;
+}
+
+.ngflow-modal .ngflow-footer-note {
+    color: var(--ngflow-muted);
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+html[data-theme="dark"] .ngflow-modal .modal-footer,
+body.o_dark .ngflow-modal .modal-footer,
+body.o_web_client.o_dark .ngflow-modal .modal-footer,
+body.o_web_client.o_web_dark .ngflow-modal .modal-footer,
+.o_dark .ngflow-modal .modal-footer,
+.o_web_dark .ngflow-modal .modal-footer,
+html[data-bs-theme="dark"] .ngflow-modal .modal-footer,
+body[data-bs-theme="dark"] .ngflow-modal .modal-footer,
+[data-bs-theme="dark"] .ngflow-modal .modal-footer {
+    background: #111b2d;
+    border-top-color: #2a3b57;
+    box-shadow: inset 0 1px 0 rgba(71, 85, 105, 0.28);
+}
+
+.ngflow-modal .ngflow-close {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid var(--ngflow-line);
+    background-color: color-mix(in srgb, var(--ngflow-panel) 88%, #ffffff);
+    background-image: none !important;
+    color: var(--ngflow-muted);
+    opacity: 1;
+}
+
+.ngflow-modal .ngflow-close i {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.ngflow-modal .ngflow-close:hover {
+    filter: brightness(1.06);
+}
+
+.ngflow-modal .ngflow-close:focus-visible {
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-close,
+body.o_dark .ngflow-modal .ngflow-close,
+body.o_web_client.o_dark .ngflow-modal .ngflow-close,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-close,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-close,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-close,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-close {
+    background-color: rgba(15, 23, 42, 0.62);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.35);
+}
+
+html[data-theme="dark"] .ngflow-modal .ngflow-legend-item,
+html[data-theme="dark"] .ngflow-modal .ngflow-footer-note,
+body.o_dark .ngflow-modal .ngflow-legend-item,
+body.o_dark .ngflow-modal .ngflow-footer-note,
+body.o_web_client.o_dark .ngflow-modal .ngflow-legend-item,
+body.o_web_client.o_dark .ngflow-modal .ngflow-footer-note,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-legend-item,
+body.o_web_client.o_web_dark .ngflow-modal .ngflow-footer-note,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-legend-item,
+html[data-bs-theme="dark"] .ngflow-modal .ngflow-footer-note,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-legend-item,
+body[data-bs-theme="dark"] .ngflow-modal .ngflow-footer-note,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-legend-item,
+[data-bs-theme="dark"] .ngflow-modal .ngflow-footer-note {
+    color: #cdd8ea;
+}
+
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal {
+    --ngflow-surface: #0f172a;
+    --ngflow-panel: #111b2d;
+    --ngflow-line: #334155;
+    --ngflow-muted: #c5d1e6;
+    --ngflow-text: #f1f5f9;
+    --ngflow-accent: #2dd4bf;
+    --ngflow-accent-soft: rgba(20, 184, 166, 0.14);
+    --ngflow-active: #34d399;
+    --ngflow-done: #60a5fa;
+    --ngflow-pending: #94a3b8;
+    --ngflow-shadow: 0 22px 50px rgba(2, 6, 23, 0.65);
+    --bs-modal-bg: var(--ngflow-surface);
+    --bs-modal-border-color: var(--ngflow-line);
+}
+
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal.modal-content,
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal .modal-content {
+    background: var(--ngflow-surface) !important;
+    border-color: var(--ngflow-line) !important;
+    color: var(--ngflow-text);
+}
+
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal .ngflow-canvas {
+    background:
+        linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 50% -10%, rgba(34, 211, 238, 0.08), transparent 45%),
+        linear-gradient(180deg, #111827, #0b1220) !important;
+    background-size: 22px 22px, 22px 22px, 100% 100%, 100% 100%;
+}
+
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal .ngflow-tag,
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal .ngflow-pill {
+    background: color-mix(in srgb, var(--ngflow-panel) 86%, #0b1220) !important;
+    border-color: color-mix(in srgb, var(--ngflow-line) 85%, #64748b) !important;
+    color: #dbe6f7 !important;
+}
+
+@media (max-width: 1024px) {
+    .ngflow-modal .modal-dialog {
+        width: 96vw;
+        max-width: 1200px;
+        margin: 10px auto;
+    }
+
+    .ngflow-modal .ngflow-header {
+        flex-wrap: wrap;
+    }
+
+    .ngflow-modal .ngflow-header-meta {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .ngflow-modal .ngflow-canvas {
+        min-height: 0;
+        height: 100%;
+        max-height: none;
+    }
+
+    .ngflow-modal .ngflow-canvas .ngflow-widget,
+    .ngflow-modal .ngflow-canvas .o_bpmn_container {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    // Odoo forces Dialog into o_modal_full on small screens. Scope the
+    // override to Preview Flow so every other mobile dialog stays unchanged.
+    .o_dialog > .modal.o_modal_full:has(> .modal-dialog > .ngflow-modal) {
+        display: flex !important;
+        align-items: flex-end;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .o_dialog > .modal.o_modal_full:has(> .modal-dialog > .ngflow-modal) > .modal-dialog {
+        align-items: stretch;
+        width: 100%;
+        max-width: 100%;
+        height: 82dvh;
+        max-height: 820px;
+        min-height: 0;
+        margin: 0;
+        animation: none;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .o_dialog > .modal.o_modal_full > .modal-dialog > .ngflow-modal {
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        min-height: 0;
+        border-width: 1px 1px 0 !important;
+        border-radius: 20px 20px 0 0;
+        animation: none;
+        transform: translate3d(0, 100%, 0);
+        backface-visibility: hidden;
+        contain: content;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+        will-change: transform;
+    }
+
+    .o_dialog > .modal.o_modal_full > .modal-dialog > .ngflow-modal.ngflow-modal--ready {
+        animation: 420ms ngflowSheetUp cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .ngflow-modal .ngflow-body {
+        height: auto;
+        flex: 1 1 auto;
+        max-height: none;
+        min-height: 0;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .ngflow-modal .ngflow-panel-head {
+        flex-direction: row;
+        align-items: center;
+        padding: 7px 8px;
+        overflow: hidden;
+    }
+
+    .ngflow-modal .ngflow-canvas {
+        min-height: 0;
+        height: 100%;
+        max-height: none;
+    }
+
+    .ngflow-modal .ngflow-canvas .ngflow-widget,
+    .ngflow-modal .ngflow-canvas .o_bpmn_container {
+        min-height: 0;
+    }
+}
+
+@keyframes ngflowSheetUp {
+    from {
+        transform: translate3d(0, 100%, 0);
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal {
+    --ngflow-surface: #0b1322;
+    --ngflow-panel: #111b2f;
+    --ngflow-line: #2f425f;
+    --ngflow-muted: #c6d5ea;
+    --ngflow-text: #f5f8ff;
+    --ngflow-accent: #2dd4bf;
+    --ngflow-accent-soft: rgba(45, 212, 191, 0.14);
+    --ngflow-active: #34d399;
+    --ngflow-done: #60a5fa;
+    --ngflow-pending: #94a3b8;
+    --ngflow-shadow: 0 26px 64px rgba(2, 6, 23, 0.68);
+    --bs-modal-bg: var(--ngflow-surface);
+    --bs-modal-border-color: var(--ngflow-line);
+}
+
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal .btn-primary {
+    border-color: #0284c7;
+    background-color: #0ea5e9;
+    color: #ecfeff;
+}
+
+:is(
+    .o_dark,
+    .o_web_dark,
+    .o_web_client.o_dark,
+    .o_web_client.o_web_dark,
+    html[data-theme*="dark"],
+    html[data-bs-theme="dark"],
+    body[data-bs-theme="dark"],
+    [data-bs-theme="dark"]
+) .ngflow-modal .btn-primary:hover {
+    border-color: #38bdf8;
+    background-color: #0284c7;
+}
+
+html[data-theme="light"] .ngflow-modal,
+body.o_light .ngflow-modal,
+body.o_web_client.o_light .ngflow-modal,
+body.o_web_client.o_web_light .ngflow-modal,
+html[data-bs-theme="light"] .ngflow-modal,
+body[data-bs-theme="light"] .ngflow-modal,
+[data-bs-theme="light"] .ngflow-modal {
+    --ngflow-surface: #f8fafc;
+    --ngflow-panel: #ffffff;
+    --ngflow-line: #dbe3ef;
+    --ngflow-muted: #667085;
+    --ngflow-text: #1d2939;
+    --ngflow-accent: #0f766e;
+    --ngflow-accent-soft: #e6fffa;
+    --ngflow-active: #059669;
+    --ngflow-done: #2563eb;
+    --ngflow-pending: #94a3b8;
+    --ngflow-shadow: 0 22px 50px rgba(13, 24, 43, 0.26);
+}
+
+@media (max-width: 767px) {
+    .ngflow-modal .modal-header {
+        display: block;
+        min-height: 0;
+        width: 100%;
+        overflow: visible;
+    }
+
+    .ngflow-modal .ngflow-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 58px;
+        padding: 14px 10px 8px 16px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .ngflow-modal .ngflow-header::before {
+        content: "";
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        width: 38px;
+        height: 4px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--ngflow-muted) 48%, transparent);
+        transform: translateX(-50%);
+    }
+
+    .ngflow-modal .ngflow-header-main {
+        flex: 1 1 auto;
+        width: auto;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow: hidden;
+    }
+
+    .ngflow-modal .ngflow-header-text {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: auto;
+    }
+
+    .ngflow-modal .ngflow-header-icon {
+        display: none;
+    }
+
+    .ngflow-modal .ngflow-header-title {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1rem;
+        line-height: 1.25;
+    }
+
+    .ngflow-modal .ngflow-close {
+        position: static;
+        flex: 0 0 36px;
+        width: 36px;
+        height: 36px;
+        margin: 0;
+        z-index: 2;
+    }
+
+    .ngflow-modal .ngflow-header-subtitle,
+    .ngflow-modal .ngflow-header-meta {
+        display: none;
+    }
+
+    .ngflow-modal .ngflow-context-strip {
+        gap: 5px;
+        padding: 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: none;
+    }
+
+    .ngflow-modal .ngflow-context-strip::-webkit-scrollbar,
+    .ngflow-modal .ngflow-legend::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ngflow-modal .ngflow-tag,
+    .ngflow-modal .ngflow-pill {
+        flex: 0 0 auto;
+        max-width: 44vw;
+        font-size: 11px;
+        padding: 5px 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ngflow-modal .ngflow-tag i,
+    .ngflow-modal .ngflow-pill i {
+        flex: 0 0 auto;
+    }
+
+    .ngflow-modal .ngflow-pill--status {
+        max-width: 52vw;
+    }
+
+    .ngflow-modal .ngflow-legend {
+        gap: 8px;
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: none;
+    }
+
+    .ngflow-modal .ngflow-legend-item {
+        flex: 0 0 auto;
+    }
+
+    .ngflow-modal .ngflow-legend-item,
+    .ngflow-modal .ngflow-footer-note {
+        font-size: 11px;
+    }
+
+    .ngflow-modal .modal-footer {
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+    }
+
+    .ngflow-modal .ngflow-footer {
+        flex-direction: row;
+        justify-content: stretch;
+        min-height: 44px;
+        align-items: center;
+    }
+
+    .ngflow-modal .ngflow-footer > .btn.btn-primary {
+        flex: 1 1 100%;
+        width: 100% !important;
+        max-width: none;
+        min-height: 44px;
+        margin: 0;
+    }
+
+    .ngflow-modal .ngflow-footer-note {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) and (max-height: 560px) {
+    .o_dialog > .modal.o_modal_full:has(> .modal-dialog > .ngflow-modal) > .modal-dialog {
+        height: 92dvh;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .o_dialog > .modal.o_modal_full > .modal-dialog > .ngflow-modal.ngflow-modal--ready {
+        animation: none;
+        transform: translate3d(0, 0, 0);
+    }
+}

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_user_access_request_user,user_access_request user,model_x_user_access,base.group_user,1,1,1,1
+access_user_access_request_manager,user_access_request manager,model_x_user_access,base.group_system,1,1,1,1
+access_x_user_access_item_admin,User Access Item Admin,model_x_user_access_item,base.group_system,1,1,1,1
+access_x_user_access_item_user,User Access Item User,model_x_user_access_item,base.group_user,1,0,0,0
+access_x_user_access_item_type_admin,User Access Item Type Admin,model_x_user_access_item_type,base.group_system,1,1,1,1
+access_x_user_access_item_type_user,User Access Item Type User,model_x_user_access_item_type,base.group_user,1,0,0,0
+access_x_user_access_line_admin,User Access Line Admin,model_x_user_access_line,base.group_system,1,1,1,1
+access_x_user_access_line_user,User Access Line User,model_x_user_access_line,base.group_user,1,0,1,0

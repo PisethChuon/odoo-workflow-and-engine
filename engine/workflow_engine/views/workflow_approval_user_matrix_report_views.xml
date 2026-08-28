@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workflow_approval_user_matrix_report_view_list" model="ir.ui.view">
+        <field name="name">workflow.approval.user.matrix.report.view.list</field>
+        <field name="model">workflow.approval.user.matrix.report</field>
+        <field name="arch" type="xml">
+            <list string="Approval User Matrix" create="false" edit="false" delete="false">
+                <field name="user_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="employee_code" optional="show"/>
+                <field name="employee_name" optional="show"/>
+                <field name="employee_department_id" optional="show"/>
+                <field name="employee_team" optional="hide"/>
+                <field name="employee_line" optional="hide"/>
+                <field name="employee_position" optional="show"/>
+                <field name="extension" optional="show"/>
+                <field name="work_email" optional="show"/>
+                <field name="category_id" optional="show"/>
+                <field name="usage_type" widget="badge" optional="show"/>
+                <field name="approval_group_id" optional="show"/>
+                <field name="system_group_id" optional="hide"/>
+                <field name="group_department_id" optional="hide"/>
+                <field name="line_id" optional="show"/>
+                <field name="team_id" optional="show"/>
+                <field name="meta_task_id" optional="show"/>
+                <field name="note" optional="show"/>
+                <field name="notification_action_id" optional="show"/>
+                <field name="email_header" optional="hide"/>
+                <field name="email_recipient_source" optional="hide"/>
+                <field name="node_type" optional="hide"/>
+                <field name="assignment_mode" optional="hide"/>
+                <field name="completion_mode" optional="hide"/>
+                <field name="notification_recipient_source" optional="hide"/>
+                <field name="notification_delivery_mode" optional="hide"/>
+                <field name="user_filter_domain" optional="hide"/>
+                <field name="record_domain" optional="hide"/>
+                <field name="notification_filter_domain" optional="hide"/>
+                <field name="request_model_name" optional="hide"/>
+                <field name="user_active" optional="hide"/>
+                <field name="user_share" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_approval_user_matrix_report_view_pivot" model="ir.ui.view">
+        <field name="name">workflow.approval.user.matrix.report.view.pivot</field>
+        <field name="model">workflow.approval.user.matrix.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Approval User Matrix" disable_linking="1">
+                <field name="category_id" type="row"/>
+                <field name="approval_group_id" type="row"/>
+                <field name="usage_type" type="col"/>
+                <field name="user_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="workflow_approval_user_matrix_report_view_search" model="ir.ui.view">
+        <field name="name">workflow.approval.user.matrix.report.view.search</field>
+        <field name="model">workflow.approval.user.matrix.report</field>
+        <field name="arch" type="xml">
+            <search string="Approval User Matrix">
+                <field name="employee_name"/>
+                <field name="employee_code"/>
+                <field name="user_id"/>
+                <field name="category_id"/>
+                <field name="approval_group_id"/>
+                <field name="system_group_id"/>
+                <field name="group_department_id"/>
+                <field name="line_id"/>
+                <field name="team_id"/>
+                <field name="employee_team"/>
+                <field name="employee_line"/>
+                <field name="meta_task_id"/>
+                <field name="notification_action_id"/>
+                <field name="note"/>
+                <filter string="Active Internal Users" name="active_internal_users" domain="[('user_active', '=', True), ('user_share', '=', False)]"/>
+                <separator/>
+                <filter string="Approval Activity Users" name="usage_approval" domain="[('usage_type', '=', 'approval')]"/>
+                <filter string="Notification Group Users" name="usage_notification" domain="[('usage_type', '=', 'notification')]"/>
+                <filter string="Notification Channel Users" name="usage_channel_notification" domain="[('usage_type', '=', 'channel_notification')]"/>
+                <filter string="Workflow Approval Group Members" name="usage_group_member" domain="[('usage_type', '=', 'group_member')]"/>
+                <separator/>
+                <filter string="Has Workflow Category" name="with_category" domain="[('category_id', '!=', False)]"/>
+                <filter string="Linked to Workflow Activity" name="with_activity" domain="[('meta_task_id', '!=', False)]"/>
+                <filter string="Workflow User Tasks" name="user_tasks" domain="[('node_type', '=', 'userTask')]"/>
+                <filter string="Workflow Send Tasks" name="send_tasks" domain="[('node_type', '=', 'sendTask')]"/>
+                <separator/>
+                <group>
+                    <filter string="Workflow Category" name="group_by_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Usage Type" name="group_by_usage_type" context="{'group_by': 'usage_type'}"/>
+                    <filter string="Workflow Approval Group" name="group_by_approval_group" context="{'group_by': 'approval_group_id'}"/>
+                    <filter string="System Security Group" name="group_by_system_group" context="{'group_by': 'system_group_id'}"/>
+                    <filter string="Workflow Approval Department" name="group_by_group_department" context="{'group_by': 'group_department_id'}"/>
+                    <filter string="Workflow Approval Team" name="group_by_team" context="{'group_by': 'team_id'}"/>
+                    <filter string="Workflow Approval Line" name="group_by_line" context="{'group_by': 'line_id'}"/>
+                    <filter string="Employee Department" name="group_by_employee_department" context="{'group_by': 'employee_department_id'}"/>
+                    <filter string="Employee Team" name="group_by_employee_team" context="{'group_by': 'employee_team'}"/>
+                    <filter string="Employee Line" name="group_by_employee_line" context="{'group_by': 'employee_line'}"/>
+                    <filter string="Employee Position" name="group_by_position" context="{'group_by': 'employee_job_id'}"/>
+                    <filter string="Workflow Activity" name="group_by_activity" domain="[('meta_task_id', '!=', False)]" context="{'group_by': 'meta_task_id'}"/>
+                    <filter string="Notification Channel" name="group_by_notification_action" context="{'group_by': 'notification_action_id'}"/>
+                    <filter string="Email Header" name="group_by_email_header" context="{'group_by': 'email_header'}"/>
+                    <filter string="Email Recipient Source" name="group_by_email_recipient_source" context="{'group_by': 'email_recipient_source'}"/>
+                    <filter string="Workflow Node Type" name="group_by_node_type" context="{'group_by': 'node_type'}"/>
+                    <filter string="Note" name="group_by_note" context="{'group_by': 'note'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_approval_user_matrix_report_action" model="ir.actions.act_window">
+        <field name="name">Approval User Matrix</field>
+        <field name="res_model">workflow.approval.user.matrix.report</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="view_id" ref="workflow_approval_user_matrix_report_view_list"/>
+        <field name="search_view_id" ref="workflow_approval_user_matrix_report_view_search"/>
+        <field name="context">{'search_default_active_internal_users': 1, 'search_default_group_by_category': 1}</field>
+        <field name="group_ids" eval="[(4, ref('workflow_engine.group_workflow_approval_user_matrix_report'))]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No approval users found.
+            </p>
+            <p>
+                Use this matrix to audit workflow approval-group members, approval activity assignments,
+                and notification approval groups by workflow category, workflow approval team/line,
+                employee department/team/line, and employee position.
+            </p>
+        </field>
+    </record>
+</odoo>

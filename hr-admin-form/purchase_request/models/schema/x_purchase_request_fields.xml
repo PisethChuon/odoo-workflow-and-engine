@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="field_x_purchase_request_ids" model="ir.model.fields">
+            <field name="name">x_purchase_item_ids</field>
+            <field name="ttype">one2many</field>
+            <field name="relation">x_purchase_item</field>
+            <field name="relation_field">x_purchase_request_id</field>
+            <field name="model">x_purchase_request</field>
+            <field name="model_id" ref="model_x_purchase_request"/>
+            <field name="field_description">Request Information</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_purchase_request_vendor_ids" model="ir.model.fields">
+            <field name="name">x_vendor_ids</field>
+            <field name="ttype">one2many</field>
+            <field name="relation">x_purchase_request_vendor</field>
+            <field name="relation_field">x_purchase_request_id</field>
+            <field name="model">x_purchase_request</field>
+            <field name="model_id" ref="model_x_purchase_request"/>
+            <field name="field_description">Vendor Information</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_purchase_request_purchase_info_ids" model="ir.model.fields">
+            <field name="name">x_purchase_info_ids</field>
+            <field name="ttype">one2many</field>
+            <field name="relation">x_purchase_item</field>
+            <field name="relation_field">x_purchase_request_id</field>
+            <field name="model">x_purchase_request</field>
+            <field name="model_id" ref="model_x_purchase_request"/>
+            <field name="field_description">Purchase Information</field>
+            <field name="related" eval="False"/>
+            <field name="readonly" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

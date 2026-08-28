@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_home_leave_ticket" model="ir.ui.view">
+            <field name="name">HRHLT: Home Leave Ticket</field>
+            <field name="model">x_home_leave_ticket</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+                <list position="inside">
+                    <field name="x_ticket_type_id" optional="show"/>
+                    <field name="x_year_requested" optional="show"/>
+                    <field name="x_destination_requested" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_home_leave_ticket" model="ir.ui.view">
+            <field name="name">HRHLT: Home Leave Ticket</field>
+            <field name="model">x_home_leave_ticket</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+                    <separator string="Request Information"/>
+                    <group>
+                        <group>
+                            <field name="x_ticket_type_id" string="Home Leave Ticket Type" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="x_year_requested" string="Year Requested"/>
+                        </group>
+                        <group>
+                            <field name="x_destination_requested"
+                                   string="Destination Requested"/>
+                        </group>
+                    </group>
+
+                    <separator string="Travel Detail"/>
+                    <field name="x_travel_detail_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="x_from_airport" placeholder="Country, city or airport"/>
+                            <field name="x_to_airport" placeholder="Country, city or airport"/>
+                            <field name="x_flight" placeholder="Going or Returning"/>
+                            <field name="x_date" placeholder="Add date"/>
+                            <field name="x_time_range_id" placeholder="Select Time Range"/>
+                        </list>
+                    </field>
+
+                    <separator string="Remark for Further Clarification"/>
+                    <group>
+                        <field name="x_description" nolabel="1" placeholder="Add any additional remarks"/>
+                    </group>
+
+                    <separator string="HR Review"/>
+                    <group>
+                        <group string="Employee Information">
+                            <field name="x_class_of_travel_entitlement"/>
+                            <field name="x_date_join" readonly="1"/>
+                            <field name="x_company_and_line_code" readonly="1"/>
+                        </group>
+                        
+                        <group string="Travel Entitlements">
+                            <field name="x_destination_entitlement"/>
+                            <field name="x_destination_authorized"/>
+                        </group>
+                    </group>
+
+                    <separator string="Comment"/>
+                    <group>
+                        <field name="x_hr_review_comment" nolabel="1" placeholder="Add comments or notes regarding this home leave ticket request..."/>
+                    </group>
+                </group>
+
+            </field>
+        </record>
+    </data>
+</odoo>

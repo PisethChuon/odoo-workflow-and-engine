@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Defs_ExitClearanceFull"
+                  targetNamespace="http://example.com/workflow/exit_clearance_full">
+
+  <bpmn:process id="Process_ExitClearanceFull" name="Exit Clearance Full Capability Test" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:startEvent id="StartEvent_Message" name="Start (Message)">
+      <bpmn:outgoing>Flow_1b</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_Start"/>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="Task_Submission" name="Submission">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_1b</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:intermediateCatchEvent id="Event_Submit" name="Submit">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_Submit"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_HOD" name="HOD">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:intermediateCatchEvent id="Event_Approve" name="Approve">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_Approve"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateCatchEvent id="Event_Rework" name="Rework">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="ConditionalDef_Rework">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${approval == 'rework'}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateCatchEvent id="Event_Timeout" name="Timeout">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerDef_Timeout">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT48H</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:sendTask id="Task_Send" name="Send Notice">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:sendTask>
+
+    <bpmn:intermediateCatchEvent id="Event_SendDone" name="Send Done">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_SendDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateThrowEvent id="Event_Cancel" name="Cancel">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+
+    <bpmn:userTask id="Task_IT" name="IT Implementation">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:intermediateCatchEvent id="Event_Complete" name="Complete">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_Complete"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:serviceTask id="Task_Service" name="Service Task">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:intermediateThrowEvent id="Event_ServiceDone" name="Service Done">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+
+    <bpmn:scriptTask id="Task_Script" name="Script Task">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:scriptTask>
+
+    <bpmn:intermediateCatchEvent id="Event_ScriptDone" name="Script Done">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_ScriptDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:callActivity id="Task_CallActivity" name="Call Activity">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:callActivity>
+
+    <bpmn:intermediateCatchEvent id="Event_SubflowDone" name="Subflow Done">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_SubflowDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:subProcess id="Task_SubProcess" name="Sub Process">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:subProcess>
+
+    <bpmn:intermediateCatchEvent id="Event_FinalApprove" name="Done">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageDef_FinalApprove"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateThrowEvent id="End_Success" name="Completed">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalDef_Success"/>
+    </bpmn:intermediateThrowEvent>
+
+    <bpmn:intermediateThrowEvent id="End_Cancelled" name="Cancelled">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalDef_Cancelled"/>
+    </bpmn:intermediateThrowEvent>
+
+    <bpmn:intermediateThrowEvent id="End_Rejected" name="Rejected">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalDef_Rejected"/>
+    </bpmn:intermediateThrowEvent>
+
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Submission"/>
+    <bpmn:sequenceFlow id="Flow_1b" sourceRef="StartEvent_Message" targetRef="Task_Submission"/>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_Submission" targetRef="Event_Submit"/>
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Event_Submit" targetRef="Task_HOD"/>
+
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_HOD" targetRef="Event_Approve">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('approval', '=', 'approve')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Event_Approve" targetRef="Task_IT"/>
+
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_HOD" targetRef="Event_Rework">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('approval', '=', 'rework')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Event_Rework" targetRef="Task_Submission"/>
+
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_HOD" targetRef="Event_Timeout">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('approval', '=', 'timeout')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Event_Timeout" targetRef="Task_Send"/>
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_Send" targetRef="Event_SendDone"/>
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Event_SendDone" targetRef="End_Cancelled"/>
+
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Task_HOD" targetRef="Event_Cancel">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('approval', '=', 'cancel')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Event_Cancel" targetRef="End_Rejected"/>
+
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Task_IT" targetRef="Event_Complete"/>
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="Event_Complete" targetRef="Task_Service"/>
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="Task_Service" targetRef="Event_ServiceDone"/>
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Event_ServiceDone" targetRef="Task_Script"/>
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Task_Script" targetRef="Event_ScriptDone"/>
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Event_ScriptDone" targetRef="Task_CallActivity"/>
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Task_CallActivity" targetRef="Event_SubflowDone"/>
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Event_SubflowDone" targetRef="Task_SubProcess"/>
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Task_SubProcess" targetRef="Event_FinalApprove"/>
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Event_FinalApprove" targetRef="End_Success"/>
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ExitClearanceFull">
+    <bpmndi:BPMNPlane id="BPMNPlane_ExitClearanceFull" bpmnElement="Process_ExitClearanceFull">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="90" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_Message_di" bpmnElement="StartEvent_Message">
+        <dc:Bounds x="90" y="140" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Submission_di" bpmnElement="Task_Submission">
+        <dc:Bounds x="170" y="178" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Submit_di" bpmnElement="Event_Submit">
+        <dc:Bounds x="340" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HOD_di" bpmnElement="Task_HOD">
+        <dc:Bounds x="430" y="178" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Approve_di" bpmnElement="Event_Approve">
+        <dc:Bounds x="600" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Rework_di" bpmnElement="Event_Rework">
+        <dc:Bounds x="600" y="80" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Timeout_di" bpmnElement="Event_Timeout">
+        <dc:Bounds x="600" y="320" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Cancel_di" bpmnElement="Event_Cancel">
+        <dc:Bounds x="600" y="440" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_IT_di" bpmnElement="Task_IT">
+        <dc:Bounds x="690" y="178" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Complete_di" bpmnElement="Event_Complete">
+        <dc:Bounds x="860" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Service_di" bpmnElement="Task_Service">
+        <dc:Bounds x="950" y="178" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ServiceDone_di" bpmnElement="Event_ServiceDone">
+        <dc:Bounds x="1120" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Script_di" bpmnElement="Task_Script">
+        <dc:Bounds x="1210" y="178" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ScriptDone_di" bpmnElement="Event_ScriptDone">
+        <dc:Bounds x="1380" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CallActivity_di" bpmnElement="Task_CallActivity">
+        <dc:Bounds x="1470" y="178" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_SubflowDone_di" bpmnElement="Event_SubflowDone">
+        <dc:Bounds x="1640" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SubProcess_di" bpmnElement="Task_SubProcess">
+        <dc:Bounds x="1730" y="178" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinalApprove_di" bpmnElement="Event_FinalApprove">
+        <dc:Bounds x="1900" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Success_di" bpmnElement="End_Success">
+        <dc:Bounds x="1990" y="200" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Send_di" bpmnElement="Task_Send">
+        <dc:Bounds x="690" y="298" width="130" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_SendDone_di" bpmnElement="Event_SendDone">
+        <dc:Bounds x="860" y="320" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Cancelled_di" bpmnElement="End_Cancelled">
+        <dc:Bounds x="950" y="320" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Rejected_di" bpmnElement="End_Rejected">
+        <dc:Bounds x="950" y="440" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1"><di:waypoint x="126" y="218"/><di:waypoint x="170" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b_di" bpmnElement="Flow_1b"><di:waypoint x="126" y="158"/><di:waypoint x="170" y="198"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2"><di:waypoint x="300" y="218"/><di:waypoint x="340" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3"><di:waypoint x="376" y="218"/><di:waypoint x="430" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4"><di:waypoint x="560" y="218"/><di:waypoint x="600" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5"><di:waypoint x="636" y="218"/><di:waypoint x="690" y="218"/></bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="495" y="178"/><di:waypoint x="495" y="98"/><di:waypoint x="600" y="98"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="600" y="98"/><di:waypoint x="235" y="98"/><di:waypoint x="235" y="178"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="495" y="258"/><di:waypoint x="495" y="338"/><di:waypoint x="600" y="338"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9"><di:waypoint x="636" y="338"/><di:waypoint x="690" y="338"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10"><di:waypoint x="820" y="338"/><di:waypoint x="860" y="338"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11"><di:waypoint x="896" y="338"/><di:waypoint x="950" y="338"/></bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="495" y="258"/><di:waypoint x="495" y="458"/><di:waypoint x="600" y="458"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13"><di:waypoint x="636" y="458"/><di:waypoint x="950" y="458"/></bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14"><di:waypoint x="820" y="218"/><di:waypoint x="860" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15"><di:waypoint x="896" y="218"/><di:waypoint x="950" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16"><di:waypoint x="1080" y="218"/><di:waypoint x="1120" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17"><di:waypoint x="1156" y="218"/><di:waypoint x="1210" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18"><di:waypoint x="1340" y="218"/><di:waypoint x="1380" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19"><di:waypoint x="1416" y="218"/><di:waypoint x="1470" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20"><di:waypoint x="1600" y="218"/><di:waypoint x="1640" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21"><di:waypoint x="1676" y="218"/><di:waypoint x="1730" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_22_di" bpmnElement="Flow_22"><di:waypoint x="1860" y="218"/><di:waypoint x="1900" y="218"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_23_di" bpmnElement="Flow_23"><di:waypoint x="1936" y="218"/><di:waypoint x="1990" y="218"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

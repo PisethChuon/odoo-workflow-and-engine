@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--List View-->
+        <record id="x_purchase_item_list" model="ir.ui.view">
+            <field name="name">Purchase Item List</field>
+            <field name="model">x_purchase_item</field>
+            <field name="arch" type="xml">
+                <list string="Purchase Items">
+                    <field name="x_item_purchase"/>
+                    <field name="x_quantity"/>
+                    <field name="x_charge_to_depat"/>
+                    <field name="x_received_date"/>
+                    <field name="x_issue_date"/>
+                    <field name="x_admin_remark"/>
+                </list>
+            </field>
+        </record>
+
+        <!--Form View-->
+        <record id="x_purchase_item_form" model="ir.ui.view">
+            <field name="name">Purchase Item Form</field>
+            <field name="model">x_purchase_item</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Item">
+                    <sheet>
+                        <group>
+                            <field name="x_item_purchase"/>
+                            <field name="x_quantity"/>
+                            <field name="x_charge_to_depat"/>
+                            <field name="x_remark"/>
+                            <field name="x_received_date"/>
+                            <field name="x_issue_date"/>
+                            <field name="x_admin_remark"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Search View-->
+        <record id="x_purchase_item_search" model="ir.ui.view">
+            <field name="name">Purchase Item Search</field>
+            <field name="model">x_purchase_item</field>
+            <field name="arch" type="xml">
+                <search string="Purchase Items">
+                    <field name="x_item_purchase"/>
+                    <field name="x_charge_to_depat"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

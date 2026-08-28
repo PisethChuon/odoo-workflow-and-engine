@@ -1,0 +1,57 @@
+// Text tokens — not present in light variables.scss because the dark sidebar
+// is always dark; must be defined here so the dark bundle gets them right.
+$o-web-studio-text-light: #eaeaea !default;
+$o-web-studio-text-inactive: #bfbfbf !default;
+// Controls native form-element colour-scheme in the sidebar (see variables.scss).
+$o-web-studio-color-scheme: dark !default;
+
+$o-web-studio-bg-lighter: #4e4d55 !default;
+$o-web-studio-bg-light: #333239 !default;
+$o-web-studio-bg-medium: #272727 !default;
+$o-web-studio-bg-dark: #202020 !default;
+$o-web-studio-bg-action: #1B1D26 !default;
+$o-web-studio-icon-invert: 1 !default;
+
+// ===========   BPMN Theme (Dark Overrides)      ===========
+$o-web-studio-bpmn-color-scheme: dark !default;
+$o-web-studio-bpmn-sidebar-bg: #2a3343 !default;
+$o-web-studio-bpmn-sidebar-tab-bg: #222b3a !default;
+$o-web-studio-bpmn-sidebar-tab-hover-bg: #303b4f !default;
+$o-web-studio-bpmn-sidebar-tab-active-bg: #2a3343 !default;
+$o-web-studio-bpmn-sidebar-text: #e6edff !default;
+$o-web-studio-bpmn-sidebar-text-muted: #a0aecf !default;
+$o-web-studio-bpmn-meta-row-bg: rgba(14, 22, 38, 0.42) !default;
+$o-web-studio-bpmn-meta-row-border: rgba(160, 174, 207, 0.18) !default;
+$o-web-studio-bpmn-hint-border: rgba(160, 174, 207, 0.4) !default;
+$o-web-studio-bpmn-workspace-bg: #141b28 !default;
+$o-web-studio-bpmn-toolbar-bg: #262f3e !default;
+$o-web-studio-bpmn-toolbar-border: #1f2634 !default;
+$o-web-studio-bpmn-toolbar-muted: #a0aecf !default;
+$o-web-studio-bpmn-version-btn-bg: rgba(16, 24, 40, 0.95) !default;
+$o-web-studio-bpmn-version-btn-bg-hover: rgba(16, 24, 40, 1) !default;
+$o-web-studio-bpmn-version-btn-border: rgba(160, 174, 207, 0.28) !default;
+$o-web-studio-bpmn-version-btn-border-hover: rgba(58, 125, 217, 0.45) !default;
+$o-web-studio-bpmn-version-btn-text: #e6edff !default;
+$o-web-studio-bpmn-version-menu-bg: #262f3e !default;
+$o-web-studio-bpmn-version-menu-border: rgba(160, 174, 207, 0.25) !default;
+$o-web-studio-bpmn-version-menu-item-hover-bg: rgba(58, 125, 217, 0.16) !default;
+$o-web-studio-bpmn-version-menu-item-current-bg: rgba(58, 125, 217, 0.24) !default;
+$o-web-studio-bpmn-version-menu-item-current-border: rgba(58, 125, 217, 0.42) !default;
+$o-web-studio-bpmn-badge-base-bg: rgba(16, 24, 40, 0.92) !default;
+$o-web-studio-bpmn-badge-base-text: rgba(234, 241, 255, 0.9) !default;
+$o-web-studio-bpmn-badge-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06) !default;
+$o-web-studio-bpmn-badge-dot-ring: 0 0 0 2px rgba(10, 16, 28, 0.4) !default;
+$o-web-studio-bpmn-canvas-bg: #111722 !default;
+$o-web-studio-bpmn-canvas-dot: rgba(255, 255, 255, 0.34) !default;
+$o-web-studio-bpmn-canvas-dot-secondary: rgba(143, 180, 255, 0.2) !default;
+$o-web-studio-bpmn-connection: #8fb4ff !default;
+$o-web-studio-bpmn-label-fill: #f3f7ff !default;
+$o-web-studio-bpmn-label-stroke: rgba(6, 14, 28, 0.98) !default;
+$o-web-studio-bpmn-node-text: #a3a3a5 !default;
+$o-web-studio-bpmn-component-bg: rgba(15, 22, 37, 0.95) !default;
+$o-web-studio-bpmn-component-hover-bg: rgba(25, 36, 58, 0.95) !default;
+$o-web-studio-bpmn-component-border: rgba(160, 174, 207, 0.22) !default;
+$o-web-studio-bpmn-component-border-hover: rgba(90, 145, 226, 0.58) !default;
+$o-web-studio-bpmn-component-text: #e8eeff !default;
+$o-web-studio-bpmn-component-icon: #86a9e7 !default;
+$o-web-studio-bpmn-component-grip: #93a6c8 !default;

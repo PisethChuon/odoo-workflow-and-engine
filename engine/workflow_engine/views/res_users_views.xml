@@ -1,0 +1,454 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <record id="res_users_view_form" model="ir.ui.view">
+    <field name="name">hr.user.preferences.view.form.workflow.approval.inherit</field>
+    <field name="model">res.users</field>
+    <field name="inherit_id" ref="hr.res_users_view_form"/>
+    <field name="arch" type="xml">
+      <header position="inside">
+        <button name="%(workflow_engine.approval_report_action_window)d" string="Request Approval" type="action" class="btn btn-primary"/>
+      </header>
+      <xpath expr="//page[@name='preferences']" position="after">
+        <page name="workflow_preferences"
+              string="Workflow"
+              groups="workflow_engine.group_workflow_approval_user,workflow_engine.group_workflow_approval_admin,base.group_system">
+          <group>
+            <group string="Notifications">
+              <field name="wf_approval_push_enabled" widget="boolean_toggle"/>
+            </group>
+            <group string="Out of Office">
+              <field name="wf_ooo_enabled" widget="boolean_toggle"/>
+              <button name="action_open_workflow_ooo_wizard"
+                      string="Configure Delegation"
+                      type="object"
+                      class="btn-secondary"
+                      invisible="not wf_ooo_enabled"/>
+            </group>
+          </group>
+          <group groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system">
+            <group string="Workflow Selection">
+              <field name="wf_hide_from_workflow_picker" widget="boolean_toggle"/>
+            </group>
+          </group>
+          <group string="Current Out of Office Configuration" invisible="not wf_ooo_enabled">
+            <group>
+              <field name="wf_ooo_delegate_user_id"
+                     readonly="1"
+                     options="{'no_create': True, 'no_open': False}"/>
+              <field name="wf_ooo_date_from" readonly="1"/>
+              <field name="wf_ooo_date_to" readonly="1"/>
+            </group>
+            <group>
+              <field name="wf_ooo_scope" readonly="1"/>
+              <field name="wf_ooo_category_ids" widget="many2many_tags" readonly="1"/>
+              <field name="wf_ooo_is_active_now" invisible="1"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Out of Office History" name="workflow_ooo_history" invisible="not wf_ooo_enabled">
+              <field name="wf_ooo_delegation_history_ids" nolabel="1" mode="list,form">
+                <list create="0" edit="0" delete="1">
+                  <field name="active" string="Enabled" widget="boolean_toggle"/>
+                  <field name="delegate_user_id" string="Assign To"/>
+                  <field name="date_from" string="From"/>
+                  <field name="date_to" string="To"/>
+                  <field name="category_ids" string="Workflow Categories" widget="many2many_tags"/>
+                  <field name="scope"/>
+                  <field name="assignment_strategy" optional="hide"/>
+                  <field name="delegation_source" optional="hide"/>
+                  <field name="note" optional="hide"/>
+                </list>
+                <form string="Out of Office History" create="0" edit="0" delete="1">
+                  <sheet>
+                    <group>
+                      <group>
+                        <field name="delegator_user_id" string="User" readonly="1"/>
+                        <field name="delegate_user_id" string="Assign To" readonly="1"/>
+                        <field name="active" string="Enabled" widget="boolean_toggle" readonly="1"/>
+                      </group>
+                      <group>
+                        <field name="date_from" string="From" readonly="1"/>
+                        <field name="date_to" string="To" readonly="1"/>
+                        <field name="scope" readonly="1"/>
+                      </group>
+                    </group>
+                    <group>
+                      <field name="category_ids" string="Workflow Categories" widget="many2many_tags" readonly="1"/>
+                      <field name="assignment_strategy" readonly="1"/>
+                      <field name="delegation_source" readonly="1"/>
+                      <field name="note" readonly="1"/>
+                    </group>
+                  </sheet>
+                </form>
+              </field>
+            </page>
+          </notebook>
+        </page>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="res_users_view_form_preferences_ooo" model="ir.ui.view">
+    <field name="name">hr.user.preferences.view.form.workflow.approval.ooo</field>
+    <field name="model">res.users</field>
+    <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+    <field name="arch" type="xml">
+      <xpath expr="//page[@name='preferences_page']" position="after">
+        <page name="workflow_preferences"
+              string="Workflow"
+              groups="workflow_engine.group_workflow_approval_user,workflow_engine.group_workflow_approval_admin,base.group_system">
+          <group>
+            <group string="Notifications">
+              <field name="wf_approval_push_enabled" widget="boolean_toggle"/>
+            </group>
+            <group string="Out of Office">
+              <field name="wf_ooo_enabled" widget="boolean_toggle"/>
+              <button name="action_open_workflow_ooo_wizard"
+                      string="Configure Delegation"
+                      type="object"
+                      class="btn-secondary"
+                      invisible="not wf_ooo_enabled"/>
+            </group>
+          </group>
+          <group groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system">
+            <group string="Workflow Selection">
+              <field name="wf_hide_from_workflow_picker" widget="boolean_toggle"/>
+            </group>
+          </group>
+          <group string="Current Out of Office Configuration" invisible="not wf_ooo_enabled">
+            <group>
+              <field name="wf_ooo_delegate_user_id"
+                     readonly="1"
+                     options="{'no_create': True, 'no_open': False}"/>
+              <field name="wf_ooo_date_from" readonly="1"/>
+              <field name="wf_ooo_date_to" readonly="1"/>
+            </group>
+            <group>
+              <field name="wf_ooo_scope" readonly="1"/>
+              <field name="wf_ooo_category_ids" widget="many2many_tags" readonly="1"/>
+              <field name="wf_ooo_is_active_now" invisible="1"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Out of Office History" name="workflow_ooo_history" invisible="not wf_ooo_enabled">
+              <field name="wf_ooo_delegation_history_ids" nolabel="1" mode="list,form">
+                <list create="0" edit="0" delete="1">
+                  <field name="active" string="Enabled" widget="boolean_toggle"/>
+                  <field name="delegate_user_id" string="Assign To"/>
+                  <field name="date_from" string="From"/>
+                  <field name="date_to" string="To"/>
+                  <field name="category_ids" string="Workflow Categories" widget="many2many_tags"/>
+                  <field name="scope"/>
+                  <field name="assignment_strategy" optional="hide"/>
+                  <field name="delegation_source" optional="hide"/>
+                  <field name="note" optional="hide"/>
+                </list>
+                <form string="Out of Office History" create="0" edit="0" delete="1">
+                  <sheet>
+                    <group>
+                      <group>
+                        <field name="delegator_user_id" string="User" readonly="1"/>
+                        <field name="delegate_user_id" string="Assign To" readonly="1"/>
+                        <field name="active" string="Enabled" widget="boolean_toggle" readonly="1"/>
+                      </group>
+                      <group>
+                        <field name="date_from" string="From" readonly="1"/>
+                        <field name="date_to" string="To" readonly="1"/>
+                        <field name="scope" readonly="1"/>
+                      </group>
+                    </group>
+                    <group>
+                      <field name="category_ids" string="Workflow Categories" widget="many2many_tags" readonly="1"/>
+                      <field name="assignment_strategy" readonly="1"/>
+                      <field name="delegation_source" readonly="1"/>
+                      <field name="note" readonly="1"/>
+                    </group>
+                  </sheet>
+                </form>
+              </field>
+            </page>
+          </notebook>
+        </page>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="res_users_view_tree_workflow_picker" model="ir.ui.view">
+    <field name="name">res.users.list.workflow.picker.flag</field>
+    <field name="model">res.users</field>
+    <field name="inherit_id" ref="base.view_users_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//list/field[@name='login_date']" position="after">
+        <field name="wf_hide_from_workflow_picker" widget="boolean_toggle"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_res_users_request_owner_picker_list" model="ir.ui.view">
+    <field name="name">res.users.request.owner.picker.list</field>
+    <field name="model">res.users</field>
+    <field name="arch" type="xml">
+      <list string="Request Owners" create="false" edit="false">
+        <field name="avatar_128" widget="image" options="{'size': [24, 24], 'img_class': 'o_avatar rounded'}" width="30" nolabel="1"/>
+        <field name="wf_request_owner_emp_code" string="Emp Code"/>
+        <field name="wf_request_owner_employee_name" string="Employee Name"/>
+        <field name="wf_request_owner_department" string="Department"/>
+        <field name="wf_request_owner_position" string="Position"/>
+        <field name="wf_request_owner_extension" string="Extension"/>
+        <field name="wf_request_owner_email" string="Work Email"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_res_users_request_owner_picker_kanban" model="ir.ui.view">
+    <field name="name">res.users.request.owner.picker.kanban</field>
+    <field name="model">res.users</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_mobile" create="false" edit="false" quick_create="false">
+        <field name="active"/>
+        <field name="avatar_128"/>
+        <field name="name"/>
+        <field name="wf_request_owner_emp_code"/>
+        <field name="wf_request_owner_employee_name"/>
+        <field name="wf_request_owner_department"/>
+        <field name="wf_request_owner_position"/>
+        <field name="wf_request_owner_extension"/>
+        <field name="wf_request_owner_email"/>
+        <templates>
+          <t t-name="card" class="flex-row align-items-start">
+            <aside class="me-2 flex-shrink-0">
+              <field name="avatar_128"
+                     widget="image"
+                     options="{'size': [48, 48], 'img_class': 'rounded'}"/>
+            </aside>
+            <main class="flex-grow-1 min-w-0">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <div class="min-w-0 pe-1">
+                  <div class="fw-bold text-truncate lh-sm">
+                    <t t-if="record.wf_request_owner_employee_name.raw_value">
+                      <field name="wf_request_owner_employee_name"/>
+                    </t>
+                    <t t-else="">
+                      <field name="name"/>
+                    </t>
+                  </div>
+                </div>
+                <span t-if="record.active.raw_value"
+                      class="badge rounded-pill text-bg-success flex-shrink-0">Active</span>
+                <span t-else=""
+                      class="badge rounded-pill text-bg-secondary flex-shrink-0">Archived</span>
+              </div>
+
+              <div class="d-flex flex-wrap align-items-center gap-2 small text-muted mt-1">
+                <span t-if="record.wf_request_owner_emp_code.raw_value"
+                      class="text-truncate">
+                  <i class="fa fa-fw fa-id-badge me-1" title="Employee Code"/>
+                  <field name="wf_request_owner_emp_code"/>
+                </span>
+                <span t-if="record.wf_request_owner_email.raw_value"
+                      class="text-truncate">
+                  <i class="fa fa-fw fa-envelope me-1" title="Work Email"/>
+                  <field name="wf_request_owner_email"/>
+                </span>
+              </div>
+
+              <div class="row g-2 mt-1 small">
+                <div t-if="record.wf_request_owner_department.raw_value" class="col-12">
+                  <span class="text-muted d-block">Department</span>
+                  <div class="text-truncate fw-medium">
+                    <field name="wf_request_owner_department"/>
+                  </div>
+                </div>
+                <div t-if="record.wf_request_owner_position.raw_value" class="col-6">
+                  <span class="text-muted d-block">Position</span>
+                  <div class="text-truncate fw-medium">
+                    <field name="wf_request_owner_position"/>
+                  </div>
+                </div>
+                <div t-if="record.wf_request_owner_extension.raw_value" class="col-6">
+                  <span class="text-muted d-block">Extension</span>
+                  <div class="text-truncate fw-medium">
+                    <field name="wf_request_owner_extension"/>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <record id="view_res_users_request_owner_picker_search" model="ir.ui.view">
+    <field name="name">res.users.request.owner.picker.search</field>
+    <field name="model">res.users</field>
+    <field name="arch" type="xml">
+      <search string="Request Owners">
+        <field name="name"
+               string="Owner"
+               filter_domain="['|','|','|','|','|','|',
+                               ('name', 'ilike', self),
+                               ('login', 'ilike', self),
+                               ('email', 'ilike', self),
+                               ('partner_id.name', 'ilike', self),
+                               ('partner_id.email', 'ilike', self),
+                               ('employee_ids.name', 'ilike', self),
+                               ('employee_ids.x_emp_code', 'ilike', self)]"/>
+        <separator/>
+        <filter name="request_owner_employee"
+                string="Employee"
+                domain="[('wf_request_owner_has_employee', '=', True)]"/>
+        <filter name="request_owner_non_employee"
+                string="Non Employee"
+                domain="[('wf_request_owner_has_employee', '=', False)]"/>
+        <separator/>
+        <filter name="request_owner_group_department"
+                string="Group by Department"
+                domain="[]"
+                context="{'group_by': 'wf_request_owner_department_id'}"/>
+        <filter name="request_owner_group_position"
+                string="Group by Position"
+                domain="[]"
+                context="{'group_by': 'wf_request_owner_job_id'}"/>
+        <filter name="request_owner_group_employee"
+                string="Group by Employee"
+                domain="[]"
+                context="{'group_by': 'wf_request_owner_employee_profile'}"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="view_res_users_workflow_delegate_picker_list" model="ir.ui.view">
+    <field name="name">res.users.workflow.delegate.picker.list</field>
+    <field name="model">res.users</field>
+    <field name="arch" type="xml">
+      <list string="Approvers" create="false" edit="false">
+        <field name="avatar_128" widget="image" options="{'size': [24, 24], 'img_class': 'o_avatar rounded'}" width="30" nolabel="1"/>
+        <field name="wf_request_owner_emp_code" string="Emp Code"/>
+        <field name="wf_request_owner_employee_name" string="Employee Name"/>
+        <field name="wf_request_owner_department" string="Department"/>
+        <field name="wf_request_owner_position" string="Position"/> 
+        <field name="wf_request_owner_extension" string="Extension"/>
+        <field name="wf_request_owner_email" string="Work Email"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_res_users_workflow_delegate_picker_kanban" model="ir.ui.view">
+    <field name="name">res.users.workflow.delegate.picker.kanban</field>
+    <field name="model">res.users</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_mobile" create="false" edit="false" quick_create="false">
+        <field name="active"/>
+        <field name="avatar_128"/>
+        <field name="name"/>
+        <field name="wf_request_owner_emp_code"/>
+        <field name="wf_request_owner_employee_name"/>
+        <field name="wf_request_owner_department"/>
+        <field name="wf_request_owner_position"/>
+        <field name="wf_request_owner_extension"/>
+        <field name="wf_request_owner_email"/>
+        <templates>
+          <t t-name="card" class="flex-row align-items-start">
+            <aside class="me-2 flex-shrink-0">
+              <field name="avatar_128"
+                     widget="image"
+                     options="{'size': [48, 48], 'img_class': 'rounded'}"/>
+            </aside>
+            <main class="flex-grow-1 min-w-0">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <div class="min-w-0 pe-1">
+                  <div class="fw-bold text-truncate lh-sm">
+                    <t t-if="record.wf_request_owner_employee_name.raw_value">
+                      <field name="wf_request_owner_employee_name"/>
+                    </t>
+                    <t t-else="">
+                      <field name="name"/>
+                    </t>
+                  </div>
+                </div>
+                <span t-if="record.active.raw_value"
+                      class="badge rounded-pill text-bg-success flex-shrink-0">Active</span>
+                <span t-else=""
+                      class="badge rounded-pill text-bg-secondary flex-shrink-0">Archived</span>
+              </div>
+
+              <div class="d-flex flex-wrap align-items-center gap-2 small text-muted mt-1">
+                <span t-if="record.wf_request_owner_emp_code.raw_value"
+                      class="text-truncate">
+                  <i class="fa fa-fw fa-id-badge me-1" title="Employee Code"/>
+                  <field name="wf_request_owner_emp_code"/>
+                </span>
+                <span t-if="record.wf_request_owner_email.raw_value"
+                      class="text-truncate">
+                  <i class="fa fa-fw fa-envelope me-1" title="Work Email"/>
+                  <field name="wf_request_owner_email"/>
+                </span>
+              </div>
+
+              <div class="row g-2 mt-1 small">
+                <div t-if="record.wf_request_owner_department.raw_value" class="col-12">
+                  <span class="text-muted d-block">Department</span>
+                  <div class="text-truncate fw-medium">
+                    <field name="wf_request_owner_department"/>
+                  </div>
+                </div>
+                <div t-if="record.wf_request_owner_position.raw_value" class="col-6">
+                  <span class="text-muted d-block">Position</span>
+                  <div class="text-truncate fw-medium">
+                    <field name="wf_request_owner_position"/>
+                  </div>
+                </div>
+                <div t-if="record.wf_request_owner_extension.raw_value" class="col-6">
+                  <span class="text-muted d-block">Extension</span>
+                  <div class="text-truncate fw-medium">
+                    <field name="wf_request_owner_extension"/>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <record id="view_res_users_workflow_delegate_picker_search" model="ir.ui.view">
+    <field name="name">res.users.workflow.delegate.picker.search</field>
+    <field name="model">res.users</field>
+    <field name="arch" type="xml">
+      <search string="Approvers">
+        <field name="name"
+               string="Approver"
+               filter_domain="['|','|','|','|','|','|',
+                               ('name', 'ilike', self),
+                               ('login', 'ilike', self),
+                               ('email', 'ilike', self),
+                               ('partner_id.name', 'ilike', self),
+                               ('partner_id.email', 'ilike', self),
+                               ('employee_ids.name', 'ilike', self),
+                               ('employee_ids.x_emp_code', 'ilike', self)]"/>
+        <separator/>
+        <filter name="approver_employee"
+                string="Employee"
+                domain="[('wf_request_owner_has_employee', '=', True)]"/>
+        <filter name="approver_non_employee"
+                string="Non Employee"
+                domain="[('wf_request_owner_has_employee', '=', False)]"/>
+        <separator/>
+        <filter name="approver_group_department"
+                string="Group by Department"
+                domain="[]"
+                context="{'group_by': 'wf_request_owner_department_id'}"/>
+        <filter name="approver_group_position"
+                string="Group by Position"
+                domain="[]"
+                context="{'group_by': 'wf_request_owner_job_id'}"/>
+        <filter name="approver_group_employee"
+                string="Group by Employee"
+                domain="[]"
+                context="{'group_by': 'wf_request_owner_employee_profile'}"/>
+      </search>
+    </field>
+  </record>
+</odoo>

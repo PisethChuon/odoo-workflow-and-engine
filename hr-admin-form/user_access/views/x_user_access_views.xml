@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_user_access" model="ir.ui.view">
+            <field name="name">UA: User Access List</field>
+            <field name="model">x_user_access</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_user_access" model="ir.ui.view">
+            <field name="name">UA: User Access Form</field>
+            <field name="model">x_user_access</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+                    <!--Request Information-->
+                    <group string="Request Information" col="2">
+                        <field name="x_item_line_ids" colspan="2" context="{'form_view_ref': 'user_access.view_form_x_user_access_line'}">
+                            <list editable="bottom" no_open="1">
+                                <field name="x_employee_id"/>
+                                <field name="x_item_id"/>
+                                <field name="x_item_type_id"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <!--Comment-->
+                    <group>
+                        <field name="x_comment"
+                               invisible="'x_comment' in (invisible_fields or '')"
+                               readonly="'x_comment' in (readonly_fields or '') or is_finished"
+                               required="'x_comment' in (required_fields or '')"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_meal_allowance_staff_group" model="ir.ui.view">
+            <field name="name">Meal Allowance Staff Group List</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+            <field name="arch" type="xml">
+                <list string="Meal Allowance Staff Groups" default_order="x_name">
+                    <field name="x_name"/>
+                    <field name="x_entitlement_information_monthly"/>
+                    <field name="x_apparel_type_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_meal_allowance_staff_group" model="ir.ui.view">
+            <field name="name">Meal Allowance Staff Group Form</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+            <field name="arch" type="xml">
+                <form string="Meal Allowance Staff Group">
+                    <sheet>
+                        <group>
+                            <field name="x_name" placeholder="e.g. Group A"/>
+                            <field name="x_entitlement_information_monthly"/>
+                            <field name="x_apparel_type_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_x_meal_allowance_staff_group" model="ir.ui.view">
+            <field name="name">Meal Allowance Staff Group Search</field>
+            <field name="model">x_meal_allowance_staff_group</field>
+            <field name="arch" type="xml">
+                <search string="Meal Allowance Staff Groups">
+                    <field name="x_name"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

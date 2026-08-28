@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_activity_data_workflow_approval" model="mail.activity.type">
+            <field name="name">WF: Approval</field>
+            <field name="icon">fa-check-circle</field>
+            <field name="sequence">4</field>
+            <field name="active">True</field>
+            <field name="res_model" eval="False"/>
+        </record>
+    </data>
+</odoo>

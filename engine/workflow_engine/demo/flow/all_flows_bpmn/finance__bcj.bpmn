@@ -1,0 +1,504 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_BCJ" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_BCJ" name="Business Case Justification" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_BCJ" name="Start" />
+    <bpmn:userTask id="Task_Submitter" name="Submitter - Draft and Submit" />
+    <bpmn:intermediateCatchEvent id="Event_Submit" name="Submit">
+      <bpmn:messageEventDefinition id="MessageDef_Submit" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Task_HODApproval" name="HOD Approval" />
+    <bpmn:intermediateCatchEvent id="Event_HODApproved" name="Approved">
+      <bpmn:messageEventDefinition id="MessageDef_HODApproved" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_HODReworked" name="Reworked" />
+    <bpmn:intermediateThrowEvent id="Event_HODRejected" name="Rejected" />
+    <bpmn:userTask id="Task_LineDepartment" name="Line Department Review" />
+    <bpmn:intermediateCatchEvent id="Event_LineReviewed" name="Reviewed">
+      <bpmn:messageEventDefinition id="MessageDef_LineReviewed" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_LineReworked" name="Reworked" />
+    <bpmn:intermediateThrowEvent id="Event_LineRejected" name="Rejected" />
+    <bpmn:userTask id="Task_DepartmentExecutive" name="Department Executive Review" />
+    <bpmn:intermediateCatchEvent id="Event_DeptExecReviewed" name="Reviewed">
+      <bpmn:messageEventDefinition id="MessageDef_DeptExecReviewed" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_DeptExecReworked" name="Reworked" />
+    <bpmn:intermediateThrowEvent id="Event_DeptExecRejected" name="Rejected" />
+    <bpmn:exclusiveGateway id="Gateway_FinanceRoute" name="Finance Route" />
+    <bpmn:userTask id="Task_FinanceGaming" name="Finance - Gaming" />
+    <bpmn:userTask id="Task_FinanceHotel" name="Finance - Hotel" />
+    <bpmn:userTask id="Task_GroupFinance" name="Group Finance" />
+    <bpmn:userTask id="Task_CFO_DYCFO" name="CFO / DYCFO" />
+    <bpmn:userTask id="Task_CFO" name="CFO" />
+    <bpmn:intermediateCatchEvent id="Event_FinanceReviewed" name="Reviewed">
+      <bpmn:messageEventDefinition id="MessageDef_FinanceReviewed" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_FinanceReworked" name="Reworked" />
+    <bpmn:intermediateThrowEvent id="Event_FinanceRejected" name="Rejected" />
+    <bpmn:exclusiveGateway id="Gateway_FinanceApprovedJoin" name="Finance Approved Join" />
+    <bpmn:sendTask id="Task_EmailNotification" name="Email Notification to Submitter" />
+    <bpmn:intermediateThrowEvent id="Event_EmailSent" name="Email Sent" />
+    <bpmn:userTask id="Task_Purchasing" name="Purchasing (PO Number/Date/Value)" />
+    <bpmn:intermediateCatchEvent id="Event_PurchaseDone" name="Done">
+      <bpmn:messageEventDefinition id="MessageDef_PurchaseDone" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="Gateway_ModificationWindow" name="Modification Window (1 Month)" />
+    <bpmn:userTask id="Task_Modification" name="Modification (Comments/Attachments/PO Fields)" />
+    <bpmn:intermediateCatchEvent id="Event_ModificationSaved" name="Saved">
+      <bpmn:messageEventDefinition id="MessageDef_ModificationSaved" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="EndEvent_Completed" name="Completed" />
+    <bpmn:endEvent id="EndEvent_Rejected" name="Rejected" />
+    <bpmn:sequenceFlow id="Flow_01" sourceRef="StartEvent_BCJ" targetRef="Task_Submitter" />
+    <bpmn:sequenceFlow id="Flow_02" sourceRef="Task_Submitter" targetRef="Event_Submit" />
+    <bpmn:sequenceFlow id="Flow_03" sourceRef="Event_Submit" targetRef="Task_HODApproval" />
+    <bpmn:sequenceFlow id="Flow_04" sourceRef="Task_HODApproval" targetRef="Event_HODApproved" />
+    <bpmn:sequenceFlow id="Flow_05" sourceRef="Event_HODApproved" targetRef="Task_LineDepartment" />
+    <bpmn:sequenceFlow id="Flow_06" sourceRef="Task_HODApproval" targetRef="Event_HODReworked" />
+    <bpmn:sequenceFlow id="Flow_07" sourceRef="Event_HODReworked" targetRef="Task_Submitter" />
+    <bpmn:sequenceFlow id="Flow_08" sourceRef="Task_HODApproval" targetRef="Event_HODRejected" />
+    <bpmn:sequenceFlow id="Flow_09" sourceRef="Event_HODRejected" targetRef="EndEvent_Rejected" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_LineDepartment" targetRef="Event_LineReviewed" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Event_LineReviewed" targetRef="Task_DepartmentExecutive" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Task_LineDepartment" targetRef="Event_LineReworked" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Event_LineReworked" targetRef="Task_HODApproval" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Task_LineDepartment" targetRef="Event_LineRejected" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="Event_LineRejected" targetRef="EndEvent_Rejected" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="Task_DepartmentExecutive" targetRef="Event_DeptExecReviewed" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Event_DeptExecReviewed" targetRef="Gateway_FinanceRoute" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Task_DepartmentExecutive" targetRef="Event_DeptExecReworked" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Event_DeptExecReworked" targetRef="Task_LineDepartment" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Task_DepartmentExecutive" targetRef="Event_DeptExecRejected" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Event_DeptExecRejected" targetRef="EndEvent_Rejected" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Gateway_FinanceRoute" targetRef="Task_FinanceGaming">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('total_amount', '&lt;=', 500), ('branch_company', '=', 'gaming')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Gateway_FinanceRoute" targetRef="Task_FinanceHotel">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('total_amount', '&lt;=', 500), ('branch_company', '=', 'hotel')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="Gateway_FinanceRoute" targetRef="Task_GroupFinance">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('total_amount', '&lt;=', 500), ('branch_company', '=', 'others')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="Gateway_FinanceRoute" targetRef="Task_CFO_DYCFO">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('total_amount', '&gt;', 500), ('total_amount', '&lt;=', 100000)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="Gateway_FinanceRoute" targetRef="Task_CFO">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('total_amount', '&gt;', 100000)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="Task_FinanceGaming" targetRef="Event_FinanceReviewed" />
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="Task_FinanceHotel" targetRef="Event_FinanceReviewed" />
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="Task_GroupFinance" targetRef="Event_FinanceReviewed" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="Task_CFO_DYCFO" targetRef="Event_FinanceReviewed" />
+    <bpmn:sequenceFlow id="Flow_31" sourceRef="Task_CFO" targetRef="Event_FinanceReviewed" />
+    <bpmn:sequenceFlow id="Flow_32" sourceRef="Event_FinanceReviewed" targetRef="Gateway_FinanceApprovedJoin" />
+    <bpmn:sequenceFlow id="Flow_33" sourceRef="Task_FinanceGaming" targetRef="Event_FinanceReworked" />
+    <bpmn:sequenceFlow id="Flow_34" sourceRef="Task_FinanceHotel" targetRef="Event_FinanceReworked" />
+    <bpmn:sequenceFlow id="Flow_35" sourceRef="Task_GroupFinance" targetRef="Event_FinanceReworked" />
+    <bpmn:sequenceFlow id="Flow_36" sourceRef="Task_CFO_DYCFO" targetRef="Event_FinanceReworked" />
+    <bpmn:sequenceFlow id="Flow_37" sourceRef="Task_CFO" targetRef="Event_FinanceReworked" />
+    <bpmn:sequenceFlow id="Flow_38" sourceRef="Event_FinanceReworked" targetRef="Task_DepartmentExecutive" />
+    <bpmn:sequenceFlow id="Flow_39" sourceRef="Task_FinanceGaming" targetRef="Event_FinanceRejected" />
+    <bpmn:sequenceFlow id="Flow_40" sourceRef="Task_FinanceHotel" targetRef="Event_FinanceRejected" />
+    <bpmn:sequenceFlow id="Flow_41" sourceRef="Task_GroupFinance" targetRef="Event_FinanceRejected" />
+    <bpmn:sequenceFlow id="Flow_42" sourceRef="Task_CFO_DYCFO" targetRef="Event_FinanceRejected" />
+    <bpmn:sequenceFlow id="Flow_43" sourceRef="Task_CFO" targetRef="Event_FinanceRejected" />
+    <bpmn:sequenceFlow id="Flow_44" sourceRef="Event_FinanceRejected" targetRef="EndEvent_Rejected" />
+    <bpmn:sequenceFlow id="Flow_45" sourceRef="Gateway_FinanceApprovedJoin" targetRef="Task_EmailNotification" />
+    <bpmn:sequenceFlow id="Flow_46" sourceRef="Task_EmailNotification" targetRef="Event_EmailSent" />
+    <bpmn:sequenceFlow id="Flow_47" sourceRef="Event_EmailSent" targetRef="Task_Purchasing" />
+    <bpmn:sequenceFlow id="Flow_48" sourceRef="Task_Purchasing" targetRef="Event_PurchaseDone" />
+    <bpmn:sequenceFlow id="Flow_49" sourceRef="Event_PurchaseDone" targetRef="Gateway_ModificationWindow" />
+    <bpmn:sequenceFlow id="Flow_50" sourceRef="Gateway_ModificationWindow" targetRef="EndEvent_Completed" />
+    <bpmn:sequenceFlow id="Flow_51" sourceRef="Gateway_ModificationWindow" targetRef="Task_Modification">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('allow_modification', '=', True)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_52" sourceRef="Task_Modification" targetRef="Event_ModificationSaved" />
+    <bpmn:sequenceFlow id="Flow_53" sourceRef="Event_ModificationSaved" targetRef="EndEvent_Completed" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Process_BCJ">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_BCJ" bpmnElement="Process_BCJ">
+      <bpmndi:BPMNShape id="StartEvent_BCJ_di" bpmnElement="StartEvent_BCJ">
+        <dc:Bounds x="80" y="210" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Submitter_di" bpmnElement="Task_Submitter">
+        <dc:Bounds x="150" y="188" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Submit_di" bpmnElement="Event_Submit">
+        <dc:Bounds x="380" y="210" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HODApproval_di" bpmnElement="Task_HODApproval">
+        <dc:Bounds x="460" y="188" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODApproved_di" bpmnElement="Event_HODApproved">
+        <dc:Bounds x="690" y="210" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODReworked_di" bpmnElement="Event_HODReworked">
+        <dc:Bounds x="690" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_HODRejected_di" bpmnElement="Event_HODRejected">
+        <dc:Bounds x="690" y="340" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_LineDepartment_di" bpmnElement="Task_LineDepartment">
+        <dc:Bounds x="780" y="188" width="220" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_LineReviewed_di" bpmnElement="Event_LineReviewed">
+        <dc:Bounds x="1040" y="210" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_LineReworked_di" bpmnElement="Event_LineReworked">
+        <dc:Bounds x="1040" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_LineRejected_di" bpmnElement="Event_LineRejected">
+        <dc:Bounds x="1040" y="340" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DepartmentExecutive_di" bpmnElement="Task_DepartmentExecutive">
+        <dc:Bounds x="1130" y="188" width="240" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_DeptExecReviewed_di" bpmnElement="Event_DeptExecReviewed">
+        <dc:Bounds x="1410" y="210" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_DeptExecReworked_di" bpmnElement="Event_DeptExecReworked">
+        <dc:Bounds x="1410" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_DeptExecRejected_di" bpmnElement="Event_DeptExecRejected">
+        <dc:Bounds x="1410" y="340" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_FinanceRoute_di" bpmnElement="Gateway_FinanceRoute">
+        <dc:Bounds x="1490" y="203" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FinanceGaming_di" bpmnElement="Task_FinanceGaming">
+        <dc:Bounds x="1600" y="40" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FinanceHotel_di" bpmnElement="Task_FinanceHotel">
+        <dc:Bounds x="1600" y="150" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_GroupFinance_di" bpmnElement="Task_GroupFinance">
+        <dc:Bounds x="1600" y="260" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CFO_DYCFO_di" bpmnElement="Task_CFO_DYCFO">
+        <dc:Bounds x="1600" y="370" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CFO_di" bpmnElement="Task_CFO">
+        <dc:Bounds x="1600" y="480" width="190" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinanceReviewed_di" bpmnElement="Event_FinanceReviewed">
+        <dc:Bounds x="1830" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinanceReworked_di" bpmnElement="Event_FinanceReworked">
+        <dc:Bounds x="1830" y="420" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_FinanceRejected_di" bpmnElement="Event_FinanceRejected">
+        <dc:Bounds x="1830" y="530" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_FinanceApprovedJoin_di" bpmnElement="Gateway_FinanceApprovedJoin">
+        <dc:Bounds x="1910" y="285" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_EmailNotification_di" bpmnElement="Task_EmailNotification">
+        <dc:Bounds x="2000" y="270" width="250" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_EmailSent_di" bpmnElement="Event_EmailSent">
+        <dc:Bounds x="2285" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Purchasing_di" bpmnElement="Task_Purchasing">
+        <dc:Bounds x="2360" y="270" width="240" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_PurchaseDone_di" bpmnElement="Event_PurchaseDone">
+        <dc:Bounds x="2635" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_ModificationWindow_di" bpmnElement="Gateway_ModificationWindow">
+        <dc:Bounds x="2715" y="285" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Modification_di" bpmnElement="Task_Modification">
+        <dc:Bounds x="2820" y="130" width="240" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ModificationSaved_di" bpmnElement="Event_ModificationSaved">
+        <dc:Bounds x="3095" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Completed_di" bpmnElement="EndEvent_Completed">
+        <dc:Bounds x="3170" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Rejected_di" bpmnElement="EndEvent_Rejected">
+        <dc:Bounds x="2060" y="640" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_01_di" bpmnElement="Flow_01">
+        <di:waypoint x="116" y="228" />
+        <di:waypoint x="150" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02_di" bpmnElement="Flow_02">
+        <di:waypoint x="340" y="228" />
+        <di:waypoint x="380" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03_di" bpmnElement="Flow_03">
+        <di:waypoint x="416" y="228" />
+        <di:waypoint x="460" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04_di" bpmnElement="Flow_04">
+        <di:waypoint x="650" y="228" />
+        <di:waypoint x="690" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05_di" bpmnElement="Flow_05">
+        <di:waypoint x="726" y="228" />
+        <di:waypoint x="780" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06_di" bpmnElement="Flow_06">
+        <di:waypoint x="650" y="228" />
+        <di:waypoint x="674" y="228" />
+        <di:waypoint x="674" y="118" />
+        <di:waypoint x="690" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07_di" bpmnElement="Flow_07">
+        <di:waypoint x="690" y="136" />
+        <di:waypoint x="690" y="70" />
+        <di:waypoint x="245" y="70" />
+        <di:waypoint x="245" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08_di" bpmnElement="Flow_08">
+        <di:waypoint x="650" y="228" />
+        <di:waypoint x="674" y="228" />
+        <di:waypoint x="674" y="358" />
+        <di:waypoint x="690" y="358" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09_di" bpmnElement="Flow_09">
+        <di:waypoint x="726" y="358" />
+        <di:waypoint x="750" y="358" />
+        <di:waypoint x="750" y="658" />
+        <di:waypoint x="2060" y="658" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1000" y="228" />
+        <di:waypoint x="1040" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1076" y="228" />
+        <di:waypoint x="1130" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="1000" y="228" />
+        <di:waypoint x="1024" y="228" />
+        <di:waypoint x="1024" y="118" />
+        <di:waypoint x="1040" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="1040" y="136" />
+        <di:waypoint x="1040" y="50" />
+        <di:waypoint x="555" y="50" />
+        <di:waypoint x="555" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="1000" y="228" />
+        <di:waypoint x="1024" y="228" />
+        <di:waypoint x="1024" y="358" />
+        <di:waypoint x="1040" y="358" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15">
+        <di:waypoint x="1076" y="358" />
+        <di:waypoint x="1100" y="358" />
+        <di:waypoint x="1100" y="658" />
+        <di:waypoint x="2060" y="658" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16">
+        <di:waypoint x="1370" y="228" />
+        <di:waypoint x="1410" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17">
+        <di:waypoint x="1446" y="228" />
+        <di:waypoint x="1490" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18">
+        <di:waypoint x="1370" y="228" />
+        <di:waypoint x="1394" y="228" />
+        <di:waypoint x="1394" y="118" />
+        <di:waypoint x="1410" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19">
+        <di:waypoint x="1410" y="136" />
+        <di:waypoint x="1410" y="20" />
+        <di:waypoint x="890" y="20" />
+        <di:waypoint x="890" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20">
+        <di:waypoint x="1370" y="228" />
+        <di:waypoint x="1394" y="228" />
+        <di:waypoint x="1394" y="358" />
+        <di:waypoint x="1410" y="358" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21">
+        <di:waypoint x="1446" y="358" />
+        <di:waypoint x="1470" y="358" />
+        <di:waypoint x="1470" y="658" />
+        <di:waypoint x="2060" y="658" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_22_di" bpmnElement="Flow_22">
+        <di:waypoint x="1540" y="228" />
+        <di:waypoint x="1564" y="228" />
+        <di:waypoint x="1564" y="80" />
+        <di:waypoint x="1600" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_23_di" bpmnElement="Flow_23">
+        <di:waypoint x="1540" y="228" />
+        <di:waypoint x="1564" y="228" />
+        <di:waypoint x="1564" y="190" />
+        <di:waypoint x="1600" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_24_di" bpmnElement="Flow_24">
+        <di:waypoint x="1540" y="228" />
+        <di:waypoint x="1564" y="228" />
+        <di:waypoint x="1564" y="300" />
+        <di:waypoint x="1600" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_25_di" bpmnElement="Flow_25">
+        <di:waypoint x="1540" y="228" />
+        <di:waypoint x="1564" y="228" />
+        <di:waypoint x="1564" y="410" />
+        <di:waypoint x="1600" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_26_di" bpmnElement="Flow_26">
+        <di:waypoint x="1540" y="228" />
+        <di:waypoint x="1564" y="228" />
+        <di:waypoint x="1564" y="520" />
+        <di:waypoint x="1600" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_27_di" bpmnElement="Flow_27">
+        <di:waypoint x="1790" y="80" />
+        <di:waypoint x="1814" y="80" />
+        <di:waypoint x="1814" y="310" />
+        <di:waypoint x="1830" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_28_di" bpmnElement="Flow_28">
+        <di:waypoint x="1790" y="190" />
+        <di:waypoint x="1814" y="190" />
+        <di:waypoint x="1814" y="310" />
+        <di:waypoint x="1830" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_29_di" bpmnElement="Flow_29">
+        <di:waypoint x="1790" y="300" />
+        <di:waypoint x="1830" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_30_di" bpmnElement="Flow_30">
+        <di:waypoint x="1790" y="410" />
+        <di:waypoint x="1814" y="410" />
+        <di:waypoint x="1814" y="310" />
+        <di:waypoint x="1830" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_31_di" bpmnElement="Flow_31">
+        <di:waypoint x="1790" y="520" />
+        <di:waypoint x="1814" y="520" />
+        <di:waypoint x="1814" y="310" />
+        <di:waypoint x="1830" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_32_di" bpmnElement="Flow_32">
+        <di:waypoint x="1866" y="310" />
+        <di:waypoint x="1910" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_33_di" bpmnElement="Flow_33">
+        <di:waypoint x="1790" y="80" />
+        <di:waypoint x="1814" y="80" />
+        <di:waypoint x="1814" y="438" />
+        <di:waypoint x="1830" y="438" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_34_di" bpmnElement="Flow_34">
+        <di:waypoint x="1790" y="190" />
+        <di:waypoint x="1814" y="190" />
+        <di:waypoint x="1814" y="438" />
+        <di:waypoint x="1830" y="438" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_35_di" bpmnElement="Flow_35">
+        <di:waypoint x="1790" y="300" />
+        <di:waypoint x="1814" y="300" />
+        <di:waypoint x="1814" y="438" />
+        <di:waypoint x="1830" y="438" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_36_di" bpmnElement="Flow_36">
+        <di:waypoint x="1790" y="410" />
+        <di:waypoint x="1814" y="410" />
+        <di:waypoint x="1814" y="438" />
+        <di:waypoint x="1830" y="438" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_37_di" bpmnElement="Flow_37">
+        <di:waypoint x="1790" y="520" />
+        <di:waypoint x="1814" y="520" />
+        <di:waypoint x="1814" y="438" />
+        <di:waypoint x="1830" y="438" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_38_di" bpmnElement="Flow_38">
+        <di:waypoint x="1830" y="438" />
+        <di:waypoint x="1120" y="438" />
+        <di:waypoint x="1120" y="228" />
+        <di:waypoint x="1130" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_39_di" bpmnElement="Flow_39">
+        <di:waypoint x="1790" y="80" />
+        <di:waypoint x="1814" y="80" />
+        <di:waypoint x="1814" y="548" />
+        <di:waypoint x="1830" y="548" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_di" bpmnElement="Flow_40">
+        <di:waypoint x="1790" y="190" />
+        <di:waypoint x="1814" y="190" />
+        <di:waypoint x="1814" y="548" />
+        <di:waypoint x="1830" y="548" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_41_di" bpmnElement="Flow_41">
+        <di:waypoint x="1790" y="300" />
+        <di:waypoint x="1814" y="300" />
+        <di:waypoint x="1814" y="548" />
+        <di:waypoint x="1830" y="548" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_42_di" bpmnElement="Flow_42">
+        <di:waypoint x="1790" y="410" />
+        <di:waypoint x="1814" y="410" />
+        <di:waypoint x="1814" y="548" />
+        <di:waypoint x="1830" y="548" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_43_di" bpmnElement="Flow_43">
+        <di:waypoint x="1790" y="520" />
+        <di:waypoint x="1814" y="520" />
+        <di:waypoint x="1814" y="548" />
+        <di:waypoint x="1830" y="548" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_44_di" bpmnElement="Flow_44">
+        <di:waypoint x="1866" y="548" />
+        <di:waypoint x="2060" y="548" />
+        <di:waypoint x="2060" y="658" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_45_di" bpmnElement="Flow_45">
+        <di:waypoint x="1960" y="310" />
+        <di:waypoint x="2000" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_46_di" bpmnElement="Flow_46">
+        <di:waypoint x="2250" y="310" />
+        <di:waypoint x="2285" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_47_di" bpmnElement="Flow_47">
+        <di:waypoint x="2321" y="310" />
+        <di:waypoint x="2360" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_48_di" bpmnElement="Flow_48">
+        <di:waypoint x="2600" y="310" />
+        <di:waypoint x="2635" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_49_di" bpmnElement="Flow_49">
+        <di:waypoint x="2671" y="310" />
+        <di:waypoint x="2715" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_50_di" bpmnElement="Flow_50">
+        <di:waypoint x="2765" y="310" />
+        <di:waypoint x="3170" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_51_di" bpmnElement="Flow_51">
+        <di:waypoint x="2740" y="285" />
+        <di:waypoint x="2740" y="170" />
+        <di:waypoint x="2820" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_52_di" bpmnElement="Flow_52">
+        <di:waypoint x="3060" y="170" />
+        <di:waypoint x="3095" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_53_di" bpmnElement="Flow_53">
+        <di:waypoint x="3131" y="170" />
+        <di:waypoint x="3150" y="170" />
+        <di:waypoint x="3150" y="310" />
+        <di:waypoint x="3170" y="310" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

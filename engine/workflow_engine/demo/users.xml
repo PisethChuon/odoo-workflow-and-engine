@@ -1,0 +1,77 @@
+<odoo>
+    <record id="workflow_engine.group_workflow_approval_admin" model="res.groups">
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+    <record id="partner_malinka" model="res.partner">
+        <field name="name">Phann Malinka</field>
+        <field name="company_name">Nagaworld</field>
+        <field name="street">Samdech Techo Hun Sen Park</field>
+        <field name="city">Phnom Penh</field>
+        <field name="state_id" model="res.country.state" search="[('code','=','OR')]"/>
+        <field name="zip">97401</field>
+        <field name="tz">Asia/Phnom_Penh</field>
+        <field name="email">phannmalinka@nagaworld.com</field>
+        <field name="phone">(855)-61-2733333</field>
+    </record>
+    <record id="user_malinka" model="res.users">
+        <field name="partner_id" ref="partner_malinka"/>
+        <field name="login">malinka</field>
+        <field name="password">12345</field>
+        <field name="notification_type">inbox</field>
+        <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+    </record>
+    <record id="partner_vanchhai" model="res.partner">
+        <field name="name">Chhin Vanchhai</field>
+        <field name="company_name">Nagaworld</field>
+        <field name="street">Samdech Techo Hun Sen Park</field>
+        <field name="city">Phnom Penh</field>
+        <field name="state_id" model="res.country.state" search="[('code','=','OR')]"/>
+        <field name="zip">97401</field>
+        <field name="tz">Asia/Phnom_Penh</field>
+        <field name="email">chhinvanchhai@nagaworld.com</field>
+        <field name="phone">(441)-695-2334</field>
+    </record>
+    <record id="user_vanchhai" model="res.users">
+        <field name="partner_id" ref="partner_vanchhai"/>
+        <field name="login">chhai</field>
+        <field name="password">12345</field>
+        <field name="notification_type">inbox</field>
+        <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+    </record>
+    <record id="partner_hod1" model="res.partner">
+        <field name="name">HOD1</field>
+        <field name="company_name">Nagaworld</field>
+        <field name="street">Samdech Techo Hun Sen Park</field>
+        <field name="city">Phnom Penh</field>
+        <field name="state_id" model="res.country.state" search="[('code','=','OR')]"/>
+        <field name="zip">97401</field>
+        <field name="tz">Asia/Phnom_Penh</field>
+        <field name="email">hod1@nagaworld.com</field>
+        <field name="phone">(441)-695-2334</field>
+    </record>
+    <record id="user_hod1" model="res.users">
+        <field name="partner_id" ref="partner_hod1"/>
+        <field name="login">hod1</field>
+        <field name="password">12345</field>
+        <field name="notification_type">inbox</field>
+        <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+    </record>
+    <record id="partner_hod2" model="res.partner">
+        <field name="name">HOD2</field>
+        <field name="company_name">Nagaworld</field>
+        <field name="street">Samdech Techo Hun Sen Park</field>
+        <field name="city">Phnom Penh</field>
+        <field name="state_id" model="res.country.state" search="[('code','=','OR')]"/>
+        <field name="zip">97401</field>
+        <field name="tz">Asia/Phnom_Penh</field>
+        <field name="email">hod2@nagaworld.com</field>
+        <field name="phone">(441)-695-2334</field>
+    </record>
+    <record id="user_hod2" model="res.users">
+        <field name="partner_id" ref="partner_hod2"/>
+        <field name="login">hod2</field>
+        <field name="password">12345</field>
+        <field name="notification_type">inbox</field>
+        <field name="group_ids" eval="[Command.set([ref('workflow_engine.group_workflow_approval_user')])]"/>
+    </record>
+</odoo>

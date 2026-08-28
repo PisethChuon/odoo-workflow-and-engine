@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="x_car_park_request_report_template">
+    <t t-call="workflow_engine.report_base_layout">
+      <t t-set="report_title">Car Park Permit Request Form</t>
+
+      <t t-foreach="docs" t-as="doc">
+        <div class="page">
+          <hr class="mt-0 mb-4"/>
+
+          <!-- Section: Vehicle Information -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Vehicle Information
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Car Model</td>
+                    <td><span t-field="doc.x_car_model"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Plate Number</td>
+                    <td><span t-field="doc.x_plate_number"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Car Color</td>
+                    <td><span t-field="doc.x_car_color"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Year of Production</td>
+                    <td><span t-field="doc.x_car_year_of_production"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Car Park Permit Details -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Car Park Permit Details
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Car Park S/N</td>
+                    <td><span t-field="doc.x_car_park_permit_area"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Remarks -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Remarks
+              </h5>
+              <div class="border rounded p-3 bg-light" style="min-height: 60px;">
+                <span t-field="doc.x_car_remark"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </t>
+    </t>
+  </template>
+</odoo>

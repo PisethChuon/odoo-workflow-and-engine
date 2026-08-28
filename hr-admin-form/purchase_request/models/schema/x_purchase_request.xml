@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Purchase Request Information -->
+        <record id="model_x_purchase_request" model="ir.model">
+            <field name="name">Purchase Request</field>
+            <field name="model">x_purchase_request</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <!-- Purchase Item (Line Item Model) -->
+        <record id="model_x_purchase_item" model="ir.model">
+            <field name="name">Purchase Item</field>
+            <field name="model">x_purchase_item</field>
+        </record>
+
+        <record id="field_x_purchase_item_purchase_request" model="ir.model.fields">
+            <field name="name">x_purchase_request_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_purchase_request</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Purchase Request</field>
+        </record>
+
+        <record id="field_x_purchase_item_type" model="ir.model.fields">
+            <field name="name">x_item_purchase</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_purchase_request_type</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Request Item</field>
+            <field name="required" eval="True"/>
+            <field name="on_delete">restrict</field>
+        </record>
+
+        <record id="field_x_purchase_item_quantity" model="ir.model.fields">
+            <field name="name">x_quantity</field>
+            <field name="ttype">integer</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Quantity</field>
+            <field name="state">manual</field>
+        </record>
+
+        <!-- Define the default value -->
+        <record id="default_x_purchase_item_quantity" model="ir.default">
+            <field name="field_id" ref="field_x_purchase_item_quantity"/>
+            <field name="json_value">1</field>
+        </record>
+
+        <record id="field_x_purchase_item_charge_to_depat" model="ir.model.fields">
+            <field name="name">x_charge_to_depat</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.department</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Charge to Department</field>
+            <field name="readonly" eval="True"/>
+            <field name="store" eval="True"/>
+            <field name="depends">x_purchase_request_id.request_owner_id</field>
+            <field name="compute"><![CDATA[
+for rec in self:
+    if rec.x_purchase_request_id and rec.x_purchase_request_id.request_owner_id:
+        employee = rec.x_purchase_request_id.request_owner_id.employee_id
+        rec['x_charge_to_depat'] = employee.department_id if employee else False
+    else:
+        rec['x_charge_to_depat'] = False
+]]>
+            </field>
+        </record>
+
+        <record id="field_x_purchase_item_remark" model="ir.model.fields">
+            <field name="name">x_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Remark</field>
+        </record>
+
+        <record id="field_x_purchase_item_received_date" model="ir.model.fields">
+            <field name="name">x_received_date</field>
+            <field name="ttype">date</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Received Date</field>
+        </record>
+
+        <record id="field_x_purchase_item_issue_date" model="ir.model.fields">
+            <field name="name">x_issue_date</field>
+            <field name="ttype">date</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Issue Date</field>
+        </record>
+
+        <record id="field_x_purchase_item_admin_remark" model="ir.model.fields">
+            <field name="name">x_admin_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Admin Remark</field>
+        </record>
+
+        <record id="field_x_purchase_item_serail" model="ir.model.fields">
+            <field name="name">x_serail</field>
+            <field name="ttype">char</field>
+            <field name="model">x_purchase_item</field>
+            <field name="model_id" ref="model_x_purchase_item"/>
+            <field name="field_description">Serail</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,2369 @@
+// Workflow Studio presentation layer. Behavior and editor contracts stay in
+// their owning components; this file only unifies the Studio visual system.
+body.o_in_workflow_studio {
+    --wfs-accent: #714b67;
+    --wfs-accent-hover: #5f3f57;
+    --wfs-accent-soft: #f5eef3;
+    --wfs-primary: #aa9b3c;
+    --wfs-primary-hover: #918431;
+    --wfs-primary-contrast: #202218;
+    --wfs-success: #168a55;
+    --wfs-success-soft: #e8f7ef;
+    --wfs-warning: #9a6b16;
+    --wfs-warning-soft: #fbf5e5;
+    --wfs-info: #386b9b;
+    --wfs-info-soft: #edf5fc;
+    --wfs-info-border: #bfd7ee;
+    --wfs-danger: #c83e4d;
+    --wfs-surface: #ffffff;
+    --wfs-surface-subtle: #f8f9fb;
+    --wfs-surface-muted: #f1f3f5;
+    --wfs-canvas: #fbfcfd;
+    --wfs-border: #d9dde3;
+    --wfs-border-soft: #e7e9ed;
+    --wfs-text: #202734;
+    --wfs-text-muted: #687386;
+    --wfs-text-faint: #8b94a3;
+    --wfs-focus: rgba(113, 75, 103, 0.18);
+    --wfs-shadow-sm: 0 1px 2px rgba(24, 32, 48, 0.06);
+    --wfs-shadow-md: 0 10px 28px rgba(24, 32, 48, 0.1);
+    --wfs-sidebar-width: 332px;
+    --wfs-radius-sm: 6px;
+    --wfs-radius: 9px;
+    --wfs-radius-lg: 14px;
+    --wfs-dialog-surface: #ffffff;
+    --wfs-dialog-surface-subtle: #f8f9fb;
+    --wfs-dialog-surface-muted: #f1f3f5;
+    --wfs-dialog-border: #d9dde3;
+    --wfs-dialog-text: #202734;
+    --wfs-dialog-text-muted: #687386;
+    --wfs-dialog-accent: #714b67;
+    --wfs-dialog-accent-soft: #f5eef3;
+    --wfs-studio-sidebar-bg: #{$o-web-studio-bg-medium};
+    --wfs-studio-control-bg: #{$o-web-studio-bg-dark};
+    --wfs-studio-control-text: #{$o-web-studio-text-inactive};
+    --wfs-studio-control-focus: #{$o-web-studio-color-info};
+
+    background: var(--wfs-surface-subtle);
+    color: var(--wfs-text);
+
+    .btn.btn-primary {
+        border-color: var(--wfs-primary);
+        background: var(--wfs-primary);
+        color: var(--wfs-primary-contrast);
+
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            border-color: var(--wfs-primary-hover) !important;
+            background: var(--wfs-primary-hover) !important;
+            color: var(--wfs-primary-contrast) !important;
+        }
+
+        &:focus-visible {
+            box-shadow: 0 0 0 0.2rem rgba(170, 155, 60, 0.28);
+        }
+    }
+
+    .o_studio {
+        background: var(--wfs-surface-subtle);
+        color: var(--wfs-text);
+    }
+
+    // Native Odoo navbar treatment with a clear Studio identity.
+    .o_studio_navbar.o_main_navbar {
+        --NavBar-brand-color: var(--wfs-text);
+        --NavBar-entry-color: var(--wfs-text-muted);
+        --NavBar-entry-backgroundColor: transparent;
+        --NavBar-entry-backgroundColor--hover: var(--wfs-surface-muted);
+        --NavBar-entry-backgroundColor--focus: var(--wfs-surface-muted);
+        --NavBar-menuToggle-color: var(--wfs-text);
+        --NavBar-entry-borderColor-active: var(--wfs-accent);
+        --NavBar-entry-backgroundColor--active: var(--wfs-accent-soft);
+        --NavBar-entry-color--active: var(--wfs-accent);
+        --NavBar-entry-color--hover: var(--wfs-text);
+        grid-template-areas: "apps identity studiomenu systray";
+        grid-template-columns: var(--o-navbar-height) max-content minmax(0, 1fr) max-content;
+        min-height: var(--o-navbar-height);
+        background: var(--wfs-surface);
+        border-color: var(--wfs-border-soft);
+        border-bottom: 1px solid var(--wfs-border-soft);
+        box-shadow: var(--wfs-shadow-sm);
+        color: var(--wfs-text);
+        z-index: 6;
+
+        .o_menu_toggle {
+            color: var(--wfs-text) !important;
+        }
+
+        .o_wfs_navbar_identity {
+            grid-area: identity;
+            align-self: stretch;
+            gap: 0.6rem;
+            min-width: 0;
+            padding: 0 1rem 0 0.75rem;
+            border-right: 1px solid var(--wfs-border-soft);
+            color: var(--wfs-text);
+        }
+
+        .o_wfs_navbar_identity_icon {
+            color: var(--wfs-accent);
+            font-size: 1rem;
+        }
+
+        .o_wfs_navbar_identity_title {
+            font-size: 1.05rem;
+            font-weight: 650;
+            letter-spacing: -0.012em;
+            white-space: nowrap;
+        }
+
+        .o-studio--menu {
+            align-items: stretch;
+            justify-content: flex-end;
+            min-width: 0;
+            color: var(--wfs-text-muted);
+        }
+
+        .o_web_edit_menu,
+        .o_web_create_new_model {
+            align-items: center;
+            display: inline-flex;
+            margin-left: 0.25rem;
+            padding: 0.3rem 0.65rem;
+            color: var(--wfs-text-muted);
+            font-size: 0.82rem;
+        }
+
+        .o_studio_buttons {
+            align-items: stretch;
+            border-left: 1px solid var(--wfs-border-soft);
+        }
+
+        .o_web_studio_leave > a {
+            min-width: 4.5rem;
+            justify-content: center;
+            padding-inline: 1rem;
+            background: transparent !important;
+            color: var(--wfs-text-muted) !important;
+            font-size: 0.84rem;
+            font-weight: 600;
+
+            &:hover,
+            &:focus {
+                background: var(--wfs-surface-muted) !important;
+                color: var(--wfs-text) !important;
+            }
+        }
+    }
+
+    // Compact editor navigation that mirrors Odoo's backend tabs.
+    .o_web_studio_editor {
+        background: var(--wfs-surface-subtle);
+    }
+
+    .o_web_studio_menu {
+        min-height: 46px;
+        padding-right: 0.25rem !important;
+        background: var(--wfs-surface);
+        border-bottom: 1px solid var(--wfs-border) !important;
+        box-shadow: none;
+        color: var(--wfs-text);
+
+        .o_web_studio_breadcrumb {
+            flex-basis: var(--wfs-sidebar-width);
+            min-width: var(--wfs-sidebar-width);
+            border-right: 1px solid var(--wfs-border-soft);
+
+            > ol {
+                margin: 0;
+                padding: 0 1rem;
+
+                > li {
+                    color: var(--wfs-text-muted);
+                    font-size: 0.82rem;
+                    font-weight: 600;
+                    letter-spacing: 0;
+                    text-transform: none;
+
+                    &.active,
+                    &.active:not(:first-child),
+                    &.o_back_button:hover {
+                        color: var(--wfs-text);
+                    }
+
+                    & + li::before {
+                        color: var(--wfs-text-faint);
+                        content: "/";
+                    }
+                }
+            }
+        }
+
+        .o_menu_sections {
+            height: 45px;
+
+            > button {
+                position: relative;
+                min-width: auto;
+                padding: 0.25rem 0.8rem !important;
+                border: 0;
+                background: transparent;
+                box-shadow: none;
+                color: var(--wfs-text-muted);
+                font-size: 0.82rem;
+                font-weight: 500;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    right: 0.65rem;
+                    bottom: 0;
+                    left: 0.65rem;
+                    height: 2px;
+                    border-radius: 2px 2px 0 0;
+                    background: transparent;
+                }
+
+                &:hover,
+                &:focus {
+                    background: transparent;
+                    box-shadow: none;
+                    color: var(--wfs-text);
+                }
+
+                &:disabled {
+                    opacity: 1;
+                    color: var(--wfs-accent);
+
+                    &::after {
+                        background: var(--wfs-accent);
+                    }
+                }
+            }
+        }
+
+        .o_web_studio_menu_undo_redo button,
+        .o_web_studio_snackbar {
+            color: var(--wfs-text-muted);
+        }
+
+        .o_web_studio_views_icons {
+            gap: 0.2rem !important;
+            border-color: var(--wfs-border-soft) !important;
+
+            a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2rem;
+                height: 2rem;
+                border-radius: var(--wfs-radius-sm);
+                color: var(--wfs-text-muted);
+
+                &:hover {
+                    background: var(--wfs-surface-muted);
+                    color: var(--wfs-text);
+                }
+
+                &.o_web_studio_bpmn_shortcut.active {
+                    background: var(--wfs-accent-soft);
+                    box-shadow: none;
+                    color: var(--wfs-accent);
+                }
+            }
+        }
+    }
+
+    // Keep the configuration rail on the Odoo 19 Enterprise Studio contract.
+    // Field widgets, relational selectors, and property controls are shared with
+    // web_studio; the Workflow Studio shell must not restyle them as app inputs.
+    .o_web_studio_editor .o_web_studio_sidebar {
+        flex-basis: var(--wfs-sidebar-width);
+        width: var(--wfs-sidebar-width);
+        min-width: var(--wfs-sidebar-width);
+        border-right: 3px solid $o-web-studio-bg-dark !important;
+        background-color: $o-web-studio-bg-medium;
+        box-shadow: none;
+        color: $o-web-studio-text-light;
+        color-scheme: dark;
+
+        .form-select {
+            background: transparent url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='7' height='4' viewBox='0 0 7 4'><polygon fill='%23b7b7b7' points='3.5 4 7 0 0 0'/></svg>") no-repeat right center;
+        }
+
+        .o_notebook {
+            --Notebook__link-background-color: #{$o-web-studio-bg-medium};
+        }
+
+        .o_notebook_headers {
+            margin-bottom: $grid-gutter-width * 0.5;
+            background-color: $o-web-studio-bg-medium;
+            color: $o-web-studio-text-light;
+            --Notebook__link-color--active: #{$o-web-studio-text-light};
+
+            .nav {
+                border-bottom: 0;
+            }
+
+            .nav-item {
+                margin: 0;
+                background-color: $o-web-studio-bg-dark;
+
+                .active,
+                &:first-child:last-child {
+                    background-color: $o-web-studio-bg-medium;
+                }
+
+                :not(.inactive):not(.active):hover {
+                    background-color: rgba($o-web-studio-bg-medium, 0.5);
+                }
+
+                .nav-link,
+                .nav-link:active {
+                    padding: 14px 0;
+                    border: 0;
+                    color: $o-web-studio-text-light;
+                    font-size: inherit;
+                    font-weight: inherit;
+
+                    &.active::after {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .o_notebook_content,
+        .o_web_studio_sidebar_content {
+            padding: 0 ($grid-gutter-width * 0.5) ($grid-gutter-width * 0.5);
+
+            h3,
+            h6 {
+                color: white;
+                font-size: inherit;
+                font-weight: inherit;
+                letter-spacing: normal;
+            }
+
+            div,
+            .o_studio_sidebar_approval_rule > div,
+            div > .card > .card-collapse > .card-body > div {
+                label {
+                    margin: 4px 0 3px 2px;
+                    color: $o-web-studio-text-inactive;
+                    font-size: 12px;
+                    font-weight: normal;
+                }
+
+                input,
+                select,
+                textarea,
+                div.input-group-addon {
+                    min-height: 0;
+                    padding: 4px 9px;
+                    border: 1px solid transparent;
+                    border-radius: 0;
+                    background-color: $o-web-studio-bg-dark;
+                    color: $o-web-studio-text-inactive;
+                    font-size: inherit;
+                    transition: background 0.3s ease, border 0.3s ease;
+
+                    &:focus {
+                        border-color: $o-web-studio-color-info;
+                        box-shadow: 0 0 1px 0 $o-web-studio-color-info;
+                        color: white;
+                        outline: 0;
+                    }
+
+                    &:disabled,
+                    &[readonly] {
+                        background-color: $o-web-studio-bg-dark;
+                        color: $o-web-studio-text-inactive;
+                    }
+
+                    > option {
+                        background-color: white;
+                        color: $o-web-studio-text-dark;
+                    }
+                }
+
+                .o_select_menu .o_select_menu_caret,
+                .o_record_autocomplete_with_caret {
+                    --o-caret-color: white;
+                    padding-right: 4px;
+                }
+
+                .o_tag {
+                    border-color: transparent;
+                    background: transparent;
+                    color: white;
+                }
+            }
+
+            .o_web_studio_sidebar_toolbox {
+                border-color: $o-web-studio-bg-dark !important;
+                background: transparent;
+
+                button.btn {
+                    min-height: auto;
+                    margin: initial;
+                }
+            }
+        }
+
+        .o_web_studio_field_type_container {
+            align-items: initial;
+            gap: 0;
+        }
+
+        .o_web_studio_component {
+            flex: 0 1 auto;
+            width: 49%;
+            min-width: 0;
+            min-height: 0;
+            margin-bottom: 0.25rem !important;
+            padding: 0.25rem 0 0.25rem 40px;
+            border: 0;
+            border-radius: var(--border-radius-sm) !important;
+            background-color: $light !important;
+            background-image: linear-gradient(90deg, $o-web-studio-bg-light 33px, transparent 33px);
+            box-shadow: var(--box-shadow) !important;
+            color: inherit;
+            font: 11px/2.4 $font-family-base;
+            transform: none;
+            transition: none;
+
+            &::after {
+                top: 6px;
+                left: 7px;
+                opacity: 1;
+            }
+
+            &:hover,
+            &:focus {
+                border-color: transparent;
+                background-color: white !important;
+                background-image: linear-gradient(90deg, $o-web-studio-bg-light 33px, transparent 33px);
+                box-shadow: var(--box-shadow) !important;
+                color: inherit;
+                transform: none;
+            }
+        }
+
+        .o_web_studio_component_description {
+            margin-top: 0;
+            background: transparent;
+            color: inherit;
+            font-size: inherit;
+        }
+    }
+
+    // Keep every view editor visually connected to the same neutral workspace.
+    .o_web_studio_editor_manager,
+    .o_web_studio_view_renderer {
+        min-width: 0;
+        background-color: var(--wfs-surface-subtle);
+        background-image:
+            linear-gradient(rgba(217, 221, 227, 0.2) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(217, 221, 227, 0.2) 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
+
+    .o_web_studio_view_renderer {
+        .o_content,
+        .o_form_view,
+        .o_list_view,
+        .o_kanban_renderer,
+        .o_graph_renderer,
+        .o_pivot_table {
+            background-color: var(--wfs-surface);
+            color: var(--wfs-text);
+        }
+
+        .o-web-studio-editor--element-clickable:hover {
+            outline-color: rgba(113, 75, 103, 0.62) !important;
+        }
+
+        .o-web-studio-editor--element-clicked:not(.o_dragged) {
+            outline-color: var(--wfs-accent) !important;
+            box-shadow: 0 0 0 3px var(--wfs-focus);
+        }
+
+        .o_web_studio_hook,
+        .o-draggable--drop-ready {
+            border-color: var(--wfs-accent) !important;
+            background-color: var(--wfs-accent-soft) !important;
+        }
+
+        .o_web_studio_widget_empty,
+        .o-web-studio-element-ghost {
+            border-color: var(--wfs-border-soft);
+            background-color: var(--wfs-surface-muted);
+            color: var(--wfs-text-muted);
+        }
+    }
+
+    // View activation dashboard follows the card language used by the
+    // component rail instead of the legacy dark Studio background.
+    .o_web_studio_action_editor {
+        background:
+            radial-gradient(circle at 85% 10%, rgba(113, 75, 103, 0.07), transparent 30rem),
+            var(--wfs-surface-subtle);
+        color: var(--wfs-text);
+
+        .o_web_studio_views {
+            color: var(--wfs-text);
+        }
+
+        .o_web_studio_view_category > h6 {
+            color: var(--wfs-text);
+            font-size: 0.82rem;
+            letter-spacing: 0.01em;
+        }
+
+        .o_web_studio_thumbnail_item {
+            overflow: hidden;
+            border: 1px solid var(--wfs-border-soft) !important;
+            border-radius: var(--wfs-radius) !important;
+            background: var(--wfs-surface) !important;
+            box-shadow: var(--wfs-shadow-sm) !important;
+            color: var(--wfs-text);
+            transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+
+            &:hover,
+            &:focus-within {
+                border-color: rgba(113, 75, 103, 0.42) !important;
+                box-shadow: var(--wfs-shadow-md) !important;
+                transform: translateY(-2px);
+            }
+
+            &.disabled {
+                opacity: 0.52;
+            }
+
+            .o_web_studio_thumbnail {
+                background: linear-gradient(145deg, var(--wfs-surface), var(--wfs-surface-muted));
+            }
+
+            .o_web_studio_name,
+            .o_web_studio_more {
+                border-color: var(--wfs-border-soft);
+                background: var(--wfs-surface);
+                color: var(--wfs-text);
+            }
+
+            .o_web_studio_more:hover,
+            .o_web_studio_more:focus {
+                background: var(--wfs-accent-soft) !important;
+                color: var(--wfs-accent);
+            }
+        }
+    }
+
+    // Studio home remains recognizably Odoo while matching the light editor.
+    .o_studio_home_menu {
+        --homeMenuCaption-color: var(--wfs-text);
+        background:
+            radial-gradient(circle at 15% 15%, rgba(113, 75, 103, 0.12), transparent 24rem),
+            radial-gradient(circle at 85% 80%, rgba(154, 107, 22, 0.07), transparent 28rem),
+            linear-gradient(145deg, #fbfafc, #f2f4f7) !important;
+        color: var(--wfs-text);
+
+        .o_apps {
+            padding: 1.25rem;
+            border: 1px solid rgba(217, 221, 227, 0.72);
+            border-radius: var(--wfs-radius-lg);
+            background: rgba(255, 255, 255, 0.72);
+            box-shadow: var(--wfs-shadow-md);
+            backdrop-filter: blur(14px);
+        }
+
+        .o_app {
+            border: 1px solid transparent;
+            color: var(--wfs-text);
+
+            &:not(.o_web_studio_new_app) {
+                opacity: 0.72;
+
+                &:hover,
+                &:focus,
+                &.o_focused {
+                    border-color: var(--wfs-border-soft);
+                    background: rgba(255, 255, 255, 0.9);
+                    opacity: 1;
+                }
+            }
+
+            &.o_web_studio_new_app {
+                border-color: rgba(113, 75, 103, 0.24);
+                background: rgba(255, 255, 255, 0.86);
+
+                &:hover,
+                &:focus,
+                &.o_focused {
+                    border-color: var(--wfs-accent);
+                    background: var(--wfs-accent-soft);
+                }
+            }
+
+            .o_app_icon {
+                box-shadow: 0 8px 18px rgba(24, 32, 48, 0.12);
+            }
+
+            .o_caption {
+                color: var(--wfs-text);
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-shadow: none;
+            }
+        }
+
+        .o_no_result {
+            color: var(--wfs-text-muted);
+        }
+    }
+
+    // Reports retain a paper preview, but controls and work area now share the
+    // same hierarchy as the BPMN canvas and property rail.
+    .o-web-studio-report-editor {
+        background:
+            linear-gradient(rgba(217, 221, 227, 0.18) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(217, 221, 227, 0.18) 1px, transparent 1px),
+            var(--wfs-surface-subtle);
+        background-size: 24px 24px;
+        color: var(--wfs-text);
+
+        .o-web-studio-report-container {
+            overflow: hidden;
+            border: 1px solid var(--wfs-border);
+            border-radius: 4px;
+            background: #fff;
+            box-shadow: 0 18px 44px rgba(24, 32, 48, 0.14) !important;
+        }
+
+        .o-web-studio-report-search-record,
+        .o-web-studio-report-pager,
+        .o-web-studio-report-editor-undo-redo {
+            border: 1px solid var(--wfs-border) !important;
+            background: var(--wfs-surface) !important;
+            box-shadow: var(--wfs-shadow-sm);
+            color: var(--wfs-text);
+        }
+
+        .o-web-studio-report-editor-undo-redo.active {
+            border-color: var(--wfs-accent) !important;
+
+            button.active {
+                color: var(--wfs-accent) !important;
+            }
+        }
+    }
+
+    .o_popover .o-web-studio-report-field-qweb-selector,
+    .o-web-studio-report-dynamic-placeholder-popover {
+        border-color: var(--wfs-border) !important;
+        border-radius: var(--wfs-radius);
+        background: var(--wfs-surface);
+        box-shadow: var(--wfs-shadow-md) !important;
+        color: var(--wfs-text);
+    }
+
+    // XML is intentionally the only dark work surface. This explicit rule
+    // prevents the shared light sidebar styles from reducing code contrast.
+    .o_web_studio_editor .o_web_studio_sidebar.o_web_studio_xml_editor:not(.btn) {
+        flex: 0 0 42vw;
+        width: 42vw;
+        min-width: 360px;
+        max-width: 720px;
+        border-right: 1px solid #3d434d !important;
+        background: #20242b;
+        box-shadow: 4px 0 18px rgba(0, 0, 0, 0.16);
+        color: #eef1f5;
+        color-scheme: dark;
+
+        .o_web_studio_xml_resource_selector {
+            min-height: 3rem;
+            gap: 0.5rem;
+            padding: 0.55rem !important;
+            border-bottom: 1px solid #3d434d;
+            background: #292e36;
+        }
+
+        .o_web_studio_xml_resource_select_menu,
+        .o_select_menu_toggler,
+        .btn {
+            border-color: #474e59;
+            background: #20242b;
+            color: #eef1f5 !important;
+        }
+
+        .o_web_studio_code_editor,
+        .o_web_studio_code_editor_info {
+            background: #20242b;
+            color: #eef1f5;
+        }
+
+        .ace_gutter {
+            background: #191c22;
+            color: #8f99a8;
+        }
+    }
+
+    // Model setup is a compact option grid rather than an unstructured form.
+    .o_web_studio_model_configurator {
+        .row {
+            gap: 0.75rem 0;
+        }
+
+        .o_web_studio_model_configurator_option {
+            height: calc(100% - 0.5rem);
+            margin: 0.25rem 0 !important;
+            padding: 0.8rem;
+            border: 1px solid var(--wfs-border-soft);
+            border-radius: var(--wfs-radius);
+            background: var(--wfs-surface);
+            box-shadow: var(--wfs-shadow-sm);
+
+            &:has(.form-check-input:checked) {
+                border-color: rgba(113, 75, 103, 0.42);
+                background: var(--wfs-accent-soft);
+            }
+
+            .form-check-label {
+                border: 0 !important;
+                color: var(--wfs-text);
+            }
+
+            .form-text {
+                margin-top: 0.2rem;
+                color: var(--wfs-text-muted) !important;
+                font-size: 0.75rem;
+            }
+        }
+
+        .o_web_studio_model_configurator_buttons {
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--wfs-border-soft);
+        }
+    }
+
+    // Meta-field policy dialogs predate the light Studio shell and contain
+    // hard-coded dark colors. Tokenize them so they no longer become hybrid
+    // dialogs when opened from the property rail.
+    .o_wfs_meta_field_dialog,
+    .o_wfs_meta_manager_dialog,
+    .o_wfs_meta_copy_dialog {
+        background: var(--wfs-surface-subtle) !important;
+        color: var(--wfs-text) !important;
+
+        .form-label,
+        .form-check-label,
+        .o_wfs_meta_domain_label,
+        .o_wfs_meta_copy_field {
+            color: var(--wfs-text) !important;
+        }
+
+        .o_wfs_meta_field_section,
+        .o_wfs_meta_copy_source,
+        .o_wfs_meta_copy_toolbar,
+        .o_wfs_meta_copy_list,
+        .o_wfs_meta_copy_row,
+        .o_wfs_meta_domain_row {
+            border-color: var(--wfs-border-soft) !important;
+            background: var(--wfs-surface) !important;
+            box-shadow: none;
+        }
+
+        .o_wfs_meta_field_section_hint,
+        .o_wfs_meta_field_empty,
+        .o_wfs_meta_copy_source_hint,
+        .o_wfs_meta_copy_count,
+        .o_wfs_meta_domain_preview {
+            color: var(--wfs-text-muted) !important;
+        }
+
+        .o_wfs_meta_field_step {
+            background: var(--wfs-accent-soft);
+            color: var(--wfs-accent);
+        }
+
+        .o_wfs_meta_field_autocomplete input.o_input,
+        .form-select {
+            border-color: var(--wfs-border) !important;
+            background: var(--wfs-surface) !important;
+            color: var(--wfs-text) !important;
+
+            &:focus,
+            &:focus-within {
+                border-color: var(--wfs-accent) !important;
+                box-shadow: 0 0 0 3px var(--wfs-focus) !important;
+            }
+        }
+
+        .o_wfs_meta_field_selector {
+            min-height: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0;
+            background: transparent !important;
+            box-shadow: none !important;
+            cursor: default;
+
+            &:focus-within {
+                border: 0 !important;
+                box-shadow: none !important;
+            }
+
+            .o_multi_record_selector {
+                min-height: $input-height;
+                padding: $input-padding-y $input-padding-x;
+                border: $input-border-width solid $input-border-color !important;
+                border-radius: $input-border-radius;
+                background: $input-bg !important;
+                box-shadow: $input-box-shadow !important;
+                color: $input-color !important;
+
+                &:focus-within {
+                    border-color: $input-focus-border-color !important;
+                    box-shadow: $input-focus-box-shadow !important;
+                }
+            }
+
+            .o_select_menu_toggler,
+            .o_select_menu_toggler.form-control,
+            .dropdown-toggle.form-control,
+            .o_select_menu_input,
+            .o_select_menu_toggler_slot,
+            .o_record_autocomplete input,
+            input,
+            input.o_input {
+                background: transparent !important;
+                color: var(--wfs-text) !important;
+                caret-color: var(--wfs-text);
+
+                &::placeholder {
+                    color: var(--wfs-text-faint) !important;
+                }
+            }
+
+            .o_tag {
+                border-color: rgba(113, 75, 103, 0.24);
+                background: var(--wfs-accent-soft);
+                color: var(--wfs-accent);
+            }
+        }
+
+        .o_wfs_meta_selected_field {
+            border-color: var(--wfs-border-soft);
+            background: var(--wfs-surface-muted);
+            color: var(--wfs-text-muted);
+        }
+
+        .o_wfs_type_btn,
+        .o_wfs_meta_action_chip {
+            border-color: var(--wfs-border);
+            background: var(--wfs-surface);
+            color: var(--wfs-text-muted);
+        }
+
+        .o_wfs_type_btn_off,
+        .o_wfs_type_btn.o_wfs_type_invisible,
+        .o_wfs_meta_action_chip.o_wfs_chip_off {
+            border-color: var(--wfs-border);
+            background: var(--wfs-surface-muted);
+            color: var(--wfs-text-muted);
+
+            &:hover {
+                background: var(--wfs-surface-subtle);
+                color: var(--wfs-text);
+            }
+        }
+
+        .o_wfs_type_btn.o_wfs_type_visible {
+            border-color: color-mix(in srgb, var(--wfs-success) 38%, var(--wfs-border));
+            background: var(--wfs-success-soft);
+            color: var(--wfs-success);
+        }
+
+        .o_wfs_type_btn.o_wfs_type_required {
+            border-color: color-mix(in srgb, var(--wfs-warning) 38%, var(--wfs-border));
+            background: var(--wfs-warning-soft);
+            color: var(--wfs-warning);
+        }
+
+        .o_wfs_type_btn.o_wfs_type_readonly {
+            border-color: var(--wfs-info-border);
+            background: var(--wfs-info-soft);
+            color: var(--wfs-info);
+        }
+
+        .o_wfs_meta_action_chip.o_wfs_chip_on {
+            border-color: rgba(113, 75, 103, 0.34);
+            background: var(--wfs-accent-soft);
+            color: var(--wfs-accent);
+        }
+
+        .o_wfs_meta_copy_row:hover {
+            border-color: rgba(113, 75, 103, 0.34) !important;
+            background: var(--wfs-accent-soft) !important;
+        }
+    }
+
+    .o_wfs_meta_field_menu {
+        border: $dropdown-border-width solid $dropdown-border-color !important;
+        border-radius: $dropdown-border-radius;
+        background: $dropdown-bg !important;
+        box-shadow: $dropdown-box-shadow !important;
+        color: $dropdown-color !important;
+
+        &.dropdown-menu,
+        .dropdown-menu,
+        .o_select_menu_searchbox,
+        .o_select_menu_group {
+            border-color: $dropdown-border-color !important;
+            background: $dropdown-bg !important;
+            color: $dropdown-header-color !important;
+        }
+
+        .o_select_menu_searchbox input,
+        .o_select_menu_input.dropdown-item {
+            border-color: $input-border-color !important;
+            background: $input-bg !important;
+            color: $input-color !important;
+
+            &::placeholder {
+                color: $input-placeholder-color !important;
+            }
+        }
+
+        .dropdown-item,
+        .o-dropdown-item,
+        .o_select_menu_item.dropdown-item {
+            background: transparent !important;
+            color: $dropdown-link-color !important;
+        }
+
+        .dropdown-item.ui-state-active,
+        .dropdown-item:hover,
+        .o-dropdown-item:hover,
+        .o-dropdown-item:focus,
+        .o_select_menu_item.selected,
+        .o_select_menu_item.dropdown-item:focus,
+        .o_select_menu_item.dropdown-item:hover {
+            background: $dropdown-link-hover-bg !important;
+            color: $dropdown-link-hover-color !important;
+        }
+
+        .o_wfs_meta_field_option_label {
+            color: $dropdown-link-color !important;
+        }
+
+        .o_wfs_meta_field_option_meta {
+            color: $text-muted !important;
+        }
+
+        .o_wfs_meta_field_option_badge {
+            border-color: color-mix(in srgb, var(--wfs-success) 38%, var(--wfs-border));
+            background: var(--wfs-success-soft);
+            color: var(--wfs-success) !important;
+        }
+
+        .o_wfs_meta_field_option_type {
+            border-color: var(--wfs-info-border);
+            background: var(--wfs-info-soft);
+            color: var(--wfs-info) !important;
+        }
+    }
+
+    .o_workflow_studio_domain_dialog .o_select_menu_toggler {
+        min-height: 2.25rem;
+        padding-block: 0.5rem;
+        padding-inline-start: 0.75rem;
+        padding-inline-end: 2rem;
+    }
+
+    // SelectMenu popovers render in the shared overlay container, outside the dialog.
+    &:has(.o_workflow_studio_domain_dialog) .o_select_menu_menu:not(.o_bottom_sheet) {
+        .o_select_menu_item.dropdown-item {
+            align-items: center;
+            display: flex;
+            min-height: 2.25rem;
+            padding-block: 0.5rem;
+            padding-inline: $dropdown-item-padding-x;
+        }
+    }
+
+    .o-web-studio-appmenu-editor {
+        .oe_menu_editor {
+            padding: 0.75rem;
+            border: 1px solid var(--wfs-border-soft);
+            border-radius: var(--wfs-radius);
+            background: var(--wfs-surface-subtle);
+        }
+
+        .input-group {
+            overflow: hidden;
+            border: 1px solid var(--wfs-border-soft);
+            border-radius: var(--wfs-radius-sm);
+            background: var(--wfs-surface);
+
+            .input-group-text,
+            .form-control,
+            .btn {
+                border: 0;
+                border-radius: 0;
+                background: var(--wfs-surface);
+                color: var(--wfs-text);
+            }
+
+            .input-group-text {
+                border-right: 1px solid var(--wfs-border-soft);
+                background: var(--wfs-surface-muted);
+                color: var(--wfs-text-muted);
+            }
+
+            .btn {
+                border-left: 1px solid var(--wfs-border-soft);
+
+                &:hover,
+                &:focus {
+                    background: var(--wfs-accent-soft);
+                    color: var(--wfs-accent);
+                }
+            }
+        }
+
+        .o_web_studio_edit_menu_desc {
+            color: var(--wfs-text-muted);
+        }
+    }
+
+    .o_font_awesome_icon_selector_menu {
+        padding: 0.55rem;
+
+        .o_select_menu_item {
+            margin: 0.12rem;
+            border: 1px solid transparent;
+            border-radius: var(--wfs-radius-sm);
+            color: var(--wfs-text);
+
+            &:hover,
+            &:focus,
+            &.selected {
+                border-color: rgba(113, 75, 103, 0.26);
+                background: var(--wfs-accent-soft);
+                color: var(--wfs-accent);
+            }
+        }
+    }
+
+    // BPMN uses the same dark rail and compact property controls as Enterprise Studio.
+    .o_web_studio_sidebar.o_web_studio_bpmn_sidebar {
+        flex: 0 0 var(--wfs-sidebar-width);
+        min-width: var(--wfs-sidebar-width);
+        border-right: 3px solid $o-web-studio-bg-dark;
+        background: $o-web-studio-bg-medium;
+        box-shadow: none;
+        color: $o-web-studio-text-light;
+        color-scheme: dark;
+
+        .o_web_studio_bpmn_sidebar_tabs {
+            min-height: 46px;
+            border-bottom: 0;
+            background: $o-web-studio-bg-dark;
+
+            .btn {
+                position: relative;
+                min-width: 0;
+                padding: 14px 0.35rem;
+                border: 0;
+                background: transparent;
+                color: $o-web-studio-text-light;
+                font-size: inherit;
+                font-weight: inherit;
+                white-space: nowrap;
+
+                &:hover,
+                &:focus {
+                    background: rgba($o-web-studio-bg-medium, 0.5);
+                    color: white;
+                }
+
+                &.active {
+                    background: $o-web-studio-bg-medium;
+                    color: white;
+                }
+            }
+        }
+
+        .o_web_studio_bpmn_sidebar_content {
+            padding-top: 0.85rem;
+            scrollbar-color: #c6cbd3 transparent;
+            scrollbar-width: thin;
+
+            h3 {
+                margin-bottom: 0.65rem !important;
+                color: white !important;
+                font-size: inherit;
+                font-weight: inherit;
+            }
+
+            h6,
+            label,
+            .fw-bold,
+            .fw-semibold,
+            summary,
+            [class*="_title"],
+            [class*="_name"] {
+                color: $o-web-studio-text-light !important;
+            }
+
+            .o_web_studio_bpmn_component_item {
+                min-height: 0;
+                padding: 0.45rem 0.55rem;
+                border: 1px solid transparent;
+                border-radius: var(--border-radius-sm);
+                background: $o-web-studio-bg-dark;
+                box-shadow: none;
+                color: $o-web-studio-text-light;
+
+                .o_web_studio_bpmn_component_icon {
+                    width: 1.6rem;
+                    min-width: 1.6rem;
+                    color: $o-web-studio-text-inactive;
+                    font-size: 0.86rem;
+                }
+
+                .text-muted {
+                    color: $o-web-studio-text-inactive !important;
+                }
+
+                &:hover,
+                &:focus {
+                    border-color: $o-web-studio-color-info;
+                    background: $o-web-studio-bg-darker;
+                    box-shadow: none;
+                    color: white;
+                    transform: none;
+                }
+            }
+
+            .o_web_studio_bpmn_hint,
+            .o_web_studio_bpmn_meta_row,
+            .o_wfs_meta_tag_row,
+            .o_web_studio_approval_group_link_item,
+            .o_web_studio_approval_group_catalog_item,
+            [class*="_summary_card"] {
+                border-color: rgba($o-web-studio-text-light, 0.16);
+                background: $o-web-studio-bg-dark;
+                box-shadow: none;
+                color: $o-web-studio-text-inactive;
+            }
+
+            .o_wfs_meta_search,
+            .o_wfs_user_picker {
+                border-color: transparent;
+                background: $o-web-studio-bg-dark;
+            }
+
+            .o_wfs_meta_search_input {
+                min-height: auto;
+                border: 0;
+                background: transparent;
+                box-shadow: none;
+                color: $o-web-studio-text-inactive;
+            }
+
+            .o_wfs_meta_tag_field,
+            .o_web_studio_approval_groups_summary_title,
+            .o_web_studio_approval_group_name {
+                color: $o-web-studio-text-light !important;
+            }
+
+            .o_wfs_meta_tag_remove,
+            .o_wfs_meta_search_icon,
+            .o_wfs_meta_search_clear,
+            .o_web_studio_help_icon {
+                color: $o-web-studio-text-inactive;
+            }
+
+            .o_wfs_meta_tag_type.o_wfs_type_visible,
+            .o_web_studio_approval_status_badge.is-linked {
+                border-color: color-mix(in srgb, var(--wfs-success) 38%, var(--wfs-border));
+                background: var(--wfs-success-soft);
+                color: var(--wfs-success);
+            }
+
+            .o_wfs_meta_tag_type.o_wfs_type_required {
+                border-color: color-mix(in srgb, var(--wfs-warning) 38%, var(--wfs-border));
+                background: var(--wfs-warning-soft);
+                color: var(--wfs-warning);
+            }
+
+            .o_wfs_meta_tag_type.o_wfs_type_readonly,
+            .o_web_studio_approval_status_badge.is-available {
+                border-color: var(--wfs-info-border);
+                background: var(--wfs-info-soft);
+                color: var(--wfs-info);
+            }
+
+            .o_wfs_manage_approval_groups_btn,
+            .o_wfs_manage_notification_channels_btn {
+                border-color: $o-enterprise-action-color;
+                background: transparent;
+                color: $o-enterprise-action-color;
+
+                &:hover,
+                &:focus {
+                    background: $o-web-studio-bg-dark;
+                }
+            }
+
+            .o_wfs_workflow_action_picker {
+                .o_multi_record_selector {
+                    align-items: center;
+                    width: 100%;
+                    min-height: 2rem;
+                    padding: 0.3rem 0.5rem;
+                    border: 1px solid transparent;
+                    border-radius: 0;
+                    background: $o-web-studio-bg-dark;
+                    box-shadow: none;
+                    color: $o-web-studio-text-light;
+
+                    &:focus-within {
+                        border-color: $o-web-studio-color-info;
+                        box-shadow: 0 0 1px 0 $o-web-studio-color-info;
+                        color: white;
+                    }
+                }
+
+                .o_record_autocomplete_with_caret {
+                    flex: 1 0 7rem;
+                    min-width: 7rem;
+                    padding-right: 1rem;
+                }
+
+                .o_record_autocomplete input.o_input {
+                    min-height: auto !important;
+                    padding: 0 !important;
+                    border: 0 !important;
+                    background: transparent !important;
+                    box-shadow: none !important;
+                    color: inherit;
+
+                    &::placeholder {
+                        color: $o-web-studio-text-inactive;
+                    }
+                }
+
+                .o_tag:not(.o_avatar) {
+                    --Tag-max-width: 100%;
+                    padding: 0.18rem 0.45rem;
+                    border: 1px solid rgba($o-web-studio-text-light, 0.18);
+                    background: rgba($o-web-studio-text-light, 0.08);
+                    color: $o-web-studio-text-light;
+                    font-weight: 500;
+                }
+            }
+
+            .o_wfs_gw_toggle_row {
+                .o_wfs_gw_field_hint {
+                    margin-left: 1.5rem;
+                }
+            }
+        }
+    }
+
+    .o_web_studio_bpmn_workspace {
+        min-width: 0;
+        background: var(--wfs-canvas);
+        box-shadow: none;
+    }
+
+    .o_web_studio_bpmn_toolbar {
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+        min-height: 54px;
+        gap: 0.55rem !important;
+        overflow: visible;
+        position: relative;
+        z-index: 20;
+        background: var(--wfs-surface);
+        border-color: var(--wfs-border) !important;
+
+        .o_wfs_toolbar_group {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .o_wfs_toolbar_divider {
+            flex: 0 0 1px;
+            align-self: stretch;
+            max-height: 1.9rem;
+            margin: auto 0.1rem;
+            background: var(--wfs-border-soft);
+        }
+
+        .btn {
+            min-height: 2.15rem;
+            padding: 0.35rem 0.72rem;
+            border-radius: var(--wfs-radius-sm);
+            box-shadow: none;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: none;
+            white-space: nowrap;
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--wfs-border);
+            background: var(--wfs-surface);
+            color: var(--wfs-text);
+
+            &:hover,
+            &:focus {
+                border-color: #b8bdc6;
+                background: var(--wfs-surface-muted);
+                color: var(--wfs-text);
+            }
+        }
+
+        .btn-primary {
+            border-color: var(--wfs-primary);
+            background: var(--wfs-primary);
+            color: var(--wfs-primary-contrast);
+
+            &:hover,
+            &:focus {
+                border-color: var(--wfs-primary-hover);
+                background: var(--wfs-primary-hover);
+                color: var(--wfs-primary-contrast);
+            }
+        }
+
+        .btn-success {
+            border-color: var(--wfs-success);
+            background: var(--wfs-success);
+            color: #fff;
+        }
+
+        .btn-warning {
+            border-color: #dfc47b;
+            background: var(--wfs-warning-soft);
+            color: var(--wfs-warning);
+        }
+
+        .btn:disabled {
+            opacity: 0.48;
+        }
+
+        .o_wfs_toolbar_icon_btn {
+            width: 2.15rem;
+            padding-inline: 0;
+        }
+
+        .o_web_studio_bpmn_version_switch {
+            flex: 0 0 auto;
+            min-width: 13rem;
+        }
+
+        .o_web_studio_bpmn_version_button {
+            min-height: 2.15rem;
+            padding: 0.3rem 0.55rem;
+            border-color: var(--wfs-border);
+            background: var(--wfs-surface-subtle);
+            color: var(--wfs-text);
+
+            &:hover,
+            &:focus {
+                border-color: rgba(113, 75, 103, 0.45);
+                background: var(--wfs-accent-soft);
+                color: var(--wfs-text);
+            }
+        }
+
+        .o_web_studio_bpmn_version_menu {
+            border-color: var(--wfs-border);
+            border-radius: var(--wfs-radius);
+            background: var(--wfs-surface);
+            box-shadow: var(--wfs-shadow-md);
+        }
+
+        .o_web_studio_bpmn_version_menu_item {
+            color: var(--wfs-text);
+
+            &:hover {
+                background: var(--wfs-surface-muted);
+            }
+
+            &.is-current {
+                border-color: rgba(113, 75, 103, 0.2);
+                background: var(--wfs-accent-soft);
+            }
+        }
+
+        .o_web_studio_bpmn_version_badge {
+            padding: 0.2rem 0.55rem;
+            border-color: var(--wfs-border);
+            background: var(--wfs-surface-muted);
+            box-shadow: none;
+            color: var(--wfs-text-muted);
+            font-size: 0.65rem;
+            letter-spacing: 0.02em;
+
+            &.is-deployed {
+                border-color: color-mix(in srgb, var(--wfs-success) 38%, var(--wfs-border));
+                background: var(--wfs-success-soft);
+                box-shadow: none;
+                color: var(--wfs-success);
+            }
+
+            &.is-published {
+                border-color: var(--wfs-info-border);
+                background: var(--wfs-info-soft);
+                box-shadow: none;
+                color: var(--wfs-info);
+            }
+
+            &.is-draft {
+                border-color: color-mix(in srgb, var(--wfs-warning) 38%, var(--wfs-border));
+                background: var(--wfs-warning-soft);
+                box-shadow: none;
+                color: var(--wfs-warning);
+            }
+
+            &.is-retired,
+            &.is-locked {
+                border-color: var(--wfs-border);
+                background: var(--wfs-surface-muted);
+                box-shadow: none;
+                color: var(--wfs-text-muted);
+            }
+        }
+
+        .o_wfs_toolbar_context {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            min-height: 2.15rem;
+            padding-left: 0.25rem;
+            color: var(--wfs-text-muted) !important;
+            white-space: nowrap;
+        }
+    }
+
+    .o_web_studio_bpmn_canvas {
+        background-color: var(--wfs-canvas);
+
+        &::before {
+            background-image: radial-gradient(circle at 1px 1px, rgba(77, 88, 107, 0.18) 1px, transparent 0);
+            background-position: 0 0;
+            background-size: 18px 18px;
+        }
+
+        &::after {
+            opacity: 0.16;
+        }
+
+        .djs-connection .djs-visual > path,
+        svg .djs-connection path,
+        svg marker path {
+            stroke: #3d6c9f !important;
+            stroke-width: 2px !important;
+        }
+
+        .djs-shape .djs-visual > rect {
+            fill: #fff !important;
+            stroke: #55606f !important;
+            stroke-width: 1.5px !important;
+            filter: drop-shadow(0 1px 1px rgba(24, 32, 48, 0.08));
+        }
+
+        .djs-element.selected .djs-visual > rect,
+        .djs-element.hover .djs-visual > rect {
+            stroke: var(--wfs-accent) !important;
+            stroke-width: 2px !important;
+        }
+
+        .djs-label text,
+        .djs-label tspan,
+        text.djs-label,
+        tspan.djs-label {
+            fill: #1f2937 !important;
+            stroke: rgba(255, 255, 255, 0.96) !important;
+        }
+    }
+
+    // Domain and bulk policy builders own legacy token sets. Rebind them here
+    // so their nested cards and custom inner modal stay in the Studio system.
+    .o_workflow_studio_domain_dialog {
+        --wfs-surface: var(--wfs-dialog-surface);
+        --wfs-border: var(--wfs-dialog-border);
+        --wfs-text: var(--wfs-dialog-text);
+        --wfs-muted-text: var(--wfs-dialog-text-muted);
+        --wfs-accent: var(--wfs-dialog-accent);
+        --wfs-accent-soft: var(--wfs-dialog-accent-soft);
+        --wfs-card-bg: var(--wfs-dialog-surface-subtle);
+        --wfs-code-bg: var(--wfs-dialog-surface-muted);
+        background: var(--wfs-dialog-surface) !important;
+        color: var(--wfs-dialog-text) !important;
+
+        .o_wfs_runtime_builder_modal {
+            border-color: var(--wfs-dialog-border);
+            border-radius: var(--wfs-radius-lg);
+            background: var(--wfs-dialog-surface);
+            box-shadow: 0 24px 56px rgba(24, 32, 48, 0.22);
+        }
+
+        .o_wfs_runtime_builder_modal_header,
+        .o_wfs_runtime_builder_modal_footer {
+            border-color: var(--wfs-dialog-border);
+            background: var(--wfs-dialog-surface);
+        }
+
+        .o_wfs_runtime_builder_modal_body {
+            background: var(--wfs-dialog-surface-subtle);
+        }
+    }
+
+    .modal-content.o_wfs_bulk_policy_dialog {
+        --wfs-bulk-surface: var(--wfs-dialog-surface);
+        --wfs-bulk-border: var(--wfs-dialog-border);
+        --wfs-bulk-text: var(--wfs-dialog-text);
+        --wfs-bulk-muted: var(--wfs-dialog-text-muted);
+        --wfs-bulk-accent: var(--wfs-dialog-accent);
+        border-color: var(--wfs-dialog-border) !important;
+        background: var(--wfs-dialog-surface) !important;
+        color: var(--wfs-dialog-text) !important;
+
+        .modal-header,
+        .modal-footer {
+            border-color: var(--wfs-dialog-border) !important;
+            background: var(--wfs-dialog-surface) !important;
+            color: var(--wfs-dialog-text) !important;
+        }
+
+        .modal-body {
+            background: var(--wfs-dialog-surface-subtle) !important;
+        }
+
+        .o_wfs_bulk_policy_intro,
+        .o_wfs_bulk_policy_kinds,
+        .o_wfs_bulk_policy_fields {
+            border-color: var(--wfs-dialog-border) !important;
+            background: var(--wfs-dialog-surface) !important;
+        }
+
+        .o_wfs_bulk_policy_kind_chip,
+        .o_wfs_bulk_policy_list,
+        .o_wfs_bulk_policy_item {
+            border-color: var(--wfs-dialog-border) !important;
+            background: var(--wfs-dialog-surface-muted) !important;
+            color: var(--wfs-dialog-text) !important;
+        }
+
+        .o_wfs_bulk_policy_domain_input,
+        .o_wfs_bulk_policy_search {
+            border-color: var(--wfs-dialog-border) !important;
+            background: var(--wfs-dialog-surface) !important;
+            color: var(--wfs-dialog-text) !important;
+
+            &::placeholder {
+                color: var(--wfs-dialog-text-muted) !important;
+            }
+        }
+
+        .o_wfs_bulk_policy_domain_builder_btn {
+            border-color: var(--wfs-dialog-border) !important;
+            background: var(--wfs-dialog-surface) !important;
+            color: var(--wfs-dialog-text-muted) !important;
+
+            &:hover,
+            &:focus {
+                background: var(--wfs-dialog-accent-soft) !important;
+                color: var(--wfs-dialog-accent) !important;
+            }
+        }
+
+        .o_wfs_bulk_policy_item_label,
+        .o_wfs_bulk_policy_domain_label,
+        .form-check-label {
+            color: var(--wfs-dialog-text) !important;
+        }
+
+        .o_wfs_bulk_policy_item_meta,
+        .o_wfs_bulk_policy_summary,
+        .o_wfs_bulk_policy_intro_hint {
+            color: var(--wfs-dialog-text-muted) !important;
+        }
+    }
+
+    // Every Studio dialog uses the same native shell and control hierarchy.
+    .modal {
+        --bs-modal-border-color: var(--wfs-border);
+        --bs-modal-header-border-color: var(--wfs-border-soft);
+        --bs-modal-footer-border-color: var(--wfs-border-soft);
+
+        .modal-dialog {
+            padding: 0.75rem;
+        }
+
+        .modal-content {
+            overflow: hidden;
+            border: 1px solid var(--wfs-border);
+            border-radius: var(--wfs-radius-lg);
+            background: var(--wfs-surface);
+            box-shadow: 0 24px 56px rgba(24, 32, 48, 0.18);
+            color: var(--wfs-text);
+        }
+
+        .modal-header {
+            min-height: 3.5rem;
+            padding: 0.9rem 1.25rem;
+            border-color: var(--wfs-border-soft);
+            background: var(--wfs-surface);
+        }
+
+        .modal-title {
+            color: var(--wfs-text);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.005em;
+        }
+
+        .modal-body {
+            padding: 1rem 1.25rem;
+            background: var(--wfs-surface-subtle);
+            color: var(--wfs-text);
+            scrollbar-color: #c6cbd3 transparent;
+            scrollbar-width: thin;
+        }
+
+        .modal-footer {
+            min-height: 3.6rem;
+            padding: 0.75rem 1.25rem;
+            border-color: var(--wfs-border-soft);
+            background: var(--wfs-surface);
+        }
+
+        .card,
+        [class*="_card"] {
+            border-color: var(--wfs-border-soft);
+            background: var(--wfs-surface);
+            box-shadow: none;
+            color: var(--wfs-text);
+        }
+
+        .card-header {
+            border-color: var(--wfs-border-soft);
+            background: var(--wfs-surface-subtle);
+            color: var(--wfs-text);
+        }
+
+        label,
+        .form-label,
+        [class*="_label"],
+        [class*="_title"],
+        [class*="_name"] {
+            color: var(--wfs-text);
+        }
+
+        .text-muted,
+        .small.text-muted,
+        [class*="_hint"] {
+            color: var(--wfs-text-muted) !important;
+        }
+
+        // web_studio leaves modal fields on the native Odoo/Bootstrap contract.
+        // Re-state it here because older Workflow dialogs contain local visual rules.
+        .form-control {
+            min-height: initial;
+            padding: $input-padding-y $input-padding-x;
+            border: $input-border-width solid $input-border-color;
+            border-radius: $input-border-radius;
+            background-color: $input-bg;
+            background-clip: padding-box;
+            box-shadow: $input-box-shadow;
+            color: $input-color;
+            font-size: $input-font-size;
+            font-weight: $input-font-weight;
+            line-height: $input-line-height;
+            transition: $input-transition;
+
+            &:focus {
+                border-color: $input-focus-border-color;
+                background-color: $input-focus-bg;
+                box-shadow: $input-focus-box-shadow;
+                color: $input-focus-color;
+                outline: 0;
+            }
+
+            &:disabled,
+            &[readonly] {
+                background-color: $input-disabled-bg;
+                color: $input-disabled-color;
+                opacity: 1;
+            }
+
+            &.form-control-sm {
+                padding: $input-padding-y-sm $input-padding-x-sm;
+                border-radius: $input-border-radius-sm;
+                font-size: $input-font-size-sm;
+            }
+        }
+
+        .form-select {
+            min-height: initial;
+            padding: $form-select-padding-y $form-select-indicator-padding $form-select-padding-y $form-select-padding-x;
+            border: $form-select-border-width solid $form-select-border-color;
+            border-radius: $form-select-border-radius;
+            background-color: $form-select-bg;
+            background-image: $form-select-indicator;
+            background-position: $form-select-bg-position;
+            background-repeat: no-repeat;
+            background-size: $form-select-bg-size;
+            box-shadow: $form-select-box-shadow;
+            color: $form-select-color;
+            font-size: $form-select-font-size;
+            font-weight: $form-select-font-weight;
+            line-height: $form-select-line-height;
+            transition: $form-select-transition;
+
+            &:focus {
+                border-color: $form-select-focus-border-color;
+                box-shadow: $form-select-focus-box-shadow;
+                outline: 0;
+            }
+
+            &:disabled {
+                border-color: $form-select-disabled-border-color;
+                background-color: $form-select-disabled-bg;
+                color: $form-select-disabled-color;
+            }
+
+            &.form-select-sm {
+                padding-top: $form-select-padding-y-sm;
+                padding-bottom: $form-select-padding-y-sm;
+                padding-left: $form-select-padding-x-sm;
+                border-radius: $form-select-border-radius-sm;
+                font-size: $form-select-font-size-sm;
+            }
+        }
+
+        .btn {
+            min-height: 2.15rem;
+            border-radius: var(--wfs-radius-sm);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: none;
+        }
+
+        .btn-primary {
+            border-color: var(--wfs-primary);
+            background: var(--wfs-primary);
+            color: var(--wfs-primary-contrast);
+
+            &:hover,
+            &:focus,
+            &:active {
+                border-color: var(--wfs-primary-hover) !important;
+                background: var(--wfs-primary-hover) !important;
+                color: var(--wfs-primary-contrast);
+            }
+        }
+
+        .btn-secondary,
+        .btn-outline-secondary {
+            border-color: var(--wfs-border);
+            background: var(--wfs-surface);
+            color: var(--wfs-text);
+
+            &:hover,
+            &:focus {
+                border-color: #b8bdc6;
+                background: var(--wfs-surface-muted);
+                color: var(--wfs-text);
+            }
+        }
+
+        .badge.is-linked,
+        .badge.bg-success,
+        [class*="_status"].is-linked {
+            border-color: color-mix(in srgb, var(--wfs-success) 38%, var(--wfs-border));
+            background: var(--wfs-success-soft) !important;
+            color: var(--wfs-success) !important;
+        }
+    }
+
+    .modal-content.o_workflow_studio_domain_dialog {
+        .btn-group > .btn:not(:first-child) {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+
+        .btn-group > .btn:not(:last-child) {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+    }
+
+    .modal-content.o_wfs_runtime_reference_dialog {
+        .modal-body {
+            background: var(--wfs-surface);
+        }
+
+        .o_wfs_runtime_reference_header {
+            margin-bottom: 0.75rem;
+        }
+
+        .o_wfs_runtime_reference .o_wfs_domain_dialog_runtime_rows {
+            max-height: 55vh;
+        }
+    }
+
+    .modal-content.o_wfs_notification_channel_browser_dialog,
+    .modal-content.o_wfs_approval_group_browser_dialog {
+        .modal-title,
+        .o_wfs_approval_group_browser_node,
+        .o_wfs_approval_group_browser_list_title,
+        .o_wfs_approval_group_browser_name,
+        .o_wfs_approval_group_browser_meta_label {
+            color: var(--wfs-text) !important;
+        }
+
+        .o_wfs_approval_group_browser_summary_eyebrow {
+            color: var(--wfs-text-muted) !important;
+        }
+
+        .o_wfs_approval_group_browser_summary_text,
+        .o_wfs_approval_group_browser_meta_line {
+            color: var(--wfs-text-muted) !important;
+        }
+    }
+
+    // MultiRecordSelector already owns the Odoo input shell. Keep its avatar
+    // tags and search input in one native many2many-style control.
+    .modal-content.o_wfs_approval_group_dialog {
+        .o_wfs_approval_group_user_picker {
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .o_wfs_approval_group_user_picker .o_multi_record_selector {
+            align-items: center;
+            width: 100%;
+            min-height: $input-height;
+            padding: $input-padding-y $input-padding-x;
+            border: $input-border-width solid $input-border-color;
+            border-radius: $input-border-radius;
+            background: $input-bg;
+            box-shadow: $input-box-shadow;
+            color: $input-color;
+
+            &:focus-within {
+                border-color: $input-focus-border-color;
+                background: $input-focus-bg;
+                box-shadow: $input-focus-box-shadow;
+                color: $input-focus-color;
+            }
+        }
+
+        .o_multi_record_selector .o_record_autocomplete_with_caret {
+            flex: 1 0 12rem;
+            min-width: 12rem;
+            padding-right: 1.25rem;
+        }
+
+        .o_multi_record_selector .o_record_autocomplete input.o_input {
+            width: 100%;
+            min-height: auto;
+            padding: 0;
+            border: 0 !important;
+            border-radius: 0;
+            background: transparent !important;
+            box-shadow: none !important;
+            color: inherit;
+
+            &::placeholder {
+                color: $input-placeholder-color;
+            }
+        }
+
+        .o_multi_record_selector .o_tag.o_avatar {
+            margin: 0;
+        }
+    }
+
+    &:has(.modal-content.o_wfs_approval_group_dialog) .o-autocomplete--dropdown-menu {
+        width: 22rem;
+        max-width: calc(100vw - 2rem);
+        padding: 0.25rem;
+        border-color: var(--wfs-border);
+        border-radius: var(--wfs-radius);
+        background: var(--wfs-surface);
+        box-shadow: var(--wfs-shadow-md);
+
+        .dropdown-item {
+            min-height: 2.4rem;
+            padding: 0.4rem 0.65rem;
+            border-radius: var(--wfs-radius-sm);
+            color: var(--wfs-text);
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus,
+        .dropdown-item.ui-state-active {
+            background: var(--wfs-accent-soft);
+            color: var(--wfs-text);
+        }
+
+        .o_avatar_many2x_autocomplete img {
+            width: 1.75rem;
+            height: 1.75rem;
+            object-fit: cover;
+        }
+    }
+
+    // The group-link editor follows the native Odoo modal form rhythm instead
+    // of presenting another set of cards inside the dialog.
+    .modal-content.o_wfs_approval_group_link_dialog {
+        .modal-body {
+            background: var(--wfs-surface);
+        }
+
+        .o_wfs_approval_group_link_section + .o_wfs_approval_group_link_section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--wfs-border-soft);
+        }
+
+        .o_wfs_approval_group_link_section_header {
+            margin-bottom: 1rem;
+        }
+
+        .o_wfs_approval_group_section_title {
+            color: var(--wfs-text);
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .col-form-label {
+            padding-top: 0.45rem;
+            color: var(--wfs-text);
+            font-size: 0.84rem;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        .o_wfs_approval_group_selector_field,
+        .o_wfs_approval_group_selector_field .o-autocomplete,
+        .o_wfs_approval_group_selector_field .o-autocomplete--input {
+            width: 100%;
+        }
+
+        .o_wfs_approval_group_selector_field .o-autocomplete--input {
+            min-height: initial;
+            padding: $input-padding-y $input-padding-x;
+            padding-right: $input-padding-x !important;
+            border: $input-border-width solid $input-border-color;
+            border-radius: $input-border-radius;
+            background-color: $input-bg;
+            background-clip: padding-box;
+            box-shadow: $input-box-shadow;
+            color: $input-color;
+            font-size: $input-font-size;
+            font-weight: $input-font-weight;
+            line-height: $input-line-height;
+            transition: $input-transition;
+
+            &:focus {
+                border-color: $input-focus-border-color;
+                background-color: $input-focus-bg;
+                box-shadow: $input-focus-box-shadow;
+                color: $input-focus-color;
+                outline: 0;
+            }
+        }
+
+        .o_wfs_approval_group_selector_field_hint {
+            margin-top: 0.4rem;
+        }
+
+        .o_wfs_approval_group_selector_summary {
+            padding: 0.8rem;
+            border-color: var(--wfs-border-soft);
+            border-radius: var(--wfs-radius);
+            background: var(--wfs-surface-subtle);
+        }
+
+        .o_wfs_approval_group_selector_summary_label,
+        .o_wfs_approval_group_selector_summary_key {
+            color: var(--wfs-text-muted);
+        }
+
+        .o_wfs_approval_group_selector_summary_path,
+        .o_wfs_approval_group_selector_summary_value,
+        .o_wfs_approval_group_selector_member_count {
+            color: var(--wfs-text);
+        }
+
+        .o_wfs_approval_group_selector_member_list {
+            color: var(--wfs-text-muted);
+        }
+
+        .o_wfs_approval_group_rule_notice {
+            margin-bottom: 1rem;
+            border-color: color-mix(in srgb, var(--wfs-warning) 38%, var(--wfs-border));
+            border-radius: var(--wfs-radius);
+            background: var(--wfs-warning-soft);
+            color: var(--wfs-warning);
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
+        .o_wfs_approval_group_link_row + .o_wfs_approval_group_link_row {
+            margin-top: 0.75rem;
+        }
+
+        .input-group .form-control {
+            min-width: 0;
+        }
+
+        .input-group .form-control[readonly] {
+            cursor: pointer;
+        }
+
+        .o_wfs_dialog_select {
+            width: 100%;
+        }
+
+        .o_select_menu_toggler.form-select {
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            min-height: initial;
+            padding: $form-select-padding-y $form-select-indicator-padding $form-select-padding-y $form-select-padding-x;
+            border-color: $form-select-border-color;
+            border-radius: $form-select-border-radius;
+            background-color: $form-select-bg !important;
+            color: $form-select-color;
+            font-weight: $form-select-font-weight;
+            line-height: $form-select-line-height;
+            text-align: left;
+        }
+
+        .o_wfs_approval_group_rule_state_hint {
+            border-radius: var(--wfs-radius);
+            font-size: 0.8rem;
+            line-height: 1.35;
+            padding: 0.5rem 0.65rem;
+        }
+    }
+
+    .o_wfs_dialog_select_menu,
+    .o_wfs_approval_group_selector_menu {
+        border-color: var(--wfs-border);
+        border-radius: var(--wfs-radius);
+        background: var(--wfs-surface);
+        box-shadow: var(--wfs-shadow-md);
+
+        .dropdown-item {
+            padding: 0.5rem 0.75rem;
+            color: var(--wfs-text);
+            line-height: 1.4;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus,
+        .dropdown-item.ui-state-active {
+            background: var(--wfs-accent-soft);
+            color: var(--wfs-text);
+        }
+    }
+
+    .o_wfs_approval_group_selector_menu .dropdown-item {
+        white-space: normal;
+    }
+}
+
+@mixin wfs-dark-theme {
+    --wfs-accent: #c58bae;
+    --wfs-accent-hover: #d49cbe;
+    --wfs-accent-soft: #3a2935;
+    --wfs-primary: #aa9b3c;
+    --wfs-primary-hover: #c0b252;
+    --wfs-primary-contrast: #171910;
+    --wfs-success: #42b883;
+    --wfs-success-soft: #18392b;
+    --wfs-warning: #e0bd6d;
+    --wfs-warning-soft: #3a321f;
+    --wfs-info: #9bc7ec;
+    --wfs-info-soft: #233544;
+    --wfs-info-border: #3d607c;
+    --wfs-danger: #ef7d88;
+    --wfs-surface: #24262b;
+    --wfs-surface-subtle: #1f2125;
+    --wfs-surface-muted: #2f3238;
+    --wfs-canvas: #1d2025;
+    --wfs-border: #444850;
+    --wfs-border-soft: #383b42;
+    --wfs-text: #dee2e6;
+    --wfs-text-muted: #adb2ba;
+    --wfs-text-faint: #858b93;
+    --wfs-focus: rgba(197, 139, 174, 0.22);
+    --wfs-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24);
+    --wfs-shadow-md: 0 14px 32px rgba(0, 0, 0, 0.34);
+    --wfs-dialog-surface: #24262b;
+    --wfs-dialog-surface-subtle: #1f2125;
+    --wfs-dialog-surface-muted: #2f3238;
+    --wfs-dialog-border: #444850;
+    --wfs-dialog-text: #dee2e6;
+    --wfs-dialog-text-muted: #adb2ba;
+    --wfs-dialog-accent: #c58bae;
+    --wfs-dialog-accent-soft: #3a2935;
+
+    .o_web_studio_editor .o_web_studio_sidebar,
+    .o_web_studio_sidebar.o_web_studio_bpmn_sidebar {
+        color-scheme: dark;
+    }
+
+    .o_web_studio_bpmn_canvas {
+        &::before {
+            background-image: radial-gradient(circle at 1px 1px, rgba(212, 217, 226, 0.22) 1px, transparent 0);
+        }
+
+        .djs-shape .djs-visual > rect {
+            fill: #2a2d33 !important;
+            stroke: #8f97a4 !important;
+        }
+
+        .djs-element.selected .djs-visual > rect,
+        .djs-element.hover .djs-visual > rect {
+            stroke: var(--wfs-accent) !important;
+        }
+
+        .djs-label text,
+        .djs-label tspan,
+        text.djs-label,
+        tspan.djs-label {
+            fill: var(--wfs-text) !important;
+            stroke: rgba(29, 32, 37, 0.96) !important;
+        }
+
+        .djs-context-pad .entry {
+            box-sizing: border-box;
+            border: 1px solid var(--wfs-border);
+            background-color: var(--wfs-surface-muted) !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.38);
+            color: var(--wfs-text) !important;
+        }
+
+        .djs-context-pad .entry::before {
+            color: inherit !important;
+        }
+
+        .djs-context-pad .entry:hover,
+        .djs-context-pad .entry:focus-visible {
+            border-color: var(--wfs-accent);
+            background-color: var(--wfs-accent-soft) !important;
+            color: var(--wfs-accent-hover) !important;
+            outline: none;
+        }
+    }
+}
+
+// The Studio shell loads a dedicated dark asset bundle rather than adding a DOM theme class.
+@if $o-web-studio-color-scheme == dark {
+    body.o_in_workflow_studio {
+        @include wfs-dark-theme;
+    }
+}
+
+// Keep compatibility with hosts that switch the theme at runtime through a DOM marker.
+html[data-theme="dark"] body.o_in_workflow_studio,
+body.o_in_workflow_studio.o_dark,
+body.o_web_client.o_in_workflow_studio.o_dark {
+    @include wfs-dark-theme;
+}
+
+@media (max-width: 1199.98px) {
+    body.o_in_workflow_studio {
+        --wfs-sidebar-width: 300px;
+
+        .o_web_studio_bpmn_toolbar {
+            .o_wfs_toolbar_context {
+                display: none;
+            }
+
+            .o_web_studio_bpmn_version_switch {
+                min-width: 11rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.o_in_workflow_studio {
+        --wfs-sidebar-width: 260px;
+
+        .o_web_studio_editor_manager,
+        .o_web_studio_bpmn_layout,
+        .o_web_studio_action_editor,
+        .o-web-studio-report-editor,
+        .o-web-studio-report-editor-wysiwyg {
+            flex-direction: column !important;
+        }
+
+        .o_web_studio_editor .o_web_studio_sidebar:not(.o_web_studio_xml_editor),
+        .o_web_studio_sidebar.o_web_studio_bpmn_sidebar {
+            flex: 0 0 38vh;
+            width: 100%;
+            height: 38vh !important;
+            min-width: 0;
+            min-height: 220px;
+            max-width: none;
+            max-height: 360px;
+            border-right: 0 !important;
+            border-bottom: 1px solid var(--wfs-border) !important;
+            box-shadow: 0 2px 12px rgba(24, 32, 48, 0.06);
+        }
+
+        .o_web_studio_bpmn_workspace,
+        .o_web_studio_view_renderer,
+        .o-web-studio-report-container {
+            flex: 1 1 auto;
+            width: 100%;
+            min-width: 0;
+            min-height: 280px;
+        }
+
+        .o_studio_navbar.o_main_navbar {
+            grid-template-areas: "apps identity studiomenu systray";
+            grid-template-columns: var(--o-navbar-height) minmax(0, 1fr) auto auto;
+
+            .o_wfs_navbar_identity {
+                border-right: 0;
+            }
+
+            .o_wfs_navbar_identity_icon,
+            .o-studio--menu {
+                display: none !important;
+            }
+
+            .o_wfs_navbar_identity_title {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .o_web_studio_menu {
+            overflow-x: auto;
+
+            .o_web_studio_breadcrumb,
+            .o_web_studio_views_icons {
+                display: none !important;
+            }
+
+            .ms-auto {
+                margin-left: 0 !important;
+            }
+        }
+
+        .o_web_studio_sidebar.o_web_studio_bpmn_sidebar .o_web_studio_bpmn_sidebar_tabs .btn {
+            padding-inline: 0.35rem;
+            font-size: 0.7rem;
+
+            i {
+                margin-right: 0.2rem !important;
+                font-size: 0.9rem;
+            }
+        }
+
+        .o_web_studio_bpmn_toolbar {
+            padding-inline: 0.6rem !important;
+
+            .o_wfs_toolbar_context,
+            .o_web_studio_bpmn_version_switch {
+                display: none;
+            }
+        }
+
+        .o_web_studio_action_editor .o_web_studio_views {
+            padding: 1rem !important;
+
+            > .grid {
+                width: 100% !important;
+                grid-template-columns: 1fr !important;
+                gap: 1.25rem !important;
+            }
+
+            .o_web_studio_view_category > .grid {
+                grid-template-columns: repeat(2, 115px) !important;
+                gap: 0.75rem !important;
+            }
+        }
+
+        .o_studio_home_menu {
+            .container {
+                padding-inline: 0.75rem;
+            }
+
+            .o_apps {
+                margin-top: 1rem !important;
+                padding: 0.75rem;
+            }
+        }
+
+        .o_web_studio_editor .o_web_studio_sidebar.o_web_studio_xml_editor:not(.btn) {
+            flex-basis: 88vw;
+            width: 88vw;
+            min-width: 280px;
+            max-width: 720px;
+        }
+
+        .o_web_studio_model_configurator .o_web_studio_model_configurator_option {
+            padding: 0.65rem;
+        }
+
+        .o_workflow_studio_domain_dialog .o_wfs_runtime_builder_modal_backdrop {
+            padding: 0.4rem;
+        }
+
+        .o_workflow_studio_domain_dialog .o_wfs_runtime_builder_modal {
+            max-height: calc(100dvh - 0.8rem);
+            overflow-y: auto;
+        }
+
+        .modal .modal-dialog {
+            margin: 0;
+            padding: 0.4rem;
+        }
+
+        .modal-content.o_wfs_approval_group_link_dialog {
+            .o_wfs_approval_group_selector_actions {
+                width: 100%;
+            }
+
+            .o_wfs_approval_group_selector_actions .btn {
+                flex: 1 1 auto;
+            }
+
+            .input-group {
+                flex-wrap: nowrap;
+            }
+
+            .input-group .btn {
+                padding-inline: 0.65rem;
+                white-space: nowrap;
+            }
+        }
+    }
+}

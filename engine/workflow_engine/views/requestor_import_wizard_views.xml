@@ -1,0 +1,114 @@
+<odoo>
+    <record id="view_workflow_requestor_import_wizard_form" model="ir.ui.view">
+        <field name="name">workflow.requestor.import.wizard.form</field>
+        <field name="model">workflow.requestor.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Requestors">
+                <sheet>
+                    <div class="o_requestor_import_toolbar row align-items-center mb-3">
+                        <label for="request_user_id" class="col-sm-1 col-form-label"/>
+                        <div class="col-sm-11 d-flex align-items-center gap-2">
+                            <field name="request_user_id"
+                                   widget="many2one_request_owner"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   class="flex-grow-1"
+                                   nolabel="1"/>
+                            <field name="excel_file"
+                                   widget="requestor_excel_import"
+                                   filename="excel_filename"
+                                   options="{'hide_on_mobile': True}"
+                                   nolabel="1"/>
+                        </div>
+                        <field name="excel_filename" invisible="1"/>
+                    </div>
+                    <footer class="o_requestor_import_footer">
+                        <button name="action_import_file"
+                                string="Load Excel"
+                                type="object"
+                                class="btn-secondary"
+                                icon="fa-upload"
+                                invisible="1"/>
+                        <button name="action_confirm_import"
+                                string="Confirm"
+                                type="object"
+                                class="btn-primary"/>
+                        <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    </footer>
+                    <notebook>
+                        <page string="Preview">
+                        <field name="line_ids"
+                               mode="list,kanban"
+                               options="{'no_create': True, 'no_open': True}">
+                                <list create="false" edit="false" delete="true" no_open="True">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="x_employee_code" readonly="1" force_save="1"/>
+                                    <field name="x_employee_name" readonly="1" force_save="1"/>
+                                    <field name="x_department_name" readonly="1" force_save="1"/>
+                                    <field name="x_position_name" readonly="1" force_save="1"/>
+                                </list>
+                                <kanban class="o_kanban_mobile" create="false">
+                                    <field name="x_request_user_avatar_url"/>
+                                    <field name="x_employee_code"/>
+                                    <field name="x_employee_name"/>
+                                    <field name="x_department_name"/>
+                                    <field name="x_position_name"/>
+                                    <templates>
+                                        <t t-name="card" class="flex-row">
+                                            <aside t-if="record.x_request_user_avatar_url.raw_value" class="o_kanban_aside_full">
+                                                <img t-att-src="record.x_request_user_avatar_url.raw_value"
+                                                     class="w-100 h-100 object-fit-cover"
+                                                     alt="Requestor"/>
+                                            </aside>
+                                            <aside t-else="" class="o_kanban_aside_full">
+                                                <div class="d-flex align-items-center justify-content-center bg-100 bg-gradient">
+                                                    <svg class="w-75 h-75 opacity-50" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                        <g fill="currentColor">
+                                                            <path d="M 10 11 C 4.08 11 2 14 2 16 L 2 19 L 18 19 L 18 16 C 18 14 15.92 11 10 11 Z"/>
+                                                            <circle cx="10" cy="5.5" r="4.5"/>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                            </aside>
+                                            <main class="ms-2 min-w-0">
+                                                <field class="fw-bold fs-5 text-truncate d-block" name="x_employee_name"/>
+                                                <div t-if="record.x_employee_code.raw_value" class="text-muted text-truncate">
+                                                    <i class="fa fa-fw me-1 fa-id-badge text-primary" title="Employee Code"/>
+                                                    <field name="x_employee_code"/>
+                                                </div>
+                                                <div t-if="record.x_department_name.raw_value" class="text-truncate">
+                                                    <i class="fa fa-fw me-1 fa-users text-primary" title="Department"/>
+                                                    <field name="x_department_name"/>
+                                                </div>
+                                                <div t-if="record.x_position_name.raw_value" class="text-truncate">
+                                                    <i class="fa fa-fw me-1 fa-suitcase text-primary" title="Position"/>
+                                                    <field name="x_position_name"/>
+                                                </div>
+                                            </main>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                    <div class="alert alert-info text-center o_requestor_template_alert d-none d-md-block" role="alert">
+                        Download the Excel template to prepare your requestor list in the required format.
+                        <a href="/download/template/it_request/import_sample.xlsx"
+                           target="_blank"
+                           role="button"
+                           class="o_requestor_template_download_link">
+                            <i class="fa fa-download me-1"/>
+                            Download Template
+                        </a>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_workflow_requestor_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Requestors</field>
+        <field name="res_model">workflow.requestor.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

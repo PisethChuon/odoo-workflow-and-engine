@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_x_emergency_incident_information" model="ir.actions.act_window">
+            <field name="name">Emergency Incident Information</field>
+            <field name="res_model">x_emergency_incident_information</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action for Configuration (Incident Types) -->
+        <record id="action_x_emergency_incident_information_type" model="ir.actions.act_window">
+            <field name="name">Incident Types</field>
+            <field name="res_model">x_emergency_incident_information_type</field>
+            <field name="view_mode">list</field>
+        </record>
+
+        <!-- Action for Search Archived -->
+        <record id="action_x_emergency_incident_information_type_archived" model="ir.actions.act_window">
+            <field name="name">Archived Incident Types</field>
+            <field name="res_model">x_emergency_incident_information_type</field>
+            <field name="view_mode">list</field>
+            <field name="search_view_id" ref="view_search_x_emergency_incident_information_type"/>
+        </record>
+
+        <!-- Action for Color Codes -->
+        <record id="action_x_emergency_incident_color_code" model="ir.actions.act_window">
+            <field name="name">Incident Color Codes</field>
+            <field name="res_model">x_emergency_incident_color_code</field>
+            <field name="view_mode">list</field>
+            <field name="search_view_id" ref="view_search_x_emergency_incident_color_code"/>
+        </record>
+    </data>
+</odoo>

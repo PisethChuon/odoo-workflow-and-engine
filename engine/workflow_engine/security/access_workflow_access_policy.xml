@@ -1,0 +1,283 @@
+<odoo>
+    <data noupdate="1">
+        <record id="access_workflow_access_policy_template_by_workflow_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy template by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_template"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_template_by_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy template by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_template"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_template_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy template by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_template"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_access_policy_template_rule_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy template rule by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_template_rule"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_template_rule_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy template rule by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_template_rule"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_template_rule_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy template rule by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_template_rule"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_category_access_policy_rule_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy rule by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_rule"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_category_access_policy_rule_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy rule by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_rule"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_category_access_policy_rule_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy rule by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_rule"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_category_access_policy_snapshot_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy snapshot by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_snapshot"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_category_access_policy_snapshot_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy snapshot by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_snapshot"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_category_access_policy_snapshot_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy snapshot by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_snapshot"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_category_access_policy_wizard_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy wizard by admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_category_access_policy_wizard_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy wizard by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_category_access_policy_wizard_by_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow category access policy wizard by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_category_access_policy_wizard"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_access_policy_apply_wizard_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy apply wizard by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_apply_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_apply_wizard_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy apply wizard by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_apply_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_apply_wizard_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy apply wizard by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_apply_wizard"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_access_policy_publish_wizard_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy publish wizard by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_publish_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_publish_wizard_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy publish wizard by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_publish_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_publish_wizard_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy publish wizard by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_publish_wizard"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_access_policy_rollback_wizard_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy rollback wizard by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_rollback_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_rollback_wizard_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy rollback wizard by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_rollback_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_access_policy_rollback_wizard_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow access policy rollback wizard by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_access_policy_rollback_wizard"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_security_access_diagnostic_wizard_admin" model="ir.model.access">
+            <field name="name">WF: access workflow security access diagnostic wizard by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_security_access_diagnostic_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_security_access_diagnostic_wizard_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow security access diagnostic wizard by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_security_access_diagnostic_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_security_access_diagnostic_wizard_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow security access diagnostic wizard by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_security_access_diagnostic_wizard"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_request_visibility_scope_bulk_wizard_admin" model="ir.model.access">
+            <field name="name">WF: access workflow request visibility scope bulk wizard by workflow admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_visibility_scope_bulk_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_request_visibility_scope_bulk_wizard_technical_admin" model="ir.model.access">
+            <field name="name">WF: access workflow request visibility scope bulk wizard by technical admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_visibility_scope_bulk_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_technical_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_request_visibility_scope_bulk_wizard_system_admin" model="ir.model.access">
+            <field name="name">WF: access workflow request visibility scope bulk wizard by system admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_visibility_scope_bulk_wizard"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<odoo>
+    <data noupdate="1">
+        <record id="outgoing_mail_server_example" model="ir.mail_server">
+            <field name="name">Mailpit</field>
+            <field name="smtp_host">staging-mail.nagaworld.com</field>
+            <field name="smtp_port">1025</field>
+            <field name="smtp_user">user</field>
+            <field name="smtp_pass">N@gaD^v2025</field>
+            <field name="smtp_encryption">none</field> <!-- Options: none, ssl, starttls -->
+            <field name="sequence">1</field> <!-- Lower numbers = higher priority -->
+            <field name="active">1</field>
+        </record>
+    </data>
+</odoo>

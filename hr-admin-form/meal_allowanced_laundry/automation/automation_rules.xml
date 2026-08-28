@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Server action: Copy Title data (Level & Entitlement) to Request form -->
+        <record id="auto_fill_level_entitlement_server_action" model="ir.actions.server">
+            <field name="name">MAR: Auto-fill Level &amp; Entitlement from Title</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="state">code</field>
+            <field name="usage">base_automation</field>
+                <field name="code"><![CDATA[if record and record.x_title:
+            record['x_meal_allowance_level_id'] = record.x_title.x_level_id.id if record.x_title.x_level_id else False
+            record['x_entitlement_monthly'] = record.x_title.x_entitlement_monthly
+]]>
+            </field>
+        </record>
+
+        <!-- Server action: Copy Staff Group data to Request form -->
+        <record id="auto_fill_staff_group_fields_server_action" model="ir.actions.server">
+            <field name="name">MAR: Auto-fill Entitlement &amp; Apparel from Staff Group</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="state">code</field>
+            <field name="usage">base_automation</field>
+            <field name="code"><![CDATA[if record and record.x_staff_group_id:
+    record['x_entitlement_information_monthly'] = record.x_staff_group_id.x_entitlement_information_monthly
+    record['x_apparel_type'] = record.x_staff_group_id.x_apparel_type_id.x_name if record.x_staff_group_id.x_apparel_type_id else ''
+else:
+    record['x_entitlement_information_monthly'] = ''
+    record['x_apparel_type'] = ''
+]]>
+            </field>
+        </record>
+
+        <!-- Automation rule: Trigger on Title change -->
+        <record id="auto_fill_level_entitlement_automation" model="base.automation">
+            <field name="name">MAR: Auto-fill Level &amp; Entitlement from Title</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="action_server_ids"
+                eval="[(6, 0, [ref('auto_fill_level_entitlement_server_action')])]" />
+            <field name="active" eval="True" />
+            <field name="trigger">on_change</field>
+            <field name="on_change_field_ids"
+                eval="[(6, 0, [ref('field_x_meal_allowance_title')])]" />
+        </record>
+
+        <!-- Automation rule: Trigger on Staff Group change -->
+        <record id="auto_fill_staff_group_fields_automation" model="base.automation">
+            <field name="name">MAR: Auto-fill Entitlement &amp; Apparel from Staff Group</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="action_server_ids"
+                eval="[(6, 0, [ref('auto_fill_staff_group_fields_server_action')])]" />
+            <field name="active" eval="True" />
+            <field name="trigger">on_change</field>
+            <field name="on_change_field_ids"
+                eval="[(6, 0, [ref('field_x_meal_allowance_staff_group_id')])]" />
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="x_meal_allowance_request_report_template">
+    <t t-call="workflow_engine.report_base_layout">
+      <t t-set="report_title">Meal Allowance &amp; Laundry Request Form</t>
+
+      <t t-foreach="docs" t-as="doc">
+        <div class="page">
+          <hr class="mt-0 mb-4"/>
+
+          <!-- Section: Modification Information -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Modification Information
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Is Modification</td>
+                    <td><t t-esc="'Yes' if doc.x_is_modification else 'No'"/></td>
+                  </tr>
+                  <tr t-if="doc.x_is_modification">
+                    <td class="bg-light fw-bold">Form No</td>
+                    <td><span t-field="doc.x_form_no"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Employee Information -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Employee Information
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Company Code &amp; Line Code</td>
+                    <td><span t-field="doc.x_company_line_code"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Employee No</td>
+                    <td><span t-field="doc.x_employee_no"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Employee Name</td>
+                    <td><span t-field="doc.x_employee_name"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Position</td>
+                    <td><span t-field="doc.x_position"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Title</td>
+                    <td><span t-field="doc.x_title"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Level</td>
+                    <td><span t-field="doc.x_meal_allowance_level_id"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Entitlement Information -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Entitlement Information
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Entitlement $ per calendar month</td>
+                    <td><span t-field="doc.x_entitlement_monthly"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Effective Date</td>
+                    <td><span t-field="doc.x_effective_date"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Outlets Applicable -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Outlets Applicable
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Outlets Applicable</td>
+                    <td><span t-field="doc.x_outlets_applicable_id"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Laundry Allowance -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Laundry Allowance
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Laundry Allowance</td>
+                    <td><t t-esc="'Yes' if doc.x_is_laundry else 'No'"/></td>
+                  </tr>
+                  <tr t-if="doc.x_is_laundry">
+                    <td class="bg-light fw-bold">Staff Group</td>
+                    <td><span t-field="doc.x_staff_group_id"/></td>
+                  </tr>
+                  <tr t-if="doc.x_is_laundry">
+                    <td class="bg-light fw-bold">Entitlement $ per calendar month</td>
+                    <td><span t-field="doc.x_entitlement_information_monthly"/></td>
+                  </tr>
+                  <tr t-if="doc.x_is_laundry">
+                    <td class="bg-light fw-bold">Apparel Type</td>
+                    <td><span t-field="doc.x_apparel_type"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Remarks -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Remarks
+              </h5>
+              <div class="border rounded p-3 bg-light" style="min-height: 60px;">
+                <span t-field="doc.x_remark"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </t>
+    </t>
+  </template>
+</odoo>

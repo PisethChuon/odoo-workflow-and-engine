@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Keep workflow menus active by default.
+             Studio-only hiding is handled dynamically in frontend while editing. -->
+        <record id="workflow_engine.workflow_approvals_menu_root" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record>
+        <record id="workflow_engine.workflow_approvals_category_menu_new" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record>
+        <record id="workflow_engine.workflow_approvals_menu_my_approval" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record>
+        <record id="workflow_engine.workflow_approvals_approval_menu_to_review" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+            <field name="action"
+                   eval="'ir.actions.act_window,%d' % ref('workflow_engine.my_work_list_action_window')"/>
+        </record>
+        <record id="workflow_engine.workflow_approvals_approval_menu_all" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+            <field name="action"
+                   eval="'ir.actions.act_window,%d' % ref('workflow_engine.my_contribute_list_action_window')"/>
+        </record>
+        <!-- <record id="workflow_engine.workflow_approvals_category_menu_report" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record> -->
+        <record id="workflow_engine.workflow_approvals_menu_config" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record>
+        <record id="workflow_engine.workflow_approvals_category_menu_config" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record>
+        <record id="workflow_engine.workflow_category_group_approvals_menu_config" model="ir.ui.menu">
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

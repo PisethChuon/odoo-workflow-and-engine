@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="workflow_engine.ApprovalCategoryDashboard">
+        <div class="wf-dashboard-strip wf-dashboard-strip--sidebar">
+            <div class="wf-dashboard-strip__panel">
+                <div class="wf-dashboard-strip__head">
+                    <div class="wf-dashboard-strip__heading">
+                        <div class="wf-dashboard-strip__eyebrow">Workflow Center</div>
+                        <div class="wf-dashboard-strip__title">Workflow Request Overview</div>
+                    </div>
+                    <div class="wf-dashboard-strip__meta">
+                        <span class="wf-dashboard-strip__meta-item">
+                            <i class="fa fa-sitemap me-1"/>
+                            <span t-out="data.category_count_display or data.category_count or 0"/> Categories
+                        </span>
+                        <span class="wf-dashboard-strip__meta-item">
+                            <i class="fa fa-building-o me-1"/>
+                            <span t-out="data.department_count_display or data.department_count or 0"/> Departments
+                        </span>
+                        <span class="wf-dashboard-strip__meta-item wf-dashboard-strip__meta-item--review">
+                            <i class="fa fa-bell me-1"/>
+                            <span t-out="data.waiting_category_count_display or data.waiting_category_count or 0"/> Categories Need Review
+                        </span>
+                    </div>
+                </div>
+
+                <div class="wf-dashboard-strip__metrics wf-dashboard-strip__metrics--sidebar">
+                    <button type="button"
+                            class="wf-dashboard-strip__metric wf-dashboard-strip__metric--new"
+                            data-state="new"
+                            t-on-click="onClick">
+                        <span class="wf-dashboard-strip__metric-icon" aria-hidden="true">
+                            <i class="fa fa-pencil-square-o"/>
+                        </span>
+                        <span class="wf-dashboard-strip__metric-value" t-out="data.tosubmit_count_display or data.tosubmit_count"/>
+                        <span class="wf-dashboard-strip__metric-label">New</span>
+                    </button>
+                    <button type="button"
+                            class="wf-dashboard-strip__metric wf-dashboard-strip__metric--waiting"
+                            data-state="waiting"
+                            t-on-click="onClick">
+                        <span class="wf-dashboard-strip__metric-icon" aria-hidden="true">
+                            <i class="fa fa-hourglass-half"/>
+                        </span>
+                        <span class="wf-dashboard-strip__metric-value" t-out="data.waiting_count_display or data.waiting_count"/>
+                        <span class="wf-dashboard-strip__metric-label">In Progress</span>
+                    </button>
+                    <button type="button"
+                            class="wf-dashboard-strip__metric wf-dashboard-strip__metric--reviewed"
+                            data-state="reviewed"
+                            t-on-click="onClick">
+                        <span class="wf-dashboard-strip__metric-icon" aria-hidden="true">
+                            <i class="fa fa-eye"/>
+                        </span>
+                        <span class="wf-dashboard-strip__metric-value" t-out="data.reviewed_count_display or data.reviewed_count"/>
+                        <span class="wf-dashboard-strip__metric-label">Reviewed</span>
+                    </button>
+                    <button type="button"
+                            class="wf-dashboard-strip__metric wf-dashboard-strip__metric--done"
+                            data-state="completed"
+                            t-on-click="onClick">
+                        <span class="wf-dashboard-strip__metric-icon" aria-hidden="true">
+                            <i class="fa fa-check-circle"/>
+                        </span>
+                        <span class="wf-dashboard-strip__metric-value" t-out="data.completed_count_display or data.completed_count"/>
+                        <span class="wf-dashboard-strip__metric-label">Done</span>
+                    </button>
+                </div>
+
+                <div class="wf-dashboard-strip__filters">
+                    <div class="wf-dashboard-strip__filter-group">
+                        <div class="wf-dashboard-strip__filter-title">Status</div>
+                        <div class="wf-dashboard-strip__filter-item wf-dashboard-strip__filter-item--active">
+                            <span>All Categories</span>
+                            <span class="wf-dashboard-strip__filter-count" t-out="data.category_count_display or data.category_count or 0"/>
+                        </div>
+                    </div>
+                    <t t-if="data.top_departments and data.top_departments.length">
+                        <div class="wf-dashboard-strip__filter-group">
+                            <div class="wf-dashboard-strip__filter-title">Department</div>
+                            <t t-foreach="data.top_departments" t-as="dept" t-key="dept.name">
+                                <div class="wf-dashboard-strip__filter-item">
+                                    <span t-out="dept.name"/>
+                                    <span class="wf-dashboard-strip__filter-count" t-out="dept.count_display or dept.count"/>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+                <t t-if="data.top_departments and data.top_departments.length">
+                    <div class="wf-dashboard-strip__departments">
+                        <span class="wf-dashboard-strip__departments-title">Top departments by workflow categories</span>
+                        <div class="wf-dashboard-strip__department-list">
+                            <t t-foreach="data.top_departments" t-as="dept" t-key="dept.name">
+                                <span class="wf-dashboard-strip__department-chip">
+                                    <span class="wf-dashboard-strip__department-name" t-out="dept.name"/>
+                                    <span class="wf-dashboard-strip__department-count" t-out="dept.count_display or dept.count"/>
+                                </span>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

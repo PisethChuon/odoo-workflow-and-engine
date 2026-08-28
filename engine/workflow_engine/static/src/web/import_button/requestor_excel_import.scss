@@ -1,0 +1,87 @@
+.o_requestor_excel_import {
+    .o_requestor_excel_import_btn {
+        min-width: 6rem;
+        justify-content: center;
+    }
+
+    .o_requestor_excel_filename {
+        max-width: 22rem;
+    }
+}
+
+.o_requestor_import_toolbar {
+    .o_field_many2one_request_owner {
+        min-width: 18rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .o_requestor_import_x2many {
+        .o_x2m_control_panel {
+            margin-bottom: 1rem !important;
+        }
+
+        .o_cp_buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .5rem !important;
+            width: 100%;
+        }
+
+        .o_requestor_import_add_btn {
+            justify-content: center;
+            min-height: 3rem;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .o_kanban_renderer {
+            padding: 0;
+        }
+
+        .o_kanban_record {
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+    }
+
+    .o_requestor_import_footer {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .5rem;
+
+        .btn,
+        button,
+        a {
+            margin: 0 !important;
+            width: 100%;
+        }
+
+        .o_requestor_template_download_btn {
+            grid-column: 1 / -1 !important;
+            justify-content: center;
+            justify-self: stretch;
+            white-space: nowrap;
+        }
+    }
+
+    .o_requestor_import_toolbar {
+        .col-sm-10 {
+            flex-wrap: wrap;
+        }
+
+        .o_field_many2one_request_owner,
+        .o_requestor_excel_import,
+        .o_requestor_excel_import_btn {
+            min-width: 0;
+            width: 100%;
+        }
+
+        .o_requestor_excel_import {
+            .o_requestor_excel_filename {
+                max-width: 100%;
+            }
+        }
+    }
+}

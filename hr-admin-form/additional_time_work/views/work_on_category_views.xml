@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_additional_time_work_type" model="ir.ui.view">
+            <field name="name">ATW: Work On Category List</field>
+            <field name="model">x_additional_time_work_type</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="x_name"/>
+                    <field name="x_active"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_additional_time_work_type" model="ir.ui.view">
+            <field name="name">ATW: Work On Category Form</field>
+            <field name="model">x_additional_time_work_type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="x_active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="x_name"/>
+                            <field name="x_active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_x_additional_time_work_type" model="ir.ui.view">
+            <field name="name">ATW: Work On Category Search</field>
+            <field name="model">x_additional_time_work_type</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="x_name"/>
+                    <filter name="active_categories" string="Active" domain="[('x_active', '=', True)]"/>
+                    <filter name="inactive_categories" string="Inactive" domain="[('x_active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

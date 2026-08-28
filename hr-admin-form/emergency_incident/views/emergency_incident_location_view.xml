@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_list_x_emergency_incident_location" model="ir.ui.view">
+            <field name="name">EI: Location List Configuration</field>
+            <field name="model">x_emergency_incident_location</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="x_name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_search_x_emergency_incident_location" model="ir.ui.view">
+            <field name="name">EI: Location Search</field>
+            <field name="model">x_emergency_incident_location</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="x_name"/>
+                    <filter string="Archived" name="inactive" domain="[('x_active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Window Action -->
+        <record id="action_x_emergency_incident_location" model="ir.actions.act_window">
+            <field name="name">Incident Locations</field>
+            <field name="res_model">x_emergency_incident_location</field>
+            <field name="view_mode">list</field>
+            <field name="search_view_id" ref="view_search_x_emergency_incident_location"/>
+        </record>
+
+    </data>
+</odoo>

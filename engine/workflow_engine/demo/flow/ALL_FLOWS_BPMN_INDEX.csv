@@ -1,0 +1,72 @@
+category,flow_name,bpmn_file,source_type
+EGM,EGM-Attendance Form,all_flows_bpmn/egm__egm_attendance_form.bpmn,DEMO_TEMPLATE
+EGM,EGM-Incident Form,all_flows_bpmn/egm__egm_incident_form.bpmn,DEMO_TEMPLATE
+EGM,EGM-PM,all_flows_bpmn/egm__egm_pm.bpmn,DEMO_TEMPLATE
+EGM,EGM-PM Form,all_flows_bpmn/egm__egm_pm_form.bpmn,DEMO_TEMPLATE
+EGM,GMU RAM CLEAR FORM,all_flows_bpmn/egm__gmu_ram_clear_form.bpmn,DEMO_TEMPLATE
+EGM,Machine Form,all_flows_bpmn/egm__machine_form.bpmn,DEMO_TEMPLATE
+EGM,RAM CLEAR FORM,all_flows_bpmn/egm__ram_clear_form.bpmn,DEMO_TEMPLATE
+Events,Complimentary Vouchers & Discount Vouchers,all_flows_bpmn/events__complimentary_vouchers_and_discount_vouchers.bpmn,DEMO_TEMPLATE
+Events,Hotel Gift Voucher Request Form,all_flows_bpmn/events__hotel_gift_voucher_request_form.bpmn,DEMO_TEMPLATE
+Exit Clearance Form,Book2,all_flows_bpmn/exit_clearance_form__book2.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Exit Clearance Form - 25July2024,all_flows_bpmn/exit_clearance_form__exit_clearance_form_25july2024.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Exit Clearance Form - Feb2018f,all_flows_bpmn/exit_clearance_form__exit_clearance_form_feb2018f.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Exit Clearance Form - Feb2018f-v4 (003),all_flows_bpmn/exit_clearance_form__exit_clearance_form_feb2018f_v4_003.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Exit Clearance Form Drafe workflow and report,all_flows_bpmn/exit_clearance_form__exit_clearance_form_drafe_workflow_and_report.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Exit Clearance Form Testing DOC,all_flows_bpmn/exit_clearance_form__exit_clearance_form_testing_doc.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Exit Clearance Form Testing Doc 28-Nov-2024,all_flows_bpmn/exit_clearance_form__exit_clearance_form_testing_doc_28_nov_2024.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Testing Doc 03-Sep-2024(New),all_flows_bpmn/exit_clearance_form__testing_doc_03_sep_2024_new.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Testing Doc 22-Aug-2024,all_flows_bpmn/exit_clearance_form__testing_doc_22_aug_2024.bpmn,FULL_REFERENCE_EXIT
+Exit Clearance Form,Testing Feedback,all_flows_bpmn/exit_clearance_form__testing_feedback.bpmn,FULL_REFERENCE_EXIT
+Finance,BCJ,all_flows_bpmn/finance__bcj.bpmn,FULL_REFERENCE_BCJ
+Finance,BCJ Routing,all_flows_bpmn/finance__bcj_routing.bpmn,FULL_REFERENCE_BCJ
+Finance,Fixed Asset Disposal,all_flows_bpmn/finance__fixed_asset_disposal.bpmn,DEMO_TEMPLATE
+Finance,Fixed Asset Transfer,all_flows_bpmn/finance__fixed_asset_transfer.bpmn,DEMO_TEMPLATE
+Finance,Gaming IA-Variance Approval,all_flows_bpmn/finance__gaming_ia_variance_approval.bpmn,DEMO_TEMPLATE
+Finance,UAT For Finance,all_flows_bpmn/finance__uat_for_finance.bpmn,DEMO_TEMPLATE
+Fire Safey,Emergency Incident Form,all_flows_bpmn/fire_safey__emergency_incident_form.bpmn,DEMO_TEMPLATE
+HR,Additional Time Work Claim Form,all_flows_bpmn/hr__additional_time_work_claim_form.bpmn,DEMO_TEMPLATE
+HR,Admin - Item Repair Form,all_flows_bpmn/hr__admin_item_repair_form.bpmn,DEMO_TEMPLATE
+HR,Admin - Item Request Form,all_flows_bpmn/hr__admin_item_request_form.bpmn,DEMO_TEMPLATE
+HR,Admin - Phone&Allowance Request Form,all_flows_bpmn/hr__admin_phone_and_allowance_request_form.bpmn,DEMO_TEMPLATE
+HR,Admin - Purchase Request Form,all_flows_bpmn/hr__admin_purchase_request_form.bpmn,DEMO_TEMPLATE
+HR,Authorisation to Travel Form,all_flows_bpmn/hr__authorisation_to_travel_form.bpmn,DEMO_TEMPLATE
+HR,Car Park,all_flows_bpmn/hr__car_park.bpmn,DEMO_TEMPLATE
+HR,Home Leave Ticket,all_flows_bpmn/hr__home_leave_ticket.bpmn,DEMO_TEMPLATE
+HR,Honesty Award Request Form,all_flows_bpmn/hr__honesty_award_request_form.bpmn,DEMO_TEMPLATE
+HR,HR Course Registration Form,all_flows_bpmn/hr__hr_course_registration_form.bpmn,DEMO_TEMPLATE
+HR,HR Employee Of the month,all_flows_bpmn/hr__hr_employee_of_the_month.bpmn,DEMO_TEMPLATE
+HR,HR Medical Treatment,all_flows_bpmn/hr__hr_medical_treatment.bpmn,DEMO_TEMPLATE
+HR,HR Request For Document,all_flows_bpmn/hr__hr_request_for_document.bpmn,DEMO_TEMPLATE
+HR,Meal Allowance & Laundry Form,all_flows_bpmn/hr__meal_allowance_and_laundry_form.bpmn,DEMO_TEMPLATE
+HR,Onboarding Ticket Request Form,all_flows_bpmn/hr__onboarding_ticket_request_form.bpmn,DEMO_TEMPLATE
+HR,Request User Access Form Detail,all_flows_bpmn/hr__request_user_access_form_detail.bpmn,DEMO_TEMPLATE
+Hygiene,Foreign Object Complaint Form Detail,all_flows_bpmn/hygiene__foreign_object_complaint_form_detail.bpmn,DEMO_TEMPLATE
+IT,Internet Bandwidth,all_flows_bpmn/it__internet_bandwidth.bpmn,DEMO_TEMPLATE
+IT,IT Change Request,all_flows_bpmn/it__it_change_request.bpmn,DEMO_TEMPLATE
+IT,IT Generic AD Login Request Form-2019Jul03,all_flows_bpmn/it__it_generic_ad_login_request_form_2019jul03.bpmn,DEMO_TEMPLATE
+IT,IT Item Record Form,all_flows_bpmn/it__it_item_record_form.bpmn,DEMO_TEMPLATE
+IT,IT Item Repair,all_flows_bpmn/it__it_item_repair.bpmn,DEMO_TEMPLATE
+IT,IT Project Responsitory,all_flows_bpmn/it__it_project_responsitory.bpmn,DEMO_TEMPLATE
+IT,IT Request Form,all_flows_bpmn/it__it_request_form.bpmn,DEMO_TEMPLATE
+IT,IT Simphony Meny Item Request Form,all_flows_bpmn/it__it_simphony_meny_item_request_form.bpmn,DEMO_TEMPLATE
+IT,IT Software Development Form,all_flows_bpmn/it__it_software_development_form.bpmn,DEMO_TEMPLATE
+IT,IT Software Review Form,all_flows_bpmn/it__it_software_review_form.bpmn,DEMO_TEMPLATE
+IT,IT Training Feedback Form,all_flows_bpmn/it__it_training_feedback_form.bpmn,DEMO_TEMPLATE
+IT,IT VPN Form,all_flows_bpmn/it__it_vpn_form.bpmn,DEMO_TEMPLATE
+IT,Review-IT Incident SLA,all_flows_bpmn/it__review_it_incident_sla.bpmn,DEMO_TEMPLATE
+Legal,Contract Draft-Review Request,all_flows_bpmn/legal__contract_draft_review_request.bpmn,DEMO_TEMPLATE
+Maintenance,Maintenance Work Order Request Form,all_flows_bpmn/maintenance__maintenance_work_order_request_form.bpmn,DEMO_TEMPLATE
+Maintenance,Maintenance Work Order Request Form-V5(23-Nov-2020),all_flows_bpmn/maintenance__maintenance_work_order_request_form_v5_23_nov_2020.bpmn,DEMO_TEMPLATE
+Maintenance,Maintenance Work Order Request Form-V6 2022No,all_flows_bpmn/maintenance__maintenance_work_order_request_form_v6_2022no.bpmn,DEMO_TEMPLATE
+Maintenance,Maintenance Work Order Request Form-V7 2023May18,all_flows_bpmn/maintenance__maintenance_work_order_request_form_v7_2023may18.bpmn,DEMO_TEMPLATE
+Maintenance,Preventive Maintenance Form,all_flows_bpmn/maintenance__preventive_maintenance_form.bpmn,DEMO_TEMPLATE
+Poker,Poker Keys and Card Inventory,all_flows_bpmn/poker__poker_keys_and_card_inventory.bpmn,DEMO_TEMPLATE
+QA Test,K2 - Complimentary Vouchers & Discount Vouchers testing by Chaly,all_flows_bpmn/qa_test__k2_complimentary_vouchers_and_discount_vouchers_testing_by_chaly.bpmn,DEMO_TEMPLATE
+Reservation,1st November - Change of Friends and Family Rates and T&C in K2,all_flows_bpmn/reservation__1st_november_change_of_friends_and_family_rates_and_t_and_c_in_k2.bpmn,DEMO_TEMPLATE
+Reservation,Complimentary Room Request,all_flows_bpmn/reservation__complimentary_room_request.bpmn,DEMO_TEMPLATE
+Reservation,Complimentary Room Request - R3 old,all_flows_bpmn/reservation__complimentary_room_request_r3_old.bpmn,DEMO_TEMPLATE
+Reservation,Friends and Family Booking Request,all_flows_bpmn/reservation__friends_and_family_booking_request.bpmn,DEMO_TEMPLATE
+Risk Management Matric,Self Assessment Form,all_flows_bpmn/risk_management_matric__self_assessment_form.bpmn,DEMO_TEMPLATE
+Risk Management Matric,Self Assessment Form up1,all_flows_bpmn/risk_management_matric__self_assessment_form_up1.bpmn,DEMO_TEMPLATE
+Surveillance,Request For Access Card,all_flows_bpmn/surveillance__request_for_access_card.bpmn,DEMO_TEMPLATE

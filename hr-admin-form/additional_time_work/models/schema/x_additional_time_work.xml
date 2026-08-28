@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_additional_time_work" model="ir.model">
+            <field name="name">Additional Time Work</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <record id="model_x_additional_time_work_type" model="ir.model">
+            <field name="name">Additional Time Work Type</field>
+            <field name="model">x_additional_time_work_type</field>
+            <field name="order">id</field>
+        </record>
+
+        <record id="field_x_additional_time_work_employee_id" model="ir.model.fields">
+            <field name="name">x_employee_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.employee</field>
+            <field name="on_delete">restrict</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="model_id" ref="model_x_additional_time_work"/>
+            <field name="field_description">Employee</field>
+            <field name="required" eval="False"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_additional_time_work_date" model="ir.model.fields">
+            <field name="name">x_date</field>
+            <field name="ttype">date</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="model_id" ref="model_x_additional_time_work"/>
+            <field name="field_description">Date</field>
+            <field name="required" eval="False"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_additional_time_work_work_on" model="ir.model.fields">
+            <field name="name">x_work_on</field>
+            <field name="ttype">char</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="model_id" ref="model_x_additional_time_work"/>
+            <field name="field_description">Work On</field>
+            <field name="required" eval="False"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_additional_time_work_work_on_type_id" model="ir.model.fields">
+            <field name="name">x_work_on_type_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_additional_time_work_type</field>
+            <field name="on_delete">restrict</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="model_id" ref="model_x_additional_time_work"/>
+            <field name="field_description">Work On</field>
+            <field name="required" eval="False"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_additional_time_work_hour" model="ir.model.fields">
+            <field name="name">x_hour</field>
+            <field name="ttype">float</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="model_id" ref="model_x_additional_time_work"/>
+            <field name="field_description">Hour</field>
+            <field name="required" eval="False"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_additional_time_work_remark" model="ir.model.fields">
+            <field name="name">x_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="model_id" ref="model_x_additional_time_work"/>
+            <field name="field_description">Remark</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="model_x_additional_time_work_line" model="ir.model">
+            <field name="name">Additional Time Work Line</field>
+            <field name="model">x_additional_time_work_line</field>
+        </record>
+
+        <record id="field_x_additional_time_work_line_request_id" model="ir.model.fields">
+            <field name="name">x_additional_time_work_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_additional_time_work</field>
+            <field name="on_delete">cascade</field>
+            <field name="model">x_additional_time_work_line</field>
+            <field name="model_id" ref="model_x_additional_time_work_line"/>
+            <field name="field_description">Additional Time Work</field>
+        </record>
+
+        <record id="field_x_additional_time_work_line_employee_id" model="ir.model.fields">
+            <field name="name">x_employee_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.employee</field>
+            <field name="on_delete">restrict</field>
+            <field name="model">x_additional_time_work_line</field>
+            <field name="model_id" ref="model_x_additional_time_work_line"/>
+            <field name="field_description">Employee</field>
+            <field name="required" eval="True"/>
+        </record>
+
+        <record id="field_x_additional_time_work_line_date" model="ir.model.fields">
+            <field name="name">x_date</field>
+            <field name="ttype">date</field>
+            <field name="model">x_additional_time_work_line</field>
+            <field name="model_id" ref="model_x_additional_time_work_line"/>
+            <field name="field_description">Date</field>
+            <field name="required" eval="True"/>
+        </record>
+
+        <record id="field_x_additional_time_work_line_work_on" model="ir.model.fields">
+            <field name="name">x_work_on</field>
+            <field name="ttype">char</field>
+            <field name="model">x_additional_time_work_line</field>
+            <field name="model_id" ref="model_x_additional_time_work_line"/>
+            <field name="field_description">Work On</field>
+            <field name="required" eval="False"/>
+        </record>
+
+        <record id="field_x_additional_time_work_line_work_on_type_id" model="ir.model.fields">
+            <field name="name">x_work_on_type_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_additional_time_work_type</field>
+            <field name="on_delete">restrict</field>
+            <field name="model">x_additional_time_work_line</field>
+            <field name="model_id" ref="model_x_additional_time_work_line"/>
+            <field name="field_description">Work On</field>
+            <field name="required" eval="True"/>
+        </record>
+
+        <record id="field_x_additional_time_work_type_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_additional_time_work_type</field>
+            <field name="model_id" ref="model_x_additional_time_work_type"/>
+            <field name="field_description">Category</field>
+            <field name="required" eval="True"/>
+        </record>
+
+        <record id="field_x_additional_time_work_type_active" model="ir.model.fields">
+            <field name="name">x_active</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_additional_time_work_type</field>
+            <field name="model_id" ref="model_x_additional_time_work_type"/>
+            <field name="field_description">Active</field>
+        </record>
+
+        <record id="default_x_additional_time_work_type_active" model="ir.default">
+            <field name="field_id" ref="field_x_additional_time_work_type_active"/>
+            <field name="json_value">1</field>
+        </record>
+
+        <record id="field_x_additional_time_work_line_hour" model="ir.model.fields">
+            <field name="name">x_hour</field>
+            <field name="ttype">float</field>
+            <field name="model">x_additional_time_work_line</field>
+            <field name="model_id" ref="model_x_additional_time_work_line"/>
+            <field name="field_description">Hour</field>
+            <field name="required" eval="True"/>
+        </record>
+
+        <record id="field_x_additional_time_work_line_ids" model="ir.model.fields">
+            <field name="name">x_additional_time_work_line_ids</field>
+            <field name="ttype">one2many</field>
+            <field name="relation">x_additional_time_work_line</field>
+            <field name="relation_field">x_additional_time_work_id</field>
+            <field name="model">x_additional_time_work</field>
+            <field name="model_id" ref="model_x_additional_time_work"/>
+            <field name="field_description">Additional Time Work Lines</field>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+</odoo>

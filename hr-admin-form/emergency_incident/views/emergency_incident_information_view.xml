@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_emergency_incident_information" model="ir.ui.view">
+            <field name="name">EI: Emergency Incident Information List</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_emergency_incident_information" model="ir.ui.view">
+            <field name="name">EI: Emergency Incident Information Form</field>
+            <field name="model">x_emergency_incident_information</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+
+                    <!-- Top Section: 2 Columns Side-by-Side -->
+                    <group col="2">
+                        <!-- Left Column: Incident Details -->
+                        <group string="Incident Information">
+                            <field name="x_incident_datetime" placeholder="Select Date and Time"
+                                   invisible="'x_incident_datetime' in (invisible_fields or '')"
+                                   readonly="'x_incident_datetime' in (readonly_fields or '') or is_finished"
+                                   required="'x_incident_datetime' in (required_fields or '')"/>
+
+                            <field name="x_type_of_incidents_id" placeholder="Select Type of Incidents"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   invisible="'x_type_of_incidents_id' in (invisible_fields or '')"
+                                   readonly="'x_type_of_incidents_id' in (readonly_fields or '') or is_finished"
+                                   required="'x_type_of_incidents_id' in (required_fields or '')"/>
+
+                            <field name="x_color_code_id" placeholder="Select Color Code"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   domain="[('x_active', '=', True), ('x_incident_type_id', '=', x_type_of_incidents_id)]"
+                                   invisible="not x_type_of_incidents_id or 'x_color_code_id' in (invisible_fields or '')"
+                                   readonly="'x_color_code_id' in (readonly_fields or '') or is_finished"
+                                   required="x_type_of_incidents_id and 'x_color_code_id' in (required_fields or '')"/>
+
+                            <field name="x_call_id" placeholder="Select Call of Incident"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   domain="[('x_active', '=', True)]"
+                                   invisible="'x_call_id' in (invisible_fields or '')"
+                                   readonly="'x_call_id' in (readonly_fields or '') or is_finished"
+                                   required="'x_call_id' in (required_fields or '')"/>
+
+                            <field name="x_property_id" placeholder="Select Property Location"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   domain="[('x_active', '=', True)]"
+                                   invisible="'x_property_id' in (invisible_fields or '')"
+                                   readonly="'x_property_id' in (readonly_fields or '') or is_finished"
+                                   required="'x_property_id' in (required_fields or '')"/>
+
+                            <field name="x_location_id" placeholder="Select Location"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   domain="[('x_active', '=', True)]"
+                                   invisible="'x_location_id' in (invisible_fields or '')"
+                                   readonly="'x_location_id' in (readonly_fields or '') or is_finished"
+                                   required="'x_location_id' in (required_fields or '')"/>
+
+                            <field name="x_shift_id" placeholder="Select Shift"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   domain="[('x_active', '=', True)]"
+                                   invisible="'x_shift_id' in (invisible_fields or '')"
+                                   readonly="'x_shift_id' in (readonly_fields or '') or is_finished"
+                                   required="'x_shift_id' in (required_fields or '')"/>
+
+                            <field name="x_create_medical_form"
+                                   widget="radio"
+                                   options="{'horizontal': true}"
+                                   invisible="'x_create_medical_form' in (invisible_fields or '')"
+                                   readonly="'x_create_medical_form' in (readonly_fields or '') or is_finished"
+                                   required="'x_create_medical_form' in (required_fields or '')"/>
+                        </group>
+
+                        <!-- Right Column: Responder Details -->
+                        <group string="Responder Details">
+                            <field name="x_responder_id" placeholder="Search Responder"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   invisible="'x_responder_id' in (invisible_fields or '')"
+                                   readonly="'x_responder_id' in (readonly_fields or '') or is_finished"
+                                   required="'x_responder_id' in (required_fields or '')"/>
+
+                            <field name="x_responder_position"
+                                   invisible="'x_responder_position' in (invisible_fields or '')"
+                                   readonly="1"/>
+
+                            <field name="x_responder_department"
+                                   invisible="'x_responder_department' in (invisible_fields or '')"
+                                   readonly="1"/>
+
+                            <field name="x_responder_phone"
+                                   invisible="'x_responder_phone' in (readonly_fields or '')"
+                                   readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Remarks Span Full Width -->
+                    <group string="Incident Remarks">
+                        <field name="x_incident_remark" placeholder="Enter incident remarks"
+                               invisible="'x_incident_remark' in (invisible_fields or '')"
+                               readonly="'x_incident_remark' in (readonly_fields or '') or is_finished"
+                               required="'x_incident_remark' in (required_fields or '')"/>
+                    </group>
+
+                    <!-- Bottom Section: Notebook Tab for Patient Info -->
+                    <notebook>
+                        <page string="Patient Information">
+                            <group col="2">
+                                <group string="Employee Patient">
+                                    <field name="x_patient_id" placeholder="Search Patient Name"
+                                           options="{'no_create': True, 'no_open': True}"
+                                           invisible="'x_patient_id' in (invisible_fields or '')"
+                                           readonly="'x_patient_id' in (readonly_fields or '') or is_finished"
+                                           required="'x_patient_id' in (required_fields or '')"/>
+
+                                    <field name="x_patient_position"
+                                           invisible="'x_patient_position' in (invisible_fields or '')"
+                                           readonly="1"/>
+
+                                    <field name="x_patient_department"
+                                           invisible="'x_patient_department' in (invisible_fields or '')"
+                                           readonly="1"/>
+
+                                    <field name="x_patient_phone"
+                                           invisible="'x_patient_phone' in (invisible_fields or '')"
+                                           readonly="1"/>
+                                </group>
+
+                                <group string="Guest Patient">
+                                    <field name="x_guest_name" placeholder="Enter guest name"
+                                           invisible="'x_guest_name' in (invisible_fields or '')"
+                                           readonly="'x_guest_name' in (readonly_fields or '') or is_finished"
+                                           required="'x_guest_name' in (required_fields or '')"/>
+
+                                    <field name="x_room_number" placeholder="Enter room number"
+                                           invisible="'x_room_number' in (invisible_fields or '')"
+                                           readonly="'x_room_number' in (readonly_fields or '') or is_finished"
+                                           required="'x_room_number' in (required_fields or '')"/>
+                                </group>
+                            </group>
+
+                            <group string="Patient Remarks">
+                                <field name="x_patient_remark" placeholder="Enter patient remarks"
+                                       invisible="'x_patient_remark' in (invisible_fields or '')"
+                                       readonly="'x_patient_remark' in (readonly_fields or '') or is_finished"
+                                       required="'x_patient_remark' in (required_fields or '')"/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

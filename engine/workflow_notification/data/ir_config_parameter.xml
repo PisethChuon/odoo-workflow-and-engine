@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_config_parameter_myportal_app_code" model="ir.config_parameter">
+        <field name="key">workflow_notification.myportal_app_code</field>
+        <field name="value">noc</field>
+    </record>
+    <record id="ir_config_parameter_push_enabled" model="ir.config_parameter">
+        <field name="key">workflow_notification.push_enabled</field>
+        <field name="value">0</field>
+    </record>
+</odoo>

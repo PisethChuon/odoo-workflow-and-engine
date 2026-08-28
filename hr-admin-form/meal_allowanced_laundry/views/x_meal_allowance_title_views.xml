@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_meal_allowance_title" model="ir.ui.view">
+            <field name="name">Meal Allowance Title List</field>
+            <field name="model">x_meal_allowance_title</field>
+            <field name="arch" type="xml">
+                <list string="Meal Allowance Titles" default_order="x_name">
+                    <field name="x_name"/>
+                    <field name="x_level_id"/>
+                    <field name="x_entitlement_monthly" placeholder="Entitlement value"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_meal_allowance_title" model="ir.ui.view">
+            <field name="name">Meal Allowance Title Form</field>
+            <field name="model">x_meal_allowance_title</field>
+            <field name="arch" type="xml">
+                <form string="Meal Allowance Title">
+                    <sheet>
+                        <group>
+                            <field name="x_name" placeholder="e.g. SVP, Manager"/>
+                            <field name="x_level_id"/>
+                            <field name="x_entitlement_monthly" placeholder="Entitlement value"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_x_meal_allowance_title" model="ir.ui.view">
+            <field name="name">Meal Allowance Title Search</field>
+            <field name="model">x_meal_allowance_title</field>
+            <field name="arch" type="xml">
+                <search string="Meal Allowance Titles">
+                    <field name="x_name"/>
+                    <field name="x_level_id"/>
+                    <field name="x_entitlement_monthly" placeholder="Entitlement value"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

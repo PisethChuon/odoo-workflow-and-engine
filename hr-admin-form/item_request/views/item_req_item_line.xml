@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <record id="action_download_it_template_itadmireq" model="ir.actions.act_url">
+            <field name="name">Download Template</field>
+            <field name="url">/download/template/item_request/import_sample.xlsx</field>
+            <field name="target">new</field>
+        </record>
+        <!-- ========================= -->
+        <!-- list View -->
+        <!-- ========================= -->
+        <record id="view_x_item_request_item_line_list" model="ir.ui.view">
+            <field name="name">x.item.request.item.line.list</field>
+            <field name="model">x_item_request_item_line</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="x_name" />
+                    <field name="x_item_line_id" />
+                    <field name="x_sub_itemline_id" />
+                    <field name="x_employee_id" />
+                    <field name="x_comment" />
+                </list>
+            </field>
+        </record>
+
+        <!-- ========================= -->
+        <!-- Form View -->
+        <!-- ========================= -->
+        <record id="view_x_item_request_item_line_form" model="ir.ui.view">
+            <field name="name">x.item.request.item.line.form</field>
+            <field name="model">x_item_request_item_line</field>
+            <field name="arch" type="xml">
+                <form string="Item Request">
+                    <sheet>
+                        <group>
+                            <field name="x_item_line_id" />
+                            <field name="x_sub_itemline_id"
+                                domain="[('x_item_id', '=', x_item_line_id)]"
+                                options="{'no_open': True, 'no_create': True}"
+                                readonly="not x_item_line_id" />
+                            <field name="x_comment" />
+                            <field name="x_employee_id" required="1" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo> 

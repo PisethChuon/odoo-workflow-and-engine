@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<data noupdate="0">
+		<menuitem
+			id="menu_user_access_config"
+			parent="workflow_engine.workflow_approvals_menu_config"
+			name="User Access"
+			groups="base.group_system"
+			sequence="50"/>
+
+		<menuitem
+			id="menu_x_user_access_item"
+			parent="menu_user_access_config"
+			name="Items"
+			action="action_x_user_access_item"
+			groups="base.group_system"
+			sequence="10"/>
+
+		<menuitem
+			id="menu_x_user_access_item_type"
+			parent="menu_user_access_config"
+			name="Types"
+			action="action_x_user_access_item_type"
+			groups="base.group_system"
+			sequence="20"/>
+	</data>
+</odoo>

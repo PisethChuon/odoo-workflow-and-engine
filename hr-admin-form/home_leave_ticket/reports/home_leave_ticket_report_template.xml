@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="x_home_leave_ticket_report_template">
+        <t t-call="workflow_engine.report_base_layout">
+            <t t-set="report_title">Home Leave Ticket Form</t>
+
+            <div class="page">
+                <t t-foreach="docs" t-as="doc">
+                    <strong>Request Information</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <th style="width: 25%;">Home Leave Ticket Type</th>
+                                <td>
+                                    <span t-field="doc.x_ticket_type_id"/>
+                                </td>
+                                <th style="width: 25%;">Year Requested</th>
+                                <td>
+                                    <span t-field="doc.x_year_requested"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Destination Requested</th>
+                                <td colspan="3">
+                                    <span t-field="doc.x_destination_requested"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <strong>Travel Detail</strong>
+                    <table class="table table-bordered mt-2">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 30px;">
+                                    <strong>No.</strong>
+                                </th>
+                                <th>
+                                    <strong>From</strong>
+                                </th>
+                                <th>
+                                    <strong>To</strong>
+                                </th>
+                                <th>
+                                    <strong>Flight</strong>
+                                </th>
+                                <th>
+                                    <strong>Date</strong>
+                                </th>
+                                <th>
+                                    <strong>Time Range</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.x_travel_detail_ids" t-as="line">
+                                <tr>
+                                    <td class="text-center">
+                                        <span t-esc="line_index + 1"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_from_airport"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_to_airport"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_flight"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.x_time_range_id"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <strong>Remark for Further Clarification</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span t-field="doc.x_description"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <strong>HR Review</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <th style="width: 30%;">Class of Travel as per Entitlement</th>
+                                <td style="width: 20%;">
+                                    <span t-field="doc.x_class_of_travel_entitlement"/>
+                                </td>
+                                <th style="width: 20%;">Date Join</th>
+                                <td>
+                                    <span t-field="doc.x_date_join"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Company Code &amp; Line Code</th>
+                                <td>
+                                    <span t-field="doc.x_company_and_line_code"/>
+                                </td>
+                                <th>Destination Entitlement</th>
+                                <td>
+                                    <span t-field="doc.x_destination_entitlement"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Destination Authorized</th>
+                                <td colspan="3">
+                                    <span t-field="doc.x_destination_authorized"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <strong>Comment</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span t-field="doc.x_hr_review_comment"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

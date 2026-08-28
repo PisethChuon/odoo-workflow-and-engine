@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Honestly Award Model -->
+        <record id="model_x_honestly_award" model="ir.model">
+            <field name="name">Honestly Award</field>
+            <field name="model">x_honestly_award</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <!-- Description Field -->
+        <record id="field_x_honestly_award__description" model="ir.model.fields">
+            <field name="name">x_description</field>
+            <field name="ttype">text</field>
+            <field name="model">x_honestly_award</field>
+            <field name="model_id" ref="model_x_honestly_award"/>
+            <field name="field_description">Description</field>
+        </record>
+
+    </data>
+</odoo>

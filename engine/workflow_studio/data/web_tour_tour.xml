@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workflow_studio_new_app_tour" model="web_tour.tour">
+        <field name="name">workflow_studio_new_app_tour</field>
+        <field name="sequence">1270</field>
+        <field name="url">/odoo/action-workflow-studio?mode=home_menu</field>
+    </record>
+</odoo>

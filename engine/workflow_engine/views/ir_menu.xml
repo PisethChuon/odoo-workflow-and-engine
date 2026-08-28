@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <menuitem
+            id="workflow_approvals_menu_root"
+            name="Workflow"
+            web_icon="workflow_engine,static/description/icon.png"
+            action="my_dashboard_action_window"
+            groups="group_workflow_approval_user"
+            sequence="255"/>
+        <menuitem
+            id="workflow_approvals_category_menu_new"
+            parent="workflow_approvals_menu_root"
+            name="My Dashboard"
+            action="my_dashboard_action_window"
+            sequence="1"/>
+        <menuitem
+            id="workflow_approvals_menu_my_approval"
+            parent="workflow_approvals_menu_root"
+            name="My Approvals"
+            groups="workflow_engine.group_workflow_approval_user"
+            sequence="20"/>
+        <!-- <menuitem
+            id="workflow_approvals_category_menu_report"
+            parent="workflow_approvals_menu_root"
+            name="All Requests"
+            groups="base.group_system,group_workflow_approval_admin"
+            sequence="20"/> -->
+        <menuitem
+            id="workflow_reporting_menu_config"
+            parent="workflow_approvals_menu_root"
+            name="Reporting"
+            groups="group_workflow_approval_user"
+            sequence="30"/>
+        <menuitem
+            id="workflow_approvals_category_menu_request_report"
+            parent="workflow_reporting_menu_config"
+            name="Request Report"
+            action="approval_request_report_action_window"
+            groups="base.group_system,group_workflow_approval_admin"
+            sequence="10"/>
+        <menuitem
+            id="workflow_approvals_category_menu_report_by_category"
+            parent="workflow_reporting_menu_config"
+            name="By Category"
+            action="approval_report_action_window"
+            groups="base.group_system,group_workflow_approval_admin"
+            sequence="20"/>
+        <menuitem
+            id="workflow_approval_user_matrix_report_menu"
+            parent="workflow_reporting_menu_config"
+            name="Approval User Matrix"
+            action="workflow_approval_user_matrix_report_action"
+            groups="workflow_engine.group_workflow_approval_user_matrix_report"
+            sequence="30"/>
+        <menuitem
+            id="workflow_approvals_menu_config"
+            parent="workflow_approvals_menu_root"
+            name="Configuration"
+            groups="workflow_engine.group_workflow_technical_admin,workflow_engine.group_workflow_approval_admin,base.group_system"
+            sequence="40"/>
+        <menuitem
+            id="workflow_approvals_category_menu_config"
+            parent="workflow_approvals_menu_config"
+            name="Approvals Types"
+            action="workflow_approval_category_action"
+            groups="workflow_engine.group_workflow_technical_admin"
+            sequence="10"/>
+        <menuitem
+            id="workflow_category_group_approvals_menu_config"
+            parent="workflow_approvals_menu_config"
+            name="Approval Groups"
+            action="approval_category_approver_group_action"
+            groups="workflow_engine.group_workflow_technical_admin"
+            sequence="10"/>
+        <menuitem
+            id="workflow_category_group_lines_menu_config"
+            parent="workflow_approvals_menu_config"
+            name="Approval Group Lines"
+            action="workflow_approval_group_line_action"
+            groups="workflow_engine.group_workflow_technical_admin"
+            sequence="11"/>
+        <menuitem
+            id="workflow_category_group_teams_menu_config"
+            parent="workflow_approvals_menu_config"
+            name="Approval Group Teams"
+            action="workflow_approval_group_team_action"
+            groups="workflow_engine.group_workflow_technical_admin"
+            sequence="12"/>
+        <menuitem id="workflow_access_policy_template_menu"
+                parent="workflow_approvals_menu_config"
+                name="Security Policy Templates"
+                action="workflow_engine.workflow_access_policy_template_action"
+                groups="workflow_engine.group_workflow_technical_admin,workflow_engine.group_workflow_approval_admin,base.group_system"
+                sequence="45"/>
+        <menuitem id="workflow_access_policy_snapshot_menu"
+                parent="workflow_approvals_menu_config"
+                name="Published Security Policies"
+                action="workflow_engine.workflow_access_policy_snapshot_action"
+                groups="workflow_engine.group_workflow_technical_admin,workflow_engine.group_workflow_approval_admin,base.group_system"
+                sequence="46"/>
+        <menuitem id="workflow_request_visibility_scope_menu"
+                parent="workflow_approvals_menu_config"
+                name="Request Visibility Scopes"
+                action="workflow_engine.action_workflow_request_visibility_scope"
+                groups="workflow_engine.group_workflow_technical_admin,workflow_engine.group_workflow_approval_admin,base.group_system"
+                sequence="47"/>
+        <menuitem id="workflow_request_action_assignment_menu"
+                parent="workflow_approvals_menu_config"
+                name="Business Action Assignments"
+                action="workflow_engine.action_workflow_request_action_assignment"
+                groups="workflow_engine.group_workflow_technical_admin,workflow_engine.group_workflow_approval_admin,base.group_system"
+                sequence="48"/>
+        <menuitem id="workflow_default_visible_field_menu_config"
+                parent="workflow_approvals_menu_config"
+                name="Default Visible Fields"
+                action="workflow_engine.workflow_default_visible_field_action"
+                groups="workflow_engine.group_workflow_technical_admin"
+                sequence="50"/>
+        <menuitem id="workflow_engine_settings_menu_config"
+                parent="workflow_approvals_menu_config"
+                name="Settings"
+                action="workflow_engine.action_workflow_engine_settings"
+                groups="base.group_system"
+                sequence="60"/>
+    </data>
+
+    <data>
+        <menuitem
+            id="workflow_approvals_approval_menu_to_review"
+            parent="workflow_approvals_menu_my_approval"
+            name="My Work List"
+            groups="workflow_engine.group_workflow_approval_user"
+            action="my_work_list_action_window"
+            sequence="10"/>
+
+        <menuitem
+            id="workflow_approvals_approval_menu_all"
+            parent="workflow_approvals_menu_my_approval"
+            name="My Contribute List"
+            action="my_contribute_list_action_window"
+            groups="workflow_engine.group_workflow_approval_user"
+            sequence="20"/>
+
+        <menuitem
+            id="workflow_approvals_approval_menu_my_request"
+            parent="workflow_approvals_menu_my_approval"
+            name="My Request List"
+            action="my_request_list_action_window"
+            groups="workflow_engine.group_workflow_approval_user"
+            sequence="30"/>
+    </data>
+</odoo>

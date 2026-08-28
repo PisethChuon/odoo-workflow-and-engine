@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_x_home_leave_ticket" model="ir.actions.act_window">
+            <field name="name">Home Leave Ticket</field>
+            <field name="res_model">x_home_leave_ticket</field>
+            <field name="view_mode">list,form</field>
+            <field name="context" eval="{'default_x_ticket_type_id': ref('ticket_type_economy')}"/>
+        </record>
+    </data>
+</odoo>

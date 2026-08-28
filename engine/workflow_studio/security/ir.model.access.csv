@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_studio_approval_rule_settings,Studio Approval Rule (Settings),workflow_studio.model_workflow_studio_approval_rule,base.group_system,1,1,1,1
+access_studio_approval_rule_user,Studio Approval Rule (Internal),workflow_studio.model_workflow_studio_approval_rule,base.group_user,1,0,0,0
+access_studio_approval_entry_user,Studio Approval Entry (Users),workflow_studio.model_workflow_studio_approval_entry,base.group_user,1,0,1,1
+access_studio_approval_entry_settings,Studio Approval Entry (Settings),workflow_studio.model_workflow_studio_approval_entry,base.group_system,1,0,1,1
+access_studio_approval_request_settings,Studio Approval Requests (Settings),workflow_studio.model_workflow_studio_approval_request,base.group_system,1,1,1,1
+access_studio_export_model,Studio Export Model,workflow_studio.model_workflow_studio_export_model,base.group_system,1,1,1,1
+access_studio_export_wizard,Studio Export Wizard,workflow_studio.model_workflow_studio_export_wizard,base.group_system,1,1,1,1
+access_studio_export_wizard_data,Studio Export Wizard Data,workflow_studio.model_workflow_studio_export_wizard_data,base.group_system,1,1,1,1
+access_workflow_studio_import_zip_wizard,Workflow Studio Import ZIP Wizard,workflow_studio.model_workflow_studio_import_zip_wizard,base.group_system,1,1,1,1
+access_workflow_studio_import_zip_wizard_admin,Workflow Studio Import ZIP Wizard Admin,workflow_studio.model_workflow_studio_import_zip_wizard,workflow_engine.group_workflow_approval_admin,1,1,1,1
+access_workflow_studio_quick_start_wizard_system,Workflow Studio Quick Start Wizard (System),workflow_studio.model_workflow_studio_quick_start_wizard,base.group_system,1,1,1,1
+access_workflow_studio_quick_start_wizard_admin,Workflow Studio Quick Start Wizard (Admin),workflow_studio.model_workflow_studio_quick_start_wizard,workflow_engine.group_workflow_approval_admin,1,1,1,1
+access_studio_approval_approver,access_studio_approval_approver,model_workflow_studio_approval_rule_approver,base.group_system,1,1,1,1
+access_studio_approval_delegate,access_studio_approval_delegate,model_workflow_studio_approval_rule_delegate,base.group_user,1,1,1,0

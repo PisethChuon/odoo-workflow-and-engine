@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <menuitem 
+            id="menu_honestly_award_root"
+            name="Honestly Award"
+            parent="workflow_engine.workflow_approvals_menu_config"
+            sequence="60"
+        />
+        <menuitem
+            id="menu_honestly_award_locations"
+            name="Locations"
+            parent="menu_honestly_award_root"
+            action="action_x_location"
+            sequence="38"/>
+
+        <menuitem
+            id="menu_honestly_award_items"
+            name="Items"
+            action="action_x_item"
+            parent="menu_honestly_award_root"
+            sequence="40"/>
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!-- Set default value for x_ticket_type_id to Economy -->
+        <record id="default_ticket_type_economy" model="ir.default">
+            <field name="field_id" ref="home_leave_ticket.field_x_home_leave_ticket__ticket_type_id"/>
+            <field name="json_value" eval="ref('ticket_type_economy')"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,56 @@
+<odoo>
+    <data noupdate="0">
+        <record id="access_x_item_request" model="ir.model.access">
+            <field name="name">access_x_item_request</field>
+            <field name="model_id" ref="model_x_item_request" />
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+        </record>
+
+        <record id="access_x_item_request_item_line_user" model="ir.model.access">
+            <field name="name">access.it_request_item_line.user</field>
+            <field name="model_id" ref="model_x_item_request_item_line" />
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+        </record>
+
+        <record id="access_x_item_request_sub_item_line_user" model="ir.model.access">
+            <field name="name">access.x_item_request_sub_item_line.user</field>
+            <field name="model_id" ref="model_x_item_request_config_sub_item_line" />
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+        </record>
+
+        <record id="access_x_item_request_config_item_line_user" model="ir.model.access">
+            <field name="name">access.x_item_request_config_item_line.user</field>
+            <field name="model_id" ref="model_x_item_request_config_item_line" />
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+        </record>
+
+        
+
+        <record id="access_x_it_request_item_line_line_user" model="ir.model.access">
+            <field name="name">access.x_it_request_item_line_line.user</field>
+            <field name="model_id" ref="model_x_item_request_item_line" /> 
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+        </record>
+
+    </data>
+</odoo>

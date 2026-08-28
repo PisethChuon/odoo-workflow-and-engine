@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="view_form_delegate_wizard" model="ir.ui.view">
+        <field name="name">view_form_delegate_wizard</field>
+        <field name="model">delegate_wizard</field>
+        <field name="arch" type="xml">
+            <form class="wf-workflow-compact-modal wf-delegate-modal">
+                <sheet class="wf-wizard-sheet">
+                    <group>
+                        <field name="request_id" readonly="1" invisible="1"/>
+                        <field name="available_source_approver_ids" invisible="1"/>
+                        <field name="show_source_approver_selection" invisible="1"/>
+                        <field name="delegate_type"/>
+                        <field name="source_approver_id"
+                               required="show_source_approver_selection"
+                               invisible="not show_source_approver_selection"
+                               options="{'no_open': True, 'no_create': True}"/>
+                        <field name="selected_user_id"
+                               widget="many2one_workflow_delegate_user"
+                               required="delegate_type == 'redirected'"
+                               invisible="delegate_type != 'redirected'"
+                               options="{'no_open': True, 'no_create': True}"/>
+                        <field name="selected_user_ids"
+                               widget="many2many_workflow_delegate_user"
+                               required="delegate_type == 'shared'"
+                               invisible="delegate_type != 'shared'"
+                               context="{
+                                   'workflow_request_owner_picker': True,
+                                   'workflow_delegate_picker': True,
+                                   'list_view_ref': 'workflow_engine.view_res_users_workflow_delegate_picker_list',
+                                   'kanban_view_ref': 'workflow_engine.view_res_users_workflow_delegate_picker_kanban',
+                                   'search_view_ref': 'workflow_engine.view_res_users_workflow_delegate_picker_search'
+                               }"
+                               options="{'no_open': True, 'no_create': True}"/>
+                        <field name="comment" required="1"/>
+                    </group>
+                    <notebook>
+                        <page invisible="delegate_type != 'redirected' or not selected_user_id"
+                              string="User Details" name="approver_users">
+                            <group>
+                                <group>
+                                    <field name="selected_employee_id" readonly="1"/>
+                                    <field name="res_id" readonly="1" invisible="1"/>
+                                    <field name="res_model" readonly="1" invisible="1"/>
+                                    <field name="emp_code" readonly="1"/>
+                                    <field name="department_id" readonly="1"/>
+                                    <field name="job_id" readonly="1"/>
+                                    <field name="work_email" readonly="1"/>
+                                    <field name="ext_phone" readonly="1"/>
+                                    <field name="mobile_phone" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="avatar" widget="image" nolabel="1" class="o_image_24_cover w-50"
+                                            alt="Avatar"/>
+                                </group>
+                            </group>
+
+
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Save" name="action_server_delegate" type="object" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_force_transition_wizard_form" model="ir.ui.view">
+        <field name="name">force.transition.wizard.form</field>
+        <field name="model">workflow.force.transition.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Force Jump Workflow" class="wf-workflow-compact-modal wf-force-transition-modal">
+                <sheet class="wf-wizard-sheet">
+                <group>
+                    <field name="request_id" readonly="1" invisible="1"/>
+                    <field name="request_name" readonly="1" create="0" />
+                    <field name="model" readonly="1" invisible="1"/>
+                    <field name="category_id" readonly="1" invisible="1"/>
+                    <field name="re_assign_approvals" />
+                    <field name="target_node"
+                            domain="[('create_uid', '=', uid), ('category_id', '=', category_id)]"
+                            options="{'no_create': True, 'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                    <field name="comment" required="1"/>
+                </group>
+                </sheet>
+                <footer>
+                    <button string="Confirm Jump" type="object" name="action_confirm_force"
+                        class="btn btn-danger" />
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_workflow_bpmn_temp_node_list" model="ir.ui.view">
+        <field name="name">workflow.bpmn.temp.node.list</field>
+        <field name="model">workflow.bpmn.temp.node</field>
+        <field name="arch" type="xml">
+            <list string="Temporary BPMN Nodes" create="false" edit="false">
+                <field name="display_name" string="Node Info"/>
+                <field name="code" optional="show"/>
+                <field name="name" optional="show"/>
+                <field name="node_type" decoration-info="node_type == 'task'" decoration-warning="node_type == 'gateway'"/>
+                <field name="category_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_workflow_ooo_preference_wizard_form" model="ir.ui.view">
+        <field name="name">workflow.ooo.preference.wizard.form</field>
+        <field name="model">workflow.ooo.preference.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Out of Office Delegation">
+                <sheet>
+                    <group string="Enable">
+                        <field name="user_id" invisible="1"/>
+                        <field name="wf_ooo_enabled" widget="boolean_toggle"/>
+                    </group>
+                    <field name="wf_ooo_delegate_user_id" invisible="1"/>
+                    <field name="wf_ooo_date_from" invisible="1"/>
+                    <field name="wf_ooo_date_to" invisible="1"/>
+                    <field name="wf_ooo_scope" invisible="1"/>
+                    <field name="wf_ooo_category_ids" invisible="1"/>
+                    <field name="wf_ooo_note" invisible="1"/>
+                    <field name="wf_ooo_is_active_now" invisible="1"/>
+                    <notebook invisible="not wf_ooo_enabled">
+                        <page string="Delegation Rules" name="workflow_ooo_rules">
+                            <field name="wf_ooo_line_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="user_id" column_invisible="1"/>
+                                    <field name="delegation_id" column_invisible="1"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                    <field name="wf_ooo_date_from" required="active"/>
+                                    <field name="wf_ooo_date_to" required="active"/>
+                                    <field name="wf_ooo_delegate_user_id"
+                                           options="{'no_create': True, 'no_open': False}"
+                                           required="active"/>
+                                    <field name="wf_ooo_category_ids"
+                                           widget="many2many_tags"
+                                           placeholder="Empty = all workflow categories"/>
+                                    <field name="wf_ooo_scope"/>
+                                    <field name="wf_ooo_note" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Apply" name="action_apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

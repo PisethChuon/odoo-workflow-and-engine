@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <!-- ========================= -->
+        <!-- List View (Odoo 18+) -->
+        <!-- ========================= -->
+        <record id="view_x_item_request_config_sub_item_line_list" model="ir.ui.view">
+            <field name="name">x.item.request.sub.item.line.list</field>
+            <field name="model">x_item_request_config_sub_item_line</field>
+            <field name="arch" type="xml">
+                <list string="Item Types" >
+                    <field name="x_name" string="Item Type" required="1" />
+                    <field name="x_item_id" />
+                </list>
+            </field>
+        </record>
+
+        <!-- ========================= -->
+        <!-- Form View -->
+        <!-- ========================= -->
+        <record id="view_x_item_request_config_sub_item_line_form" model="ir.ui.view">
+            <field name="name">x.item.request.sub.item.line.form</field>
+            <field name="model">x_item_request_config_sub_item_line</field>
+            <field name="arch" type="xml">
+                <form string="Item Request Sub Item Line">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="x_name" string="Item Type" required="1" />
+                                <field name="x_item_id" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ========================= -->
+        <!-- Action -->
+        <!-- ========================= -->
+        <record id="action_x_item_request_config_sub_item_line" model="ir.actions.act_window">
+            <field name="name">Item Request Sub Item Lines</field>
+            <field name="res_model">x_item_request_config_sub_item_line</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_x_active': True}</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+  <t t-name="workflow_engine.InputSuffixButton" t-inherit="web.CharField">
+    <xpath expr="//input" position="after">
+      <a t-att-title="title" t-on-click.prevent.stop="onClick" class="btn btn-secondary ms-3 d-inline-flex align-items-center">
+        <small class="fw-bold ms-1" t-out="props.label"/>
+      </a>
+    </xpath>
+  </t>
+</templates>

@@ -1,0 +1,40 @@
+<odoo>
+    <data noupdate="1">
+        <record id="access_ir_model_by_system_admin" model="ir.model.access">
+            <field name="name">WF: access ir model by system admin</field>
+            <field name="model_id" ref="base.model_ir_model"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_ir_model_field_by_user" model="ir.model.access">
+            <field name="name">WF: access ir model field by user</field>
+            <field name="model_id" ref="base.model_ir_model_fields"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_ir_model_field_by_system_admin" model="ir.model.access">
+            <field name="name">WF: access ir model field by system admin</field>
+            <field name="model_id" ref="base.model_ir_model_fields"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_ir_act_window_by_system_admin" model="ir.model.access">
+            <field name="name">WF: access ir act window by system admin</field>
+            <field name="model_id" ref="base.model_ir_actions_act_window"/>
+            <field name="group_id" ref="base.group_system"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+    </data>
+</odoo>

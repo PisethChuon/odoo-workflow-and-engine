@@ -1,0 +1,40 @@
+<odoo>
+    <data noupdate="1">
+      <record id="access_delegate_wizard_by_user" model="ir.model.access">
+            <field name="name">WF: access delegate wizard by user</field>
+            <field name="model_id" ref="model_delegate_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_ooo_preference_wizard_by_user" model="ir.model.access">
+            <field name="name">WF: access workflow ooo preference wizard by user</field>
+            <field name="model_id" ref="model_workflow_ooo_preference_wizard"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_ooo_preference_wizard_line_by_user" model="ir.model.access">
+            <field name="name">WF: access workflow ooo preference wizard line by user</field>
+            <field name="model_id" ref="model_workflow_ooo_preference_wizard_line"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_ooo_preference_wizard_line_by_admin" model="ir.model.access">
+            <field name="name">WF: access workflow ooo preference wizard line by admin</field>
+            <field name="model_id" ref="model_workflow_ooo_preference_wizard_line"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+    </data>
+</odoo>

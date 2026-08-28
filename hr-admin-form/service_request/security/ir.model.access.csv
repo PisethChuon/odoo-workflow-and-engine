@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_service_request_user,service request user,model_x_service_request,base.group_user,1,1,1,1
+access_service_request_manager,service request manager,model_x_service_request,base.group_system,1,1,1,1
+access_service_request_company_contractor_user,service request company contractor user,model_x_service_request_company_contractor,base.group_user,1,1,1,0
+access_service_request_company_contractor_manager,service request company contractor manager,model_x_service_request_company_contractor,base.group_system,1,1,1,1

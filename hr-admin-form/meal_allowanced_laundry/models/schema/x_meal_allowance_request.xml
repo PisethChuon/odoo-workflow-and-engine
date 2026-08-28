@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_meal_allowance_request" model="ir.model">
+            <field name="name">Meal Allowance Request</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <!-- Stored helper state (delegated parent state lives on workflow.base.approval.request) -->
+        <record id="field_x_meal_allowance_request_state_helper" model="ir.model.fields">
+            <field name="name">x_state</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">State (Stored)</field>
+            <field name="readonly" eval="True"/>
+            <field name="store" eval="True"/>
+            <field name="depends">x_approval_base_id.state</field>
+            <field name="compute"><![CDATA[
+for rec in self:
+    rec['x_state'] = rec.x_approval_base_id.state if rec.x_approval_base_id else 'draft'
+]]>
+            </field>
+        </record>
+
+        <!-- Modification Flag -->
+        <record id="field_x_meal_allowance_is_modification" model="ir.model.fields">
+            <field name="name">x_is_modification</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Is this a modification of an earlier form?</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Laundry Allowance Flag -->
+        <record id="field_x_meal_allowance_is_laundry" model="ir.model.fields">
+            <field name="name">x_is_laundry</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Yes</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Form Number (for modifications) -->
+        <record id="field_x_meal_allowance_form_no" model="ir.model.fields">
+            <field name="name">x_form_no</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Form No</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Staff Group -->
+        <record id="field_x_meal_allowance_staff_group" model="ir.model.fields">
+            <field name="name">x_staff_group</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Staff Group</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_meal_allowance_staff_group_id" model="ir.model.fields">
+            <field name="name">x_staff_group_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_meal_allowance_staff_group</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Staff Group</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Drop legacy float field so it can be recreated as char (Odoo forbids ttype changes). -->
+        <!-- <delete model="ir.model.fields" search="[('name', '=', 'x_entitlement_monthly'), ('model', '=', 'x_meal_allowance_request')]"/> -->
+
+        <!-- Entitlement $ per calendar month (meal allowance, from Title) -->
+        <record id="field_x_meal_allowance_entitlement" model="ir.model.fields">
+            <field name="name">x_entitlement_monthly</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Entitlement $ per calendar month</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Entitlement $ per calendar month (Laundry Allowance — from Staff Group) -->
+        <record id="field_x_meal_allowance_entitlement_information" model="ir.model.fields">
+            <field name="name">x_entitlement_information_monthly</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Entitlement $ per calendar month</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Apparel Applicable -->
+        <record id="field_x_meal_allowance_apparel_applicable" model="ir.model.fields">
+            <field name="name">x_apparel_applicable</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Apparel Applicable</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_meal_allowance_request_apparel_type" model="ir.model.fields">
+            <field name="name">x_apparel_type</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Apparel Applicable</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Company Code & Line Code -->
+        <record id="field_x_meal_allowance_company_line_code" model="ir.model.fields">
+            <field name="name">x_company_line_code</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Company Code &amp; Line Code</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Employee Number -->
+        <record id="field_x_meal_allowance_employee_no" model="ir.model.fields">
+            <field name="name">x_employee_no</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.employee</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Employee No</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Employee Name -->
+        <record id="field_x_meal_allowance_employee_name" model="ir.model.fields">
+            <field name="name">x_employee_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Employee Name</field>
+            <field name="related">x_employee_no.name</field>
+            <field name="readonly" eval="True"/>
+            <field name="store" eval="True"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Position -->
+        <record id="field_x_meal_allowance_position" model="ir.model.fields">
+            <field name="name">x_position</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Position</field>
+            <field name="related">x_employee_no.job_id.name</field>
+            <field name="readonly" eval="True"/>
+            <field name="store" eval="True"/>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Title -->
+        <record id="field_x_meal_allowance_title" model="ir.model.fields">
+            <field name="name">x_title</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_meal_allowance_title</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Title</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Level -->
+        <record id="field_x_meal_allowance_request_level_id" model="ir.model.fields">
+            <field name="name">x_meal_allowance_level_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_meal_allowance_level</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Level</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Outlets Applicable -->
+        <record id="field_x_meal_allowance_outlets_applicable_id" model="ir.model.fields">
+            <field name="name">x_outlets_applicable_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_meal_allowance_outlet</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Outlets Applicable</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Effective Date -->
+        <record id="field_x_meal_allowance_effective_date" model="ir.model.fields">
+            <field name="name">x_effective_date</field>
+            <field name="ttype">date</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Effective Date</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <!-- Remark -->
+        <record id="field_x_meal_allowance_remark" model="ir.model.fields">
+            <field name="name">x_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="model_id" ref="model_x_meal_allowance_request"/>
+            <field name="field_description">Remark</field>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+</odoo>

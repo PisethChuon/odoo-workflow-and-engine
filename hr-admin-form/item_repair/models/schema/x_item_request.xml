@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_item_request" model="ir.model">
+            <field name="name">Item Request</field>
+            <field name="model">x_item_request</field>
+        </record>
+
+        <record id="field_x_item_request_repair_request" model="ir.model.fields">
+            <field name="name">x_item_repair_request_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_item_repair_request</field>
+            <field name="model">x_item_request</field>
+            <field name="model_id" ref="model_x_item_request"/>
+            <field name="field_description">Item Repair Request</field>
+        </record>
+
+        <record id="field_x_item_request_type" model="ir.model.fields">
+            <field name="name">x_item_request</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_item_request_type</field>
+            <field name="on_delete">restrict</field>
+            <field name="model">x_item_request</field>
+            <field name="model_id" ref="model_x_item_request"/>
+            <field name="field_description">Request Item</field>
+            <field name="required" eval="True"/>
+        </record>
+
+        <record id="field_x_item_request_serial_number" model="ir.model.fields">
+            <field name="name">x_serial_number</field>
+            <field name="ttype">char</field>
+            <field name="model">x_item_request</field>
+            <field name="model_id" ref="model_x_item_request"/>
+            <field name="field_description">Serial</field>
+        </record>
+
+        <record id="field_x_item_request_charge_to_depat" model="ir.model.fields">
+            <field name="name">x_charge_to_depat</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.department</field>
+            <field name="model">x_item_request</field>
+            <field name="model_id" ref="model_x_item_request"/>
+            <field name="field_description">Charge to Department</field>
+            <field name="readonly" eval="True"/>
+            <field name="store" eval="True"/>
+            <field name="depends">x_item_repair_request_id.request_owner_id</field>
+            <field name="compute"><![CDATA[
+for rec in self:
+    if rec.x_item_repair_request_id and rec.x_item_repair_request_id.request_owner_id:
+        employee = rec.x_item_repair_request_id.request_owner_id.employee_id
+        rec['x_charge_to_depat'] = employee.department_id if employee else False
+    else:
+        rec['x_charge_to_depat'] = False
+]]>
+            </field>
+        </record>
+
+        <record id="field_x_item_request_submitter_remark" model="ir.model.fields">
+            <field name="name">x_submitter_remark</field>
+            <field name="ttype">text</field>
+            <field name="model">x_item_request</field>
+            <field name="model_id" ref="model_x_item_request"/>
+            <field name="field_description">Submitter Remark</field>
+        </record>
+    </data>
+</odoo>

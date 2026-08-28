@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_meal_allowance_apparel_type" model="ir.model">
+            <field name="name">Meal Allowance Apparel Type</field>
+            <field name="model">x_meal_allowance_apparel_type</field>
+        </record>
+
+        <record id="field_x_meal_allowance_apparel_type_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_apparel_type</field>
+            <field name="model_id" ref="model_x_meal_allowance_apparel_type"/>
+            <field name="field_description">Apparel Type</field>
+            <field name="required" eval="True"/>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="x_meal_allowance_apparel_type_all" model="x_meal_allowance_apparel_type">
+            <field name="x_name">All</field>
+        </record>
+        <record id="x_meal_allowance_apparel_type_uniform_only" model="x_meal_allowance_apparel_type">
+            <field name="x_name">Uniform only</field>
+        </record>
+        <record id="x_meal_allowance_apparel_type_business_attire_only" model="x_meal_allowance_apparel_type">
+            <field name="x_name">Business attire only</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+
+        <record id="view_dynamic_import_wizard_form_inherit" model="ir.ui.view">
+            <field name="name">dynamic.import.wizard.form.inherit</field>
+            <field name="model">dynamic.import.wizard</field>
+
+            <!-- inherit the original wizard form -->
+            <field name="inherit_id" ref="workflow_engine.view_dynamic_import_wizard_form"/>
+            <field name="mode">primary</field>
+
+            <field name="arch" type="xml">
+                <!-- insert new fields after x_model_id -->
+                <xpath expr="//field[@name='x_model_id']" position="after">
+                    <!-- <field name="x_item_request_id" 
+                           options="{'no_create': True}" readonly="1"/> -->
+                    <field name="x_item_line_id" 
+                           options="{'no_create': True}" required="1"/>
+                    <field name="x_sub_itemline_id" 
+                           options="{'no_create': True}"/>
+                    <field name="x_comment" string="Remark"/>
+                </xpath>
+                <xpath expr="//footer" position="inside">
+                    <a href="/download/template/item_request/import_sample.xlsx" 
+                        target="_blank" 
+                        class="btn btn-secondary"
+                        role="button">
+                        <i class="fa fa-download"/> Download Template
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

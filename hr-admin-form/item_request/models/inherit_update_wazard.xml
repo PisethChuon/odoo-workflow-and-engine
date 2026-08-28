@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+
+        <!-- Name -->
+        <!-- <record id="field_dynamic_import_wizard_x_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="field_description">Name</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard"/>
+            <field name="ttype">char</field>
+            <field name="required" eval="False"/>
+        </record> -->
+
+
+        <!-- <record id="field_dynamic_import_wizard_x_item_request_id" model="ir.model.fields">
+            <field name="name">x_item_request_id</field>
+            <field name="field_description">Related Request</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard"/>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_item_request</field>
+            <field name="required" eval="False"/>
+            <field name="on_delete">set null</field>
+        </record> -->
+
+        <!-- Item Line -->
+        <record id="field_dynamic_import_wizard_x_item_line_id" model="ir.model.fields">
+            <field name="name">x_item_line_id</field>
+            <field name="field_description">Items</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard"/>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_item_request_config_item_line</field>
+            <field name="required" eval="False"/>
+            <field name="on_delete">set null</field>
+        </record>
+
+        <!-- Sub Item Line -->
+        <record id="field_dynamic_import_wizard_x_sub_itemline_id" model="ir.model.fields">
+            <field name="name">x_sub_itemline_id</field>
+            <field name="field_description">Item Type</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard"/>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_item_request_config_sub_item_line</field>
+            <field name="required" eval="False"/>
+            <field name="on_delete">set null</field>
+        </record>
+
+        <!-- Comment -->
+        <record id="field_dynamic_import_wizard_x_comment" model="ir.model.fields">
+            <field name="name">x_comment</field>
+            <field name="field_description">Comment</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard"/>
+            <field name="ttype">char</field>
+        </record>
+
+    </data>
+</odoo>

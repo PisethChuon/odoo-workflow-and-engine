@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="demo_x_additional_time_work_type_regular_day" model="x_additional_time_work_type">
+            <field name="x_name">Regular Day</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_additional_time_work_type_off_day" model="x_additional_time_work_type">
+            <field name="x_name">OFF Day</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_additional_time_work_type_public_holiday" model="x_additional_time_work_type">
+            <field name="x_name">Public Holiday</field>
+            <field name="x_active" eval="True"/>
+        </record>
+    </data>
+</odoo>

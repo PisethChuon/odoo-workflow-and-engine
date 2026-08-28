@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_meal_allowance_level" model="ir.model">
+            <field name="name">Meal Allowance Level</field>
+            <field name="model">x_meal_allowance_level</field>
+        </record>
+
+        <record id="field_x_meal_allowance_level_name" model="ir.model.fields">
+            <field name="name">x_name</field>
+            <field name="ttype">char</field>
+            <field name="model">x_meal_allowance_level</field>
+            <field name="model_id" ref="model_x_meal_allowance_level"/>
+            <field name="field_description">Level</field>
+            <field name="required" eval="True"/>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="x_meal_allowance_level_1" model="x_meal_allowance_level">
+            <field name="x_name">1</field>
+        </record>
+        <record id="x_meal_allowance_level_2" model="x_meal_allowance_level">
+            <field name="x_name">2</field>
+        </record>
+        <record id="x_meal_allowance_level_3" model="x_meal_allowance_level">
+            <field name="x_name">3</field>
+        </record>
+        <record id="x_meal_allowance_level_4a" model="x_meal_allowance_level">
+            <field name="x_name">4A</field>
+        </record>
+        <record id="x_meal_allowance_level_4b" model="x_meal_allowance_level">
+            <field name="x_name">4B</field>
+        </record>
+        <record id="x_meal_allowance_level_4c" model="x_meal_allowance_level">
+            <field name="x_name">4C</field>
+        </record>
+        <record id="x_meal_allowance_level_5a" model="x_meal_allowance_level">
+            <field name="x_name">5A</field>
+        </record>
+        <record id="x_meal_allowance_level_na" model="x_meal_allowance_level">
+            <field name="x_name">NA</field>
+        </record>
+    </data>
+</odoo>

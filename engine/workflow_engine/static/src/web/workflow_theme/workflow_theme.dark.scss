@@ -1,0 +1,480 @@
+/* Applied only in web.assets_web_dark via workflow_engine manifest.
+   This guarantees strict dark-mode rendering independent of root selectors. */
+
+.o_kanban_renderer.wf-approval-dashboard {
+  --wf-db-bg: #0b1220;
+  --wf-db-surface: #101a2e;
+  --wf-db-surface-soft: #14213a;
+  --wf-db-border: #2e4669;
+  --wf-db-text: #f2f7ff;
+  --wf-db-text-soft: #deebff;
+  --wf-db-muted: #bfd0ea;
+  --wf-db-chip-bg: #1b2b45;
+  --wf-db-chip-border: #40608e;
+  --wf-rec-bg: #101827;
+  --wf-rec-bg-soft: #142036;
+  --wf-rec-separator: #24334d;
+  --wf-rec-text: #e7edf7;
+  --wf-rec-muted: #b7c6df;
+  --wf-rec-tag-dept-bg: #1d2742;
+  --wf-rec-tag-dept-text: #c7d2fe;
+  --wf-rec-tag-model-bg: #102a3e;
+  --wf-rec-tag-model-text: #7dd3fc;
+  --wf-rec-clock-color: #8ea3bf;
+  --wf-rec-btn-secondary-bg: #2b364d;
+  --wf-rec-btn-secondary-text: #e2e8f3;
+  --wf-rec-btn-secondary-border: #3b4a66;
+  background:
+    radial-gradient(circle at 8% -12%, rgba(56, 189, 248, 0.13), transparent 46%),
+    radial-gradient(circle at 95% -22%, rgba(45, 212, 191, 0.12), transparent 50%),
+    linear-gradient(180deg, #0b1220 0%, #0f1729 100%) !important;
+  color: var(--wf-db-text) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard.o_kanban_ungrouped {
+  background: var(--wf-rec-bg) !important;
+  border-color: var(--wf-rec-separator) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card,
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__row {
+  background: var(--wf-rec-bg) !important;
+  color: var(--wf-rec-text) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__row {
+  border-color: var(--wf-rec-separator) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__row:hover,
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__stat:hover {
+  background: var(--wf-rec-bg-soft) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__name,
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__stat-count {
+  color: var(--wf-rec-text) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__stat-label,
+.o_kanban_renderer.wf-approval-dashboard .wf-rec-card__info-btn {
+  color: var(--wf-rec-muted) !important;
+}
+
+.wf-dashboard-strip {
+  color: #f2f7ff !important;
+}
+
+.o_kanban_renderer .wf-dashboard-strip {
+  background:
+    radial-gradient(circle at 8% -12%, rgba(56, 189, 248, 0.13), transparent 46%),
+    radial-gradient(circle at 95% -22%, rgba(45, 212, 191, 0.12), transparent 50%),
+    linear-gradient(180deg, #0b1220 0%, #0f1729 100%) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card {
+  color: var(--wf-db-text) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__panel,
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__inner,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__stat-link,
+.o_kanban_renderer.wf-approval-dashboard .wf-request-overview,
+.wf-dashboard-strip__panel,
+.wf-dashboard-strip__metric,
+.wf-category-card__inner,
+.wf-category-card__stat-link,
+.wf-request-overview {
+  background: var(--wf-db-surface-soft) !important;
+  border-color: var(--wf-db-border) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__title,
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric-value,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__title,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__stat-value,
+.o_kanban_renderer.wf-approval-dashboard .wf-request-overview__value,
+.wf-dashboard-strip__title,
+.wf-dashboard-strip__metric-value,
+.wf-category-card__title,
+.wf-category-card__stat-value,
+.wf-request-overview__value {
+  color: var(--wf-db-text) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric-label,
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__departments-title,
+.o_kanban_renderer.wf-approval-dashboard .wf-request-overview__label,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__stat-label,
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip .text-muted,
+.wf-dashboard-strip__metric-label,
+.wf-dashboard-strip__departments-title,
+.wf-request-overview__label,
+.wf-category-card__stat-label,
+.wf-dashboard-strip .text-muted {
+  color: var(--wf-db-muted) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__meta-item,
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__department-chip,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__meta-pill,
+.wf-dashboard-strip__meta-item,
+.wf-dashboard-strip__department-chip,
+.wf-category-card__meta-pill {
+  background: var(--wf-db-chip-bg) !important;
+  border-color: var(--wf-db-chip-border) !important;
+  color: var(--wf-db-text-soft) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric--all .wf-dashboard-strip__metric-value {
+  color: #4cc3ff !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric--draft .wf-dashboard-strip__metric-value {
+  color: #d5e2f5 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric--new .wf-dashboard-strip__metric-value {
+  color: #d5e2f5 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric--waiting .wf-dashboard-strip__metric-value {
+  color: #f9cf72 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric--done .wf-dashboard-strip__metric-value {
+  color: #53e08b !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__metric--reviewed .wf-dashboard-strip__metric-value {
+  color: #c4b5fd !important;
+}
+
+/* Keep recruitment-like row layout in dark asset (loaded after backend assets). */
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__inner--recruitment {
+  background: #101827 !important;
+  border-color: #24334d !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__inner--recruitment:hover {
+  background: #142036 !important;
+  border-color: #35527c !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__stats--recruitment .wf-category-card__stat-link {
+  background: #121d31 !important;
+  border-color: #2c4468 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__kpi:hover {
+  background: #1a2740 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__kpi-value {
+  color: #e7edf7 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__kpi-label {
+  color: #b7c6df !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__stats--recruitment .wf-category-card__stat-value {
+  color: #e7edf7 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__stats--recruitment .wf-category-card__stat-label {
+  color: #b7c6df !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__owner,
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__owner .o_field_widget {
+  color: #b7c6df !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__actions--recruitment .btn-primary {
+  background: #874f7d !important;
+  color: #f9f5ff !important;
+  border-color: transparent !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__actions--recruitment .btn-secondary {
+  background: #2b364d !important;
+  color: #e2e8f3 !important;
+  border-color: transparent !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__signal--warn {
+  color: #ffb4ab !important;
+  background: rgba(180, 35, 24, 0.26) !important;
+  border-color: rgba(248, 113, 113, 0.45) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-category-card__signal--ok {
+  color: #dbe4f4 !important;
+  background: #1f2a3d !important;
+  border-color: #3b4a66 !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__department-count {
+  color: #dbeafe !important;
+  background: rgba(56, 189, 248, 0.25) !important;
+}
+
+.wf-dashboard-strip__department-count {
+  color: #dbeafe !important;
+  background: rgba(56, 189, 248, 0.25) !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__filter-group,
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__filter-item {
+  background: #1b273d !important;
+  border-color: #415778 !important;
+  color: #d5e1fb !important;
+}
+
+.o_kanban_renderer.wf-approval-dashboard .wf-dashboard-strip__filter-count {
+  color: #dbeafe !important;
+  background: rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Flow preview dialog + BPMN canvas dark mode */
+.ngflow-modal {
+  --ngflow-surface: #0b1322 !important;
+  --ngflow-panel: #111b2f !important;
+  --ngflow-line: #2f425f !important;
+  --ngflow-muted: #c6d5ea !important;
+  --ngflow-text: #f5f8ff !important;
+  --ngflow-accent: #2dd4bf !important;
+  --ngflow-accent-soft: rgba(45, 212, 191, 0.14) !important;
+  --ngflow-active: #34d399 !important;
+  --ngflow-done: #38bdf8 !important;
+  --ngflow-pending: #94a3b8 !important;
+  --ngflow-shadow: 0 26px 64px rgba(2, 6, 23, 0.68) !important;
+}
+
+.ngflow-modal.modal-content,
+.ngflow-modal .modal-content,
+.ngflow-modal .modal-footer,
+.ngflow-modal .ngflow-panel,
+.ngflow-modal .ngflow-sub,
+.ngflow-modal .ngflow-card {
+  background: var(--ngflow-panel) !important;
+  border-color: var(--ngflow-line) !important;
+  color: var(--ngflow-text) !important;
+}
+
+// .ngflow-modal .ngflow-header {
+//   background:
+//     radial-gradient(circle at 20% -10%, rgba(45, 212, 191, 0.14), transparent 38%),
+//     radial-gradient(circle at 85% -30%, rgba(56, 189, 248, 0.14), transparent 42%),
+//     var(--ngflow-panel) !important;
+// }
+
+.ngflow-modal .ngflow-canvas {
+  background:
+    linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 50% -10%, rgba(34, 211, 238, 0.08), transparent 45%),
+    linear-gradient(180deg, #111827, #0b1220) !important;
+  background-size: 22px 22px, 22px 22px, 100% 100%, 100% 100% !important;
+}
+
+.ngflow-modal .ngflow-tag,
+.ngflow-modal .ngflow-pill {
+  background: #1b2b45 !important;
+  border-color: #40608e !important;
+  color: #deebff !important;
+}
+
+.ngflow-modal .ngflow-legend-item,
+.ngflow-modal .ngflow-footer-note {
+  color: #cdd8ea !important;
+}
+
+.ngflow-modal .ngflow-close {
+  background-color: rgba(15, 23, 42, 0.62) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+.ngflow-modal .btn-primary {
+  border-color: #0284c7 !important;
+  background-color: #0ea5e9 !important;
+  color: #ecfeff !important;
+}
+
+.ngflow-modal .btn-primary:hover {
+  border-color: #38bdf8 !important;
+  background-color: #0284c7 !important;
+}
+
+.ngflow-widget {
+  --wf-dock-bg: rgba(15, 23, 42, 0.62) !important;
+  --wf-dock-border: rgba(148, 163, 184, 0.34) !important;
+  --wf-dock-btn-bg: rgba(15, 23, 42, 0.72) !important;
+  --wf-dock-btn-fg: #e2e8f0 !important;
+  --wf-shape-fill: #0f1b2e !important;
+  --wf-shape-stroke: #4b5f80 !important;
+  --wf-label: #e6edf9 !important;
+  --wf-event-fill: #111827 !important;
+  --wf-event-stroke: #64748b !important;
+  --wf-flow-stroke: #9fb5d8 !important;
+  --wf-flow-done: #93c5fd !important;
+  --wf-flow-pending: #39e0ff !important;
+  --wf-current-fill: #0ea371 !important;
+  --wf-current-stroke: #34d399 !important;
+  --wf-current-label: #ecfeff !important;
+  --wf-history-fill: #1e40af !important;
+  --wf-history-stroke: #93c5fd !important;
+  --wf-history-label: #eff6ff !important;
+  --wf-history-label-stroke: rgba(2, 6, 23, 0.96) !important;
+}
+
+.ngflow-widget .djs-connection .djs-visual > path {
+  stroke: var(--wf-flow-stroke) !important;
+  stroke-width: 2.2px !important;
+  opacity: 0.96 !important;
+}
+
+.ngflow-widget .djs-connection.is-done-path .djs-visual > path {
+  stroke: var(--wf-flow-done) !important;
+  stroke-width: 2.6px !important;
+  opacity: 1 !important;
+}
+
+.ngflow-widget .djs-connection.is-pending-path .djs-visual > path {
+  stroke: var(--wf-flow-pending) !important;
+  stroke-width: 2.6px !important;
+  opacity: 1 !important;
+}
+
+.ngflow-widget .djs-label .djs-visual > text,
+.ngflow-widget .djs-label .djs-visual text,
+.ngflow-widget .djs-label .djs-visual tspan {
+  fill: #dbeafe !important;
+  opacity: 1 !important;
+  fill-opacity: 1 !important;
+}
+
+.ngflow-widget marker path {
+  fill: var(--wf-flow-stroke) !important;
+  stroke: var(--wf-flow-stroke) !important;
+}
+
+/* Request form dark contrast */
+.o_form_view .wf-request-overview {
+  background: #152036 !important;
+  border-color: #2f4568 !important;
+}
+
+.o_form_view .wf-request-overview__label {
+  color: #b9cdea !important;
+  font-weight: 600;
+}
+
+.o_form_view .wf-request-overview__value,
+.o_form_view .wf-request-overview__value .o_field_widget,
+.o_form_view .wf-request-overview__value .o_field_value,
+.o_form_view .wf-request-overview__value .o_field_char,
+.o_form_view .wf-request-overview__value .o_field_text,
+.o_form_view .wf-request-overview__value .o_field_many2one_selection {
+  color: #f2f7ff !important;
+}
+
+.o_form_view .wf-request-overview .badge {
+  background-color: #2a3d5c !important;
+  border: 1px solid #4f6f9f !important;
+  color: #eff6ff !important;
+}
+
+.o_form_view .wf-request-section .o_form_label {
+  color: #dbe8fd !important;
+  font-weight: 600;
+}
+
+.o_form_view .wf-request-section .o_field_widget,
+.o_form_view .wf-request-section .o_field_widget .o_field_value,
+.o_form_view .wf-request-section .o_field_widget .o_field_char,
+.o_form_view .wf-request-section .o_field_widget .o_field_text,
+.o_form_view .wf-request-section .o_field_widget .o_field_many2one_selection {
+  color: #f2f7ff !important;
+}
+
+.o_form_view .wf-request-section .o_list_renderer,
+.o_form_view .wf-request-section .o_list_renderer table,
+.o_form_view .wf-request-section .o_list_renderer tbody,
+.o_form_view .wf-request-section .o_list_renderer tr,
+.o_form_view .wf-request-section .o_list_renderer td,
+.o_form_view .wf-request-section .o_list_renderer .o_data_cell,
+.o_form_view .wf-request-section .o_list_renderer .o_field_cell,
+.o_form_view .wf-request-section .o_list_renderer .o_field_widget,
+.o_form_view .wf-request-section .o_list_renderer .o_field_widget span {
+  color: #f2f7ff !important;
+}
+
+.o_form_view .wf-request-section .o_list_renderer .text-muted {
+  color: #b6c9e6 !important;
+}
+
+.o_form_view .wf-request-section .text-muted,
+.o_form_view .wf-request-overview .text-muted {
+  color: #b6c9e6 !important;
+}
+
+/* Request owner card: this file is loaded only in the dark asset bundle, so keep
+   the rules unwrapped to avoid theme-class timing issues during form reloads. */
+.o_form_view .wf-request-section .card.wf-request-owner-card,
+.o_form_view .wf-request-owner-card {
+  background: #202737 !important;
+  border-color: #3b4558 !important;
+  color: #e7edf7 !important;
+}
+
+.o_form_view .wf-request-owner-card .card-body {
+  background: transparent !important;
+  color: #e7edf7 !important;
+}
+
+.o_form_view .wf-request-owner-card__header {
+  background: #1b2230 !important;
+  border-bottom-color: #3b4558 !important;
+}
+
+.o_form_view .wf-request-owner-card__title,
+.o_form_view .wf-request-owner-card__owner,
+.o_form_view .wf-request-owner-card__owner .o_field_widget,
+.o_form_view .wf-request-owner-card__owner .o_field_many2one_selection,
+.o_form_view .wf-request-owner-card__detail-value,
+.o_form_view .wf-request-owner-card__detail-value .o_field_widget,
+.o_form_view .wf-request-owner-card__detail-value .o_field_widget span,
+.o_form_view .wf-request-owner-card__detail-value .o_field_char,
+.o_form_view .wf-request-owner-card__detail-value .o_field_datetime,
+.o_form_view .wf-request-owner-card__detail-value .o_field_many2one_avatar,
+.o_form_view .wf-request-owner-card__detail-value .o_many2one,
+.o_form_view .wf-request-owner-card__detail-value .o_many2one span {
+  color: #f3f7ff !important;
+}
+
+.o_form_view .wf-request-owner-card__detail-label,
+.o_form_view .wf-request-owner-card .text-muted,
+.o_form_view .wf-request-owner-card .o_horizontal_separator {
+  color: #aebbd0 !important;
+}
+
+.o_form_view .wf-request-owner-card__title .fa,
+.o_form_view .wf-request-owner-card a,
+.o_form_view .wf-request-owner-card .text-info {
+  color: #19d3c5 !important;
+}
+
+.o_form_view .wf-request-owner-card__detail-row {
+  border-bottom-color: rgba(148, 163, 184, 0.22) !important;
+}
+
+.o_form_view .wf-request-owner-card__system-box {
+  background: #252e3f !important;
+  border-color: #3c475a !important;
+  color: #e7edf7 !important;
+}

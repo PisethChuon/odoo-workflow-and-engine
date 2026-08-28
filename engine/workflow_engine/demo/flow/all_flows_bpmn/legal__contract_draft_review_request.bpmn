@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_P1f19c29f"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_P1f19c29f" name="Contract Draft-Review Request" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_P1f19c29f" name="Start" />
+
+    <bpmn:userTask id="Task_Submission_P1f19c29f" name="Submitter - Draft and Submit" />
+    <bpmn:intermediateCatchEvent id="Event_Submit_P1f19c29f" name="Submit">
+      <bpmn:messageEventDefinition id="MessageDef_Submit_P1f19c29f" />
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_HODApproval_P1f19c29f" name="HOD Approval" />
+    <bpmn:intermediateCatchEvent id="Event_Approve_P1f19c29f" name="Approve">
+      <bpmn:messageEventDefinition id="MessageDef_Approve_P1f19c29f" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="Gateway_Route_P1f19c29f" name="Conditional Route" default="Flow_09_P1f19c29f" />
+
+    <bpmn:userTask id="Task_AdditionalApproval_P1f19c29f" name="Additional Approval" />
+    <bpmn:intermediateCatchEvent id="Event_AdditionalApprove_P1f19c29f" name="Approve Additional">
+      <bpmn:messageEventDefinition id="MessageDef_AddApprove_P1f19c29f" />
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateThrowEvent id="Event_Rework_P1f19c29f" name="Rework" />
+    <bpmn:userTask id="Task_RequestorRework_P1f19c29f" name="Requestor Rework" />
+    <bpmn:intermediateCatchEvent id="Event_Resubmit_P1f19c29f" name="Resubmit">
+      <bpmn:messageEventDefinition id="MessageDef_Resubmit_P1f19c29f" />
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:intermediateThrowEvent id="Event_Reject_P1f19c29f" name="Reject" />
+
+    <bpmn:endEvent id="EndEvent_Completed_P1f19c29f" name="Completed" />
+    <bpmn:endEvent id="EndEvent_Rejected_P1f19c29f" name="Rejected" />
+
+    <bpmn:sequenceFlow id="Flow_01_P1f19c29f" sourceRef="StartEvent_P1f19c29f" targetRef="Task_Submission_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_02_P1f19c29f" sourceRef="Task_Submission_P1f19c29f" targetRef="Event_Submit_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_03_P1f19c29f" sourceRef="Event_Submit_P1f19c29f" targetRef="Task_HODApproval_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_04_P1f19c29f" sourceRef="Task_HODApproval_P1f19c29f" targetRef="Event_Approve_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_05_P1f19c29f" sourceRef="Event_Approve_P1f19c29f" targetRef="Gateway_Route_P1f19c29f" />
+
+    <bpmn:sequenceFlow id="Flow_06_P1f19c29f" sourceRef="Gateway_Route_P1f19c29f" targetRef="Task_AdditionalApproval_P1f19c29f">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('need_additional_approval', '=', True)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_07_P1f19c29f" sourceRef="Task_AdditionalApproval_P1f19c29f" targetRef="Event_AdditionalApprove_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_08_P1f19c29f" sourceRef="Event_AdditionalApprove_P1f19c29f" targetRef="EndEvent_Completed_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_09_P1f19c29f" sourceRef="Gateway_Route_P1f19c29f" targetRef="EndEvent_Completed_P1f19c29f" />
+
+    <bpmn:sequenceFlow id="Flow_10_P1f19c29f" sourceRef="Task_HODApproval_P1f19c29f" targetRef="Event_Rework_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_11_P1f19c29f" sourceRef="Event_Rework_P1f19c29f" targetRef="Task_RequestorRework_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_12_P1f19c29f" sourceRef="Task_RequestorRework_P1f19c29f" targetRef="Event_Resubmit_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_13_P1f19c29f" sourceRef="Event_Resubmit_P1f19c29f" targetRef="Task_HODApproval_P1f19c29f" />
+
+    <bpmn:sequenceFlow id="Flow_14_P1f19c29f" sourceRef="Task_HODApproval_P1f19c29f" targetRef="Event_Reject_P1f19c29f" />
+    <bpmn:sequenceFlow id="Flow_15_P1f19c29f" sourceRef="Event_Reject_P1f19c29f" targetRef="EndEvent_Rejected_P1f19c29f" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_P1f19c29f">
+    <bpmndi:BPMNPlane id="BPMNPlane_P1f19c29f" bpmnElement="Process_P1f19c29f">
+      <bpmndi:BPMNShape id="Shape_StartEvent_P1f19c29f" bpmnElement="StartEvent_P1f19c29f"><dc:Bounds x="120" y="190" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_Submission_P1f19c29f" bpmnElement="Task_Submission_P1f19c29f"><dc:Bounds x="200" y="168" width="190" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Submit_P1f19c29f" bpmnElement="Event_Submit_P1f19c29f"><dc:Bounds x="430" y="190" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_HODApproval_P1f19c29f" bpmnElement="Task_HODApproval_P1f19c29f"><dc:Bounds x="510" y="168" width="190" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Approve_P1f19c29f" bpmnElement="Event_Approve_P1f19c29f"><dc:Bounds x="740" y="190" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_Route_P1f19c29f" bpmnElement="Gateway_Route_P1f19c29f" isMarkerVisible="true"><dc:Bounds x="820" y="183" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AdditionalApproval_P1f19c29f" bpmnElement="Task_AdditionalApproval_P1f19c29f"><dc:Bounds x="930" y="74" width="180" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_AdditionalApprove_P1f19c29f" bpmnElement="Event_AdditionalApprove_P1f19c29f"><dc:Bounds x="1150" y="96" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_Completed_P1f19c29f" bpmnElement="EndEvent_Completed_P1f19c29f"><dc:Bounds x="1240" y="96" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Rework_P1f19c29f" bpmnElement="Event_Rework_P1f19c29f"><dc:Bounds x="590" y="300" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RequestorRework_P1f19c29f" bpmnElement="Task_RequestorRework_P1f19c29f"><dc:Bounds x="670" y="278" width="190" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Resubmit_P1f19c29f" bpmnElement="Event_Resubmit_P1f19c29f"><dc:Bounds x="900" y="300" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Reject_P1f19c29f" bpmnElement="Event_Reject_P1f19c29f"><dc:Bounds x="590" y="410" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_Rejected_P1f19c29f" bpmnElement="EndEvent_Rejected_P1f19c29f"><dc:Bounds x="750" y="410" width="36" height="36" /></bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Edge_Flow_01_P1f19c29f" bpmnElement="Flow_01_P1f19c29f"><di:waypoint x="156" y="208" /><di:waypoint x="200" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_02_P1f19c29f" bpmnElement="Flow_02_P1f19c29f"><di:waypoint x="390" y="208" /><di:waypoint x="430" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_03_P1f19c29f" bpmnElement="Flow_03_P1f19c29f"><di:waypoint x="466" y="208" /><di:waypoint x="510" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_04_P1f19c29f" bpmnElement="Flow_04_P1f19c29f"><di:waypoint x="700" y="208" /><di:waypoint x="740" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_05_P1f19c29f" bpmnElement="Flow_05_P1f19c29f"><di:waypoint x="776" y="208" /><di:waypoint x="820" y="208" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_06_P1f19c29f" bpmnElement="Flow_06_P1f19c29f"><di:waypoint x="845" y="183" /><di:waypoint x="845" y="114" /><di:waypoint x="930" y="114" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_07_P1f19c29f" bpmnElement="Flow_07_P1f19c29f"><di:waypoint x="1110" y="114" /><di:waypoint x="1150" y="114" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_08_P1f19c29f" bpmnElement="Flow_08_P1f19c29f"><di:waypoint x="1186" y="114" /><di:waypoint x="1240" y="114" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_09_P1f19c29f" bpmnElement="Flow_09_P1f19c29f"><di:waypoint x="870" y="208" /><di:waypoint x="1258" y="208" /><di:waypoint x="1258" y="132" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_10_P1f19c29f" bpmnElement="Flow_10_P1f19c29f"><di:waypoint x="605" y="248" /><di:waypoint x="605" y="300" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_11_P1f19c29f" bpmnElement="Flow_11_P1f19c29f"><di:waypoint x="626" y="318" /><di:waypoint x="670" y="318" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_12_P1f19c29f" bpmnElement="Flow_12_P1f19c29f"><di:waypoint x="860" y="318" /><di:waypoint x="900" y="318" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_13_P1f19c29f" bpmnElement="Flow_13_P1f19c29f"><di:waypoint x="936" y="318" /><di:waypoint x="965" y="318" /><di:waypoint x="965" y="450" /><di:waypoint x="605" y="450" /><di:waypoint x="605" y="248" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_14_P1f19c29f" bpmnElement="Flow_14_P1f19c29f"><di:waypoint x="605" y="248" /><di:waypoint x="605" y="410" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_P1f19c29f" bpmnElement="Flow_15_P1f19c29f"><di:waypoint x="626" y="428" /><di:waypoint x="750" y="428" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

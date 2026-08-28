@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+  <t t-name="workflow_studio.StudioNavbar" t-inherit="web.NavBar" t-inherit-mode="primary">
+      <xpath expr="//nav" position="attributes">
+        <attribute name="class" add="o_studio_navbar" separator=" "/>
+      </xpath>
+
+      <xpath expr='//nav' position="inside">
+        <div class="o_wfs_navbar_identity d-flex align-items-center" aria-label="Workflow Studio">
+          <i class="fa fa-random o_wfs_navbar_identity_icon" aria-hidden="true"/>
+          <span class="o_wfs_navbar_identity_title">Workflow Studio</span>
+        </div>
+        <t t-call="workflow_studio.menuButtons" />
+        <t t-call="workflow_studio.masterButtons" />
+      </xpath>
+
+      <xpath expr="//div[hasclass('o_menu_systray')]" position="replace"/>
+  </t>
+
+  <t t-name="workflow_studio.menuButtons">
+    <div class="o-studio--menu ms-auto">
+      <t t-foreach="menuButtons" t-as="element" t-key="element">
+        <t t-component="element_value.Component" t-props="element_value.props || {}" />
+      </t>
+    </div>
+  </t>
+
+  <t t-name="workflow_studio.masterButtons">
+    <div class="o_studio_buttons">
+      <HomeMenuCustomizer t-if="studio.mode === studio.MODES.HOME_MENU"/>
+      <div class="o_web_studio_leave d-flex" t-on-click="closeStudio">
+          <a class="btn btn-primary d-flex align-items-center rounded-0 border-0">Close</a>
+      </div>
+    </div>
+  </t>
+
+</templates>

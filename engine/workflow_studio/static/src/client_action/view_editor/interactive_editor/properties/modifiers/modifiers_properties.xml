@@ -1,0 +1,276 @@
+<templates>
+    <t t-name="workflow_studio.ViewEditor.InteractiveEditorProperties.Modifiers">
+        <t t-if="!this.isWorkflowManagedForm()" t-call="workflow_studio.ViewEditor.InteractiveEditorProperties.NativeModifierControls"/>
+
+        <t t-if="this.isWorkflowManagedForm()">
+            <div class="o_web_studio_property fw-bold wf_workflow_policy_title">
+                Field Rendering Rules
+            </div>
+            <div class="o_web_studio_property wf_workflow_policy_hint">
+                Workflow request fields are controlled only from the selected BPMN node Meta Fields. Configure visible, required, and readonly rules on the node, not in the form view.
+            </div>
+        </t>
+    </t>
+
+    <t t-name="workflow_studio.ViewEditor.InteractiveEditorProperties.NativeModifierControls">
+        <t t-if="this.isAttributeSupported('invisible')" t-call="workflow_studio.ViewEditor.InteractiveEditorProperties.PythonExpressionCheckbox">
+            <t t-set="name" t-value="'invisible'" />
+            <t t-set="value" t-value="props.node.attrs.invisible || props.node.attrs.column_invisible" />
+            <t t-set="indeterminate" t-value="isIndeterminate(value)" />
+            <t t-set="boolValue" t-value="this.valueAsBoolean(value)" />
+            <t t-set="string">Invisible</t>
+        </t>
+
+        <t t-if="this.isAttributeSupported('required')" t-call="workflow_studio.ViewEditor.InteractiveEditorProperties.PythonExpressionCheckbox">
+            <t t-set="name" t-value="'required'" />
+            <t t-set="value" t-value="props.node.attrs.required" />
+            <t t-set="indeterminate" t-value="isIndeterminate(value)" />
+            <t t-set="boolValue" t-value="this.valueAsBoolean(value)" />
+            <t t-set="string">Required</t>
+        </t>
+
+        <t t-if="this.isAttributeSupported('readonly')" t-call="workflow_studio.ViewEditor.InteractiveEditorProperties.PythonExpressionCheckbox">
+            <t t-set="name" t-value="'readonly'" />
+            <t t-set="value" t-value="props.node.attrs.readonly" />
+            <t t-set="indeterminate" t-value="isIndeterminate(value)" />
+            <t t-set="boolValue" t-value="this.valueAsBoolean(value)" />
+            <t t-set="string">Readonly</t>
+        </t>
+    </t>
+
+    <t t-name="workflow_studio.ViewEditor.InteractiveEditorProperties.PythonExpressionCheckbox" >
+        <div class="o_web_studio_property clearfix o_web_studio_sidebar_checkbox d-flex" t-att-class="props.class">
+            <CheckBox
+                id="name"
+                name="name"
+                value="boolValue"
+                indeterminate="indeterminate"
+                onChange.bind="(value) => this.onChangeModifier(name, value)"
+            >
+                <t t-esc="string" />
+                <sup t-if="tooltip" class="text-info p-1" t-att-data-tooltip="props.tooltip" t-esc="'?'"/>
+            </CheckBox>
+            <a t-on-click.prevent.stop="() => this.onConditionalButtonClicked(name, value)" role="button" href="#" data-type="invisible" class="btn btn-link o_web_studio_attrs ms-auto">
+                Conditional
+            </a>
+        </div>
+    </t>
+
+    <t t-name="workflow_studio.WorkflowGlobalBulkPolicyDialog">
+        <Dialog title="dialogTitle" size="'lg'" contentClass="'o_wfs_bulk_policy_dialog'">
+            <div class="o_wfs_bulk_policy_intro mb-3">
+                <div class="o_wfs_bulk_policy_intro_title">Global Workflow Field Policy Config</div>
+                <div class="o_wfs_bulk_policy_intro_hint">
+                    Select the rules to apply, configure the specific condition domain, and choose the target fields.
+                </div>
+            </div>
+
+            <div class="o_wfs_bulk_policy_kinds mb-3">
+                <div class="o_wfs_bulk_policy_section_title">1. Rules To Apply</div>
+                <div class="o_wfs_bulk_policy_kind_rows">
+                    <t t-foreach="props.availableKinds" t-as="kind" t-key="kind">
+                        <div class="o_wfs_bulk_policy_kind_chip">
+                            <CheckBox
+                                id="`wf_gbulk_kind_${kind}`"
+                                name="`wf_gbulk_kind_${kind}`"
+                                value="state.selectedKinds[kind]"
+                                onChange.bind="(value) => this.onToggleKind(kind, value)"
+                            >
+                                <t t-esc="getKindLabel(kind)"/>
+                            </CheckBox>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <div class="o_wfs_bulk_policy_kinds mb-3">
+                <div class="o_wfs_bulk_policy_section_title">2. Specific Domain Condition</div>
+                <div class="o_wfs_bulk_policy_intro_hint mb-2">
+                    Configure a separate domain per rule type.
+                </div>
+                <div class="o_wfs_bulk_policy_domain_rows">
+                    <t t-foreach="props.availableKinds" t-as="kind" t-key="`wf_gbulk_domain_${kind}`">
+                        <div class="o_wfs_bulk_policy_domain_row">
+                            <label class="o_wfs_bulk_policy_domain_label" t-esc="getKindLabel(kind)"/>
+                            <input
+                                type="text"
+                                class="o_input o_wfs_bulk_policy_domain_input"
+                                t-att-value="getDomainByKind(kind)"
+                                t-on-input="(ev) => this.onDomainInput(kind, ev)"
+                                placeholder="e.g. [('wf_action_key', '=', 'approve')]"
+                            />
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary btn-sm o_wfs_bulk_policy_domain_builder_btn"
+                                t-on-click="() => this.openDomainBuilder(kind)"
+                            >
+                                Domain Builder
+                            </button>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <div class="o_wfs_bulk_policy_fields">
+                <div class="o_wfs_bulk_policy_fields_header">
+                    <div class="o_wfs_bulk_policy_section_title">3. Target Fields</div>
+                    <div class="o_wfs_bulk_policy_actions">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="this.selectFiltered">
+                            Select Filtered
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="this.clearFiltered">
+                            Clear Filtered
+                        </button>
+                    </div>
+                </div>
+                <input
+                    type="text"
+                    class="o_input o_wfs_bulk_policy_search"
+                    placeholder="Search fields by label, technical name, or type"
+                    t-att-value="state.search"
+                    t-on-input="this.onSearchInput"
+                />
+                <div class="o_wfs_bulk_policy_list">
+                    <t t-foreach="filteredFields" t-as="item" t-key="item.name">
+                        <div class="o_wfs_bulk_policy_item">
+                            <CheckBox
+                                id="`wf_gbulk_field_${item.name}`"
+                                name="`wf_gbulk_field_${item.name}`"
+                                value="state.selectedByName[item.name]"
+                                onChange.bind="(value) => this.onToggleField(item.name, value)"
+                            >
+                                <span class="o_wfs_bulk_policy_item_label" t-esc="item.label || item.name"/>
+                                <span class="o_wfs_bulk_policy_item_meta">
+                                    <t t-esc="item.name"/>
+                                    <t t-if="item.type">
+                                        <t t-esc="' • '"/>
+                                        <t t-esc="item.type"/>
+                                    </t>
+                                    <t t-if="(item.occurrences || []).length &gt; 1">
+                                        <t t-esc="' • '"/>
+                                        <t t-esc="(item.occurrences || []).length + ' placements'"/>
+                                    </t>
+                                    <t t-if="!(item.occurrences || []).length">
+                                        <t t-esc="' • not placed'"/>
+                                    </t>
+                                </span>
+                            </CheckBox>
+                        </div>
+                    </t>
+                </div>
+                <div class="o_wfs_bulk_policy_summary">
+                    <span t-esc="selectedCount + ' field(s) selected'"/>
+                    <span t-esc="' • '"/>
+                    <span t-esc="selectedKindsCount + ' rule(s) selected'"/>
+                </div>
+            </div>
+
+            <t t-set-slot="footer">
+                <button
+                    class="btn btn-primary"
+                    t-att-disabled="!canConfirm ? true : undefined"
+                    t-on-click="this.onConfirmClicked"
+                >
+                    <t t-esc="state.applying ? 'Applying...' : 'Apply Rules'"/>
+                </button>
+                <button class="btn btn-secondary" t-att-disabled="state.applying ? true : undefined" t-on-click="() => props.close()">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+
+    <t t-name="workflow_studio.WorkflowFieldPolicyBulkApplyDialog">
+        <Dialog title="dialogTitle" size="'lg'" contentClass="'o_wfs_bulk_policy_dialog'">
+            <div class="o_wfs_bulk_policy_intro">
+                <div class="o_wfs_bulk_policy_intro_title">Source Field</div>
+                <div class="o_wfs_bulk_policy_intro_value" t-esc="props.sourceFieldLabel || '-'"/>
+                <div class="o_wfs_bulk_policy_intro_hint">
+                    Select fields and rules to copy from this source configuration.
+                </div>
+            </div>
+
+            <div class="o_wfs_bulk_policy_kinds">
+                <div class="o_wfs_bulk_policy_section_title">Rules To Apply</div>
+                <div class="o_wfs_bulk_policy_kind_rows">
+                    <t t-foreach="props.availableKinds" t-as="kind" t-key="kind">
+                        <div class="o_wfs_bulk_policy_kind_chip">
+                            <CheckBox
+                                id="`wf_bulk_kind_${kind}`"
+                                name="`wf_bulk_kind_${kind}`"
+                                value="state.selectedKinds[kind]"
+                                onChange.bind="(value) => this.onToggleKind(kind, value)"
+                            >
+                                <t t-esc="getKindLabel(kind)"/>
+                            </CheckBox>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <div class="o_wfs_bulk_policy_fields">
+                <div class="o_wfs_bulk_policy_fields_header">
+                    <div class="o_wfs_bulk_policy_section_title">Target Fields</div>
+                    <div class="o_wfs_bulk_policy_actions">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="this.selectFiltered">
+                            Select Filtered
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="this.clearFiltered">
+                            Clear Filtered
+                        </button>
+                    </div>
+                </div>
+                <input
+                    type="text"
+                    class="o_input o_wfs_bulk_policy_search"
+                    placeholder="Search fields by label, technical name, or type"
+                    t-att-value="state.search"
+                    t-on-input="this.onSearchInput"
+                />
+                <div class="o_wfs_bulk_policy_list">
+                    <t t-foreach="filteredFields" t-as="item" t-key="item.name">
+                        <div class="o_wfs_bulk_policy_item">
+                            <CheckBox
+                                id="`wf_bulk_field_${item.name}`"
+                                name="`wf_bulk_field_${item.name}`"
+                                value="state.selectedByName[item.name]"
+                                onChange.bind="(value) => this.onToggleField(item.name, value)"
+                            >
+                                <span class="o_wfs_bulk_policy_item_label" t-esc="item.label || item.name"/>
+                                <span class="o_wfs_bulk_policy_item_meta">
+                                    <t t-esc="item.name"/>
+                                    <t t-if="item.type">
+                                        <t t-esc="' • '"/>
+                                        <t t-esc="item.type"/>
+                                    </t>
+                                    <t t-if="(item.occurrences || []).length &gt; 1">
+                                        <t t-esc="' • '"/>
+                                        <t t-esc="(item.occurrences || []).length + ' placements'"/>
+                                    </t>
+                                </span>
+                            </CheckBox>
+                        </div>
+                    </t>
+                </div>
+                <div class="o_wfs_bulk_policy_summary">
+                    <span t-esc="selectedCount + ' field(s) selected'"/>
+                    <span t-esc="' • '"/>
+                    <span t-esc="selectedKindsCount + ' rule(s) selected'"/>
+                </div>
+            </div>
+
+            <t t-set-slot="footer">
+                <button
+                    class="btn btn-primary"
+                    t-att-disabled="!canConfirm ? true : undefined"
+                    t-on-click="this.onConfirmClicked"
+                >
+                    <t t-esc="state.applying ? 'Applying...' : 'Apply Rules'"/>
+                </button>
+                <button class="btn btn-secondary" t-att-disabled="state.applying ? true : undefined" t-on-click="() => props.close()">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

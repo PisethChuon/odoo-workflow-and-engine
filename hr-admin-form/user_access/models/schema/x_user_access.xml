@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_user_access" model="ir.model">
+            <field name="name">User Access Request</field>
+            <field name="model">x_user_access</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <!-- Stored helper state (delegated parent state lives on workflow.base.approval.request) -->
+        <record id="field_x_user_access_state_helper" model="ir.model.fields">
+            <field name="name">x_state</field>
+            <field name="ttype">char</field>
+            <field name="model">x_user_access</field>
+            <field name="model_id" ref="model_x_user_access"/>
+            <field name="field_description">State (Stored)</field>
+            <field name="readonly" eval="True"/>
+            <field name="store" eval="True"/>
+            <field name="depends">x_approval_base_id.state</field>
+            <field name="compute"><![CDATA[
+for rec in self:
+    rec['x_state'] = rec.x_approval_base_id.state if rec.x_approval_base_id else False
+]]>
+            </field>
+        </record>
+
+        <!-- Request Information -->
+        <record id="field_x_user_access_employee" model="ir.model.fields">
+            <field name="name">x_employee_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">hr.employee</field>
+            <field name="model">x_user_access</field>
+            <field name="model_id" ref="model_x_user_access"/>
+            <field name="field_description">Employee</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_user_access_item" model="ir.model.fields">
+            <field name="name">x_item_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_user_access_item</field>
+            <field name="model">x_user_access</field>
+            <field name="model_id" ref="model_x_user_access"/>
+            <field name="field_description">Item</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_user_access_type" model="ir.model.fields">
+            <field name="name">x_item_type_id</field>
+            <field name="ttype">many2one</field>
+            <field name="relation">x_user_access_item_type</field>
+            <field name="model">x_user_access</field>
+            <field name="model_id" ref="model_x_user_access"/>
+            <field name="field_description">Type</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_user_access_comment" model="ir.model.fields">
+            <field name="name">x_comment</field>
+            <field name="ttype">text</field>
+            <field name="model">x_user_access</field>
+            <field name="model_id" ref="model_x_user_access"/>
+            <field name="field_description">Comment</field>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+</odoo>

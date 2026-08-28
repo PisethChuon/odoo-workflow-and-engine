@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_x_car_park_request" model="ir.actions.act_window">
+            <field name="name">Car Park Permit Form</field>
+            <field name="res_model">x_car_park_request</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_x_car_model" model="ir.actions.act_window">
+            <field name="name">Car Models</field>
+            <field name="res_model">x_car_model</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_x_car_color" model="ir.actions.act_window">
+            <field name="name">Car Colors</field>
+            <field name="res_model">x_car_color</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

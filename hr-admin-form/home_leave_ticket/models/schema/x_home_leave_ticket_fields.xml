@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="field_x_home_leave_ticket_travel_detail_ids" model="ir.model.fields">
+            <field name="name">x_travel_detail_ids</field>
+            <field name="ttype">one2many</field>
+            <field name="relation">x_home_leave_ticket_travel_detail</field>
+            <field name="relation_field">x_home_leave_ticket_id</field>
+            <field name="model">x_home_leave_ticket</field>
+            <field name="model_id" ref="model_x_home_leave_ticket"/>
+            <field name="field_description">Travel Details</field>
+            <field name="tracking" eval="1"/>
+        </record>
+    </data>
+</odoo>

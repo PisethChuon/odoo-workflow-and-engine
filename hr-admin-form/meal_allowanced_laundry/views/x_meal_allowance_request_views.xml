@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_meal_allowance_request" model="ir.ui.view">
+            <field name="name">MAL: Meal Allowance Request List</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_meal_allowance_request" model="ir.ui.view">
+            <field name="name">MAL: Meal Allowance Request</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+                    <!-- Modification Section -->
+                    <group string="Modification Information" col="2">
+                        <field name="x_is_modification"
+                               invisible="'x_is_modification' in (invisible_fields or '')"
+                               readonly="'x_is_modification' in (readonly_fields or '') or is_finished"
+                               required="'x_is_modification' in (required_fields or '')"/>
+                        <field name="x_form_no"
+                               invisible="'x_form_no' in (invisible_fields or '') or not x_is_modification"
+                               readonly="'x_form_no' in (readonly_fields or '') or is_finished"
+                               placeholder="Enter Form Number"
+                               required="'x_form_no' in (required_fields or '')"/>
+                    </group>
+
+                    <!-- Employee Information -->
+                    <group string="Employee Information" col="2">
+                        <group>
+                            <field name="x_company_line_code"
+                                   invisible="'x_company_line_code' in (invisible_fields or '')"
+                                   readonly="'x_company_line_code' in (readonly_fields or '') or is_finished"
+                                   placeholder="Company Code &amp; Line Code"
+                                   required="'x_company_line_code' in (required_fields or '')"/>
+                            <field name="x_employee_no"
+                                   invisible="'x_employee_no' in (invisible_fields or '')"
+                                   readonly="'x_employee_no' in (readonly_fields or '') or is_finished"
+                                              context="{'meal_allowance_show_code': 1}"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                                   placeholder="Employee Number"
+                                   required="'x_employee_no' in (required_fields or '')"/>
+                            <field name="x_employee_name"
+                                   invisible="'x_employee_name' in (invisible_fields or '')"
+                                   readonly="'x_employee_name' in (readonly_fields or '') or is_finished"
+                                   placeholder="Employee Name"
+                                   required="'x_employee_name' in (required_fields or '')"/>
+                        </group>
+                        <group>
+                            <field name="x_position"
+                                   invisible="'x_position' in (invisible_fields or '')"
+                                   readonly="'x_position' in (readonly_fields or '') or is_finished"
+                                   placeholder="Position"
+                                   required="'x_position' in (required_fields or '')"/>
+                            <field name="x_title"
+                                   invisible="'x_title' in (invisible_fields or '')"
+                                   readonly="'x_title' in (readonly_fields or '') or is_finished"
+                                   placeholder="Title"
+                                   required="'x_title' in (required_fields or '')"/>
+                            <field name="x_meal_allowance_level_id"
+                                invisible="'x_meal_allowance_level_id' in (invisible_fields or '')"
+                                readonly="'x_meal_allowance_level_id' in (readonly_fields or '') or is_finished"
+                                   placeholder="Level"
+                                required="'x_meal_allowance_level_id' in (required_fields or '')"/>
+                        </group>
+                    </group>
+
+                    <!-- Entitlement Information -->
+                    <group string="Entitlement Information" col="2">
+                        <group>
+                            <field name="x_entitlement_monthly"
+                                   invisible="'x_entitlement_monthly' in (invisible_fields or '')"
+                                   readonly="'x_entitlement_monthly' in (readonly_fields or '') or is_finished"
+                                   placeholder="Entitlement value"
+                                   required="'x_entitlement_monthly' in (required_fields or '')"/>
+                        </group>
+                        <group>
+                            <field name="x_effective_date"
+                                   invisible="'x_effective_date' in (invisible_fields or '')"
+                                   readonly="'x_effective_date' in (readonly_fields or '') or is_finished"
+                                   required="'x_effective_date' in (required_fields or '')"/>
+                        </group>
+                    </group>
+
+                    <!-- Outlets Applicable -->
+                    <group string="Outlets Applicable" col="2">
+                        <group>
+                            <field name="x_outlets_applicable_id"
+                                   invisible="'x_outlets_applicable_id' in (invisible_fields or '')"
+                                   readonly="'x_outlets_applicable_id' in (readonly_fields or '') or is_finished"
+                                   required="'x_outlets_applicable_id' in (required_fields or '')"/>
+                        </group>
+                        <group>
+                            <field name="x_remark"
+                                   invisible="'x_remark' in (invisible_fields or '')"
+                                   readonly="'x_remark' in (readonly_fields or '') or is_finished"
+                                   required="'x_remark' in (required_fields or '')"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Meal Allowance and Laundry Policy -->
+                <div class="o_field_widget mt-3">
+
+                <!-- Header Banner -->
+                <div style="background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%); border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
+                    <i class="fa fa-cutlery fa-lg" style="color: #aed6f1;"/>
+                    <div>
+                        <div style="color: #fff; font-weight: 700; font-size: 1rem; letter-spacing: 0.3px;">Meal Allowance &amp; OC/EL Facility Policy</div>
+                        <div style="color: #aed6f1; font-size: 0.82rem; margin-top: 2px;">Monthly basic will be topped up to the limit by the 10th of each month</div>
+                    </div>
+                </div>
+
+                <!-- EL Limits Table — surfaced early -->
+                <div style="border: 1px solid #d6eaf8; border-radius: 8px; overflow: hidden; margin-bottom: 16px;">
+                    <div style="background: #eaf4fb; padding: 10px 16px; border-bottom: 1px solid #d6eaf8; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa fa-table" style="color: #2e86c1;"/>
+                        <span style="font-weight: 600; color: #1a5276; font-size: 0.9rem;">EL Facility Monthly Limits</span>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+                        <thead>
+                            <tr style="background: #f4f6f7;">
+                                <th style="padding: 10px 16px; text-align: left; color: #555; font-weight: 600; border-bottom: 1px solid #e5e8e8;">Category</th>
+                                <th style="padding: 10px 16px; text-align: center; color: #555; font-weight: 600; border-bottom: 1px solid #e5e8e8; width: 120px;">Level</th>
+                                <th style="padding: 10px 16px; text-align: right; color: #555; font-weight: 600; border-bottom: 1px solid #e5e8e8; width: 160px;">EL Limit (US$)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #f0f3f4;">
+                                <td style="padding: 10px 16px; color: #1a5276; font-weight: 600;">VP &amp; Above</td>
+                                <td style="padding: 10px 16px; text-align: center; color: #666;">1 &amp; 2</td>
+                                <td style="padding: 10px 16px; text-align: right; font-weight: 700; color: #1e8449;">Unlimited</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #f0f3f4; background: #fafafa;">
+                                <td style="padding: 10px 16px; color: #333; font-weight: 500;">AVP / Director</td>
+                                <td style="padding: 10px 16px; text-align: center; color: #666;">3</td>
+                                <td style="padding: 10px 16px; text-align: right; font-weight: 700; color: #333;">1,000</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 16px; color: #333; font-weight: 500;">Senior Manager / Asst. Director and below</td>
+                                <td style="padding: 10px 16px; text-align: center; color: #666;">4A and below</td>
+                                <td style="padding: 10px 16px; text-align: right; font-weight: 700; color: #333;">500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Two-column section: OC and EL rules side by side -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+
+                    <!-- OC Facility Rules -->
+                    <div style="border: 1px solid #d5e8d4; border-radius: 8px; overflow: hidden;">
+                        <div style="background: #e8f8e8; padding: 10px 14px; border-bottom: 1px solid #d5e8d4; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa fa-check-circle" style="color: #27ae60;"/>
+                            <span style="font-weight: 600; color: #1e8449; font-size: 0.88rem;">OC Facility (Officer Check) Rules</span>
+                        </div>
+                        <ul style="margin: 0; padding: 12px 14px 12px 28px; font-size: 0.825rem; color: #333; line-height: 1.7;">
+                            <li>Personal consumption and dine-in only — no take-away</li>
+                            <li>One cover per check; employee must be present in person</li>
+                            <li>Cannot be used for family, friends, colleagues, or other guests</li>
+                            <li>50% discount on food &amp; non-alcoholic beverages (excl. taxes) at eligible F&amp;B outlets</li>
+                            <li>No discount at Food Pavilion / Food Court — full price applies</li>
+                            <li>Not applicable to alcoholic drinks, spa, retail, or tobacco</li>
+                            <li>No take-away items (cakes, cookies, mooncakes, jars, etc.)</li>
+                            <li>If monthly OC limit is exceeded, excess auto-converts to EL</li>
+                            <li>Unused monthly balance is forfeited at end of month — non-transferable</li>
+                            <li>Overseas employees must activate the facility via a one-off HR letter before visiting NagaWorld</li>
+                            <li>OC may not apply to certain promotional items — announcements will be made per case</li>
+                        </ul>
+                    </div>
+
+                    <!-- EL Facility Rules -->
+                    <div style="border: 1px solid #d6eaf8; border-radius: 8px; overflow: hidden;">
+                        <div style="background: #eaf4fb; padding: 10px 14px; border-bottom: 1px solid #d6eaf8; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa fa-credit-card" style="color: #2e86c1;"/>
+                            <span style="font-weight: 600; color: #1a5276; font-size: 0.88rem;">EL Facility (Employee Discount) Rules</span>
+                        </div>
+                        <ul style="margin: 0; padding: 12px 14px 12px 28px; font-size: 0.825rem; color: #333; line-height: 1.7;">
+                            <li>25% discount (incl. taxes) on all F&amp;B outlets for authorized employees</li>
+                            <li>Available for dine-in with guests and take-away</li>
+                            <li>Covers food and beverages (including alcoholic) consumed with guests present</li>
+                            <li>EL amount is settled via salary deduction the following month (or from final pay)</li>
+                            <li>Monthly EL limit cannot be carried over — expires end of month</li>
+                            <li>F&amp;B employees on duty cannot use EL at their own outlet</li>
+                            <li>Not applicable to spa, retail shops, or merchandise</li>
+                            <li>Tobacco may be signed to EL at full price — no discount applies</li>
+                            <li>Overseas employees must settle EL in cash or card at the outlet after each meal</li>
+                            <li>Amount exceeding the EL limit is charged at full menu price — no discount</li>
+                            <li>EL may not apply to certain promotions — announcements will be made per case</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Usage Guidelines -->
+                <div style="border: 1px solid #e8daef; border-radius: 8px; overflow: hidden; margin-bottom: 4px;">
+                    <div style="background: #f5eef8; padding: 10px 14px; border-bottom: 1px solid #e8daef; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa fa-info-circle" style="color: #8e44ad;"/>
+                        <span style="font-weight: 600; color: #6c3483; font-size: 0.88rem;">Notes &amp; Usage Guidelines</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
+                        <ul style="margin: 0; padding: 12px 14px 12px 28px; font-size: 0.825rem; color: #333; line-height: 1.7; border-right: 1px solid #e8daef;">
+                            <li>Identify yourself as staff and provide your Employee ID when ordering</li>
+                            <li>Verify the bill reflects the correct account (OC or EL) before signing</li>
+                            <li>OC bills are exclusive of VAT and service charge; EL bills are exclusive of service charge only</li>
+                            <li>When dining with others, separate bills will be issued for OC and EL accounts</li>
+                            <li>Retain your duplicate bill copy — your signature authorizes the deduction</li>
+                            <li>You are responsible for monitoring your own OC and EL balances</li>
+                        </ul>
+                        <ul style="margin: 0; padding: 12px 14px 12px 28px; font-size: 0.825rem; color: #333; line-height: 1.7;">
+                            <li>All unused allowances and limits are non-refundable and non-transferable</li>
+                            <li>The company may convert mistaken OC usage to EL at any time, with or without prior notice</li>
+                            <li>Present your Company ID card when requested by F&amp;B staff</li>
+                            <li>Priority is given to customers; certain special events may exclude staff</li>
+                            <li>Employees visiting from outside Phnom Penh must settle EL in cash or card at the outlet immediately after each meal</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Laundry Allowance -->
+                <group string="Laundry Allowance">
+
+                    <field name="x_is_laundry"
+                        invisible="'x_is_laundry' in (invisible_fields or [])"
+                        readonly="'x_is_laundry' in (readonly_fields or []) or is_finished"
+                        required="'x_is_laundry' in (required_fields or [])"/>
+
+                    <field name="x_staff_group_id"
+                        invisible="'x_staff_group_id' in (invisible_fields or []) or not x_is_laundry"
+                        readonly="'x_staff_group_id' in (readonly_fields or []) or is_finished"
+                        required="'x_staff_group_id' in (required_fields or [])"
+                        placeholder="Staff Group"
+                        options="{'no_create': True, 'no_create_edit': True}"/>
+
+                    <field name="x_entitlement_information_monthly"
+                        invisible="'x_entitlement_information_monthly' in (invisible_fields or []) or not x_is_laundry"
+                        readonly="'x_entitlement_information_monthly' in (readonly_fields or []) or is_finished"
+                        required="'x_entitlement_information_monthly' in (required_fields or [])"
+                        placeholder="Entitlement value"/>
+
+                    <field name="x_apparel_type"
+                        invisible="'x_apparel_type' in (invisible_fields or []) or not x_is_laundry"
+                        readonly="'x_apparel_type' in (readonly_fields or []) or is_finished"
+                        required="'x_apparel_type' in (required_fields or [])"
+                        placeholder="Apparel Type"/>
+
+                </group>
+                </div>
+                </group>
+            </field>
+        </record>
+
+        <record id="view_search_x_meal_allowance_request" model="ir.ui.view">
+            <field name="name">MAL: Meal Allowance Request Search</field>
+            <field name="model">x_meal_allowance_request</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Meal Allowance Request">
+                    <field name="x_employee_name" string="Employee Name"/>
+                    <field name="x_employee_no" string="Employee No"/>
+                    <field name="x_company_line_code" string="Company Code &amp; Line Code"/>
+                    <separator/>
+                    <filter name="filter_new" string="New" domain="[('x_state', '=', 'new')]"/>
+                    <filter name="filter_draft" string="Draft" domain="[('x_state', '=', 'draft')]"/>
+                    <filter name="filter_pending" string="Pending" domain="[('x_state', '=', 'pending_approval')]"/>
+                    <filter name="filter_approved" string="Approved" domain="[('x_state', '=', 'approved')]"/>
+                    <filter name="filter_rejected" string="Rejected" domain="[('x_state', '=', 'rejected')]"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

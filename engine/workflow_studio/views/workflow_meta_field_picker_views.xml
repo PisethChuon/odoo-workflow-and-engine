@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ir_model_fields_workflow_meta_picker_list" model="ir.ui.view">
+        <field name="name">ir.model.fields.workflow.meta.picker.list</field>
+        <field name="model">ir.model.fields</field>
+        <field name="arch" type="xml">
+            <list string="Workflow Fields" create="false" edit="false" duplicate="false">
+                <field name="name"/>
+                <field name="field_description" string="Field Label"/>
+                <field name="model_id" string="Model"/>
+                <field name="ttype" string="Field Type"/>
+                <field name="state" string="Type"/>
+                <field name="required" string="Required"/>
+                <field name="readonly" string="Readonly"/>
+                <field name="store" string="Stored"/>
+                <field name="relation" string="Related Model"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ir_model_fields_workflow_meta_picker_search" model="ir.ui.view">
+        <field name="name">ir.model.fields.workflow.meta.picker.search</field>
+        <field name="model">ir.model.fields</field>
+        <field name="arch" type="xml">
+            <search string="Workflow Fields">
+                <field name="name"
+                       string="Field"
+                       filter_domain="['|', '|', '|',
+                                       ('name', 'ilike', self),
+                                       ('field_description', 'ilike', self),
+                                       ('model', 'ilike', self),
+                                       ('model_id.name', 'ilike', self)]"/>
+                <field name="model_id"/>
+                <field name="ttype"/>
+                <field name="relation"/>
+                <separator/>
+                <filter name="workflow_meta_current_model"
+                        string="Current Model"
+                        domain="[('model', '=', context.get('workflow_request_model'))]"/>
+                <filter name="workflow_meta_related_models"
+                        string="Related Models"
+                        domain="[('model', '!=', context.get('workflow_request_model'))]"/>
+                <separator/>
+                <filter name="workflow_meta_required"
+                        string="Required"
+                        domain="[('required', '=', True)]"/>
+                <filter name="workflow_meta_readonly"
+                        string="Readonly"
+                        domain="[('readonly', '=', True)]"/>
+                <filter name="workflow_meta_stored"
+                        string="Stored"
+                        domain="[('store', '=', True)]"/>
+                <filter name="workflow_meta_relational"
+                        string="Relational"
+                        domain="[('relation', '!=', False)]"/>
+                <separator/>
+                <filter name="workflow_meta_custom"
+                        string="Custom"
+                        domain="[('state', '=', 'manual')]"/>
+                <filter name="workflow_meta_base"
+                        string="Base"
+                        domain="[('state', '=', 'base')]"/>
+                <filter name="workflow_meta_translatable"
+                        string="Translate"
+                        domain="[('translate', '=', True)]"/>
+                <group>
+                    <filter name="workflow_meta_group_model"
+                            string="Model"
+                            domain="[]"
+                            context="{'group_by': 'model_id'}"/>
+                    <filter name="workflow_meta_group_ttype"
+                            string="Field Type"
+                            domain="[]"
+                            context="{'group_by': 'ttype'}"/>
+                    <filter name="workflow_meta_group_state"
+                            string="Field Type Source"
+                            domain="[]"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="workflow_meta_group_relation"
+                            string="Related Model"
+                            domain="[]"
+                            context="{'group_by': 'relation'}"/>
+                    <filter name="workflow_meta_group_required"
+                            string="Required"
+                            domain="[]"
+                            context="{'group_by': 'required'}"/>
+                    <filter name="workflow_meta_group_readonly"
+                            string="Readonly"
+                            domain="[]"
+                            context="{'group_by': 'readonly'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

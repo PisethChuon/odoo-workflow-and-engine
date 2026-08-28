@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.FormViewDryRunButtons"
+       t-inherit="web.FormView.Buttons"
+       t-inherit-mode="extension"
+       owl="1">
+        <xpath expr="//button[contains(@class, 'o_form_button_save')]" position="replace">
+            <button t-if="model.root.isInEdition and this._wfIsDryRunMode()"
+                    type="button"
+                    class="btn btn-primary wf_form_button_dryrun"
+                    data-hotkey="s"
+                    t-on-click.stop="wfRunDryRunClick">
+                Run Dry Run
+            </button>
+            <button t-elif="model.root.isInEdition"
+                    type="button"
+                    class="btn btn-primary o_form_button_save"
+                    data-hotkey="s"
+                    t-on-click.stop="() => this.saveButtonClicked({closable: true})">
+                Save
+            </button>
+        </xpath>
+        <xpath expr="//button[contains(@class, 'o_form_button_cancel')]" position="replace">
+            <button t-if="model.root.isInEdition and this._wfIsDryRunMode()"
+                    type="button"
+                    class="btn btn-secondary o_form_button_cancel"
+                    data-hotkey="j"
+                    t-on-click.stop="wfBackToDryRun">
+                Back to Dry Run
+            </button>
+            <button t-elif="model.root.isInEdition"
+                    type="button"
+                    class="btn btn-secondary o_form_button_cancel"
+                    data-hotkey="j"
+                    t-on-click.stop="discard">
+                Discard
+            </button>
+        </xpath>
+        <xpath expr="//button[contains(@class, 'o_form_button_remove')]" position="replace">
+            <button t-if="model.root.isInEdition and props.removeRecord and !this._wfIsDryRunMode()"
+                    class="btn btn-secondary o_form_button_remove"
+                    t-on-click="props.removeRecord"
+                    data-hotkey="x">
+                Remove
+            </button>
+        </xpath>
+        <xpath expr="//button[contains(@class, 'o_form_button_create')]" position="replace">
+            <button t-if="!model.root.isInEdition and canCreate and !this._wfIsDryRunMode()"
+                    type="button"
+                    class="btn btn-secondary o_form_button_create"
+                    data-hotkey="c"
+                    t-on-click.stop="create">
+                New
+            </button>
+        </xpath>
+    </t>
+</templates>

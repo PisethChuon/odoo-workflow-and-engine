@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+  <t t-name="workflow_engine.TwoFADialog">
+    <div class="wf2fa-root" t-attf-data-stage="{{ state.stage }}">
+      <div class="wf2fa-panel">
+        <t t-if="state.stage === 'qr'">
+          <div class="wf2fa-hero">
+            <h3>Scan to Approve</h3>
+            <p class="wf2fa-sub">Open MyPortal HR app and scan the QR code.</p>
+          </div>
+          <div class="wf2fa-qr-card">
+            <img t-if="state.qr_image" class="wf2fa-qr" t-att-src="'data:image/png;base64,' + state.qr_image" alt="Two-factor authentication QR code"/>
+            <div class="wf2fa-pill">Awaiting scan</div>
+          </div>
+          <button class="btn btn-primary wf2fa-cta" t-on-click="switchToOtp">No app? Switch to OTP</button>
+        </t>
+
+        <t t-if="state.stage === 'otp'">
+          <div class="wf2fa-hero wf2fa-otp-hero">
+            <h3>Enter OTP</h3>
+            <p class="wf2fa-sub">Enter the <t t-esc="state.otp_length"/> digit code sent to <t t-esc="state.masked_email"/>.</p>
+          </div>
+          <div class="wf2fa-otp-box" t-on-paste="onOtpBoxPaste">
+            <div class="wf2fa-otp-strip">
+              <t t-foreach="otpSlots()" t-as="slot" t-key="slot.index">
+                <input type="text"
+                       inputmode="numeric"
+                       pattern="[0-9]*"
+                       autocomplete="one-time-code"
+                       class="wf2fa-otp-digit"
+                       t-att-value="slot.digit"
+                       t-att-data-index="slot.index"
+                       t-on-input="onOtpDigitInput"
+                       t-on-keydown="onOtpKeydown"
+                       t-on-paste="onOtpPaste"/>
+              </t>
+            </div>
+          </div>
+          <div class="wf2fa-otp-resend">
+            <span>Didn't receive code? </span>
+            <button t-if="canResendOtp()"
+                    type="button"
+                    class="btn btn-link wf2fa-resend-link"
+                    t-on-click="requestOtp">Resend OTP</button>
+            <span t-else="" class="wf2fa-resend-countdown" t-esc="resendCooldownLabel()"/>
+          </div>
+          <div class="wf2fa-actions wf2fa-actions-otp">
+            <button class="btn btn-primary wf2fa-verify-btn" t-on-click="verifyOtp" t-att-disabled="!isOtpComplete()">Verify OTP</button>
+            <button class="btn btn-link" t-on-click="backToQr">Back to QR</button>
+          </div>
+        </t>
+
+        <t t-if="state.stage === 'waiting'">
+          <div class="wf2fa-wait">
+            <div class="wf2fa-countdown" t-esc="state.countdown || ''"/>
+            <h3>Please approve on your mobile</h3>
+            <p class="wf2fa-sub">We’re waiting for your confirmation.</p>
+          </div>
+        </t>
+
+        <t t-if="state.stage === 'success'">
+          <div class="wf2fa-result success">
+            <div class="wf2fa-icon success"></div>
+            <h3>Authentication Success</h3>
+            <p class="wf2fa-sub">You can continue your action.</p>
+            <button class="btn btn-primary" t-on-click="finalize">Continue</button>
+          </div>
+        </t>
+
+        <t t-if="state.stage === 'error'">
+          <div class="wf2fa-result error">
+            <div class="wf2fa-icon error"></div>
+            <h3>Authentication Failed</h3>
+            <p class="wf2fa-sub">Retry to continue.</p>
+            <button class="btn btn-primary" t-on-click="retry">Retry</button>
+          </div>
+        </t>
+      </div>
+    </div>
+  </t>
+</templates>

@@ -1,0 +1,102 @@
+<odoo>
+  <!-- List View -->
+  <record id="view_x_phone_allowance_list" model="ir.ui.view">
+    <field name="name">x_phone_allowance.list</field>
+    <field name="model">x_phone_allowance</field>
+    <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+      <list create="false" multi_edit="1"></list>
+    </field>
+  </record>
+
+  <record id="view_x_phone_allowance_kanban" model="ir.ui.view">
+    <field name="name">ADMIRF: IT Request Kanban</field>
+    <field name="model">x_phone_allowance</field>
+    <field name="inherit_id" ref="workflow_engine.approval_base_request_view_kanban_mobile" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+      <kanban></kanban>
+    </field>
+  </record>
+
+  <!-- Form View -->
+  <record id="view_form_x_phone_allowance" model="ir.ui.view">
+    <field name="name">x_phone_allowance.form</field>
+    <field name="model">x_phone_allowance</field>
+    <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form" />
+    <field name="mode">primary</field>
+    <field name="priority" eval="30" />
+    <field name="arch" type="xml">
+      <group name="request_main" position="after">
+        <group name="request_extra_info" string="Request Information">
+          <group col="12" class="d-block col-12 col-lg-12">
+            <field name="x_item_line_ids"
+              invisible="'x_item_line_ids' in (invisible_fields or '')"
+              readonly="'x_item_line_ids' in (readonly_fields or '') or is_finished"
+              required="1"
+              string="Requested Items"
+              editable="bottom"
+              context="{'default_x_phone_allowance_id': id}"
+              colspan="12">
+              <list>
+                <field name="x_employee_id" />
+                <field name="x_request_item" string="Items" />
+                <field name="x_justification" string="Justification" />
+              </list>
+              <kanban class="o_kanban_mobile">
+                <field name="x_employee_id" />
+                <field name="x_request_item" />
+                <field name="x_justification" />
+                <templates>
+                  <t t-name="card">
+                    <div class="p-2 mb-2">
+                      <div class="row">
+                        <div class="col-12">
+                          <span class="text-muted small">Employee: </span>
+                          <strong>
+                            <field name="x_employee_id" />
+                          </strong>
+                        </div>
+                      </div>
+                      <div class="row mt-1">
+                        <div class="col-12">
+                          <span class="text-muted small">Item: </span>
+                          <span class="badge rounded-pill text-bg-info">
+                            <field name="x_request_item" />
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="row mt-2">
+                        <div class="col-12">
+                          <div class="text-muted small">Comment:</div>
+                          <div class="text-dark card ">
+                            <div class="px-2 py-1">
+                              <field name="x_justification" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </t>
+                </templates>
+              </kanban>
+            </field>
+          </group>
+          <group>
+            <button name="%(action_open_import_wizard_server_phone_allowance)d"
+              invisible="'x_show_import_btn' in (invisible_fields or '') or is_finished"
+              readonly="'x_show_import_btn' in (readonly_fields or '') or is_finished"
+              required="'x_show_import_btn' in (required_fields or '')"
+              context="{'x_phone_allowance_id': id}"
+              type="action"
+              string="Import Items"
+              icon="fa-upload" />
+          </group>
+        </group>
+      </group>
+    </field>
+  </record>
+
+</odoo>

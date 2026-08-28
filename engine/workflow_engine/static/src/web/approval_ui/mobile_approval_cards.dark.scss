@@ -1,0 +1,87 @@
+@media (max-width: 767.98px) {
+  .o_kanban_mobile .wf-approval-mobile-card {
+    color: #e8edf7 !important;
+    background: #202838 !important;
+    border-color: #3b465c !important;
+    box-shadow: none !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card--approved {
+    --wf-approval-card-accent: #5ccf89;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card--refused,
+  .o_kanban_mobile .wf-approval-mobile-card--cancelled {
+    --wf-approval-card-accent: #ff7b86;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card--pending,
+  .o_kanban_mobile .wf-approval-mobile-card--new,
+  .o_kanban_mobile .wf-approval-mobile-card--waiting {
+    --wf-approval-card-accent: #78b7ff;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__name,
+  .o_kanban_mobile .wf-approval-mobile-card__decision {
+    color: #f4f7fb !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card .text-muted,
+  .o_kanban_mobile .wf-approval-mobile-card__activity,
+  .o_kanban_mobile .wf-approval-mobile-card__flow,
+  .o_kanban_mobile .wf-approval-mobile-card__comment,
+  .o_kanban_mobile .wf-approval-mobile-card__date {
+    color: #aeb9ca !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__avatar {
+    background: #30394c !important;
+    color: #d9e2f2 !important;
+    border: 1px solid #46536b;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__chip {
+    color: #e1e8f5 !important;
+    background: #273146 !important;
+    border-color: #4a5872 !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__chip i {
+    color: #9fc0ff !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__chip--required {
+    color: #ffd7e5 !important;
+    background: rgba(255, 123, 134, 0.16) !important;
+    border-color: rgba(255, 123, 134, 0.48) !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__chip--required i {
+    color: #ff9aaa !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__status.text-bg-info {
+    color: #082236 !important;
+    background-color: #86cbff !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__status.text-bg-success {
+    color: #082616 !important;
+    background-color: #72dda0 !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__status.text-bg-warning {
+    color: #2a2100 !important;
+    background-color: #ffd76a !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__status.text-bg-danger {
+    color: #35070c !important;
+    background-color: #ff8b94 !important;
+  }
+
+  .o_kanban_mobile .wf-approval-mobile-card__status.text-bg-secondary {
+    color: #eef3fb !important;
+    background-color: #4a5366 !important;
+  }
+}

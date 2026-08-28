@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workflow_request_visibility_scope_view_search" model="ir.ui.view">
+        <field name="name">workflow.request.visibility.scope.search</field>
+        <field name="model">workflow.request.visibility.scope</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="request_id"/>
+                <field name="category_id"/>
+                <field name="allowed_user_id"/>
+                <field name="allowed_group_id"/>
+                <field name="scope"/>
+                <field name="granted_by_user_id"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="expired" string="Expired" domain="[('expires_at', '&lt;', context_today())]"/>
+                <filter name="read" string="Read" domain="[('scope', '=', 'read')]"/>
+                <filter name="edit" string="Edit" domain="[('scope', '=', 'edit')]"/>
+                <filter name="decision" string="Decision" domain="[('scope', '=', 'decision')]"/>
+                <group>
+                    <filter name="groupby_category" string="Category" context="{'group_by': 'category_id'}"/>
+                    <filter name="groupby_scope" string="Scope" context="{'group_by': 'scope'}"/>
+                    <filter name="groupby_granter" string="Granted By" context="{'group_by': 'granted_by_user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_request_visibility_scope_view_list" model="ir.ui.view">
+        <field name="name">workflow.request.visibility.scope.list</field>
+        <field name="model">workflow.request.visibility.scope</field>
+        <field name="arch" type="xml">
+            <list default_order="id desc">
+                <field name="request_id"/>
+                <field name="category_id"/>
+                <field name="scope"/>
+                <field name="allowed_user_id"/>
+                <field name="allowed_group_id"/>
+                <field name="granted_by_user_id"/>
+                <field name="expires_at"/>
+                <field name="active"/>
+                <field name="reason"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_request_visibility_scope_view_form" model="ir.ui.view">
+        <field name="name">workflow.request.visibility.scope.form</field>
+        <field name="model">workflow.request.visibility.scope</field>
+        <field name="arch" type="xml">
+            <form string="Visibility Scope">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="request_id"/>
+                            <field name="category_id" readonly="1"/>
+                            <field name="scope"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="allowed_user_id"/>
+                            <field name="allowed_group_id"/>
+                            <field name="granted_by_user_id" readonly="1"/>
+                            <field name="expires_at"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_workflow_request_visibility_scope" model="ir.actions.act_window">
+        <field name="name">Request Visibility Scopes</field>
+        <field name="res_model">workflow.request.visibility.scope</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="workflow_request_visibility_scope_view_search"/>
+    </record>
+
+    <record id="workflow_request_visibility_scope_bulk_wizard_view_form" model="ir.ui.view">
+        <field name="name">workflow.request.visibility.scope.bulk.wizard.form</field>
+        <field name="model">workflow.request.visibility.scope.bulk.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Visibility Scope">
+                <group>
+                    <field name="operation"/>
+                    <field name="scope"/>
+                    <field name="request_ids" widget="many2many_tags"/>
+                </group>
+                <group>
+                    <field name="user_ids" widget="many2many_tags"/>
+                    <field name="group_ids" widget="many2many_tags"/>
+                </group>
+                <group>
+                    <field name="reason"/>
+                    <field name="expires_at" invisible="operation != 'grant'"/>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_workflow_request_visibility_scope_bulk_wizard" model="ir.actions.act_window">
+        <field name="name">Bulk Visibility Scope</field>
+        <field name="res_model">workflow.request.visibility.scope.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="workflow_engine.model_workflow_base_approval_request"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <record id="workflow_approval_base_request_view_form_visibility_tools" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.form.visibility.tools</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_visibility_scopes"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-eye"
+                        groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                        string="Visibility Scopes"/>
+                <button name="action_open_security_access_diagnostic"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-stethoscope"
+                        groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                        string="Access Diagnostic"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_approval_base_request_view_search_security_snapshot" model="ir.ui.view">
+        <field name="name">workflow.base.approval.request.search.security.snapshot</field>
+        <field name="model">workflow.base.approval.request</field>
+        <field name="inherit_id" ref="workflow_engine.approval_base_search_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='manager_user_id']" position="after">
+                <field name="request_owner_manager_user_id"/>
+                <field name="request_owner_line_id"/>
+                <field name="request_owner_team_id"/>
+            </xpath>
+            <xpath expr="//group/filter[@name='groupby_manager']" position="after">
+                <filter string="Owner Manager" name="groupby_request_owner_manager" context="{'group_by': 'request_owner_manager_user_id'}"/>
+                <filter string="Line" name="groupby_request_owner_line" context="{'group_by': 'request_owner_line_id'}"/>
+                <filter string="Team" name="groupby_request_owner_team" context="{'group_by': 'request_owner_team_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_line_view_list_hr_map" model="ir.ui.view">
+        <field name="name">workflow.approval.group.line.view.list.hr.map</field>
+        <field name="model">workflow.approval.group.line</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_group_line_view_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="hr_line_code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_line_view_form_hr_map" model="ir.ui.view">
+        <field name="name">workflow.approval.group.line.view.form.hr.map</field>
+        <field name="model">workflow.approval.group.line</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_group_line_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="hr_line_code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_team_view_list_hr_map" model="ir.ui.view">
+        <field name="name">workflow.approval.group.team.view.list.hr.map</field>
+        <field name="model">workflow.approval.group.team</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_group_team_view_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="hr_team_code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_approval_group_team_view_form_hr_map" model="ir.ui.view">
+        <field name="name">workflow.approval.group.team.view.form.hr.map</field>
+        <field name="model">workflow.approval.group.team</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_group_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_id']" position="after">
+                <field name="hr_team_code"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

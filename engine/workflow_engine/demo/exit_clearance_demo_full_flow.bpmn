@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    id="Definitions_ExitClearance"
+    targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_ExitClearance" isExecutable="true">
+
+    <bpmn:startEvent id="StartEvent_Exit" name="Start"/>
+
+    <bpmn:userTask id="Task_Submission" name="Submission"/>
+    <bpmn:intermediateCatchEvent id="Event_Submit" name="Submit">
+      <bpmn:messageEventDefinition id="MessageDef_Submit"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_HODDecision" name="HOD Decision"/>
+    <bpmn:intermediateCatchEvent id="Event_HODApprove" name="Approve">
+      <bpmn:messageEventDefinition id="MessageDef_HODApprove"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_HODReject" name="Reject"/>
+
+    <bpmn:userTask id="Task_RequestorRework" name="Requestor Rework"/>
+    <bpmn:intermediateCatchEvent id="Event_Resubmit" name="Resubmit">
+      <bpmn:messageEventDefinition id="MessageDef_Resubmit"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:parallelGateway id="Gateway_DeptSplit" name="Department Split"/>
+
+    <bpmn:userTask id="Task_ITClearance" name="IT Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_ITDone" name="Done IT">
+      <bpmn:messageEventDefinition id="MessageDef_ITDone"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_ITReject" name="Reject IT"/>
+
+    <bpmn:userTask id="Task_FinanceClearance" name="Finance Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_FinanceDone" name="Done Finance">
+      <bpmn:messageEventDefinition id="MessageDef_FinanceDone"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_FinanceReject" name="Reject Finance"/>
+
+    <bpmn:userTask id="Task_AdminClearance" name="Admin Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_AdminDone" name="Done Admin">
+      <bpmn:messageEventDefinition id="MessageDef_AdminDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_SecurityClearance" name="Security Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_SecurityDone" name="Done Security">
+      <bpmn:messageEventDefinition id="MessageDef_SecurityDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_FacilityClearance" name="Facility Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_FacilityDone" name="Done Facility">
+      <bpmn:messageEventDefinition id="MessageDef_FacilityDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_PurchaseClearance" name="Purchase Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_PurchaseDone" name="Done Purchase">
+      <bpmn:messageEventDefinition id="MessageDef_PurchaseDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_OperationsClearance" name="Operations Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_OperationsDone" name="Done Operations">
+      <bpmn:messageEventDefinition id="MessageDef_OperationsDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_HRDeptClearance" name="HR Department Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_HRDeptDone" name="Done HR Dept">
+      <bpmn:messageEventDefinition id="MessageDef_HRDeptDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:parallelGateway id="Gateway_DeptJoin" name="Department Join"/>
+
+    <bpmn:userTask id="Task_HODFinalReview" name="HOD Final Review"/>
+    <bpmn:intermediateCatchEvent id="Event_HODFinalApprove" name="Approve Final">
+      <bpmn:messageEventDefinition id="MessageDef_HODFinalApprove"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:userTask id="Task_PayrollReview" name="Payroll Review"/>
+    <bpmn:intermediateCatchEvent id="Event_PayrollApprove" name="Approve Payroll">
+      <bpmn:messageEventDefinition id="MessageDef_PayrollApprove"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:inclusiveGateway id="Gateway_OffboardRoute" name="Offboard Automation Router"/>
+    <bpmn:scriptTask id="Task_DisableAccounts" name="Disable Accounts"/>
+    <bpmn:sendTask id="Task_NotifyChannels" name="Notify Channels"/>
+
+    <bpmn:intermediateThrowEvent id="Event_ServerDone" name="Server Done"/>
+    <bpmn:intermediateThrowEvent id="Event_NotifyDone" name="Notify Done"/>
+
+    <bpmn:inclusiveGateway id="Gateway_OffboardJoin" name="Offboard Join"/>
+
+    <bpmn:userTask id="Task_HRFinalClearance" name="HR Final Clearance"/>
+    <bpmn:intermediateCatchEvent id="Event_HRFinalDone" name="Complete HR">
+      <bpmn:messageEventDefinition id="MessageDef_HRFinalDone"/>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:endEvent id="EndEvent_ExitDone" name="Completed"/>
+
+    <bpmn:sequenceFlow id="Flow_01" sourceRef="StartEvent_Exit" targetRef="Task_Submission"/>
+    <bpmn:sequenceFlow id="Flow_02" sourceRef="Task_Submission" targetRef="Event_Submit"/>
+    <bpmn:sequenceFlow id="Flow_03" sourceRef="Event_Submit" targetRef="Task_HODDecision"/>
+
+    <bpmn:sequenceFlow id="Flow_04" sourceRef="Task_HODDecision" targetRef="Event_HODApprove"/>
+    <bpmn:sequenceFlow id="Flow_05" sourceRef="Event_HODApprove" targetRef="Gateway_DeptSplit"/>
+
+    <bpmn:sequenceFlow id="Flow_06" sourceRef="Task_HODDecision" targetRef="Event_HODReject"/>
+    <bpmn:sequenceFlow id="Flow_07" sourceRef="Event_HODReject" targetRef="Task_RequestorRework"/>
+    <bpmn:sequenceFlow id="Flow_08" sourceRef="Task_RequestorRework" targetRef="Event_Resubmit"/>
+    <bpmn:sequenceFlow id="Flow_09" sourceRef="Event_Resubmit" targetRef="Task_HODDecision"/>
+
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Gateway_DeptSplit" targetRef="Task_ITClearance"/>
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Gateway_DeptSplit" targetRef="Task_FinanceClearance"/>
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Gateway_DeptSplit" targetRef="Task_AdminClearance"/>
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Gateway_DeptSplit" targetRef="Task_SecurityClearance"/>
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Gateway_DeptSplit" targetRef="Task_FacilityClearance"/>
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="Gateway_DeptSplit" targetRef="Task_PurchaseClearance"/>
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="Gateway_DeptSplit" targetRef="Task_OperationsClearance"/>
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Gateway_DeptSplit" targetRef="Task_HRDeptClearance"/>
+
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Task_ITClearance" targetRef="Event_ITDone"/>
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Event_ITDone" targetRef="Gateway_DeptJoin"/>
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Task_ITClearance" targetRef="Event_ITReject"/>
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Event_ITReject" targetRef="Task_RequestorRework"/>
+
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Task_FinanceClearance" targetRef="Event_FinanceDone"/>
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Event_FinanceDone" targetRef="Gateway_DeptJoin"/>
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="Task_FinanceClearance" targetRef="Event_FinanceReject"/>
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="Event_FinanceReject" targetRef="Task_RequestorRework"/>
+
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="Task_AdminClearance" targetRef="Event_AdminDone"/>
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="Event_AdminDone" targetRef="Gateway_DeptJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="Task_SecurityClearance" targetRef="Event_SecurityDone"/>
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="Event_SecurityDone" targetRef="Gateway_DeptJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="Task_FacilityClearance" targetRef="Event_FacilityDone"/>
+    <bpmn:sequenceFlow id="Flow_31" sourceRef="Event_FacilityDone" targetRef="Gateway_DeptJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_32" sourceRef="Task_PurchaseClearance" targetRef="Event_PurchaseDone"/>
+    <bpmn:sequenceFlow id="Flow_33" sourceRef="Event_PurchaseDone" targetRef="Gateway_DeptJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_34" sourceRef="Task_OperationsClearance" targetRef="Event_OperationsDone"/>
+    <bpmn:sequenceFlow id="Flow_35" sourceRef="Event_OperationsDone" targetRef="Gateway_DeptJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_36" sourceRef="Task_HRDeptClearance" targetRef="Event_HRDeptDone"/>
+    <bpmn:sequenceFlow id="Flow_37" sourceRef="Event_HRDeptDone" targetRef="Gateway_DeptJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_38" sourceRef="Gateway_DeptJoin" targetRef="Task_HODFinalReview"/>
+    <bpmn:sequenceFlow id="Flow_39" sourceRef="Task_HODFinalReview" targetRef="Event_HODFinalApprove"/>
+    <bpmn:sequenceFlow id="Flow_40" sourceRef="Event_HODFinalApprove" targetRef="Task_PayrollReview"/>
+    <bpmn:sequenceFlow id="Flow_41" sourceRef="Task_PayrollReview" targetRef="Event_PayrollApprove"/>
+    <bpmn:sequenceFlow id="Flow_42" sourceRef="Event_PayrollApprove" targetRef="Gateway_OffboardRoute"/>
+
+    <bpmn:sequenceFlow id="Flow_43" sourceRef="Gateway_OffboardRoute" targetRef="Task_DisableAccounts">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('request_owner_emp_type', '=', 'employee')]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_44" sourceRef="Gateway_OffboardRoute" targetRef="Task_NotifyChannels">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">[('id', '!=', 0)]</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+
+    <bpmn:sequenceFlow id="Flow_45" sourceRef="Task_DisableAccounts" targetRef="Event_ServerDone"/>
+    <bpmn:sequenceFlow id="Flow_46" sourceRef="Event_ServerDone" targetRef="Gateway_OffboardJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_47" sourceRef="Task_NotifyChannels" targetRef="Event_NotifyDone"/>
+    <bpmn:sequenceFlow id="Flow_48" sourceRef="Event_NotifyDone" targetRef="Gateway_OffboardJoin"/>
+
+    <bpmn:sequenceFlow id="Flow_49" sourceRef="Gateway_OffboardJoin" targetRef="Task_HRFinalClearance"/>
+    <bpmn:sequenceFlow id="Flow_50" sourceRef="Task_HRFinalClearance" targetRef="Event_HRFinalDone"/>
+    <bpmn:sequenceFlow id="Flow_51" sourceRef="Event_HRFinalDone" targetRef="EndEvent_ExitDone"/>
+
+  </bpmn:process>
+</bpmn:definitions>

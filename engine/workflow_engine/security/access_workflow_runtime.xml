@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- User read/runtime scope -->
+        <record id="access_workflow_task_instance_user" model="ir.model.access">
+            <field name="name">workflow.task.instance.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_instance"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_task_assignee_user" model="ir.model.access">
+            <field name="name">workflow.task.assignee.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_assignee"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_action_assignment_user" model="ir.model.access">
+            <field name="name">workflow.action.assignment.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_action_assignment"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_task_event_user" model="ir.model.access">
+            <field name="name">workflow.task.event.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_event"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_visibility_scope_user" model="ir.model.access">
+            <field name="name">workflow.visibility.scope.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_visibility_scope"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_delegation_user" model="ir.model.access">
+            <field name="name">workflow.delegation.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_delegation"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_challenge_user" model="ir.model.access">
+            <field name="name">workflow.challenge.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_action_challenge"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_department_payload_user" model="ir.model.access">
+            <field name="name">workflow.department.payload.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_department_payload"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_request_automation_instance_user" model="ir.model.access">
+            <field name="name">workflow.request.automation.instance.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_automation_instance"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- Admin/config scope -->
+        <record id="access_workflow_task_instance_admin" model="ir.model.access">
+            <field name="name">workflow.task.instance.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_instance"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_task_assignee_admin" model="ir.model.access">
+            <field name="name">workflow.task.assignee.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_assignee"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_action_assignment_admin" model="ir.model.access">
+            <field name="name">workflow.action.assignment.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_action_assignment"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_task_event_admin" model="ir.model.access">
+            <field name="name">workflow.task.event.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_task_event"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_visibility_scope_admin" model="ir.model.access">
+            <field name="name">workflow.visibility.scope.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_visibility_scope"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_delegation_admin" model="ir.model.access">
+            <field name="name">workflow.delegation.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_delegation"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_challenge_admin" model="ir.model.access">
+            <field name="name">workflow.challenge.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_approval_action_challenge"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_department_payload_admin" model="ir.model.access">
+            <field name="name">workflow.department.payload.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_department_payload"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_request_automation_instance_admin" model="ir.model.access">
+            <field name="name">workflow.request.automation.instance.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_request_automation_instance"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_workflow_field_rule_set_admin" model="ir.model.access">
+            <field name="name">workflow.field.rule.set.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_field_rule_set"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_field_rule_admin" model="ir.model.access">
+            <field name="name">workflow.field.rule.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_field_rule"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_field_rule_binding_admin" model="ir.model.access">
+            <field name="name">workflow.field.rule.binding.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_field_rule_binding"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_automation_node_admin" model="ir.model.access">
+            <field name="name">workflow.automation.node.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_automation_node"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_workflow_automation_run_admin" model="ir.model.access">
+            <field name="name">workflow.automation.run.admin</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_automation_run"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_workflow_automation_run_user" model="ir.model.access">
+            <field name="name">workflow.automation.run.user</field>
+            <field name="model_id" ref="workflow_engine.model_workflow_automation_run"/>
+            <field name="group_id" ref="workflow_engine.group_workflow_approval_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+    </data>
+</odoo>

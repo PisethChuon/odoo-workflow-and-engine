@@ -1,0 +1,27 @@
+<template xml:space="preserve" id="bpmn_templates">
+  <t t-name="workflow_engine.BpmnWidget" owl="1">
+    <div t-attf-class="bpmn-theme ngflow-widget {{ state.isDarkTheme ? 'wf-theme-dark' : 'wf-theme-light' }} {{ state.mountedDone ? 'is-ready' : 'is-rendering' }}">
+      <div t-ref="root" class="o_bpmn_container bpmn_container"/>
+
+      <!-- Dock (bottom-right) -->
+      <div t-attf-class="ngflow-dock {{ state.dockExpanded ? 'is-expanded' : '' }}" role="toolbar" aria-label="Diagram controls">
+       
+        <button class="ngflow-dock-btn ngflow-dock-action" type="button" t-on-click="toggleFullscreen" t-att-title="state.isFullscreen ? 'Exit fullscreen' : 'Fullscreen'">
+          <i t-att-class="state.isFullscreen ? 'fa fa-compress' : 'fa fa-expand'"/>
+        </button>
+        <button class="ngflow-dock-btn ngflow-dock-action" type="button" t-on-click="fitAndCenter" title="Fit to screen">
+          <i class="fa fa-crosshairs"/>
+        </button>
+        <button class="ngflow-dock-btn ngflow-dock-action" type="button" t-on-click="zoomIn" title="Zoom in">
+          <i class="fa fa-plus"/>
+        </button>
+        <button class="ngflow-dock-btn ngflow-dock-action" type="button" t-on-click="zoomOut" title="Zoom out">
+          <i class="fa fa-minus"/>
+        </button>
+         <button class="ngflow-dock-btn ngflow-dock-toggle" type="button" t-on-click="toggleDock" t-att-title="state.dockExpanded ? 'Hide controls' : 'Show controls'" t-att-aria-expanded="state.dockExpanded ? 'true' : 'false'" aria-label="Show diagram controls">
+          <i t-att-class="state.dockExpanded ? 'fa fa-times text-danger' : 'fa fa-sliders'"/>
+        </button>
+      </div>
+    </div>
+  </t>
+</template>

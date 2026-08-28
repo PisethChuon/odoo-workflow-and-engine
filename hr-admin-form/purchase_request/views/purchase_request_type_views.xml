@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!--List View-->
+        <record id="x_purchase_request_type_list_view" model="ir.ui.view">
+            <field name="name">Purchase Request Type List</field>
+            <field name="model">x_purchase_request_type</field>
+            <field name="arch" type="xml">
+                <list string="Purchase Request Types">
+                    <field name="x_name"/>
+                    <field name="x_description"/>
+                    <field name="x_active"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="x_purchase_request_type_form_view" model="ir.ui.view">
+            <field name="name">Purchase Request Type Form</field>
+            <field name="model">x_purchase_request_type</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Request Type">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="x_active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="x_name"/>
+                            </group>
+                            <group>
+                                <field name="x_active"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="x_description" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="x_purchase_request_type_search_view" model="ir.ui.view">
+            <field name="name">Purchase Request Type Search</field>
+            <field name="model">x_purchase_request_type</field>
+            <field name="arch" type="xml">
+                <search string="Purchase Request Types">
+                    <field name="x_name"/>
+                    <field name="x_description"/>
+                    <filter name="active_types" string="Active" domain="[('x_active', '=', True)]"/>
+                    <filter name="inactive_types" string="Inactive" domain="[('x_active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

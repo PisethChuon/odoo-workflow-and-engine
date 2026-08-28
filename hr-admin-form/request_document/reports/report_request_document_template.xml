@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="x_request_document_report_template">
+    <t t-call="workflow_engine.report_base_layout">
+      <t t-set="report_title">Request Document Form</t>
+
+      <t t-foreach="docs" t-as="doc">
+        <div class="page">
+          <hr class="mt-0 mb-4"/>
+
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Document Information
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Document Type</td>
+                    <td><span t-field="doc.x_request_document_type"/></td>
+                  </tr>
+                  <tr>
+                    <td class="bg-light fw-bold">Reason for Request</td>
+                    <td><span t-field="doc.x_request_document_reason"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Personal Information
+              </h5>
+              <table class="table table-sm table-bordered">
+                <colgroup>
+                  <col style="width: 30%;"/>
+                  <col style="width: 70%;"/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="bg-light fw-bold">Personal Information</td>
+                    <td><span t-field="doc.x_request_document_personal_information"/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5 class="text-uppercase text-muted mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                Additional Information
+              </h5>
+              <div class="border rounded p-3 bg-light" style="min-height: 60px;">
+                <span t-field="doc.x_request_document_other_fields"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </t>
+    </t>
+  </template>
+</odoo>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="x_emergency_incident_information_report_template">
+        <t t-call="workflow_engine.report_base_layout">
+            <t t-set="report_title">Emergency Incident Information</t>
+
+            <div class="page">
+                <t t-foreach="docs" t-as="doc">
+                    
+                    <!-- 1. Incident Overview Section -->
+                    <strong>Incident Information</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <th style="width: 25%;">Incident Date &amp; Time</th>
+                                <td style="width: 25%;">
+                                    <span t-field="doc.x_incident_datetime"/>
+                                </td>
+                                <th style="width: 25%;">Type of Incident</th>
+                                <td style="width: 25%;">
+                                    <span t-field="doc.x_type_of_incidents_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Color Code</th>
+                                <td>
+                                    <span t-field="doc.x_color_code_id"/>
+                                </td>
+                                <th>Call of Incident</th>
+                                <td>
+                                    <span t-field="doc.x_call_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Property Location</th>
+                                <td>
+                                    <span t-field="doc.x_property_id"/>
+                                </td>
+                                <th>Location</th>
+                                <td>
+                                    <span t-field="doc.x_location_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Shift</th>
+                                <td>
+                                    <span t-field="doc.x_shift_id"/>
+                                </td>
+                                <th>Create Medical Form?</th>
+                                <td>
+                                    <span t-field="doc.x_create_medical_form"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 2. Responder Information Section -->
+                    <strong>Responder Information</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <th style="width: 25%;">Responder Name</th>
+                                <td style="width: 25%;">
+                                    <span t-field="doc.x_responder_id"/>
+                                </td>
+                                <th style="width: 25%;">Position</th>
+                                <td style="width: 25%;">
+                                    <span t-field="doc.x_responder_position"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Department</th>
+                                <td>
+                                    <span t-field="doc.x_responder_department"/>
+                                </td>
+                                <th>Phone Contact</th>
+                                <td>
+                                    <span t-field="doc.x_responder_phone"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 3. Incident Remarks Section -->
+                    <strong>Incident Remarks</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <td style="min-height: 40px;">
+                                    <span t-field="doc.x_incident_remark"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 4. Patient Information Section -->
+                    <strong>Patient Information</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <th style="width: 25%;">Patient Name (Employee)</th>
+                                <td style="width: 25%;">
+                                    <span t-field="doc.x_patient_id"/>
+                                </td>
+                                <th style="width: 25%;">Position</th>
+                                <td style="width: 25%;">
+                                    <span t-field="doc.x_patient_position"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Department</th>
+                                <td>
+                                    <span t-field="doc.x_patient_department"/>
+                                </td>
+                                <th>Phone Contact</th>
+                                <td>
+                                    <span t-field="doc.x_patient_phone"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Guest Name</th>
+                                <td>
+                                    <span t-field="doc.x_guest_name"/>
+                                </td>
+                                <th>Room Number</th>
+                                <td>
+                                    <span t-field="doc.x_room_number"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 5. Patient Remarks Section -->
+                    <strong>Patient Remarks</strong>
+                    <table class="table table-bordered mt-2">
+                        <tbody>
+                            <tr>
+                                <td style="min-height: 40px;">
+                                    <span t-field="doc.x_patient_remark"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

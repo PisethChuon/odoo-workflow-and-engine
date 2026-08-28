@@ -1,0 +1,89 @@
+/* =========================================================
+   BPMN Diagram Theme (scoped) — applies only under .bpmn-theme
+   ========================================================= */
+
+.bpmn-theme{
+  --bpmn-node-fill: #ffffff;
+  --bpmn-node-stroke: #2563eb;
+  --bpmn-accent: #2563eb;
+  --bpmn-text: #111827;
+  --bpmn-flow: #64748b;
+
+  --bpmn-current-stroke: #16a34a;
+  --bpmn-current-fill: #22c55e;
+  --bpmn-current-text: #ffffff;
+
+  --bpmn-previous-stroke: #94a3b8;
+  --bpmn-previous-fill: #e5e7eb;
+  --bpmn-previous-text: #111827;
+}
+
+html[data-theme="dark"] .bpmn-theme,
+body.o_dark .bpmn-theme,
+body.o_web_client.o_dark .bpmn-theme{
+  --bpmn-node-fill: #0f172a;
+  --bpmn-node-stroke: #38bdf8;
+  --bpmn-accent: #22d3ee;
+  --bpmn-text: #e2e8f0;
+  --bpmn-flow: #94a3b8;
+
+  --bpmn-current-stroke: #14b8a6;
+  --bpmn-current-fill: #19ef19;
+  --bpmn-current-text: #ffffff;
+
+  --bpmn-previous-stroke: #99989a;
+  --bpmn-previous-fill: #d3d8d8;
+  --bpmn-previous-text: #040404;
+}
+
+/* shapes */
+.bpmn-theme .djs-element .djs-visual > rect,
+.bpmn-theme .djs-element .djs-visual > polygon,
+.bpmn-theme .djs-element .djs-visual > circle,
+.bpmn-theme .djs-element .djs-visual > path{
+  fill: var(--bpmn-node-fill);
+  stroke: var(--bpmn-node-stroke);
+  stroke-width: 2px;
+}
+
+/* connections */
+.bpmn-theme .djs-connection .djs-visual path{
+  stroke: var(--bpmn-flow);
+  stroke-width: 2px;
+  opacity: 0.55;
+}
+
+/* labels */
+.bpmn-theme .djs-label .djs-visual > text{
+  fill: var(--bpmn-text);
+}
+
+/* selection outline */
+.bpmn-theme .djs-outline{
+  stroke: var(--bpmn-accent) !important;
+  stroke-width: 2px !important;
+}
+
+/* current node marker */
+.bpmn-theme .djs-element.is-current .djs-visual > rect,
+.bpmn-theme .djs-element.is-current .djs-visual > circle,
+.bpmn-theme .djs-element.is-current .djs-visual > polygon{
+  stroke: var(--bpmn-current-stroke) !important;
+  stroke-width: 3px !important;
+  fill: var(--bpmn-current-fill) !important;
+}
+
+/* previous node marker */
+.bpmn-theme .djs-element.is-previous .djs-visual > rect,
+.bpmn-theme .djs-element.is-previous .djs-visual > circle,
+.bpmn-theme .djs-element.is-previous .djs-visual > polygon{
+  stroke: var(--bpmn-previous-stroke) !important;
+  stroke-width: 3px !important;
+  fill: var(--bpmn-previous-fill) !important;
+  opacity: 0.6;
+}
+
+/* soften task corners */
+.bpmn-theme .djs-element.task .djs-visual > rect{
+  rx: 10px; ry: 10px;
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="workflow_studio_workflow_approval_category_list_view" model="ir.ui.view">
+        <field name="name">workflow.approval.category.list.workflow.studio</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="Approval Categories"
+                  create="0"
+                  default_order="sequence, create_date, id"
+                  decoration-warning="request_waiting_count &gt; 0"
+                  decoration-info="request_tosubmit_count &gt; 0 and request_waiting_count == 0"
+                  decoration-success="request_tosubmit_count == 0 and request_waiting_count == 0 and request_completed_count &gt; 0">
+                <header>
+                    <button
+                        name="%(workflow_studio.action_workflow_studio_quick_start_wizard)d"
+                        type="action"
+                        string="New Flow"
+                        display="always"
+                        class="btn-primary"
+                        groups="workflow_engine.group_workflow_technical_admin"
+                    />
+                    <button
+                        name="%(workflow_studio.action_workflow_studio_import_package_zip_wizard)d"
+                        type="action"
+                        string="Upload"
+                        display="always"
+                        class="btn-secondary"
+                        groups="workflow_engine.group_workflow_technical_admin"
+                    />
+                </header>
+                <field name="sequence"
+                       string="Order"
+                       widget="handle"
+                       groups="workflow_engine.group_workflow_technical_admin,base.group_system"/>
+                <field name="image" widget="image" options="{'size': [28, 28]}" optional="show"/>
+                <field name="name" string="Approval Type"/>
+                <field name="department_id" optional="show"/>
+                <field name="res_model" string="Model" optional="show"/>
+                <field name="active_version_id" string="Active Version" optional="show"/>
+                <field name="request_all_count" string="All" optional="show"/>
+                <field name="request_tosubmit_count" string="To Submit" optional="show"/>
+                <field name="request_waiting_count" string="Waiting" optional="show"/>
+                <field name="request_to_validate_count" string="To Review" optional="show"/>
+                <field name="request_completed_count" string="Completed" optional="show"/>
+                <field name="auto_cancel_timeout" string="Auto Cancel (Days)" optional="hide"/>
+                <button
+                    name="action_new_request"
+                    type="object"
+                    string="New Request"
+                    class="btn-primary"
+                    invisible="not res_model"
+                />
+                <button
+                    name="action_activate_workflow_studio"
+                    type="object"
+                    string="Flow Studio"
+                    class="btn-secondary"
+                    invisible="not res_model"
+                    groups="workflow_engine.group_workflow_technical_admin"
+                />
+                <button
+                    name="action_open_security_policy_workspace"
+                    type="object"
+                    string="Security Policy"
+                    class="btn-secondary"
+                    invisible="not res_model"
+                    groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_studio_workflow_approval_category_form_view" model="ir.ui.view">
+        <field name="name">workflow.approval.category.form.workflow.studio</field>
+        <field name="model">workflow.approval.category</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button
+                        name="action_activate_workflow_studio"
+                    type="object"
+                    string="Flow Studio"
+                    class="btn-primary"
+                    groups="workflow_engine.group_workflow_technical_admin"
+                    invisible="not res_model"
+                />
+                <button
+                    name="action_open_security_policy_workspace"
+                    type="object"
+                    string="Security Policy"
+                    class="btn-secondary"
+                    groups="workflow_engine.group_workflow_approval_admin,workflow_engine.group_workflow_technical_admin,base.group_system"
+                    invisible="not res_model"
+                />
+            </header>
+        </xpath>
+    </field>
+    </record>
+
+    <record id="workflow_studio_workflow_approval_category_version_form_view" model="ir.ui.view">
+        <field name="name">workflow.approval.category.version.form.workflow.studio</field>
+        <field name="model">workflow.approval.category.version</field>
+        <field name="inherit_id" ref="workflow_engine.workflow_approval_category_version_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button
+                        name="action_activate_workflow_studio"
+                        type="object"
+                        string="Flow Studio"
+                        class="btn-primary"
+                        groups="workflow_engine.group_workflow_technical_admin"
+                        invisible="not category_id"
+                    />
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="workflow_engine.workflow_approval_category_action" model="ir.actions.act_window">
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="workflow_studio_workflow_approval_category_list_view"/>
+        <field name="views" eval="[
+            (ref('workflow_studio_workflow_approval_category_list_view'), 'list'),
+            (ref('workflow_engine.workflow_approval_category_view_form'), 'form')
+        ]"/>
+    </record>
+
+</odoo>

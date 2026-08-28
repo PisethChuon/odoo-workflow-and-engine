@@ -1,0 +1,38 @@
+list_name,line_dept_id,line_dept_name,dept_exec_id,dept_exec_name
+List,Line of Department,,Department Executive,
+List,Line of Department,,ID,Name
+AV/Event Equipment - Hotel,14686,YEAN KOK WENG,14123,CHRISTOPHER ROBERT PARK
+AV/Event Equipment - Gaming,14686,YEAN KOK WENG,14210,SANDRA FERNANDES
+AV/Event Equipment - Gaming,14686,YEAN KOK WENG,16651,FLYNN JASON PATRICK
+AV/Event Equipment - Corporate,14686,YEAN KOK WENG,7028,LEE WAI TUCK PHILIP
+AV/Event Equipment - Corporate,14686,YEAN KOK WENG,14210,SANDRA FERNANDES
+AV/Event Equipment - Corporate,14686,YEAN KOK WENG,16651,FLYNN JASON PATRICK
+Surveillance Equipment,9951,HOE SIEW NEE,8085,STUART JAMES BRUFF
+Fire Safety Equipment,9951,HOE SIEW NEE,8085,STUART JAMES BRUFF
+Security Equipment,9951,HOE SIEW NEE,2670,SIM SARAVUTH
+F&B Equipment,14686,YEAN KOK WENG,14123,CHRISTOPHER ROBERT PARK
+Kitchen Equipment,14686,YEAN KOK WENG,14123,CHRISTOPHER ROBERT PARK
+IT hardware/software - Hotel,9951,HOE SIEW NEE,9951,HOE SIEW NEE
+IT hardware/software - Hotel,9951,HOE SIEW NEE,16574,CHIM SOOK HENG
+IT hardware/software - Gaming,9951,HOE SIEW NEE,9951,HOE SIEW NEE
+IT hardware/software - Gaming,9951,HOE SIEW NEE,16574,CHIM SOOK HENG
+IT hardware/software - Corporate,9951,HOE SIEW NEE,9951,HOE SIEW NEE
+IT hardware/software - Corporate,9951,HOE SIEW NEE,16574,CHIM SOOK HENG
+"Table Equipment, Furniture",9951,HOE SIEW NEE,14210,SANDRA FERNANDES
+"Table Equipment, Furniture",9951,HOE SIEW NEE,16651,FLYNN JASON PATRICK
+"Electronic Gaming Equipment, Furniture",9951,HOE SIEW NEE,14210,SANDRA FERNANDES
+"Electronic Gaming Equipment, Furniture",9951,HOE SIEW NEE,16651,FLYNN JASON PATRICK
+"Hotel equipment & service (electronic/electrical item, furniture & etc)",14686,YEAN KOK WENG,14123,CHRISTOPHER ROBERT PARK
+Stationery/Admin equipment,9951,HOE SIEW NEE,13750,SARAH SARAYNHIM
+Stationery/Admin equipment,9951,HOE SIEW NEE,2583,HAY VOLEAP
+Stationery/Admin equipment,9951,HOE SIEW NEE,16430,CYNTHIA ONG HUI PING
+Motor/vehicles,9951,HOE SIEW NEE,7028,LEE WAI TUCK PHILIP
+Motor/vehicles,9951,HOE SIEW NEE,14210,SANDRA FERNANDES
+Motor/vehicles,9951,HOE SIEW NEE,16651,FLYNN JASON PATRICK
+Interior/exterior renovation/refurbishment,9951,HOE SIEW NEE,14123,CHRISTOPHER ROBERT PARK
+Construction/land/property development,9951,HOE SIEW NEE,7028,LEE WAI TUCK PHILIP
+Construction/land/property development,9951,HOE SIEW NEE,14210,SANDRA FERNANDES
+Construction/land/property development,9951,HOE SIEW NEE,16651,FLYNN JASON PATRICK
+Aircraft,9951,HOE SIEW NEE,7028,LEE WAI TUCK PHILIP
+Aircraft,9951,HOE SIEW NEE,14210,SANDRA FERNANDES
+Aircraft,9951,HOE SIEW NEE,16651,FLYNN JASON PATRICK

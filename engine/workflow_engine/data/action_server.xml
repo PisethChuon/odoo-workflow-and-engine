@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <data noupdate="1">
+    <record id="action_server_set_submit_date" model="ir.actions.server">
+      <field name="name">WF: set submit date</field>
+      <field name="model_id" ref="workflow_engine.model_workflow_base_approval_request"/>
+      <field name="state">code</field>
+      <field name="code"><![CDATA[
+_logger.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++")
+_logger.info("action_server_set_submit_date: start")
+try:
+    now = datetime.datetime.now()
+    for rec in record:
+        rec.write({'submit_date': now})
+except Exception as e:
+  _logger.exception(f"action_server_set_submit_date error: {e}")
+        ]]>
+        </field>
+    </record>
+    <record id="action_server_repair_stale_approvers" model="ir.actions.server">
+      <field name="name">Repair Stale Approvers</field>
+      <field name="model_id" ref="workflow_engine.model_workflow_base_approval_request"/>
+      <field name="binding_model_id" ref="workflow_engine.model_workflow_base_approval_request"/>
+      <field name="binding_type">action</field>
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('workflow_engine.group_workflow_technical_admin')])]"/>
+      <field name="code"><![CDATA[
+action = records.action_repair_stale_approvers()
+        ]]>
+        </field>
+    </record>
+  </data>
+</odoo>

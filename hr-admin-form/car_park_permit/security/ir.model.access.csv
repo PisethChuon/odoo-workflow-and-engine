@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_car_park_permit_user,car_park_permit user,model_x_car_park_request,base.group_user,1,1,1,1
+access_car_park_permit_manager,car_park_permit manager,model_x_car_park_request,base.group_system,1,1,1,1
+access_x_car_model_admin,Car Model Admin,model_x_car_model,base.group_system,1,1,1,1
+access_x_car_model_user,Car Model User,model_x_car_model,base.group_user,1,0,1,0
+access_x_car_color_admin,Car Color Admin,model_x_car_color,base.group_system,1,1,1,1
+access_x_car_color_user,Car Color,model_x_car_color,base.group_user,1,0,1,0

@@ -1,0 +1,834 @@
+.o_workflow_studio_domain_dialog {
+    @if $o-web-studio-icon-invert == 0 {
+        --wfs-surface:      var(--o-view-background-color, #ffffff);
+        --wfs-border:       var(--border-color, rgba(33, 37, 41, 0.15));
+        --wfs-text:         var(--body-color, #212529);
+        --wfs-muted-text:   color-mix(in srgb, var(--wfs-text) 55%, transparent);
+        --wfs-accent:       var(--o-brand-odoo, #017e84);
+        --wfs-accent-soft:  color-mix(in srgb, var(--wfs-accent) 8%, var(--wfs-surface));
+        --wfs-card-bg:      color-mix(in srgb, var(--wfs-surface) 97%, var(--wfs-text) 3%);
+        --wfs-code-bg:      color-mix(in srgb, var(--wfs-surface) 90%, var(--wfs-text) 10%);
+    } @else {
+        --wfs-surface:      #162032;
+        --wfs-border:       rgba(200, 214, 235, 0.14);
+        --wfs-text:         #e4ecf7;
+        --wfs-muted-text:   rgba(228, 236, 247, 0.50);
+        --wfs-accent:       #14b8a6;
+        --wfs-accent-soft:  rgba(20, 184, 166, 0.08);
+        --wfs-card-bg:      rgba(255, 255, 255, 0.04);
+        --wfs-code-bg:      rgba(255, 255, 255, 0.08);
+
+        .form-label { color: var(--wfs-text); }
+
+        .form-control,
+        .form-select {
+            background-color: rgba(255, 255, 255, 0.06);
+            border-color:     rgba(200, 214, 235, 0.22);
+            color:            #e4ecf7;
+
+            &::placeholder { color: rgba(228, 236, 247, 0.35); }
+
+            &:focus {
+                background-color: rgba(255, 255, 255, 0.10);
+                border-color:     rgba(128, 188, 255, 0.60);
+                box-shadow:       0 0 0 0.14rem rgba(80, 146, 224, 0.22);
+                color:            #f1f5f9;
+            }
+
+            option {
+                background-color: #1e2d44;
+                color:            #e4ecf7;
+            }
+        }
+
+        .text-muted { color: rgba(228, 236, 247, 0.55) !important; }
+
+        .o_wfs_dd_collapsible,
+        .o_wfs_dd_nested_collapsible {
+            border-color: rgba(200, 214, 235, 0.14);
+        }
+    }
+
+    // ─── ① Context bar ────────────────────────────────────────────────────────
+    .o_wfs_dd_context_bar {
+        align-items:   flex-start;
+        background:    var(--wfs-accent-soft);
+        border:        1px solid var(--wfs-border);
+        border-radius: 10px;
+        display:       flex;
+        flex-wrap:     wrap;
+        gap:           8px 16px;
+        margin-bottom: 16px;
+        padding:       10px 14px;
+    }
+
+    .o_wfs_dd_context_model {
+        align-items: center;
+        display:     flex;
+        flex-shrink: 0;
+        gap:         8px;
+    }
+
+    .o_wfs_dd_context_label {
+        color:          var(--wfs-muted-text);
+        font-size:      11px;
+        font-weight:    700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+    }
+
+    .o_wfs_dd_context_code {
+        background:    var(--wfs-code-bg);
+        border-radius: 6px;
+        color:         var(--wfs-text);
+        font-size:     12px;
+        padding:       2px 8px;
+    }
+
+    .o_wfs_dd_context_help {
+        color:     var(--wfs-muted-text);
+        font-size: 13px;
+        flex:      1 1 100%;
+        line-height: 1.4;
+    }
+
+    // ─── ② Quick presets ──────────────────────────────────────────────────────
+    .o_wfs_dd_kind_summary {
+        background:    var(--wfs-card-bg);
+        border:        1px solid var(--wfs-border);
+        border-radius: 10px;
+        margin-bottom: 14px;
+        padding:       10px 14px;
+    }
+
+    .o_wfs_dd_kind_summary_title {
+        color:          var(--wfs-text);
+        font-size:      12px;
+        font-weight:    700;
+        letter-spacing: 0.06em;
+        margin-bottom:  4px;
+        text-transform: uppercase;
+    }
+
+    .o_wfs_dd_kind_summary_body {
+        color:       var(--wfs-muted-text);
+        font-size:   13px;
+        line-height: 1.4;
+    }
+
+    .o_wfs_dd_presets {
+        margin-bottom: 14px;
+    }
+
+    .o_wfs_dd_presets_header {
+        align-items:     flex-start;
+        display:         flex;
+        gap:             12px;
+        justify-content: space-between;
+        margin-bottom:   8px;
+    }
+
+    .o_wfs_dd_preset_hint {
+        color:       var(--wfs-muted-text);
+        font-size:   12px;
+        line-height: 1.35;
+        margin-top:  2px;
+    }
+
+    .o_wfs_dd_preset_mode {
+        flex-shrink: 0;
+
+        .btn {
+            font-size: 11px;
+            padding:   3px 9px;
+        }
+    }
+
+    .o_wfs_dd_section_label {
+        color:          var(--wfs-muted-text);
+        display:        block;
+        font-size:      11px;
+        font-weight:    700;
+        letter-spacing: 0.07em;
+        margin-bottom:  6px;
+        text-transform: uppercase;
+    }
+
+    .o_wfs_dd_presets_chips {
+        display:   flex;
+        flex-wrap: wrap;
+        gap:       6px;
+    }
+
+    .o_wfs_dd_preset_chip {
+        background:    var(--wfs-card-bg);
+        border:        1px solid var(--wfs-border);
+        border-radius: 20px;
+        color:         var(--wfs-text);
+        font-size:     12px;
+        padding:       3px 12px;
+        transition:    background 0.15s, border-color 0.15s;
+
+        &:hover {
+            background:   var(--wfs-accent-soft);
+            border-color: var(--wfs-accent);
+            color:        var(--wfs-accent);
+        }
+    }
+
+    // ─── ③ Builder card ───────────────────────────────────────────────────────
+    .o_wfs_dd_builder_card {
+        border:        1px solid var(--wfs-border);
+        border-radius: 10px;
+        margin-bottom: 12px;
+        overflow:      hidden;
+    }
+
+    .o_wfs_dd_builder_card_header {
+        align-items:      center;
+        background:       var(--wfs-card-bg);
+        border-bottom:    1px solid var(--wfs-border);
+        display:          flex;
+        justify-content:  space-between;
+        padding:          8px 14px;
+    }
+
+    .o_wfs_dd_builder_card_header .o_wfs_dd_section_label {
+        margin-bottom: 0;
+    }
+
+    .o_wfs_dd_mode_toggle {
+        flex-shrink: 0;
+
+        .btn {
+            font-size: 12px;
+            padding:   3px 12px;
+        }
+    }
+
+    .o_wfs_dd_builder_body {
+        padding: 14px;
+    }
+
+    .o_wfs_dd_expression_header {
+        align-items:     center;
+        display:         flex;
+        justify-content: space-between;
+        margin-bottom:   6px;
+    }
+
+    .o_wfs_dynamic_builder_link {
+        color:           var(--wfs-accent);
+        font-size:       12px;
+        font-weight:     600;
+        padding:         0;
+        text-decoration: none;
+
+        &:hover {
+            color:           var(--wfs-accent);
+            text-decoration: underline;
+        }
+    }
+
+    // Simple builder
+    .o_wfs_dd_simple {}
+
+    .o_wfs_dd_simple_header {
+        margin-bottom: 10px;
+    }
+
+    .o_wfs_dd_simple_match {
+        align-items: center;
+        color:        var(--wfs-text);
+        display:      flex;
+        font-size:    13px;
+        gap:          8px;
+    }
+
+    .o_wfs_dd_connector_select {
+        width: auto;
+        min-width: 90px;
+    }
+
+    .o_wfs_dd_simple_select {
+        min-width: 0;
+        width:     100%;
+
+        .o_select_menu_toggler,
+        .o_select_menu_input {
+            font-size: 13px;
+            min-height: 31px;
+        }
+
+        .o_select_menu_toggler {
+            padding-bottom: 3px;
+            padding-top:    3px;
+        }
+    }
+
+    .o_wfs_dd_simple_match .o_wfs_dd_connector_select {
+        width: 190px;
+    }
+
+    .o_wfs_dd_simple_rows {
+        display:        flex;
+        flex-direction: column;
+        gap:            8px;
+        margin-bottom:  10px;
+        min-height:     36px;
+    }
+
+    .o_wfs_dd_simple_row {
+        align-items:           center;
+        display:               grid;
+        gap:                   8px;
+        grid-template-columns: 1.25fr 1fr 1.2fr auto;
+    }
+
+    .o_wfs_dd_remove_btn {
+        min-width: 32px;
+        padding:   4px 8px;
+    }
+
+    .o_wfs_dd_empty_hint {
+        color:     var(--wfs-muted-text);
+        font-size: 13px;
+        padding:   6px 0;
+    }
+
+    .o_wfs_dd_simple_footer {
+        border-top:   1px solid var(--wfs-border);
+        display:      flex;
+        gap:          8px;
+        justify-content: space-between;
+        margin-top:   2px;
+        padding-top:  10px;
+    }
+
+    .o_wfs_dd_domain_preview {
+        border-top:  1px solid var(--wfs-border);
+        margin-top:  12px;
+        padding-top: 12px;
+    }
+
+    .o_wfs_dd_preview_label {
+        color:         var(--wfs-muted-text);
+        display:       block;
+        font-size:     11px;
+        font-weight:   600;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .o_wfs_dd_preview_code {
+        min-height: 60px;
+    }
+
+    .o_wfs_dd_advanced {}
+
+    // ─── ④–⑤ Collapsible sections (actor, scenario, reference) ───────────────
+    .o_wfs_dd_collapsible {
+        border:        1px solid var(--wfs-border);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        overflow:      hidden;
+    }
+
+    .o_wfs_dd_collapsible_summary {
+        align-items:   center;
+        background:    var(--wfs-card-bg);
+        cursor:        pointer;
+        display:       flex;
+        gap:           0;
+        font-size:     13px;
+        font-weight:   600;
+        list-style:    none;
+        padding:       9px 14px;
+        user-select:   none;
+
+        &::-webkit-details-marker { display: none; }
+
+        &::after {
+            content:    "\f107";   // fa-angle-down
+            font-family: "FontAwesome";
+            font-size:  13px;
+            margin-left: auto;
+            color:       var(--wfs-muted-text);
+            transition:  transform 0.18s;
+        }
+    }
+
+    .o_wfs_dd_collapsible[open] > .o_wfs_dd_collapsible_summary::after {
+        transform: rotate(180deg);
+    }
+
+    .o_wfs_dd_collapsible_icon {
+        color:      var(--wfs-accent);
+        font-size:  13px;
+    }
+
+    .o_wfs_dd_collapsible_hint {
+        color:      var(--wfs-muted-text);
+        font-size:  11px;
+        font-weight: 400;
+        margin-left: 8px;
+    }
+
+    .o_wfs_dd_collapsible_body {
+        border-top: 1px solid var(--wfs-border);
+        padding:    14px;
+    }
+
+    .o_wfs_runtime_reference_callout {
+        align-items: center;
+        background: var(--wfs-accent-soft);
+        border: 1px solid var(--wfs-border);
+        border-radius: 10px;
+        display: flex;
+        gap: 12px;
+        margin-bottom: 10px;
+        padding: 12px 14px;
+    }
+
+    .o_wfs_runtime_reference_callout_icon {
+        align-items: center;
+        background: var(--wfs-surface);
+        border: 1px solid var(--wfs-border);
+        border-radius: 50%;
+        color: var(--wfs-accent);
+        display: flex;
+        flex: 0 0 34px;
+        height: 34px;
+        justify-content: center;
+    }
+
+    .o_wfs_runtime_reference_callout_copy {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .o_wfs_runtime_reference_callout_actions,
+    .o_wfs_runtime_reference_header {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: space-between;
+    }
+
+    .o_wfs_runtime_reference {
+        scroll-margin-top: 1rem;
+    }
+
+    .o_wfs_runtime_reference_toolbar {
+        align-items: center;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: minmax(170px, 220px) minmax(240px, 1fr) auto;
+        margin: 12px 0;
+
+        .input-group .o_input {
+            flex: 1 1 auto;
+            min-width: 0;
+            width: 1%;
+        }
+    }
+
+    .o_wfs_runtime_reference_category {
+        width: 100%;
+
+        .o_select_menu_toggler {
+            justify-content: space-between;
+            width: 100%;
+        }
+    }
+
+    .o_wfs_dd_scenario_actions {
+        border-top:     1px solid var(--wfs-border);
+        display:        flex;
+        flex-wrap:      wrap;
+        gap:            8px;
+        justify-content: flex-end;
+        margin-top:     12px;
+        padding-top:    10px;
+    }
+
+    .o_wfs_runtime_clause_grid {
+        display:               grid;
+        gap:                   12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .o_wfs_runtime_clause_select {
+        width: 100%;
+
+        .o_select_menu_toggler,
+        .o_select_menu_input {
+            min-height: 32px;
+        }
+    }
+
+    .o_wfs_runtime_clause_actions {
+        border-top:      1px solid var(--wfs-border);
+        display:         flex;
+        flex-wrap:       wrap;
+        gap:             8px;
+        justify-content: flex-end;
+        margin-top:      12px;
+        padding-top:     10px;
+    }
+
+    // ─── ⑥ Nested collapsible (dynamic value builder inside reference) ────────
+    .o_wfs_dd_nested_collapsible {
+        border:        1px solid var(--wfs-border);
+        border-radius: 8px;
+        overflow:      hidden;
+    }
+
+    .o_wfs_dd_nested_summary {
+        background:   var(--wfs-code-bg);
+        cursor:       pointer;
+        display:      flex;
+        align-items:  center;
+        font-size:    12px;
+        font-weight:  600;
+        list-style:   none;
+        padding:      7px 12px;
+        user-select:  none;
+        color:        var(--wfs-text);
+
+        &::-webkit-details-marker { display: none; }
+
+        &::after {
+            content:    "\f107";
+            font-family: "FontAwesome";
+            font-size:  12px;
+            margin-left: auto;
+            color:       var(--wfs-muted-text);
+            transition:  transform 0.18s;
+        }
+    }
+
+    .o_wfs_dd_nested_collapsible[open] > .o_wfs_dd_nested_summary::after {
+        transform: rotate(180deg);
+    }
+
+    .o_wfs_dd_nested_body {
+        border-top: 1px solid var(--wfs-border);
+        padding:    12px;
+    }
+
+    // ─── Reference section labels ─────────────────────────────────────────────
+    .o_wfs_dd_ref_section_label {
+        color:          var(--wfs-muted-text);
+        font-size:      11px;
+        font-weight:    700;
+        letter-spacing: 0.07em;
+        margin-bottom:  4px;
+        text-transform: uppercase;
+    }
+
+    .o_wfs_dd_ref_hint {
+        color:         var(--wfs-muted-text);
+        font-size:     12px;
+        margin-bottom: 10px;
+    }
+
+    // ─── Shared: runtime symbol table ────────────────────────────────────────
+    .o_wfs_domain_dialog_runtime_rows {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .o_wfs_runtime_reference .o_wfs_domain_dialog_runtime_rows {
+        max-height: 320px;
+        overflow: auto;
+        padding-right: 4px;
+    }
+
+    .o_wfs_domain_dialog_runtime_row {
+        align-items:           center;
+        border-bottom:         1px solid var(--wfs-border);
+        display:               grid;
+        gap:                   8px;
+        grid-template-columns: minmax(110px, 170px) 1fr minmax(190px, 1.1fr);
+        padding:               7px 0;
+
+        code {
+            background:    var(--wfs-code-bg);
+            border-radius: 6px;
+            color:         var(--wfs-text);
+            font-size:     11px;
+            padding:       2px 6px;
+            word-break:    break-all;
+        }
+
+        span {
+            color:     var(--wfs-text);
+            font-size: 12px;
+        }
+    }
+
+    .o_wfs_runtime_reference_empty {
+        border: 1px dashed var(--wfs-border);
+        border-radius: 8px;
+        font-size: 12px;
+        padding: 16px;
+        text-align: center;
+    }
+
+    // ─── Shared: runtime value builder ───────────────────────────────────────
+    .o_wfs_domain_dialog_runtime_builder_grid {
+        display:               grid;
+        gap:                   12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .o_wfs_domain_dialog_runtime_builder_field {
+        min-width: 0;
+
+        .form-label {
+            color:       var(--wfs-text);
+            font-size:   12px;
+            font-weight: 600;
+        }
+
+        .form-text {
+            color:     var(--wfs-muted-text);
+            font-size: 11px;
+        }
+
+        .o_wfs_runtime_value_select,
+        .o_select_menu,
+        .o_select_menu_toggler,
+        .o_input {
+            width: 100%;
+        }
+    }
+
+    .o_wfs_runtime_path_field {
+        grid-column: span 1;
+    }
+
+    .o_wfs_runtime_value_select {
+        width: 100%;
+
+        .o_select_menu_toggler.form-select {
+            text-align: left;
+        }
+    }
+
+    .o_wfs_line_field_selector {
+        align-items: center;
+        display:     flex;
+
+        .o_model_field_selector.o_input {
+            background: transparent;
+            border:     0;
+            color:      inherit;
+            min-height: 20px;
+            padding:    0;
+            width:      100%;
+        }
+    }
+
+    .o_wfs_runtime_path_select {
+        margin-bottom: 6px;
+    }
+
+    .o_wfs_runtime_path_manual {
+        font-family:   var(--font-family-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+        font-size:     12px;
+    }
+
+    .o_wfs_runtime_uid_hint {
+        background:    var(--wfs-code-bg);
+        border:        1px solid var(--wfs-border);
+        border-radius: 4px;
+        color:         var(--wfs-muted-text);
+        font-size:     12px;
+        padding:       7px 10px;
+    }
+
+    .o_wfs_domain_dialog_runtime_preview {
+        align-items:     center;
+        background:      linear-gradient(180deg, color-mix(in srgb, var(--wfs-code-bg), white 2%), var(--wfs-code-bg));
+        border:          1px solid var(--wfs-border);
+        border-radius:   8px;
+        display:         flex;
+        gap:             10px;
+        justify-content: space-between;
+        padding:         10px 12px;
+
+        .o_wfs_runtime_preview_label {
+            color:          var(--wfs-muted-text);
+            flex-shrink:    0;
+            font-size:      11px;
+            font-weight:    700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        code {
+            background:    transparent;
+            color:         var(--wfs-text);
+            font-size:     12px;
+            text-align:    right;
+            word-break:    break-all;
+        }
+    }
+
+    .o_wfs_domain_dialog_runtime_builder_actions {
+        display:         flex;
+        gap:             8px;
+        justify-content: flex-end;
+        margin-top:      10px;
+    }
+
+    .o_wfs_runtime_builder_modal_backdrop {
+        align-items:      center;
+        background:       rgba(0, 0, 0, 0.45);
+        bottom:           0;
+        display:          flex;
+        justify-content:  center;
+        left:             0;
+        padding:          24px;
+        position:         fixed;
+        right:            0;
+        top:              0;
+        z-index:          1085;
+    }
+
+    .o_wfs_runtime_builder_modal {
+        background:    var(--wfs-surface);
+        border:        1px solid var(--wfs-border);
+        border-radius: 10px;
+        box-shadow:    0 18px 60px rgba(0, 0, 0, 0.35);
+        max-width:     920px;
+        overflow:      hidden;
+        width:         100%;
+    }
+
+    .o_wfs_runtime_builder_modal_header {
+        align-items:     center;
+        background:      var(--wfs-card-bg);
+        border-bottom:   1px solid var(--wfs-border);
+        display:         flex;
+        justify-content: space-between;
+        padding:         14px 16px;
+    }
+
+    .o_wfs_runtime_builder_modal_title {
+        color:       var(--wfs-text);
+        font-size:   15px;
+        font-weight: 700;
+    }
+
+    .o_wfs_runtime_builder_modal_subtitle {
+        color:      var(--wfs-muted-text);
+        font-size:  12px;
+        margin-top: 2px;
+    }
+
+    .o_wfs_runtime_builder_close {
+        color:       var(--wfs-muted-text);
+        font-size:   16px;
+        line-height: 1;
+        padding:     4px;
+    }
+
+    .o_wfs_runtime_builder_modal_body {
+        padding: 16px;
+    }
+
+    .o_wfs_runtime_builder_modal_footer {
+        border-top:      1px solid var(--wfs-border);
+        display:         flex;
+        flex-wrap:       wrap;
+        gap:             8px;
+        justify-content: flex-end;
+        padding:         12px 16px;
+    }
+
+    .o_wfs_runtime_builder_modal .o_model_field_selector {
+        background:    var(--wfs-code-bg);
+        border:        1px solid var(--wfs-border);
+        border-radius: 4px;
+        min-height:    32px;
+        padding:       5px 8px;
+    }
+
+    // ─── Shared: simple value selector ───────────────────────────────────────
+    .o_wfs_domain_dialog_simple_value_selector {
+        min-width: 0;
+
+        .o_record_selector,
+        .o_multi_record_selector { width: 100%; }
+    }
+
+    .o_wfs_domain_dialog_activity_tag_picker {
+        align-items:  flex-start;
+        display:      flex;
+        flex-wrap:    wrap;
+        gap:          6px;
+        max-height:   96px;
+        overflow:     auto;
+        padding:      2px 0;
+
+        .btn { white-space: nowrap; }
+    }
+
+    .o_wfs_domain_dialog_simple_row select[multiple] {
+        min-height: 92px;
+    }
+
+    // ─── Shared: scenario / actor builders (grid / row) ──────────────────────
+    .o_wfs_domain_dialog_scenario_grid {
+        display:               grid;
+        gap:                   10px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .o_wfs_domain_dialog_scenario_item { min-width: 0; }
+
+    .o_wfs_domain_dialog_actor_row {
+        align-items:           center;
+        display:               grid;
+        gap:                   8px;
+        grid-template-columns: 1.2fr 1.5fr auto;
+    }
+
+    // ─── Shared: code textarea ────────────────────────────────────────────────
+    .o_wfs_domain_dialog_code {
+        font-family: var(--font-family-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+        min-height:  110px;
+        resize:      vertical;
+    }
+
+    // ─── Responsive ───────────────────────────────────────────────────────────
+    @media (max-width: 767px) {
+        .o_wfs_domain_dialog_runtime_row,
+        .o_wfs_domain_dialog_runtime_builder_grid,
+        .o_wfs_domain_dialog_actor_row,
+        .o_wfs_domain_dialog_scenario_grid { grid-template-columns: 1fr; }
+
+        .o_wfs_dd_simple_row { grid-template-columns: 1fr; }
+
+        .o_wfs_dd_context_bar { flex-direction: column; }
+
+        .o_wfs_runtime_reference_callout {
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .o_wfs_runtime_reference_callout_actions {
+            flex: 1 1 100%;
+        }
+
+        .o_wfs_runtime_reference_toolbar {
+            grid-template-columns: 1fr;
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_x_user_access_item_type_new_user" model="x_user_access_item_type">
+            <field name="x_name">New User</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_user_access_item_type_reset_password" model="x_user_access_item_type">
+            <field name="x_name">Reset Password</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_user_access_item_type_change_permission" model="x_user_access_item_type">
+            <field name="x_name">Change Permission</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_user_access_item_type_add_permission" model="x_user_access_item_type">
+            <field name="x_name">Add Permission</field>
+            <field name="x_active" eval="True"/>
+        </record>
+    </data>
+</odoo>

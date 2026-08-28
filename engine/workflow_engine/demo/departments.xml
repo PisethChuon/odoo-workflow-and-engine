@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="dep_group_it" model="hr.department">
+            <field name="name">Group IT</field>
+            <field name="color" eval="14"/>
+            <field name="code">540</field>
+        </record>
+        <record id="dep_group_hr" model="hr.department">
+            <field name="name">Group Human Resources</field>
+            <field name="color" eval="8"/>
+            <field name="code">540</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_request_document" model="ir.ui.view">
+            <field name="name">RD: Request Document List</field>
+            <field name="model">x_request_document</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_request_document" model="ir.ui.view">
+            <field name="name">RD: Request Document Form</field>
+            <field name="model">x_request_document</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+                    <separator string="Document Request"/>
+                    <group col="1">
+                        <field
+                            name="x_request_document_type"
+                            widget="radio"
+                            options="{'horizontal': true}"
+                            string="Select Document Type"
+                        />
+                    </group>
+
+                    <div
+                        invisible="x_request_document_type != 'certificate_of_employment'"
+                        class="alert alert-danger d-flex align-items-center gap-2 mt-1 mb-3"
+                        style="padding: 8px 12px; border-radius: 6px;"
+                    >
+                        <i class="fa fa-exclamation-circle"/>
+                        <span>Please attach your passport or ID card.</span>
+                    </div>
+
+                    <group col="1">
+                        <field
+                            name="x_request_document_personal_information"
+                            string="Personal Information"
+                            placeholder="Include details such as..."
+                        />
+                        <field
+                            name="x_request_document_reason"
+                            string="Reason for Request"
+                            placeholder="e.g. For bank loan application, visa processing, etc."
+                            required="1"
+                        />
+                        <field
+                            name="x_request_document_other_fields"
+                            string="Additional Information"
+                            placeholder="Any additional information"
+                        />
+                    </group>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</odoo>

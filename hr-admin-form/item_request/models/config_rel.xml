@@ -1,0 +1,19 @@
+<odoo>
+    <record id="field_x_item_request_config_sub_item_line_item_id" model="ir.model.fields">
+        <field name="name">x_item_id</field>
+        <field name="field_description">Items</field>
+        <field name="model_id" ref="model_x_item_request_config_sub_item_line" />
+        <field name="ttype">many2one</field>
+        <field name="relation">x_item_request_config_item_line</field>
+        <field name="required" eval="True" />
+        <field name="on_delete">cascade</field>
+    </record>
+    <record id="field_x_item_request_config_item_line_sub_ids" model="ir.model.fields">
+        <field name="name">x_sub_item_ids</field>
+        <field name="field_description">Item Type</field>
+        <field name="model_id" ref="model_x_item_request_config_item_line" />
+        <field name="ttype">one2many</field>
+        <field name="relation">x_item_request_config_sub_item_line</field>
+        <field name="relation_field">x_item_id</field>
+    </record>
+</odoo>

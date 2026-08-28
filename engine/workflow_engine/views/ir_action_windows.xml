@@ -1,0 +1,203 @@
+<odoo>
+    <record id="my_dashboard_action_window" model="ir.actions.act_window">
+        <field name="name">My Workflow Dashboard</field>
+        <field name="path">my-workflow-dashboard</field>
+        <field name="res_model">workflow.approval.category</field>
+        <field name="context">{'filter': 'MY_REQUESTS', 'search_default_non_child': 1}</field>
+        <!-- <field name="domain">[('is_child', '=', False)]</field> -->
+        <field name="view_mode">kanban,list</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.workflow_approval_category_view_kanban'), 'kanban'),
+            (ref('workflow_engine.workflow_approval_category_view_list_dashboard'), 'list'),
+            (ref('workflow_engine.workflow_approval_category_view_form'), 'form')
+        ]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Approvals Requests
+            </p>
+        </field>
+    </record>
+    
+    <!-- <record id="requests_to_review_action_window" model="ir.actions.act_window">
+        <field name="name">Approvals to Review</field>
+        <field name="path">approvals-to-review</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <field name="domain">[('is_my_work_item', '=', True)]</field>
+        <field name="context">{'search_default_filter_my_work_list': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No new approvals to review
+            </p>
+        </field>
+    </record> -->
+
+    <record id="my_approval_requests_to_review_action_window" model="ir.actions.act_window">
+        <field name="name">My Approvals to Review</field>
+        <field name="path">my-approvals-to-review</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <field name="domain">[('is_my_work_item', '=', True)]</field>
+        <field name="context">{'search_default_filter_my_work_list': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No approvals are waiting for your decision.
+            </p>
+        </field>
+    </record>
+
+    <record id="my_work_list_action_window" model="ir.actions.act_window">
+        <field name="name">My Work List</field>
+        <field name="path">my-work-list</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <field name="domain">[('is_my_work_item', '=', True)]</field>
+        <field name="context">{'search_default_filter_my_work_list': 1, 'search_default_filter_waiting': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No active requests require your action.
+            </p>
+        </field>
+    </record>
+
+    <record id="my_contribute_list_action_window" model="ir.actions.act_window">
+        <field name="name">My Contribute List</field>
+        <field name="path">my-contribute-list</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <field name="domain">[('is_my_contribution', '=', True)]</field>
+        <field name="context">{'search_default_filter_my_contribute_list': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No contributed requests found.
+            </p>
+        </field>
+    </record>
+
+    <record id="my_request_list_action_window" model="ir.actions.act_window">
+        <field name="name">My Request List</field>
+        <field name="path">my-request-list</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <field name="domain">[('is_my_owned_request', '=', True)]</field>
+        <field name="context">{'search_default_filter_my_request_owner': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No requests owned by you were found.
+            </p>
+        </field>
+    </record>
+
+    <record id="all_requests_action_window" model="ir.actions.act_window">
+        <field name="name">All Requests</field>
+        <field name="path">all-requests</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <!-- <field name="domain">['|', '|',
+            ('owner_user_ids.user_id', '=', uid),
+            ('approver_ids.user_id', '=', uid),
+            ('task_instance_ids.assignee_ids.assignee_user_id', '=', uid)
+        ]</field>
+        <field name="context">{'search_default_filter_my_request': 1}</field> -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Approvals
+            </p>
+        </field>
+    </record>
+
+    <record id="my_all_approval_requests_action_window" model="ir.actions.act_window">
+        <field name="name">All My Approvals</field>
+        <field name="path">all-my-approvals</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <field name="domain">['|', '|',
+            ('owner_user_ids.user_id', '=', uid),
+            ('approver_ids.user_id', '=', uid),
+            ('task_instance_ids.assignee_ids.assignee_user_id', '=', uid)
+        ]</field>
+        <field name="context">{'search_default_filter_my_request': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No requests available for your ownership/approval scope.
+            </p>
+        </field>
+    </record>
+    
+    <record id="approval_report_action_window" model="ir.actions.act_window">
+        <field name="name">Approval Report</field>
+        <field name="path">approvals-report</field>
+        <field name="res_model">workflow.approval.category</field>
+        <field name="view_mode">kanban,graph,list</field>
+        <field name="domain">[('res_model', '!=', False),('version_ids','!=', False)]</field>
+        <field name="context">{'filter': 'ALL'}</field>
+    </record>
+
+    <record id="approval_request_report_action_window" model="ir.actions.act_window">
+        <field name="name">Request Report</field>
+        <field name="path">approval-request-report</field>
+        <field name="res_model">workflow.base.approval.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">kanban</field>
+        <field name="views" eval="[
+            (ref('workflow_engine.approval_base_request_view_list'), 'list'),
+            (ref('workflow_engine.approval_base_request_view_kanban_mobile'), 'kanban'),
+            (ref('workflow_engine.approval_base_request_view_form'), 'form')
+        ]"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No workflow requests found.
+            </p>
+        </field>
+    </record>
+
+    <record id="workflow_approval_category_action" model="ir.actions.act_window">
+        <field name="name">Approval Categories</field>
+        <field name="path">approval-category</field>
+        <field name="res_model">workflow.approval.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

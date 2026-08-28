@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+
+        <record id="action_download_it_template_itadmireq" model="ir.actions.act_url">
+            <field name="name">Download Template</field>
+            <field name="url">/download/template/phone_allowance/import_sample.xlsx</field>
+            <field name="target">new</field>
+        </record>
+        <!-- ========================= -->
+        <!-- list View -->
+        <!-- ========================= -->
+        <record id="view_x_phone_allowance_item_line_list" model="ir.ui.view">
+            <field name="name">x.phone.allowance.item.line.list</field>
+            <field name="model">x_phone_allowance_item_line</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="x_name" />
+                    <field name="x_employee_id" />
+                    <field name="x_justification" />
+                </list>
+            </field>
+        </record>
+
+        <!-- ========================= -->
+        <!-- Form View -->
+        <!-- ========================= -->
+        <record id="view_x_phone_allowance_item_line_form" model="ir.ui.view">
+            <field name="name">x.phone.allowance.item.line.form</field>
+            <field name="model">x_phone_allowance_item_line</field>
+            <field name="arch" type="xml">
+                <form string="Phone Allowance">
+                    <sheet>
+                        <group>
+                            <field name="x_request_item" />
+                            <field name="x_justification" />
+                            <field name="x_employee_id" required="1" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo> 

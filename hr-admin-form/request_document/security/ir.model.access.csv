@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_x_request_document_user,x_request_document user,model_x_request_document,base.group_user,1,1,0,0
+access_x_request_document_manager,x_request_document manager,model_x_request_document,base.group_system,1,1,1,1

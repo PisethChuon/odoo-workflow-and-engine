@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_x_additional_time_work_user,x_additional_time_work user,model_x_additional_time_work,base.group_user,1,1,1,0
+access_x_additional_time_work_manager,x_additional_time_work manager,model_x_additional_time_work,base.group_system,1,1,1,1
+access_x_additional_time_work_line_user,x_additional_time_work_line user,model_x_additional_time_work_line,base.group_user,1,1,1,0
+access_x_additional_time_work_line_manager,x_additional_time_work_line manager,model_x_additional_time_work_line,base.group_system,1,1,1,1
+access_x_additional_time_work_type_user,x_additional_time_work_type user,model_x_additional_time_work_type,base.group_user,1,0,0,0
+access_x_additional_time_work_type_manager,x_additional_time_work_type manager,model_x_additional_time_work_type,base.group_system,1,1,1,1

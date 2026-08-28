@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workflow_default_visible_field_view_list" model="ir.ui.view">
+        <field name="name">workflow.default.visible.field.view.list</field>
+        <field name="model">workflow.default.visible.field</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" multi_edit="1">
+                <field name="active" widget="boolean_toggle"/>
+                <field name="is_predefined" readonly="1"/>
+                <field name="field_id" options="{'no_create': True}"/>
+                <field name="model"/>
+                <field name="field_name"/>
+                <field name="field_description"/>
+                <field name="ttype"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="workflow_default_visible_field_view_form" model="ir.ui.view">
+        <field name="name">workflow.default.visible.field.view.form</field>
+        <field name="model">workflow.default.visible.field</field>
+        <field name="arch" type="xml">
+            <form string="Default Visible Field">
+                <sheet>
+                    <group>
+                        <field name="active"/>
+                        <field name="is_predefined"/>
+                        <field name="field_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="model" readonly="1"/>
+                        <field name="field_name" readonly="1"/>
+                        <field name="field_description" readonly="1"/>
+                        <field name="ttype" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="workflow_default_visible_field_view_search" model="ir.ui.view">
+        <field name="name">workflow.default.visible.field.view.search</field>
+        <field name="model">workflow.default.visible.field</field>
+        <field name="arch" type="xml">
+            <search string="Default Visible Fields">
+                <field name="field_id"/>
+                <field name="model"/>
+                <field name="field_name"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="predefined" string="Predefined" domain="[('is_predefined', '=', True)]"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]" context="{'active_test': False}"/>
+                <separator/>
+                <filter name="group_by_model" string="Group by Model" domain="[]" context="{'group_by': 'model'}"/>
+                <filter name="group_by_type" string="Group by Field Type" domain="[]" context="{'group_by': 'ttype'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="workflow_default_visible_field_action" model="ir.actions.act_window">
+        <field name="name">Default Visible Fields</field>
+        <field name="res_model">workflow.default.visible.field</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure fields that stay visible by default in workflow forms.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="model_x_service_request" model="ir.model">
+            <field name="name">Service Request</field>
+            <field name="model">x_service_request</field>
+            <field name="is_mail_thread" eval="True"/>
+            <field name="is_mail_activity" eval="True"/>
+            <field name="is_approval" eval="True"/>
+        </record>
+
+        <record id="field_x_service_request_description" model="ir.model.fields">
+            <field name="name">x_request_description</field>
+            <field name="ttype">text</field>
+            <field name="model">x_service_request</field>
+            <field name="model_id" ref="model_x_service_request"/>
+            <field name="field_description">Description of Request</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_service_request_justification" model="ir.model.fields">
+            <field name="name">x_request_justification</field>
+            <field name="ttype">text</field>
+            <field name="model">x_service_request</field>
+            <field name="model_id" ref="model_x_service_request"/>
+            <field name="field_description">Detail of service request/justification</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_service_request_admin_comment" model="ir.model.fields">
+            <field name="name">x_admin_comment</field>
+            <field name="ttype">text</field>
+            <field name="model">x_service_request</field>
+            <field name="model_id" ref="model_x_service_request"/>
+            <field name="field_description">Administrator Department Comment</field>
+            <field name="tracking" eval="1"/>
+        </record>
+
+        <record id="field_x_service_request_email_finance" model="ir.model.fields">
+            <field name="name">x_email_notification_finance</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_service_request</field>
+            <field name="model_id" ref="model_x_service_request"/>
+            <field name="field_description">Email Notification - Finance</field>
+        </record>
+
+        <record id="field_x_service_request_email_cost_control" model="ir.model.fields">
+            <field name="name">x_email_notification_cost_control</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_service_request</field>
+            <field name="model_id" ref="model_x_service_request"/>
+            <field name="field_description">Email Notification - Cost Control</field>
+        </record>
+
+        <record id="field_x_service_request_email_purchasing" model="ir.model.fields">
+            <field name="name">x_email_notification_purchasing</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_service_request</field>
+            <field name="model_id" ref="model_x_service_request"/>
+            <field name="field_description">Email Notification - Purchasing</field>
+        </record>
+
+        <record id="field_x_service_request_show_email_notification_group" model="ir.model.fields">
+            <field name="name">x_show_email_notification_group</field>
+            <field name="ttype">boolean</field>
+            <field name="model">x_service_request</field>
+            <field name="model_id" ref="model_x_service_request"/>
+            <field name="field_description">Show Email Notification Group</field>
+        </record>
+    </data>
+</odoo>

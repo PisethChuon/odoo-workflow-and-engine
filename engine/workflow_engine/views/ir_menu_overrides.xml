@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- These menu xmlids were originally loaded under noupdate, unlock them first. -->
+    <function model="ir.model.data" name="write">
+        <function model="ir.model.data" name="search">
+            <value eval="[('module', '=', 'workflow_engine'), ('name', 'in', ['workflow_approvals_approval_menu_to_review', 'workflow_approvals_approval_menu_all', 'workflow_approvals_approval_menu_my_request'])]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+    <!-- Force approval menus to request-level actions (self-heal older databases). -->
+    <record id="workflow_approvals_approval_menu_to_review" model="ir.ui.menu">
+        <field name="name">My Work List</field>
+        <field name="action"
+                eval="'ir.actions.act_window,%d' % ref('workflow_engine.my_work_list_action_window')"/>
+    </record>
+    <record id="workflow_approvals_approval_menu_all" model="ir.ui.menu">
+        <field name="name">My Contribute List</field>
+        <field name="action"
+                eval="'ir.actions.act_window,%d' % ref('workflow_engine.my_contribute_list_action_window')"/>
+    </record>
+    <record id="workflow_approvals_approval_menu_my_request" model="ir.ui.menu">
+        <field name="name">My Request List</field>
+        <field name="parent_id" ref="workflow_engine.workflow_approvals_menu_my_approval"/>
+        <field name="group_ids" eval="[(6, 0, [ref('workflow_engine.group_workflow_approval_user')])]"/>
+        <field name="action"
+                eval="'ir.actions.act_window,%d' % ref('workflow_engine.my_request_list_action_window')"/>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <menuitem
+        id="workflow_technical_reports_menu"
+        parent="workflow_reporting_menu_config"
+        name="Technical Reports"
+        groups="workflow_engine.group_workflow_approval_user_matrix_report"
+        sequence="30"/>
+
+    <!-- The Matrix menu was originally noupdate; an explicit write makes upgrades idempotent. -->
+    <function model="ir.ui.menu" name="write">
+        <value eval="[ref('workflow_engine.workflow_approval_user_matrix_report_menu')]"/>
+        <value eval="{
+            'parent_id': ref('workflow_engine.workflow_technical_reports_menu'),
+            'group_ids': [(6, 0, [ref('workflow_engine.group_workflow_approval_user_matrix_report')])],
+            'sequence': 10,
+        }"/>
+    </function>
+
+    <menuitem
+        id="workflow_approval_directory_report_menu"
+        parent="workflow_technical_reports_menu"
+        name="Approval Directory"
+        action="workflow_engine.workflow_approval_directory_report_action"
+        groups="workflow_engine.group_workflow_approval_user_matrix_report"
+        sequence="20"/>
+    
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!-- List View for Home Leave Ticket Type -->
+        <record id="view_list_x_home_leave_ticket_type" model="ir.ui.view">
+            <field name="name">HRHLT Type: List View</field>
+            <field name="model">x_home_leave_ticket_type</field>
+            <field name="arch" type="xml">
+                <list string="Home Leave Ticket Types" editable="bottom">
+                    <field name="x_sequence" widget="handle"/>
+                    <field name="x_name"/>
+                    <field name="x_active"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View for Home Leave Ticket Type -->
+        <record id="view_form_x_home_leave_ticket_type" model="ir.ui.view">
+            <field name="name">HRHLT Type: Form View</field>
+            <field name="model">x_home_leave_ticket_type</field>
+            <field name="arch" type="xml">
+                <form string="Home Leave Ticket Type">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="x_active"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="x_name" placeholder="e.g., Economy, Business, First Class"/>
+                                <field name="x_active" widget="boolean_toggle"/>
+                            </group>
+                            <group>
+                                <field name="x_sequence"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action for Home Leave Ticket Type -->
+        <record id="action_x_home_leave_ticket_type" model="ir.actions.act_window">
+            <field name="name">Home Leave Ticket Types</field>
+            <field name="res_model">x_home_leave_ticket_type</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Home Leave Ticket Type
+                </p>
+                <p>
+                    Define types of home leave tickets such as Economy, Business, or First Class.
+                    These types will be available for selection when creating home leave ticket requests.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

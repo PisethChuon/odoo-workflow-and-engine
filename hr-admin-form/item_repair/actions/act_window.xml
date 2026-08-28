@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_x_item_repair_request" model="ir.actions.act_window">
+            <field name="name">Item Repair Form</field>
+            <field name="res_model">x_item_repair_request</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_x_item_request_type" model="ir.actions.act_window">
+            <field name="name">Item Request Types</field>
+            <field name="res_model">x_item_request_type</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

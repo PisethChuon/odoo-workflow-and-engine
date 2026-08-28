@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="workflow_engine.BpmnButton" owl="1">
+    <button type="button" t-on-click.stop.prevent="onClick" class="btn btn-info d-flex align-items-center">
+      <i t-if="env.isSmall" class="fa fa-sitemap me-1"/>
+      <span>View Flow</span>
+    </button>
+  </t>
+</templates>

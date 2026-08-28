@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+  <t t-name="workflow_engine.DynamicApprovalButtons" owl="1">
+    <div class="o_widget_approval_buttons wf-approval-actions">
+      <t t-if="env.isSmall">
+        <t t-if="buttons.length">
+          <button
+                  t-if="buttons.length === 1"
+                  type="button"
+                  t-att-class="getDesktopSingleButtonCssClass(buttons[0])"
+                  t-att-data-action-key="buttons[0].action_key || buttons[0].name || ''"
+                  t-att-disabled="buttons[0].disabled ? true : undefined"
+                  t-att-title="buttons[0].disabled_reason || ''"
+                  t-on-click.stop.prevent="() => this.onClick(buttons[0])"
+          >
+            <span class="o_approval_btn_content">
+              <i t-att-class="getButtonIconClass(buttons[0])"/>
+              <span t-out="buttons[0].action_button_label or buttons[0].label"/>
+            </span>
+          </button>
+          <t t-else="">
+            <Dropdown>
+              <button
+                      type="button"
+                      t-att-class="'btn btn-warning o-dropdown-caret o_approval_decision_trigger wf-approval-trigger'"
+                      t-att-aria-label="'Workflow actions (' + buttons.length + ')'"
+              >
+                <span class="o_approval_btn_content">
+                  <span>Action</span>
+                  <span t-if="buttons.length" class="wf-approval-trigger__count" t-out="buttons.length"/>
+                </span>
+              </button>
+              <t t-set-slot="content">
+                <div class="wf-approval-mobile-actions">
+                  <t t-foreach="buttons" t-as="btn" t-key="btn.meta_action_id || ((btn.action_key || btn.label || '') + ':' + (btn.target_node_id || ''))">
+                    <button
+                            type="button"
+                            t-att-class="getButtonCssClass(btn)"
+                            t-att-data-action-key="btn.action_key || btn.name || ''"
+                            t-att-disabled="btn.disabled ? true : undefined"
+                            t-att-title="btn.disabled_reason || ''"
+                            t-on-click.stop.prevent="() => this.onClick(btn)"
+                    >
+                      <span class="o_approval_btn_content">
+                        <i t-att-class="getButtonIconClass(btn)"/>
+                        <span t-out="btn.action_button_label or btn.label"/>
+                      </span>
+                    </button>
+                  </t>
+                </div>
+              </t>
+            </Dropdown>
+          </t>
+        </t>
+      </t>
+      <t t-else="">
+        <t t-if="buttons.length">
+          <button
+                  t-if="buttons.length === 1"
+                  type="button"
+                  t-att-class="getDesktopSingleButtonCssClass(buttons[0])"
+                  t-att-data-action-key="buttons[0].action_key || buttons[0].name || ''"
+                  t-att-disabled="buttons[0].disabled ? true : undefined"
+                  t-att-title="buttons[0].disabled_reason || ''"
+                  t-on-click.stop.prevent="() => this.onClick(buttons[0])"
+          >
+            <span class="o_approval_btn_content">
+              <i t-att-class="getButtonIconClass(buttons[0])"/>
+              <span t-out="buttons[0].action_button_label or buttons[0].label"/>
+            </span>
+          </button>
+          <t t-else="">
+            <Dropdown>
+              <button
+                      type="button"
+                      t-att-class="'btn btn-warning o-dropdown-caret o_approval_decision_trigger wf-approval-trigger'"
+                      t-att-aria-label="'Workflow actions (' + buttons.length + ')'"
+              >
+                <span class="o_approval_btn_content">
+                    <span>Action</span>
+                    <span t-if="buttons.length" class="wf-approval-trigger__count" t-out="buttons.length"/>
+                </span>
+              </button>
+              <t t-set-slot="content">
+                <t t-foreach="buttons" t-as="btn" t-key="btn.meta_action_id || ((btn.action_key || btn.label || '') + ':' + (btn.target_node_id || ''))">
+                  <DropdownItem>
+                    <button
+                            type="button"
+                            t-att-class="getButtonCssClass(btn)"
+                            t-att-data-action-key="btn.action_key || btn.name || ''"
+                            t-att-disabled="btn.disabled ? true : undefined"
+                            t-att-title="btn.disabled_reason || ''"
+                            t-on-click.stop.prevent="() => this.onClick(btn)"
+                    >
+                      <span class="o_approval_btn_content">
+                        <i t-att-class="getButtonIconClass(btn)"/>
+                          <span t-out="btn.action_button_label or btn.label"/>
+                      </span>
+                    </button>
+                  </DropdownItem>
+                </t>
+              </t>
+            </Dropdown>
+          </t>
+        </t>
+        <button
+                t-elif="showDesktopSaveFallback"
+                type="button"
+                class="btn btn-warning d-flex align-items-center"
+                t-on-click.stop.prevent="onSaveFallbackClick"
+        >
+          <i class="fa fa-save me-1"/>
+          <span>Save</span>
+        </button>
+      </t>
+    </div>
+  </t>
+
+</templates>

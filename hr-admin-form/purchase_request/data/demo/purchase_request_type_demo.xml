@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_x_purchase_request_type_stationery" model="x_purchase_request_type">
+            <field name="x_name">Stationery</field>
+            <field name="x_description">Office stationery and writing supplies</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_purchase_request_type_it_equipment" model="x_purchase_request_type">
+            <field name="x_name">IT Equipment</field>
+            <field name="x_description">Computers, peripherals, and IT accessories</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_purchase_request_type_office_furniture" model="x_purchase_request_type">
+            <field name="x_name">Office Furniture</field>
+            <field name="x_description">Desks, chairs, and office fixtures</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_purchase_request_type_cleaning_supplies" model="x_purchase_request_type">
+            <field name="x_name">Cleaning Supplies</field>
+            <field name="x_description">Cleaning materials and hygiene products</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_purchase_request_type_safety_equipment" model="x_purchase_request_type">
+            <field name="x_name">Safety Equipment</field>
+            <field name="x_description">Protective gear and workplace safety items</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="demo_x_purchase_request_type_spare_parts" model="x_purchase_request_type">
+            <field name="x_name">Spare Parts</field>
+            <field name="x_description">Replacement parts for equipment and machinery</field>
+            <field name="x_active" eval="True"/>
+        </record>
+    </data>
+</odoo>

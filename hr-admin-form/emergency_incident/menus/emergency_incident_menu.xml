@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!-- Parent group header -->
+        <menuitem id="menu_emergency_incident_root"
+                  name="Emergency Incidents"
+                  parent="workflow_engine.workflow_approvals_menu_config"
+                  sequence="10"/>
+
+        <!-- Incident Type -->
+        <menuitem id="menu_emergency_incident_type"
+                  name="Incidents Types"
+                  parent="menu_emergency_incident_root"
+                  action="action_x_emergency_incident_information_type"
+                  groups="base.group_system"
+                  sequence="10"/>
+
+        <!-- Color Codes -->
+        <menuitem id="menu_emergency_incident_color_code"
+                  name="Color Codes"
+                  parent="menu_emergency_incident_root"
+                  action="action_x_emergency_incident_color_code"
+                  groups="base.group_system"
+                  sequence="20"/>
+
+        <!-- Properties -->
+        <menuitem id="menu_emergency_incident_property"
+                  name="Properties"
+                  parent="menu_emergency_incident_root"
+                  action="action_x_emergency_incident_property"
+                  groups="base.group_system"
+                  sequence="30"/>
+
+        <!-- Incident Shifts -->
+        <menuitem id="menu_emergency_incident_shift"
+                  name="Shifts"
+                  parent="menu_emergency_incident_root"
+                  action="action_x_emergency_incident_shift"
+                  groups="base.group_system"
+                  sequence="40"/>
+
+        <!-- Incident Locations -->
+        <menuitem id="menu_emergency_incident_location"
+                  name="Locations"
+                  parent="menu_emergency_incident_root"
+                  action="action_x_emergency_incident_location"
+                  groups="base.group_system"
+                  sequence="50"/>
+
+        <!-- Call of Incident -->
+        <menuitem id="menu_emergency_incident_call"
+                  name="Call of Incidents"
+                  parent="menu_emergency_incident_root"
+                  action="action_x_emergency_incident_call"
+                  groups="base.group_system"
+                  sequence="60"/>
+    </data>
+</odoo>

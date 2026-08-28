@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Incident Types -->
+        <record id="emergency_incident_type_medical" model="x_emergency_incident_information_type">
+            <field name="x_name">Medical Emergency</field>
+        </record>
+        <record id="emergency_incident_type_fire" model="x_emergency_incident_information_type">
+            <field name="x_name">Fire emergency</field>
+        </record>
+        <record id="emergency_incident_type_other" model="x_emergency_incident_information_type">
+            <field name="x_name">Other</field>
+        </record>
+
+        <!-- Medical Emergency Colors -->
+        <record id="color_medical_blue" model="x_emergency_incident_color_code">
+            <field name="x_name">Blue</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_medical"/>
+        </record>
+        <record id="color_medical_assist" model="x_emergency_incident_color_code">
+            <field name="x_name">Assist</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_medical"/>
+        </record>
+        <record id="color_medical_white" model="x_emergency_incident_color_code">
+            <field name="x_name">White</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_medical"/>
+        </record>
+
+        <!-- Fire Emergency Colors -->
+        <record id="color_fire_red" model="x_emergency_incident_color_code">
+            <field name="x_name">Red</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_fire"/>
+        </record>
+        <record id="color_fire_amber" model="x_emergency_incident_color_code">
+            <field name="x_name">Amber</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_fire"/>
+        </record>
+        <record id="color_fire_yellow" model="x_emergency_incident_color_code">
+            <field name="x_name">Yellow</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_fire"/>
+        </record>
+
+        <!-- Other Colors -->
+        <record id="color_other_black" model="x_emergency_incident_color_code">
+            <field name="x_name">Black</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_other"/>
+        </record>
+        <record id="color_other_orange" model="x_emergency_incident_color_code">
+            <field name="x_name">Orange</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_other"/>
+        </record>
+        <record id="color_other_other" model="x_emergency_incident_color_code">
+            <field name="x_name">Other</field>
+            <field name="x_incident_type_id" ref="emergency_incident_type_other"/>
+        </record>
+
+        <!-- Property Name Seed Data -->
+        <record id="property_nagaworld_1" model="x_emergency_incident_property">
+            <field name="x_name">NagaWorld 1</field>
+        </record>
+        <record id="property_nagaworld_2" model="x_emergency_incident_property">
+            <field name="x_name">NagaWorld 2</field>
+        </record>
+
+        <!-- Incident Shifts Seed Data -->
+        <record id="shift_morning" model="x_emergency_incident_shift">
+            <field name="x_name">Morning</field>
+        </record>
+        <record id="shift_afternoon" model="x_emergency_incident_shift">
+            <field name="x_name">Afternoon</field>
+        </record>
+        <record id="shift_night" model="x_emergency_incident_shift">
+            <field name="x_name">Night</field>
+        </record>
+
+        <!-- Incident Locations Seed Data -->
+        <record id="location_hotel_gf" model="x_emergency_incident_location">
+            <field name="x_name">Hotel level GF</field>
+        </record>
+        <record id="location_hotel_1" model="x_emergency_incident_location">
+            <field name="x_name">Hotel level 1</field>
+        </record>
+        <record id="location_hotel_2" model="x_emergency_incident_location">
+            <field name="x_name">Hotel level 2</field>
+        </record>
+
+        <!-- Call of Incident Seed Data -->
+        <record id="call_stomach_pain" model="x_emergency_incident_call">
+            <field name="x_name">Stomach Pain</field>
+        </record>
+        <record id="call_difficulty_breathing" model="x_emergency_incident_call">
+            <field name="x_name">Difficulty of breathing</field>
+        </record>
+        <record id="call_burn_wound" model="x_emergency_incident_call">
+            <field name="x_name">Burn wound</field>
+        </record>
+    </data>
+</odoo>

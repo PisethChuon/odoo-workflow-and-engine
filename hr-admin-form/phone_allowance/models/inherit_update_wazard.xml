@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+
+
+        <record id="field_dynamic_import_wizard_x_phone_allowance_id" model="ir.model.fields">
+            <field name="name">x_request_item</field>
+            <field name="field_description">Request Item</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard"/>
+            <field name="ttype">selection</field>
+            <field name="selection">[('phone', 'Phone'), ('allowance', 'Allowance')]</field>
+            <field name="required" eval="False"/>
+        </record>
+
+
+        <!-- Comment -->
+        <record id="field_dynamic_import_wizard_x_justification" model="ir.model.fields">
+            <field name="name">x_justification</field>
+            <field name="field_description">Justification</field>
+            <field name="model_id" ref="workflow_engine.model_dynamic_import_wizard"/>
+            <field name="ttype">char</field>
+        </record>
+
+    </data>
+</odoo>

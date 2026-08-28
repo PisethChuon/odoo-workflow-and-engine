@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default Home Leave Ticket Types -->
+        <record id="ticket_type_economy" model="x_home_leave_ticket_type">
+            <field name="x_name">Economy</field>
+            <field name="x_sequence">10</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+        <record id="ticket_type_business" model="x_home_leave_ticket_type">
+            <field name="x_name">Business</field>
+            <field name="x_sequence">20</field>
+            <field name="x_active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

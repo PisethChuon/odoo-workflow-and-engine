@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_list_x_car_park_permit" model="ir.ui.view">
+            <field name="name">CPP: Car Park Permit List</field>
+            <field name="model">x_car_park_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_list"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <list position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="multi_edit">1</attribute>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_x_car_park_permit" model="ir.ui.view">
+            <field name="name">CPP: Car Park Permit Form</field>
+            <field name="model">x_car_park_request</field>
+            <field name="inherit_id" ref="workflow_engine.approval_base_request_view_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <group name="request_main" position="after">
+                    <!--Vehicle Information-->
+                    <group string="Vehicle Information" col="2">
+                        <group>
+                            <field name="x_plate_number"
+                                   invisible="'x_plate_number' in (invisible_fields or '')"
+                                   readonly="'x_plate_number' in (readonly_fields or '') or is_finished"
+                                   placeholder="Enter plate number"
+                                   required="'x_plate_number' in (required_fields or '')"/>
+                            <field name="x_car_model"
+                                   invisible="'x_car_model' in (invisible_fields or '')"
+                                   readonly="'x_car_model' in (readonly_fields or '') or is_finished"
+                                   placeholder="Toyota Camry"
+                                   required="'x_car_model' in (required_fields or '')"/>
+                        </group>
+                        <group>
+                            <field name="x_car_year_of_production"
+                                   invisible="'x_car_year_of_production' in (invisible_fields or '')"
+                                   readonly="'x_car_year_of_production' in (readonly_fields or '') or is_finished"
+                                   placeholder="2026"
+                                   required="'x_car_year_of_production' in (required_fields or '')"/>
+                            <field name="x_car_color"
+                                   invisible="'x_car_color' in (invisible_fields or '')"
+                                   readonly="'x_car_color' in (readonly_fields or '') or is_finished"
+                                   placeholder="Select Car Color"
+                                   required="'x_car_color' in (required_fields or '')"/>
+                        </group>
+                    </group>
+
+                    <!--Sub Remark-->
+                    <group>
+                        <field name="x_car_remark"
+                               invisible="'x_car_remark' in (invisible_fields or '')"
+                               readonly="'x_car_remark' in (readonly_fields or '') or is_finished"
+                               required="'x_car_remark' in (required_fields or '')"/>
+                    </group>
+
+                    <div
+                        invisible="state not in ('draft', 'new')"
+                        class="alert alert-danger d-flex gap-2 mt-1 mb-3"
+                        style="padding: 8px 12px; border-radius: 6px;"
+                    >
+                        <i class="fa fa-exclamation-circle" style="margin-top: 3px;"/>
+                        <div>
+                            <strong>Requirement document:</strong>
+                            <ul class="mb-0 mt-1">
+                                <li>Company ID Card</li>
+                                <li>Driving License</li>
+                                <li>Car Registration</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--Car Park Permit Information-->
+                    <group string="Car Park Permit Information"
+                           invisible="'x_car_park_permit_area' in (invisible_fields or '')">
+                        <field name="x_car_park_permit_area"
+                               invisible="'x_car_park_permit_area' in (invisible_fields or '')"
+                               readonly="'x_car_park_permit_area' in (readonly_fields or '') or is_finished"
+                               required="'x_car_park_permit_area' in (required_fields or '')"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>
